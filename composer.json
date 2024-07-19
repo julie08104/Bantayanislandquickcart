@@ -1,0 +1,5 @@
+{
+    "request": {
+       "phpmailer/phpmailer": "^6.9.1"
+    }
+}
