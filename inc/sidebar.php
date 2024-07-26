@@ -1,9 +1,13 @@
-<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
-<aside class="main-sidebar sidebar bg-light" style="border: 1px solid silver;">
-    <img src="dist/img/images1.png" alt="logo" class="brand-image" style="display: block; margin: 5px auto; width: 180px; height: auto;">
 
+
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed" style="margin-right: 0px!important; padding-right: 0px!important; margin-right: 0px!important;">
+       
+<aside class="main-sidebar sidebar bg-light" style="border: 1px solid white; position: fixed!important; padding-right: 0px!important; margin-right: 0px!important;" >
+ 
+    <img src="dist/img/images1.png" alt="logo" class="brand-image" style="display: block; margin: 5px auto; width: 180px; height: auto;">
+ 
     <div class="sidebar">
-        <nav class="mt-2">
+        <nav class="mt-3">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Home Menu Item -->
                 <li class="nav-item has-treeview <?php echo isset($_GET['page']) && $_GET['page'] == 'home' ? 'menu-open' : '';?>">
@@ -38,12 +42,12 @@
                 </li> -
 
                 <!-- Refund Buy List Menu Item -->
-                <li class="nav-item">
+               <!--  <li class="nav-item">
                     <a href="index.php?page=buy_refund_list" class="nav-link <?php echo isset($_GET['page']) && $_GET['page'] == 'buy_refund_list' ? 'active' : '';?>">
                         <i class="fas fa-undo"></i>
                         <p>Refund Buy List</p>
                     </a>
-                </li>
+                </li> -->
 
                 <!-- Additional Menu Items -->
                 <!-- Uncomment and add icons as needed -->

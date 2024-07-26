@@ -115,9 +115,12 @@ $users = readUsers();
                             <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#addUserModal">
                                 <i class="fas fa-plus"></i> Add
                             </button>
-                            <button class="btn btn-info btn-sm" onclick='openEditModal(<?= json_encode($user) ?>)'>
-                                <i class="fas fa-edit"></i> Edit
-                            </button>
+                        <button class="btn btn-info btn-sm" onclick='openEditModal(<?= json_encode($user) ?>)'>
+  <i class="fas fa-edit"></i> Edit
+</button>
+
+</button>
+
                             <button class="btn btn-danger btn-sm" onclick="deleteUser(<?= $user['id'] ?>)">
                                 <i class="fas fa-trash"></i> Delete
                             </button>
@@ -244,6 +247,7 @@ $users = readUsers();
   </div>
 </div>
 
+
 <script>
    function addUser() {
     var formData = new FormData(document.getElementById('addUserForm'));
@@ -281,22 +285,45 @@ function openEditModal(user) {
 }
 
 // Function to update user
-function updateUser() {
-    var formData = new FormData(document.getElementById('editUserForm'));
-    formData.append('action', 'update');
+function openEditModal(user) {
+  // Populate form fields with user data
+  document.getElementById('edit-id').value = user.id;
+  document.getElementById('edit-username').value = user.username;
+  document.getElementById('edit-email').value = user.email;
+  document.getElementById('edit-password').value = user.password;
+  document.getElementById('edit-first_name').value = user.first_name;
+  document.getElementById('edit-last_name').value = user.last_name;
+  document.getElementById('edit-middle_name').value = user.middle_name;
+  document.getElementById('edit-address').value = user.address;
+  document.getElementById('edit-verification_code').value = user.verification_code;
+  
+  // Open the modal
+  var myModal = new bootstrap.Modal(document.getElementById('editUserModal'));
+  myModal.show();
+}
 
-    fetch('', {
-        method: 'POST',
-        body: formData
-    }).then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert(data.message);
-            location.reload();
-        } else {
-            alert(data.message);
-        }
-    }).catch(error => console.error('Error:', error));
+function updateUser() {
+  var form = document.getElementById('editUserForm');
+  var formData = new FormData(form);
+
+  // Perform the AJAX request
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', 'update_user.php', true);
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      // Success: handle response and close the modal
+      var response = JSON.parse(xhr.responseText);
+      if (response.success) {
+        alert('User updated successfully');
+        location.reload();
+      } else {
+        alert('Error updating user: ' + response.message);
+      }
+    } else {
+      alert('Error updating user');
+    }
+  };
+  xhr.send(formData);
 }
 
 // Function to delete user

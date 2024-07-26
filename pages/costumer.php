@@ -70,7 +70,7 @@ $customers = readCustomers();
     <div class="text-right mb-3">
          <!-- <input class="form-control no-print" id="searchInput" type="text" placeholder="Search.."> -->
 
-         <button id="printButton" class="btn btn-success" onclick="printCustomerList()" style="float: right;">Print List</button>
+         <button id="printButton" class="btn btn-success no-print"  onclick="printCustomerList()" style="float: right;">Print List</button>
     </div>
   
 
@@ -293,7 +293,7 @@ function submitAddForm() {
         }
     });
 }
- function printCustomerList() {
+function printCustomerList() {
     console.log("Print function called");
 
     // Hide all buttons in the table body
@@ -326,40 +326,38 @@ function submitAddForm() {
         printButton.style.display = 'none';
     }
 
-    console.log("Elements hidden, initiating print");
+    // Use setTimeout to ensure the styles are applied before printing
+    setTimeout(function() {
+        console.log("Elements hidden, initiating print");
+        window.print();
 
-    // Perform the print operation
-    window.print();
+        console.log("Print initiated");
 
-    console.log("Print initiated");
+        // Restore elements after printing
+        buttons.forEach(function(button) {
+            button.style.display = 'inline-block';
+        });
 
-    // Show the buttons after printing
-    buttons.forEach(function(button) {
-        button.style.display = 'inline-block';
-    });
+        if (actionsHeader) {
+            actionsHeader.style.display = 'table-cell';
+        }
 
-    // Show the Actions column header after printing
-    if (actionsHeader) {
-        actionsHeader.style.display = 'table-cell';
-    }
+        if (dataTablePagination) {
+            dataTablePagination.style.display = 'block';
+        }
 
-    // Show DataTables pagination after printing (if using DataTables)
-    if (dataTablePagination) {
-        dataTablePagination.style.display = 'block';
-    }
+        if (dataTableLengthSelector) {
+            dataTableLengthSelector.style.display = 'block';
+        }
 
-    // Show DataTables table length selector after printing (if using DataTables)
-    if (dataTableLengthSelector) {
-        dataTableLengthSelector.style.display = 'block';
-    }
+        if (printButton) {
+            printButton.style.display = 'inline-block';
+        }
 
-    // Show the "Print List" button again after printing
-    if (printButton) {
-        printButton.style.display = 'inline-block';
-    }
-
-    console.log("Elements restored after printing");
+        console.log("Elements restored after printing");
+    }, 100); // Delay may need adjustment depending on your situation
 }
+
 
 document.getElementById('searchInput').addEventListener('keyup', function() {
     var value = this.value.toLowerCase();
@@ -379,6 +377,9 @@ document.getElementById('searchInput').addEventListener('keyup', function() {
                 searchInput.style.display = 'none';
             }
         });
+
+
+
 </script>
 
 

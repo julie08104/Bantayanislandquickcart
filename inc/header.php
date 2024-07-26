@@ -11,7 +11,10 @@ $actual_link = explode('=', "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Include Bootstrap CSS -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+ <!-- Include Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Include Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -22,27 +25,22 @@ $actual_link = explode('=', "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
   <!-- overlayScrollbars -->
   <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <link rel="stylesheet" href="assets/css/style.css" type='text/css' />
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" type="text/css" />
 
-   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-  
- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
   
   <!-- DataTables CSS -->
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css">
+ 
     
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     
     <!-- DataTables JS -->
-    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
+    <!-- <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script> -->
 
   <!-- datepi cker css  -->
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
@@ -54,14 +52,14 @@ $actual_link = explode('=', "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
 <!-- date picker -->
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+  <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"> -->
   <!-- Include FontAwesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
  <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Supplier List</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+   
 
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
@@ -69,36 +67,28 @@ $actual_link = explode('=', "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"><!-- 
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css"> -->
+ <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- DataTables CSS -->
+       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
   <style>
-    .select2-container .select2-selection--single {
-    height: 37px;
-}
-  @media print {
-            @page {
-                size: A4;
-                margin: 1cm;
-            }
+    
+   
 
-            #printButton {
-                display: none;
-            }
 
-            .dataTables_paginate, .dataTables_length, .dataTables_filter {
-                display: none;
-            }
 
-            #customerTable th:nth-child(8) {
-                display: none;
-            }
 
-            table {
-                width: 100%;
-            }
 
-            .sidebar, .navbar, .footer {
-                display: none;
-            }
+
+
+
+    .hide {
+            display: none;
         }
 
 
@@ -149,6 +139,11 @@ $actual_link = explode('=', "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
         margin: 0;
     }
   
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+        }
 
         /* Custom CSS for table styling */
        table {
@@ -275,50 +270,73 @@ tbody tr:hover td {
         width: 25%;
     }
 }
-    
-  </style>
+ .chart-container {
+            width: 33%;
+            max-width: 0px;
+            margin: 10 auto;
+            padding: 20px;
+        }
+        /* Canvas element */
+        canvas {
+            width: 40% !important;
+            height: auto !important;
+        }
+         body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+    </style>
 </head>
 
 
 <div class="wrapper">
    <!-- Page Preloder -->
    <div id="page"  style="display: none;"></div>
-    <div id="loading"></div>
-    
+    <!-- <div id="loading"></div> -->
   <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+
+  <nav class="main-header navbar navbar-expand navbar-silver navbar-light" >
+
     <!-- Left navbar links -->
     <ul class="navbar-nav">
+
       <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+
       </li>
+        <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+ <h3> Dashboard </h3>   
     </ul>
+
  <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       
       <div id=""></div>
       <div class="notice">
-                 
+            <span><strong>Administration</strong></span>      
       </div>
                     
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
           <img src="assets/images/images2.png">
-            <span><strong>Administration</strong></span>
+           
         </a>
         <div class="dropdown-menu dropdown-menu-right p-0">
           <a href="index.php?page=profile" class="dropdown-item p-1">
             <i class="material-symbols-outlined">person</i> Profile
           </a>
 
-          <a href="index.php?page=profile" class="dropdown-item p-1">
+        <!--   <a href="index.php?page=profile" class="dropdown-item p-1">
             <i class="material-symbols-outlined">
             stacked_inbox</i>Inbox
+          </a> -->
+
+          <a href="#" class="dropdown-item pic p-1" onclick="confirmLogout()">
+              <i class="material-symbols-outlined">logout</i> Logout
           </a>
 
-          <a href="app/action/logout.php" class="dropdown-item pic p-1">
-            <i class="material-symbols-outlined" >logout</i> Logout
-          </a>
+
+
         </div>
       </li>
 
@@ -338,14 +356,31 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
+ $(document).ready(function() {
+        $('#toggleSidebar').click(function() {
+            $('aside.main-sidebar').toggleClass('sidebar-mini');
+            $('.main-content').toggleClass('content-mini');
+        });
+    });
 </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
-<script>
-    $(document).ready(function() {
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- DataTables JS -->
+<!-- <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap4.min.js"></script>
+ -->
+
+  <script>
+   $(document).ready(function() {
         $('#suppliar_table').DataTable();
 
         // Edit button functionality
@@ -359,4 +394,27 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 </script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmLogout() {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You will be logged out!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, logout!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Redirect to logout script
+                window.location.href = 'app/action/logout.php';
+            }
+        });
+    }
+</script>
+
   <!-- /.navbar -->

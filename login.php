@@ -71,12 +71,16 @@ if ($Ouser->is_login()) {
     </script>
 </head>
 <body>
+    
     <div class="container-fluid login-container d-flex align-items-center justify-content-center">
+
         <div class="login-box">
+          <center>  <img src="dist/img/images1.png" alt="" height="300px" width="auto"> </center>
             <div class="card">
+
                 <div class="card-body">
                     <div class="login-logo mb-4 text-center">
-                        <img src="dist/img/" alt="" height="200px" width="auto">
+                       
                     </div>
                     <form action="app/action/login.php" method="post">
                         <?php 
