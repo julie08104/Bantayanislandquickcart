@@ -1,18 +1,15 @@
-<?php 
-	require_once '../init.php';
+<?php
+session_start();
+require_once '../init.php';
 
-	if (isset($_POST['admin_login'])) {
-		$username = $_POST['username'];
-		$password = $_POST['password'];
+// Initialize User object with PDO
+$Ouser = new User($pdo);
 
-		// print_r($_POST);
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-	$result = $Ouser->login($username , $password);
-
-		if ($result) {
-			echo 'true';
-		}else{
-			echo 'false';
-		}
-	}
- ?>
+    // Attempt to login
+    $Ouser->login($username, $password);
+}
+?>
