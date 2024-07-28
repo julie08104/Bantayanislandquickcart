@@ -1,5 +1,15 @@
 <?php
+// Enable detailed error reporting
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Start output buffering
 ob_start();
+
+// Ensure session is started
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 class User extends Objects {
     protected $pdo;
@@ -28,14 +38,14 @@ class User extends Objects {
             if (password_verify($pass, $user->password)) {
                 $_SESSION['user_id'] = $user->id;
                 $_SESSION['user_role'] = $user->user_role;  // Assuming 'user_role' is the column name for user role
-                redirect("index.php");
+                $this->redirect("index.php");
             } else {
                 $_SESSION['login_error'] = "Invalid Password";
-                redirect("login.php");
+                $this->redirect("login.php");
             }
         } else {
             $_SESSION['login_error'] = "User not found";
-            redirect("login.php");
+            $this->redirect("login.php");
         }
     }
 
@@ -47,7 +57,7 @@ class User extends Objects {
     // Redirect unauthorized users
     public function redirect_unauth_users($page) {
         if (!$this->is_admin()) {
-            redirect($page);
+            $this->redirect($page);
         }
     }
 
@@ -62,7 +72,7 @@ class User extends Objects {
         unset($_SESSION['user_role']);
         $_SESSION = array();
         session_destroy();
-        redirect("login.php");
+        $this->redirect("login.php");
     }
 
     // Check if username exists
@@ -99,7 +109,13 @@ class User extends Objects {
         $user_id = $this->pdo->lastInsertId();
 
         $_SESSION['user_id'] = $user_id;
-        redirect("home.php");
+        $this->redirect("home.php");
+    }
+
+    // Redirect method
+    private function redirect($url) {
+        header("Location: $url");
+        exit();
     }
 }
 ?>
