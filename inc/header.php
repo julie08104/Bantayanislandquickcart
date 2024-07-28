@@ -315,8 +315,7 @@ tbody tr:hover td {
       <div class="notice">
         <br><br>
             <span><strong>Administration</strong></span>      
-      </div>
-                    
+      </div>                   
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
           <img src="assets/images/admin.png">
