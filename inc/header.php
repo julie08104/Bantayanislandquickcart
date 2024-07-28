@@ -313,6 +313,7 @@ tbody tr:hover td {
       
       <div id=""></div>
       <div class="notice">
+        <br><br>
             <span><strong>Administration</strong></span>      
       </div>
                     
