@@ -318,7 +318,7 @@ tbody tr:hover td {
                     
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
-          <img src="assets/images/images2.png">
+          <img src="assets/images/admin.png">
            
         </a>
         <div class="dropdown-menu dropdown-menu-right p-0">
