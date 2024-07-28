@@ -31,7 +31,7 @@ require_once $functionsPath;
 
 // Initialize PDO connection
 try {
-    $pdo = new PDO("mysql:host=127.0.0.1;dbname=u510162695_ample', 'u510162695_ample', '1Ample_database', [
+    $pdo = new PDO("mysql:host=127.0.0.1;dbname=u510162695_ample", 'u510162695_ample', '1Ample_database', [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
     ]);
