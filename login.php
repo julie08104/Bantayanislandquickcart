@@ -75,7 +75,6 @@ if ($Ouser->is_login()) {
     <div class="container-fluid login-container d-flex align-items-center justify-content-center">
 
         <div class="login-box">
-          <center>  <img src="dist/img/images1.png" alt="" height="300px" width="auto"> </center>
             <div class="card">
 
                 <div class="card-body">
