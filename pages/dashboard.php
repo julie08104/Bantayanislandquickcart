@@ -5,7 +5,7 @@ $password = "1Ample_database";
 $dbname = "u510162695_ample";
 
 try {
-   $pdo = new PDO('mysql:host=127.0.0.1;dbname=u510162695_ample', 'u510162695_ample', '1Ample_database');
+   $pdo = new PDO("mysql:host=127.0.0.1;dbname=u510162695_ample", 'u510162695_ample', '1Ample_database');
  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Define the table and column names
