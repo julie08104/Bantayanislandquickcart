@@ -57,7 +57,7 @@ try {
     <section class="content" style="min-height:80vh;">
      <div  class="head">
 
-      
+     
       <div class="container-fluid">
         <!-- .row -->
         <div class="row">
