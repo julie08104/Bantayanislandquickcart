@@ -238,10 +238,10 @@ try {
             <!-- /.info-box -->
  <?<?php
 // Database connection credentials
-$host = 'localhost'; // e.g., 'localhost'
-$dbname = 'ample'; // e.g., 'my_database'
-$username = 'root'; // e.g., 'root'
-$password = ''; // e.g., 'password'
+$host = '127.0.0.1'; // e.g., 'localhost'
+$dbname = 'u510162695_ample'; // e.g., 'my_database'
+$username = 'u510162695_ample'; // e.g., 'root'
+$password = '1Ample_database'; // e.g., 'password'
 
 try {
  
