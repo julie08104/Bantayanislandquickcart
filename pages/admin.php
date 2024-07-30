@@ -110,8 +110,8 @@ $users = readUsers();
     <?php
         $counter = 1; // Initialize counter variable
         foreach ($users as $user): 
-            // Ensure the picture path is correct
-            $picturePath = !empty($user['picture']) ? htmlentities($user['picture']) : 'images/default-image.png';  // Change 'images/default-image.png' to your default image path
+            // Set the picture path or a default image if the picture is missing
+            $picturePath = !empty($user['picture']) ? 'uploads/' . htmlentities($user['picture']) : 'images/default-image.png';  // Adjust path as needed
     ?>
         <tr>
             <td><?= $counter++ ?></td>
@@ -121,7 +121,9 @@ $users = readUsers();
             <td><?= htmlentities($user['last_name'] ?? '') ?></td>
             <td><?= htmlentities($user['middle_name'] ?? '') ?></td>
             <td><?= htmlentities($user['address'] ?? '') ?></td>
-            <td><img src="<?= $picturePath ?>" alt="Picture" width="50"></td>
+            <td>
+                <img src="<?= $picturePath ?>" alt="Picture" width="50" onerror="this.onerror=null;this.src='images/default-image.png';">
+            </td>
             <td><?= htmlentities($user['verification_code'] ?? '') ?></td>
             <td><?= htmlentities($user['created_at'] ?? '') ?></td>
             <td class="no-print">
