@@ -109,7 +109,10 @@ $users = readUsers();
         <tbody id="userTableBody">
     <?php
         $counter = 1; // Initialize counter variable
-    foreach ($users as $user): ?>
+        foreach ($users as $user): 
+            // Set the picture path or a default image if the picture is missing
+            $picture = !empty($user['picture']) ? htmlentities($user['picture']) : 'path/to/default-image.png';
+    ?>
         <tr>
             <td><?= $counter++ ?></td>
             <td><?= htmlentities($user['username'] ?? '') ?></td>
@@ -118,7 +121,7 @@ $users = readUsers();
             <td><?= htmlentities($user['last_name'] ?? '') ?></td>
             <td><?= htmlentities($user['middle_name'] ?? '') ?></td>
             <td><?= htmlentities($user['address'] ?? '') ?></td>
-            <td><img src="<?= htmlentities($user['picture'] ?? '') ?>" alt="Picture" width="50"></td>
+            <td><img src="<?= $picture ?>" alt="Picture" width="50"></td>
             <td><?= htmlentities($user['verification_code'] ?? '') ?></td>
             <td><?= htmlentities($user['created_at'] ?? '') ?></td>
             <td class="no-print">
