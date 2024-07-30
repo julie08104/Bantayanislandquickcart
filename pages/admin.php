@@ -111,7 +111,7 @@ $users = readUsers();
         $counter = 1; // Initialize counter variable
         foreach ($users as $user): 
             // Set the picture path or a default image if the picture is missing
-            $picturePath = !empty($user['picture']) ? 'uploads/' . htmlentities($user['picture']) : 'images/default-image.png';  // Adjust path as needed
+            $picturePath = !empty($user['picture']) ? 'uploads/' . htmlentities($user['picture']) : 'images/default-image.png';// Adjust path as needed
     ?>
         <tr>
             <td><?= $counter++ ?></td>
