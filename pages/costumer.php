@@ -416,7 +416,7 @@ function printCustomerList() {
         }
 
         console.log("Elements restored after printing");
-    }, 100); // Delay may need adjustment depending on your situation
+    }, 1000); // Increased delay to ensure elements are hidden
 }
 
 
