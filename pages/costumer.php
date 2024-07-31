@@ -368,7 +368,7 @@ function printCustomerList() {
     }
 
     // Hide the search bar
-    var searchInput = document.getElementById('searchInput');
+    var searchInput = document.querySelector('.dataTables_filter');
     if (searchInput) {
         searchInput.style.display = 'none';
     }
@@ -418,6 +418,7 @@ function printCustomerList() {
         console.log("Elements restored after printing");
     }, 100); // Delay may need adjustment depending on your situation
 }
+
 
 
 document.getElementById('searchInput').addEventListener('keyup', function() {
