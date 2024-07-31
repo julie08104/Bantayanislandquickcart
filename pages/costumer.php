@@ -345,19 +345,23 @@ function printCustomerList() {
         button.style.display = 'none';
     });
 
-    // Hide the Actions column header
+    // Hide the Actions column header and cells
     var actionsHeader = document.querySelector('#customerTable th:nth-child(8)');
+    var actionsCells = document.querySelectorAll('#customerTable td:nth-child(8)');
     if (actionsHeader) {
         actionsHeader.style.display = 'none';
     }
+    actionsCells.forEach(function(cell) {
+        cell.style.display = 'none';
+    });
 
-    // Hide DataTables pagination (if using DataTables)
+    // Hide DataTables pagination
     var dataTablePagination = document.querySelector('.dataTables_paginate');
     if (dataTablePagination) {
         dataTablePagination.style.display = 'none';
     }
 
-    // Hide DataTables table length selector (if using DataTables)
+    // Hide DataTables table length selector
     var dataTableLengthSelector = document.querySelector('.dataTables_length');
     if (dataTableLengthSelector) {
         dataTableLengthSelector.style.display = 'none';
@@ -390,6 +394,10 @@ function printCustomerList() {
         if (actionsHeader) {
             actionsHeader.style.display = 'table-cell';
         }
+
+        actionsCells.forEach(function(cell) {
+            cell.style.display = 'table-cell';
+        });
 
         if (dataTablePagination) {
             dataTablePagination.style.display = 'block';
