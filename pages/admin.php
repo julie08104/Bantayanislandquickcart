@@ -326,20 +326,27 @@ function updateUser() {
 function deleteUser(id) {
     if (confirm('Are you sure you want to delete this user?')) {
         var formData = new FormData();
-        formData.append('action', 'delete');
-        formData.append('id', id);
+        formData.append('id', id); // Append only 'id' since 'action' is not needed
 
         fetch('your_php_script.php', {
             method: 'POST',
             body: formData
-        }).then(response => response.json()).then(data => {
+        })
+        .then(response => {
+            // Debugging: Check the response status and text
+            console.log('Response Status:', response.status);
+            return response.json();
+        })
+        .then(data => {
+            console.log('Response Data:', data); // Debugging: Log the response data
             if (data.success) {
                 alert(data.message);
                 location.reload(); // Reload the page to see the changes
             } else {
                 alert(data.message);
             }
-        }).catch(error => {
+        })
+        .catch(error => {
             console.error('Error:', error);
         });
     }

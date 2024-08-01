@@ -15,10 +15,10 @@
                		 if ($res) {
                		 	echo "true";
                		 }else{
-               		 	echo "Data inset failed";
+               		 	echo "Data insert failed";
                		 }
 		}else{
-			echo "all_field must be field ou";
+			echo "all_field must be field out";
 		}
 	}
 
