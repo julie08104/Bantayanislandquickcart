@@ -154,9 +154,10 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
                                 <input type="email" name="email" id="email" class="form-control" value="<?php echo htmlspecialchars($user['email']); ?>" required>
                             </div>
                             <div class="form-group">
-                                <label for="address">Address</label>
-                                <textarea name="address" id="address" class="form-control" rows="4" required><?php echo htmlspecialchars($user['address']); ?></textarea>
-                            </div>
+                            <label for="address">Address</label>
+                            <textarea name="address" id="address" class="form-control" rows="4" required><?php echo htmlspecialchars($user['address'] ?? ''); ?>
+</textarea>
+
                            <!--  <div class="form-group">
                                 <label for="avatar">Avatar</label>
                                 <input type="file" name="avatar" id="avatar" class="form-control">
