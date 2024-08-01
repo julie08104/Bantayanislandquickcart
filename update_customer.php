@@ -1,5 +1,8 @@
 <?php
 
+// Assuming the PDO connection is properly initialized
+require_once 'app/init.php'; // Ensure this includes your database connection setup
+
 $response = ['success' => false, 'message' => 'An error occurred'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -12,14 +15,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $address = $_POST['address'];
         $contact = $_POST['contact'];
         $email = $_POST['email'];
-        
-        // Prepare and execute your update statement
-        $stmt = $pdo->prepare("UPDATE customers SET name = ?, lastname = ?, company = ?, address = ?, contact = ?, email = ? WHERE id = ?");
-        if ($stmt->execute([$name, $lastname, $company, $address, $contact, $email, $id])) {
-            $response['success'] = true;
-            $response['message'] = 'Customer updated successfully';
-        } else {
-            $response['message'] = 'Failed to update customer';
+
+        try {
+            // Prepare and execute your update statement
+            $stmt = $pdo->prepare("UPDATE customers SET name = ?, lastname = ?, company = ?, address = ?, contact = ?, email = ? WHERE id = ?");
+            if ($stmt->execute([$name, $lastname, $company, $address, $contact, $email, $id])) {
+                $response['success'] = true;
+                $response['message'] = 'Customer updated successfully';
+            } else {
+                // Fetch the error information
+                $errorInfo = $stmt->errorInfo();
+                $response['message'] = 'Failed to update customer: ' . $errorInfo[2];
+            }
+        } catch (PDOException $e) {
+            // Handle PDO exceptions
+            $response['message'] = 'Database error: ' . $e->getMessage();
         }
     } else {
         $response['message'] = 'Missing required fields';
