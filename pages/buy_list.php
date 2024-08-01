@@ -356,28 +356,18 @@ $riders = readRiders();
 
     $(document).ready(function() {
         // Add rider form submission
-        $('#addRiderForm').on('submit', function(event) {
-            event.preventDefault();
+        $('#addRiderForm').on('submit', function(e) {
+            e.preventDefault();
             $.ajax({
                 type: 'POST',
                 url: 'rider_functions.php',
                 data: $(this).serialize(),
                 success: function(response) {
-                    const result = JSON.parse(response);
-                if (result.success) {
                     alert('Rider added successfully!');
-                    $('#addRiderModal').modal('hide'); // Hide the modal
-                    // Optionally, refresh the list of riders or perform other actions
-                } else {
-                    alert(result.message);
+                    location.reload();
                 }
-            },
-            error: function(xhr, status, error) {
-                console.error('AJAX Error:', status, error);
-            }
+            });
         });
-    });
-});
 
         // Edit rider form submission
         $('#editRiderForm').on('submit', function(e) {
