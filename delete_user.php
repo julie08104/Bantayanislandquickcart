@@ -6,20 +6,38 @@ echo 'Resolved Path: ' . dirname(__DIR__) . '/init.php' . '<br>';
 // Corrected path to init.php
 require_once dirname(__DIR__) . '/init.php';
 
-// Your delete logic here
-// Example:
-$id = $_POST['id'];
-if ($id) {
-    // Your database connection and deletion logic here
-    // Example:
-    try {
-        $stmt = $pdo->prepare('DELETE FROM users WHERE id = :id');
-        $stmt->execute(['id' => $id]);
-        echo json_encode(['success' => true, 'message' => 'User deleted successfully']);
-    } catch (PDOException $e) {
-        echo json_encode(['success' => false, 'message' => 'Error deleting user: ' . $e->getMessage()]);
+$response = ['success' => false, 'message' => ''];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Ensure 'id' is present in POST data
+    if (isset($_POST['id']) && !empty($_POST['id'])) {
+        $id = $_POST['id'];
+
+        // Validate the ID (e.g., check if it's a numeric value)
+        if (filter_var($id, FILTER_VALIDATE_INT)) {
+            try {
+                // Prepare and execute the delete statement
+                $stmt = $pdo->prepare('DELETE FROM users WHERE id = :id');
+                $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+                
+                if ($stmt->execute()) {
+                    $response['success'] = true;
+                    $response['message'] = 'User deleted successfully';
+                } else {
+                    $response['message'] = 'Failed to delete user';
+                }
+            } catch (PDOException $e) {
+                $response['message'] = 'Database error: ' . $e->getMessage();
+            }
+        } else {
+            $response['message'] = 'Invalid ID format';
+        }
+    } else {
+        $response['message'] = 'ID not provided';
     }
 } else {
-    echo json_encode(['success' => false, 'message' => 'Invalid user ID']);
+    $response['message'] = 'Invalid request method';
 }
+
+echo json_encode($response);
 ?>
