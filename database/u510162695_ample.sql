@@ -519,7 +519,6 @@ ALTER TABLE `catagory`
 --
 ALTER TABLE `category`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `expense`
 --
