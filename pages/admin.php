@@ -96,36 +96,36 @@ $users = readUsers();
             </tr>
         </thead>
         <tbody id="userTableBody">
-            <?php
-                $counter = 1; // Initialize counter variable
-            foreach ($users as $user): ?>
-                <tr>
-                        <td><?= $counter++ ?></td>
-                    <td><?= htmlentities($user['username']) ?></td>
-                    <td><?= htmlentities($user['email']) ?></td>
-                    <td><?= htmlentities($user['first_name']) ?></td>
-                    <td><?= htmlentities($user['last_name']) ?></td>
-                    <td><?= htmlentities($user['middle_name']) ?></td>
-                    <td><?= htmlentities($user['address']) ?></td>
-                    <td><img src="<?= htmlentities($user['picture']) ?>" alt="Picture" width="50"></td>
-                    <td><?= htmlentities($user['verification_code']) ?></td>
-                    <td><?= htmlentities($user['created_at']) ?></td>
-                    <td class="no-print">
-                        <div class="btn-group-vertical" role="group">
-                            <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#addUserModal">
-                                <i class="fas fa-plus"></i> Add
-                            </button>
-                        <button class="btn btn-info btn-sm" onclick='openEditModal(<?= json_encode($user) ?>)'>
-  <i class="fas fa-edit"></i> Edit
-</button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteUser(<?= $user['id'] ?>)">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
+    <?php
+        $counter = 1; // Initialize counter variable
+    foreach ($users as $user): ?>
+        <tr>
+            <td><?= $counter++ ?></td>
+            <td><?= htmlentities($user['username'] ?? '') ?></td>
+            <td><?= htmlentities($user['email'] ?? '') ?></td>
+            <td><?= htmlentities($user['first_name'] ?? '') ?></td>
+            <td><?= htmlentities($user['last_name'] ?? '') ?></td>
+            <td><?= htmlentities($user['middle_name'] ?? '') ?></td>
+            <td><?= htmlentities($user['address'] ?? '') ?></td>
+            <td><img src="<?= htmlentities($user['picture'] ?? '') ?>" alt="Picture" width="50"></td>
+            <td><?= htmlentities($user['verification_code'] ?? '') ?></td>
+            <td><?= htmlentities($user['created_at'] ?? '') ?></td>
+            <td class="no-print">
+                <div class="btn-group-vertical" role="group">
+                    <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#addUserModal">
+                        <i class="fas fa-plus"></i> Add
+                    </button>
+                    <button class="btn btn-info btn-sm" onclick='openEditModal(<?= json_encode($user) ?>)'>
+                        <i class="fas fa-edit"></i> Edit
+                    </button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteUser(<?= $user['id'] ?>)">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                </div>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</tbody>
     </table>
 </div>
 
