@@ -1,5 +1,8 @@
 <?php
-// Ensure this file includes PDO and User class initialization
+<?php
+session_start();
+require 'init.php';
+require 'User.php';
 
 $response = ['success' => false, 'message' => ''];
 
