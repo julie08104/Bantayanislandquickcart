@@ -1,13 +1,17 @@
 <?php
+// Initialize error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Database connection (assuming $pdo is a valid PDO instance)
+require_once 'init.php';
+
 // Create User
 function createUser($username, $email, $password, $first_name, $last_name, $middle_name, $address, $picture, $verification_code) {
     global $pdo;
     $stmt = $pdo->prepare("INSERT INTO users (username, email, password, first_name, last_name, middle_name, address, picture, verification_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    if ($stmt->execute([$username, $email, $password, $first_name, $last_name, $middle_name, $address, $picture, $verification_code])) {
-        return true;
-    } else {
-        return false;
-    }
+    return $stmt->execute([$username, $email, $password, $first_name, $last_name, $middle_name, $address, $picture, $verification_code]);
 }
 
 // Read Users
@@ -21,70 +25,59 @@ function readUsers() {
 function updateUser($id, $username, $email, $password, $first_name, $last_name, $middle_name, $address, $picture, $verification_code) {
     global $pdo;
     $stmt = $pdo->prepare("UPDATE users SET username = ?, email = ?, password = ?, first_name = ?, last_name = ?, middle_name = ?, address = ?, picture = ?, verification_code = ? WHERE id = ?");
-    if ($stmt->execute([$username, $email, $password, $first_name, $last_name, $middle_name, $address, $picture, $verification_code, $id])) {
-        return true;
-    } else {
-        return false;
-    }
+    return $stmt->execute([$username, $email, $password, $first_name, $last_name, $middle_name, $address, $picture, $verification_code, $id]);
 }
 
 // Delete User
 function deleteUser($id) {
     global $pdo;
     $stmt = $pdo->prepare("DELETE FROM users WHERE id = ?");
-    if ($stmt->execute([$id])) {
-        return true;
-    } else {
-        return false;
-    }
+    return $stmt->execute([$id]);
 }
 
 // Handle Form Submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $action = $_POST['action'];
+    $action = $_POST['action'] ?? '';
 
     switch ($action) {
         case 'create':
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-            // Handle picture upload
             $picture = '';
             if (isset($_FILES['picture']) && $_FILES['picture']['error'] === UPLOAD_ERR_OK) {
                 $picture = 'uploads/' . basename($_FILES['picture']['name']);
                 move_uploaded_file($_FILES['picture']['tmp_name'], $picture);
             }
-            if (createUser($_POST['username'], $_POST['email'], $password, $_POST['first_name'], $_POST['last_name'], $_POST['middle_name'], $_POST['address'], $picture, $_POST['verification_code'])) {
-                echo json_encode(['success' => true, 'message' => 'User added successfully!']);
-            } else {
-                echo json_encode(['success' => false, 'message' => 'Error adding user.']);
-            }
-            exit;
+            $result = createUser($_POST['username'], $_POST['email'], $password, $_POST['first_name'], $_POST['last_name'], $_POST['middle_name'], $_POST['address'], $picture, $_POST['verification_code']);
+            echo json_encode(['success' => $result, 'message' => $result ? 'User added successfully!' : 'Error adding user.']);
+            break;
+        
         case 'update':
-            $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-            // Handle picture upload
-            $picture = $_POST['existing_picture']; // Keep existing picture if no new upload
+            $password = $_POST['password'] ? password_hash($_POST['password'], PASSWORD_DEFAULT) : $_POST['existing_password'];
+            $picture = $_POST['existing_picture'];
             if (isset($_FILES['picture']) && $_FILES['picture']['error'] === UPLOAD_ERR_OK) {
                 $picture = 'uploads/' . basename($_FILES['picture']['name']);
                 move_uploaded_file($_FILES['picture']['tmp_name'], $picture);
             }
-            if (updateUser($_POST['id'], $_POST['username'], $_POST['email'], $password, $_POST['first_name'], $_POST['last_name'], $_POST['middle_name'], $_POST['address'], $picture, $_POST['verification_code'])) {
-                echo json_encode(['success' => true, 'message' => 'User updated successfully!']);
-            } else {
-                echo json_encode(['success' => false, 'message' => 'Error updating user.']);
-            }
-            exit;
+            $result = updateUser($_POST['id'], $_POST['username'], $_POST['email'], $password, $_POST['first_name'], $_POST['last_name'], $_POST['middle_name'], $_POST['address'], $picture, $_POST['verification_code']);
+            echo json_encode(['success' => $result, 'message' => $result ? 'User updated successfully!' : 'Error updating user.']);
+            break;
+        
         case 'delete':
-            if (deleteUser($_POST['id'])) {
-                echo json_encode(['success' => true, 'message' => 'User deleted successfully!']);
-            } else {
-                echo json_encode(['success' => false, 'message' => 'Error deleting user.']);
-            }
-            exit;
+            $result = deleteUser($_POST['id']);
+            echo json_encode(['success' => $result, 'message' => $result ? 'User deleted successfully!' : 'Error deleting user.']);
+            break;
+        
+        default:
+            echo json_encode(['success' => false, 'message' => 'Invalid action.']);
+            break;
     }
+    exit;
 }
 
 // Fetch users for display
 $users = readUsers();
 ?>
+
 
 <div class="container-fluid" style="margin-left: 0px!important;">
     <h1>Manage Admins</h1>
@@ -280,7 +273,6 @@ function openEditModal(user) {
     $('#editUserModal').modal('show');
 }
 
-// Handle Add User form submission
 function addUser() {
     var form = document.getElementById('addUserForm');
     var formData = new FormData(form);
@@ -289,19 +281,22 @@ function addUser() {
     fetch('your_php_script.php', {
         method: 'POST',
         body: formData
-    }).then(response => response.json()).then(data => {
+    })
+    .then(response => response.json())
+    .then(data => {
         if (data.success) {
             alert(data.message);
             location.reload(); // Reload the page to see the changes
         } else {
             alert(data.message);
         }
-    }).catch(error => {
+    })
+    .catch(error => {
         console.error('Error:', error);
     });
 }
 
-// Handle Update User form submission
+
 function updateUser() {
     var form = document.getElementById('editUserForm');
     var formData = new FormData(form);
@@ -310,35 +305,34 @@ function updateUser() {
     fetch('your_php_script.php', {
         method: 'POST',
         body: formData
-    }).then(response => response.json()).then(data => {
+    })
+    .then(response => response.json())
+    .then(data => {
         if (data.success) {
             alert(data.message);
             location.reload(); // Reload the page to see the changes
         } else {
             alert(data.message);
         }
-    }).catch(error => {
+    })
+    .catch(error => {
         console.error('Error:', error);
     });
 }
 
-// Handle Delete User
+
 function deleteUser(id) {
     if (confirm('Are you sure you want to delete this user?')) {
         var formData = new FormData();
-        formData.append('id', id); // Append only 'id' since 'action' is not needed
+        formData.append('id', id);
+        formData.append('action', 'delete');
 
         fetch('your_php_script.php', {
             method: 'POST',
             body: formData
         })
-        .then(response => {
-            // Debugging: Check the response status and text
-            console.log('Response Status:', response.status);
-            return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
-            console.log('Response Data:', data); // Debugging: Log the response data
             if (data.success) {
                 alert(data.message);
                 location.reload(); // Reload the page to see the changes
