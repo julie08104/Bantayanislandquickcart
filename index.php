@@ -26,7 +26,7 @@ require_once 'inc/sidebar.php';
   if (isset($_GET['page'])) {
     $page = 'pages/' . $_GET['page'] . '.php';
   } else {
-    $page = 'pages/dashboard.php';
+    $page = 'pages/dashboard.php'; // Default page if no page parameter is set
   }
   
   // Check if the file exists before including
