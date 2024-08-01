@@ -366,10 +366,18 @@ $riders = readRiders();
                     const result = JSON.parse(response);
                 if (result.success) {
                     alert('Rider added successfully!');
-                    location.reload();
+                    $('#addRiderModal').modal('hide'); // Hide the modal
+                    // Optionally, refresh the list of riders or perform other actions
+                } else {
+                    alert(result.message);
                 }
-            });
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX Error:', status, error);
+            }
         });
+    });
+});
 
         // Edit rider form submission
         $('#editRiderForm').on('submit', function(e) {
