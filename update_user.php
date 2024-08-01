@@ -1,6 +1,5 @@
-<<<<<<< HEAD
 <?php
-require_once 'app/init.php';// Make sure to include your database connection file
+require_once 'app/init.php'; // Make sure to include your database connection file
 
 $response = ['success' => false, 'message' => ''];
 
@@ -28,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $uploadFileDir = 'uploads/';
         $dest_path = $uploadFileDir . $fileName;
 
-        if(move_uploaded_file($fileTmpPath, $dest_path)) {
+        if (move_uploaded_file($fileTmpPath, $dest_path)) {
             $picture = $fileName;
         } else {
             $response['message'] = 'Error moving the uploaded file';
@@ -40,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     try {
-        // Update query
+        // Prepare the SQL query
         $sql = "UPDATE users SET username = ?, email = ?, password = ?, first_name = ?, last_name = ?, middle_name = ?, address = ?, verification_code = ?";
         if ($picture) {
             $sql .= ", picture = ?";
@@ -60,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $response['success'] = true;
             $response['message'] = 'User updated successfully';
         } else {
-            $response['message'] = 'Error updating user';
+            $response['message'] = 'Error updating user: ' . implode(', ', $stmt->errorInfo());
         }
     } catch (PDOException $e) {
         $response['message'] = 'Database error: ' . $e->getMessage();
@@ -70,4 +69,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 echo json_encode($response);
 ?>
->>>>>>> 77727cd3e771a23579e82cf59139d13c2619b713
