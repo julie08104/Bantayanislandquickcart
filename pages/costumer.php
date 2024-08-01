@@ -46,35 +46,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     switch ($action) {
         case 'create':
-            if (createCustomer($_POST['name'], $_POST['lastname'], $_POST['company'], $_POST['address'], $_POST['contact'], $_POST['email'])) {
-                header('Location: index.php?page=customer'); // Redirect after action
-                exit;
-            } else {
-                echo "Error adding customer.";
-            }
+            createCustomer($_POST['name'], $_POST['lastname'], $_POST['company'], $_POST['address'], $_POST['contact'], $_POST['email']);
             break;
         case 'update':
-            if (updateCustomer($_POST['id'], $_POST['name'], $_POST['lastname'], $_POST['company'], $_POST['address'], $_POST['contact'], $_POST['email'])) {
-                header('Location: index.php?page=customer'); // Redirect after action
-                exit;
-            } else {
-                echo "Error updating customer.";
-            }
+            updateCustomer($_POST['id'], $_POST['name'], $_POST['lastname'], $_POST['company'], $_POST['address'], $_POST['contact'], $_POST['email']);
             break;
         case 'delete':
-            if (deleteCustomer($_POST['id'])) {
-                header('Location: index.php?page=customer'); // Redirect after action
-                exit;
-            } else {
-                echo "Error deleting customer.";
-            }
+            deleteCustomer($_POST['id']);
             break;
     }
+    header('Location: index.php?page=customer'); // Redirect after action
+    exit;
 }
 
 // Fetch customers for display
 $customers = readCustomers();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
