@@ -138,6 +138,17 @@ $customers = readCustomers();
         </table>
     </div>
 
+    <!-- Edit Customer Modal -->
+    <div class="modal fade" id="editCustomerModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Customer</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="editCustomerForm" method="POST">
+                        <input type="hidden" name="action" value="update">
                         <input type="hidden" id="edit_customer_id" name="id">
                         <div class="form-group">
                             <label>Name:</label>
