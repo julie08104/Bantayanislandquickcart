@@ -356,13 +356,15 @@ $riders = readRiders();
 
     $(document).ready(function() {
         // Add rider form submission
-        $('#addRiderForm').on('submit', function(e) {
-            e.preventDefault();
+        $('#addRiderForm').on('submit', function(event) {
+            event.preventDefault();
             $.ajax({
                 type: 'POST',
                 url: 'rider_functions.php',
                 data: $(this).serialize(),
                 success: function(response) {
+                    const result = JSON.parse(response);
+                if (result.success) {
                     alert('Rider added successfully!');
                     location.reload();
                 }
