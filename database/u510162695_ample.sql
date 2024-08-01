@@ -304,7 +304,7 @@ CREATE TABLE `riders` (
 
 INSERT INTO `riders` (`rider_id`, `username`, `password`, `name`, `lastname`, `gender`, `address`, `contact_number`, `email`, `vehicle_type`, `license_number`, `status`, `date_joined`, `total_rides`, `rating`, `payment_method`, `alert_quantity`) VALUES
 (0, 'wawa', '123456', 'wawa', 'wawa', 'Male', 'wawwa', '21212121', 'wa@sds', 'dsd', 'dsds', 'Active', '2024-07-21 18:37:02', 0, 0.0, 'utang', 0);
-
+(1, 'nana', '123456', 'wawa', 'wawa', 'Male', 'wawwa', '21212121', 'wa@sds', 'dsd', 'dsds', 'Active' )
 -- --------------------------------------------------------
 
 --
