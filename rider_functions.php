@@ -1,3 +1,4 @@
+
 <<<<<<< HEAD
 <?php
 require_once 'app/init.php'; // Include your database connection file
