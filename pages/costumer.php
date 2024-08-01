@@ -294,69 +294,86 @@ function submitAddForm() {
     });
 }
 function printCustomerList() {
-    console.log("Print function called");
+            console.log("Print function called");         
+            // Hide all buttons in the table body
+            var buttons = document.querySelectorAll('#customerTable tbody button');
+            buttons.forEach(function(button) {
+                button.style.display = 'none';
+            });
 
-    // Hide all buttons in the table body
-    var buttons = document.querySelectorAll('#customerTable tbody button');
-    buttons.forEach(function(button) {
-        button.style.display = 'none';
-    });
+            // Hide the Actions column header and cells
+            var actionsHeader = document.querySelector('#customerTable th:nth-child(8)');
+            var actionsCells = document.querySelectorAll('#customerTable td:nth-child(8)');
+            if (actionsHeader) {
+                actionsHeader.style.display = 'none';
+            }
+            actionsCells.forEach(function(cell) {
+                cell.style.display = 'none';
+            });
 
-    // Hide the Actions column header
-    var actionsHeader = document.querySelector('#customerTable th:nth-child(8)'); // Adjust nth-child as per your table structure
-    if (actionsHeader) {
-        actionsHeader.style.display = 'none';
-    }
+            // Hide DataTables pagination
+            var dataTablePagination = document.querySelector('.dataTables_paginate');
+            if (dataTablePagination) {
+                dataTablePagination.style.display = 'none';
+            }
 
-    // Hide DataTables pagination (if using DataTables)
-    var dataTablePagination = document.querySelector('.dataTables_paginate');
-    if (dataTablePagination) {
-        dataTablePagination.style.display = 'none';
-    }
+            // Hide DataTables table length selector
+            var dataTableLengthSelector = document.querySelector('.dataTables_length');
+            if (dataTableLengthSelector) {
+                dataTableLengthSelector.style.display = 'none';
+            }
 
-    // Hide DataTables table length selector (if using DataTables)
-    var dataTableLengthSelector = document.querySelector('.dataTables_length');
-    if (dataTableLengthSelector) {
-        dataTableLengthSelector.style.display = 'none';
-    }
+            // Hide the search bar
+            var searchInput = document.querySelector('.dataTables_filter');
+            if (searchInput) {
+                searchInput.style.display = 'none';
+            }
 
-    // Optionally, hide the "Print List" button itself
-    var printButton = document.getElementById('printButton');
-    if (printButton) {
-        printButton.style.display = 'none';
-    }
+            // Optionally, hide the "Print List" button itself
+            var printButton = document.getElementById('printButton');
+            if (printButton) {
+                printButton.style.display = 'none';
+            }
 
-    // Use setTimeout to ensure the styles are applied before printing
-    setTimeout(function() {
-        console.log("Elements hidden, initiating print");
-        window.print();
+            // Use setTimeout to ensure the styles are applied before printing
+            setTimeout(function() {
+                console.log("Elements hidden, initiating print");
+                window.print();
 
-        console.log("Print initiated");
+                console.log("Print initiated");
 
-        // Restore elements after printing
-        buttons.forEach(function(button) {
-            button.style.display = 'inline-block';
-        });
+                // Restore elements after printing
+                buttons.forEach(function(button) {
+                    button.style.display = 'inline-block';
+                });
 
-        if (actionsHeader) {
-            actionsHeader.style.display = 'table-cell';
+                if (actionsHeader) {
+                    actionsHeader.style.display = 'table-cell';
+                }
+
+                actionsCells.forEach(function(cell) {
+                    cell.style.display = 'table-cell';
+                });
+
+                if (dataTablePagination) {
+                    dataTablePagination.style.display = 'block';
+                }
+
+                if (dataTableLengthSelector) {
+                    dataTableLengthSelector.style.display = 'block';
+                }
+
+                if (searchInput) {
+                    searchInput.style.display = '';
+                }
+
+                if (printButton) {
+                    printButton.style.display = 'inline-block';
+                }
+
+                console.log("Elements restored after printing");
+            }, 1000); // Increased delay to ensure elements are hidden
         }
-
-        if (dataTablePagination) {
-            dataTablePagination.style.display = 'block';
-        }
-
-        if (dataTableLengthSelector) {
-            dataTableLengthSelector.style.display = 'block';
-        }
-
-        if (printButton) {
-            printButton.style.display = 'inline-block';
-        }
-
-        console.log("Elements restored after printing");
-    }, 100); // Delay may need adjustment depending on your situation
-}
 
 
 document.getElementById('searchInput').addEventListener('keyup', function() {
