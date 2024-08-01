@@ -118,9 +118,6 @@ $users = readUsers();
                         <button class="btn btn-info btn-sm" onclick='openEditModal(<?= json_encode($user) ?>)'>
   <i class="fas fa-edit"></i> Edit
 </button>
-
-</button>
-
                             <button class="btn btn-danger btn-sm" onclick="deleteUser(<?= $user['id'] ?>)">
                                 <i class="fas fa-trash"></i> Delete
                             </button>
