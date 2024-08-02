@@ -1,15 +1,19 @@
 <?php
-// connection.php
-
-// Database configuration
-$servername = '127.0.0.1';
-$username = 'u510162695_ample';
-$password = '1Ample_database';
-$dbname = "u510162695_ample";
-
+// 
+function addColumnIfNotExists($pdo, $table, $column, $columnDefinition) {
+    $stmt = $pdo->prepare("SHOW COLUMNS FROM `$table` LIKE ?");
+    $stmt->execute([$column]);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if ($result === false) {
+        // Column does not exist, so add it
+        $stmt = $pdo->prepare("ALTER TABLE `$table` ADD COLUMN `$column` $columnDefinition");
+        $stmt->execute();
+    }
+}
 // Create Rider
 function createRider($name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $total_rides, $rating, $payment_method) {
-    global $pdo;.
+    global $pdo;
     $stmt = $pdo->prepare("INSERT INTO riders (name, lastname, gender, address, contact_number, email, vehicle_type, license_number, status, total_rides, rating, payment_method) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $total_rides, $rating, $payment_method]);
 }
