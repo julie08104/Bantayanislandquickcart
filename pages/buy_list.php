@@ -122,7 +122,7 @@ $riders = readRiders();
 
                             </button>
                             <button class="btn btn-warning btn-sm" onclick="openEditModal(<?= htmlentities(json_encode($rider)) ?>)">
-                            <i class="fa-solid fa-pen"></i>
+                            <i class="fas fa-edit">Edit</i>
                             </button>
 
                             <button class="btn btn-danger btn-sm" onclick="deleteRider(<?= $rider['rider_id'] ?>)">
