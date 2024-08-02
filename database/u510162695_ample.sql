@@ -303,10 +303,15 @@ CREATE TABLE `riders` (
 --
 
 INSERT INTO `riders` (`rider_id`, `username`, `password`, `name`, `lastname`, `gender`, `address`, `contact_number`, `email`, `vehicle_type`, `license_number`, `status`, `date_joined`, `total_rides`, `rating`, `payment_method`, `alert_quantity`) VALUES
-(0, 'wawa', '123456', 'wawa', 'wawa', 'Male', 'wawwa', '21212121', 'wa@sds', 'dsd', 'dsds', 'Active', '2024-07-21 18:37:02', 0, 0.0, 'utang', 0);
+(153, NULL, NULL, 'natoy fg', 'buang', 'Male', 'Level 2, Hermes Palazzo, opposite St Anne\'s School, Camp, Pune, Maharashtra 411001', 'ASASA', 'dsad@gmail.com', 'dahun', '12121sds', 'Active', '2024-07-23 22:16:11', 2, 2.0, 'cash', 0),
+(164, NULL, NULL, 'test', 'TEST', 'Male', 'taga poblacion', 'sas', 'resrr@gmail.com', 'asas', 'sasa', 'Active', '2024-07-19 02:16:02', 2, 4.0, 'cash', 0),
+(173, NULL, NULL, 'john', 'doe', 'Male', 'test', '091212121', 'johndoe@gmaasa', 'honda', '121242', 'Active', '2024-07-18 22:19:04', 3, 9.9, '122', 0),
+(180, NULL, NULL, 'jessica', 'alegre', 'Male', 'taga kaongkod', '34434', 'angelo21@gmail.com', 'dahun', '121243', 'Active', '2024-07-18 22:28:49', 223232, 9.9, '11', 0),
+(182, NULL, NULL, 'ANGELO112', 'alegre', 'Male', 'Level 2, Hermes Palazzo, opposite St Anne\'s School, Camp, Pune, Maharashtra 411001', '0876564', 'angelo211@gmail.com', 'dahun', '2121', 'Inactive', '2024-07-20 16:35:53', 121, 9.9, '222', 0),
+(183, NULL, NULL, 'pawlo', 'daruca', 'Male', 'taga kaongkod', '0965521', 'pawlo@gmail.com', '121212', '76472', 'Active', '2024-07-18 23:26:29', 121, 4.0, 'cash', 0),
+(184, NULL, NULL, 'richan', 'santillan', 'Male', 'taga poblacion', '12121', 'nandoy@gmail.com', 'fgd', '65787', 'Active', '2024-07-18 23:30:00', 21, 1.0, 'cash', 0);
 
 -- --------------------------------------------------------
-
 --
 -- Table structure for table `sales`
 --
