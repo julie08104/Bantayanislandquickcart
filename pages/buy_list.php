@@ -10,7 +10,7 @@ function addColumnIfNotExists($pdo, $table, $column, $columnDefinition) {
         $stmt->execute();
     }
 }
-// Create Rider
+// Create 
 function createCustomer($name, $lastname, $company, $address, $contact, $email) {
     global $pdo;
     $stmt = $pdo->prepare("INSERT INTO customer (name, lastname, company, address, contact, email) VALUES (?, ?, ?, ?, ?, ?)");
