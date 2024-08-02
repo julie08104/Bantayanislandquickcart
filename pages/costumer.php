@@ -94,10 +94,12 @@ $customers = readCustomers();
             foreach ($customers as $customer): ?>
             <div class="btn-group-vertical" role="group">
             <button class="btn btn-success" data-toggle="modal" data-target="#addCustomerModal">
-                                <i class="fas fa-plus"></i> Add</button> <br> </button>
+                                <i class="fas fa-plus"></i> Add</button>
+                            </button>
                             <button class="btn btn-warning" onclick="openEditModal(<?= htmlspecialchars(json_encode($customer)) ?>)">
                                 <i class="fas fa-edit"></i> Edit
-                            </button><br><button class="btn btn-danger" onclick="deleteCustomer(<?= $customer['id'] ?>)">
+                            </button>
+                            <button class="btn btn-danger" onclick="deleteCustomer(<?= $customer['id'] ?>)">
                                 <i class="fas fa-trash-alt"> Delete</i>
                             </button>
                             </div>
