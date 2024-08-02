@@ -1,7 +1,4 @@
 <?php
-// Include database connection
-require_once '../init.php'; // Adjust path as necessary
-
 
 // Create Rider
 function createRider($name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $total_rides, $rating, $payment_method) {
