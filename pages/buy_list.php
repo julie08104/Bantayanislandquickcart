@@ -67,9 +67,14 @@ $riders = readRiders();
        
         <input class="form-control no-print" id="searchInput" type="text" placeholder="Search.." style="float: right!important;"> 
            </div>
+
+           <div class="class="float-left mb-3"" role="group" style="float:left;">
+            <button class="btn btn-success" data-toggle="modal" data-target="#addRiderModal">
+            <i class="fas fa-plus"></i> Add</button> <br> <br>
+            </div>
+
     <!-- Rider Table -->
     <table id="riderTable" class="table table-bordered table-responsive-sm">
-
     
         <thead>
             <tr>
@@ -91,11 +96,9 @@ $riders = readRiders();
         </thead>
         <tbody id="riderTableBody">
             <?php
-            $counter = 1;
+            $counter = 1;// Initialize counter variable
             foreach ($riders as $rider): ?>
-           <div class="class="float-left mb-3"" role="group" style="float:left;">
-            <button class="btn btn-success" data-toggle="modal" data-target="#addRiderModal">
-                                <i class="fas fa-plus"></i> Add</button> <br> <br> 
+          
                 <tr>
                     <td><?= $counter++ ?></td>
                     <td><?= htmlentities($rider['name']) ?></td>
