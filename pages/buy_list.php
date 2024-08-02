@@ -1,5 +1,6 @@
 <?php
 // Include your database connection file
+include 'connection.php'; // Replace this with your actual database connection file
 
 // Create Rider
 function createRider($name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $total_rides, $rating, $payment_method) {
@@ -237,12 +238,198 @@ document.getElementById('addRiderForm').addEventListener('submit', function(even
                             <i class="fas fa-trash"> Delete</i>
                         </button>
                     </div>
-                </td>
-            `;
-            riderTableBody.appendChild(newRow);
-            $('#addRiderModal').modal('hide');
-        }
+                    <div class="form-group">
+                        <label for="edit_rider_lastname">Last Name:</label>
+                        <input type="text" class="form-control" id="edit_rider_lastname" name="lastname" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_rider_gender">Gender:</label>
+                        <select class="form-control" id="edit_rider_gender" name="gender" required>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_rider_address">Address:</label>
+                        <input type="text" class="form-control" id="edit_rider_address" name="address" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_rider_contact_number">Contact Number:</label>
+                        <input type="text" class="form-control" id="edit_rider_contact_number" name="contact_number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_rider_email">Email:</label>
+                        <input type="email" class="form-control" id="edit_rider_email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_vehicle_type">Vehicle Type:</label>
+                        <input type="text" class="form-control" id="edit_vehicle_type" name="vehicle_type" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_license_number">License Number:</label>
+                        <input type="text" class="form-control" id="edit_license_number" name="license_number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_status">Status:</label>
+                        <select class="form-control" id="edit_status" name="status" required>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_total_rides">Total Rides:</label>
+                        <input type="number" class="form-control" id="edit_total_rides" name="total_rides" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_rating">Rating:</label>
+                        <input type="number" step="0.1" class="form-control" id="edit_rating" name="rating" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_payment_method">Payment Method:</label>
+                        <input type="text" class="form-control" id="edit_payment_method" name="payment_method" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Rider</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript to handle form submissions and modal opening -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+
+    $(document).ready(function() {
+        // Add rider form submission
+        $('#addRiderForm').on('submit', function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: 'rider_functions.php',
+                data: $(this).serialize(),
+                success: function(response) {
+                    alert('Rider added successfully!');
+                    location.reload();
+                }
+            });
+        });
+
+        // Edit rider form submission
+        $('#editRiderForm').on('submit', function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: 'rider_functions.php',
+                data: $(this).serialize(),
+                success: function(response) {
+                    alert('Rider updated successfully!');
+                    location.reload();
+                }
+            });
+        });
     });
-});
+
+    // Open edit modal and populate fields
+    function openEditModal(rider) {
+        $('#edit_rider_id').val(rider.rider_id);
+        $('#edit_rider_name').val(rider.name);
+        $('#edit_rider_lastname').val(rider.lastname);
+        $('#edit_rider_gender').val(rider.gender);
+        $('#edit_rider_address').val(rider.address);
+        $('#edit_rider_contact_number').val(rider.contact_number);
+        $('#edit_rider_email').val(rider.email);
+        $('#edit_vehicle_type').val(rider.vehicle_type);
+        $('#edit_license_number').val(rider.license_number);
+        $('#edit_status').val(rider.status);
+        $('#edit_total_rides').val(rider.total_rides);
+        $('#edit_rating').val(rider.rating);
+        $('#edit_payment_method').val(rider.payment_method);
+        $('#editRiderModal').modal('show');
+    }
+
+    // Delete rider
+    function deleteRider(rider_id) {
+        if (confirm('Are you sure you want to delete this rider?')) {
+            $.ajax({
+                type: 'POST',
+                url: 'rider_functions.php',
+                data: { action: 'delete', rider_id: rider_id },
+                success: function(response) {
+                    alert('Rider deleted successfully!');
+                    location.reload();
+                }
+            });
+        }
+    }
+
+      function openViewModal(rider) {
+        document.getElementById('viewName').value = rider.name;
+        document.getElementById('viewLastname').value = rider.lastname;
+        document.getElementById('viewGender').value = rider.gender;
+        document.getElementById('viewAddress').value = rider.address;
+        document.getElementById('viewContactNumber').value = rider.contact_number;
+        document.getElementById('viewEmail').value = rider.email;
+        document.getElementById('viewVehicleType').value = rider.vehicle_type;
+        document.getElementById('viewLicenseNumber').value = rider.license_number;
+        document.getElementById('viewStatus').value = rider.status;
+        document.getElementById('viewTotalRides').value = rider.total_rides;
+        document.getElementById('viewRating').value = rider.rating;
+        document.getElementById('viewPaymentMethod').value = rider.payment_method;
+        
+        $('#viewRiderModal').modal('show');
+    }
+  function printTable() {
+    // Hide the entire Actions column (which is the last column in the table)
+    var actionsColumn = document.querySelectorAll('#riderTable th:last-child, #riderTable td:last-child');
+    actionsColumn.forEach(function(cell) {
+        cell.style.display = 'none';
+    });
+
+    // Hide the Print button
+    document.getElementById('printButton').style.display = 'none';
+
+    // Hide DataTables pagination and length selector (if applicable)
+    var dataTablePagination = document.querySelector('.dataTables_paginate');
+    if (dataTablePagination) {
+        dataTablePagination.style.display = 'none';
+    }
+    var dataTableLengthSelector = document.querySelector('.dataTables_length');
+    if (dataTableLengthSelector) {
+        dataTableLengthSelector.style.display = 'none';
+    }
+
+    // Print the table
+    var divToPrint = document.getElementById("riderTable").cloneNode(true);
+    var newWin = window.open("");
+    newWin.document.write('<html><head><title>Print Rider List</title>');
+    newWin.document.write('<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">');
+    newWin.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">');
+    newWin.document.write('</head><body>');
+    newWin.document.write(divToPrint.outerHTML);
+    newWin.document.write('</body></html>');
+    newWin.document.close();
+    newWin.print();
+
+    // Restore visibility of the Actions column, Print button, pagination, and length selector after printing
+    actionsColumn.forEach(function(cell) {
+        cell.style.display = ''; // Restore to default display type
+    });
+    document.getElementById('printButton').style.display = 'inline-block';
+    if (dataTablePagination) {
+        dataTablePagination.style.display = 'block';
+    }
+    if (dataTableLengthSelector) {
+        dataTableLengthSelector.style.display = 'block';
+    }
+}
+document.getElementById('searchInput').addEventListener('keyup', function() {
+            var value = this.value.toLowerCase();
+            document.querySelectorAll('table tbody tr').forEach(function(row) {
+                row.style.display = row.innerText.toLowerCase().includes(value) ? '' : 'none';
+            });
+        });
 </script>
 
