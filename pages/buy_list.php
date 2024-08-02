@@ -1,5 +1,5 @@
 <?php
-require 'init.php'; 
+require_once 'init.php';
 
 // Create Rider
 function createRider($name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $total_rides, $rating, $payment_method) {
