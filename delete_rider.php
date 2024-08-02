@@ -1,8 +1,8 @@
 <?php
 // Database connection details
-$dsn = 'mysql:host=localhost;dbname=ample'; // Update with your database name
-$username = 'root'; // Update with your username
-$password = ''; // Update with your password
+$dsn = 'mysql:host=127.0.0.1;dbname=u510162695_ample'; // Update with your database name
+$username = 'u510162695_ample'; // Update with your username
+$password = '1Ample_database'; // Update with your password
 
 try {
     $pdo = new PDO($dsn, $username, $password);
