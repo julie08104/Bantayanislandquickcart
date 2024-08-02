@@ -417,6 +417,8 @@ $riders = readRiders();
         }
     }
 
+
+
       function openViewModal(rider) {
         document.getElementById('viewName').value = rider.name;
         document.getElementById('viewLastname').value = rider.lastname;
