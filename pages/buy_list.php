@@ -93,6 +93,9 @@ $riders = readRiders();
             <?php
             $counter = 1;
             foreach ($riders as $rider): ?>
+           <div class="class="float-left mb-3"" role="group" style="float:left;">
+            <button class="btn btn-success" data-toggle="modal" data-target="#addRiderModal">
+                                <i class="fas fa-plus"></i> Add</button> <br> <br> 
                 <tr>
                     <td><?= $counter++ ?></td>
                     <td><?= htmlentities($rider['name']) ?></td>
@@ -108,10 +111,9 @@ $riders = readRiders();
                <!--      <td><?= htmlentities($rider['rating']) ?></td>
                     <td><?= htmlentities($rider['payment_method']) ?></td> -->
                     <td>
-                        <div class="btn-group-vertical" role="group">
-                            <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#addRiderModal">
-                                <i class="fas fa-plus"></i>Add
-                            </button>
+                         <!-- <button class="btn btn-success" data-toggle="modal" data-target="#addRiderModal">
+                                <i class="fas fa-plus"></i> Add
+                            </button> -->
                                 <button class="btn btn-info btn-sm" onclick="openViewModal(<?= htmlentities(json_encode($rider)) ?>)">
                                 <i class="fas fa-eye">View</i>
                             </button>
