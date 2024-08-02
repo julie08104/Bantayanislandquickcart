@@ -1,9 +1,15 @@
 <?php
-// Include your database connection file
+// connection.php
+
+// Database configuration
+$servername = '127.0.0.1';
+$username = 'u510162695_ample';
+$password = '1Ample_database';
+$dbname = "u510162695_ample";
 
 // Create Rider
 function createRider($name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $total_rides, $rating, $payment_method) {
-    global $pdo;
+    global $pdo;.
     $stmt = $pdo->prepare("INSERT INTO riders (name, lastname, gender, address, contact_number, email, vehicle_type, license_number, status, total_rides, rating, payment_method) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $total_rides, $rating, $payment_method]);
 }
