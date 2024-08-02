@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 23, 2024 at 07:51 PM
+-- Generation Time: Jul 24, 2024 at 09:10 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -76,8 +76,6 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`id`, `username`, `password`, `name`, `lastname`, `company`, `address`, `contact`, `email`, `created_at`, `updated_at`) VALUES
-(22, NULL, NULL, 'mark g', '2121', 'Rakesh Jadhav Pvt Ltd.', 'assa', 'asas', 'ano@gmail.com', '2024-07-17 23:45:48', '2024-07-19 21:38:07'),
-(26, NULL, NULL, 'beloy gwapo', 'hitchoraan', 'kota', 'qw', 'w', 'ano@gmail.com', '2024-07-18 05:17:45', '2024-07-18 19:34:00'),
 (27, NULL, NULL, 'jonhn', 'doe', 'mcc', 'mccc', '11112', 'dsad@gmail.com', '2024-07-18 05:21:10', '2024-07-18 22:17:07'),
 (0, NULL, NULL, 'tae', 'tae', 'kota', 'wewss', '2121212121', 'ano@gmail.com', '2024-07-23 16:30:57', '2024-07-23 16:30:57');
 
@@ -305,13 +303,6 @@ CREATE TABLE `riders` (
 --
 
 INSERT INTO `riders` (`rider_id`, `username`, `password`, `name`, `lastname`, `gender`, `address`, `contact_number`, `email`, `vehicle_type`, `license_number`, `status`, `date_joined`, `total_rides`, `rating`, `payment_method`, `alert_quantity`) VALUES
-(153, NULL, NULL, 'natoy fg', 'buang', 'Female', 'Level 2, Hermes Palazzo, opposite St Anne\'s School, Camp, Pune, Maharashtra 411001', 'ASASA', 'dsad@gmail.com', 'dahun', '12121sds', 'Active', '2024-07-21 01:28:36', 2, 2.0, 'cash', 0),
-(164, NULL, NULL, 'test', 'TEST', 'Male', 'taga poblacion', 'sas', 'resrr@gmail.com', 'asas', 'sasa', 'Active', '2024-07-19 02:16:02', 2, 4.0, 'cash', 0),
-(173, NULL, NULL, 'john', 'doe', 'Male', 'test', '091212121', 'johndoe@gmaasa', 'honda', '121242', 'Active', '2024-07-18 22:19:04', 3, 9.9, '122', 0),
-(180, NULL, NULL, 'jessica', 'alegre', 'Male', 'taga kaongkod', '34434', 'angelo21@gmail.com', 'dahun', '121243', 'Active', '2024-07-18 22:28:49', 223232, 9.9, '11', 0),
-(182, NULL, NULL, 'ANGELO112', 'alegre', 'Male', 'Level 2, Hermes Palazzo, opposite St Anne\'s School, Camp, Pune, Maharashtra 411001', '0876564', 'angelo211@gmail.com', 'dahun', '2121', 'Inactive', '2024-07-20 16:35:53', 121, 9.9, '222', 0),
-(183, NULL, NULL, 'pawlo', 'daruca', 'Male', 'taga kaongkod', '0965521', 'pawlo@gmail.com', '121212', '76472', 'Active', '2024-07-18 23:26:29', 121, 4.0, 'cash', 0),
-(184, NULL, NULL, 'richan', 'santillan', 'Male', 'taga poblacion', '12121', 'nandoy@gmail.com', 'fgd', '65787', 'Active', '2024-07-18 23:30:00', 21, 1.0, 'cash', 0),
 (0, 'wawa', '123456', 'wawa', 'wawa', 'Male', 'wawwa', '21212121', 'wa@sds', 'dsd', 'dsds', 'Active', '2024-07-21 18:37:02', 0, 0.0, 'utang', 0);
 
 -- --------------------------------------------------------
@@ -391,11 +382,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `first_name`, `last_name`, `picture`, `address`, `verification_code`, `middle_name`, `user_role`, `created_at`) VALUES
-(2, 'admin a', 'admin@gmail.com', '$2y$10$lTVY84JXlGlpr6VcuZQc3.RFj59ux5Q2jMDmCMbjapd5zl0plugZ2', 'jhonmark', 'cueva', NULL, 'Level 2, Hermes Palazzo, opposite St Anne\'s School, Camp, Pune, Maharashtra 411001', 'q11', 'bacAYU', NULL, '2024-07-19 21:29:35'),
-(3, 'loy', 'angelo2@gmail.com', '$2y$10$KDAldNgGLCP7PFEPexMPBef/0P5nGHNES4omZOL7t4ug1QMiI5pN2', 'admin', 'alegre', 'images2.png', 'poblcion mad cebu', '11111', 'bacAYU', NULL, '2024-07-19 21:56:07'),
-(19, 'john', 'doe@gmail.com', '$2y$10$HpxtapfeVDl3.soGar2PbuN0IUa.YLGIxiv67Obqg/mrPhojOXWVy', 'jonh', 'alegre', NULL, 'poblcion mad cebu', '123456', 'maru', NULL, '2024-07-20 22:12:00'),
-(24, 'info', 'admin20@gmail.com', '$2y$10$.SOgJMzNk9egeBBnT8.iCOYwK7ugaePhBqUlgndFrMczreVKNlXHi', 'information ', 'tech', NULL, NULL, NULL, NULL, NULL, '2024-07-23 14:22:36'),
-(25, 'wawa', 'ano121@gmail.com', '$2y$10$pw0vAIdnc6R/vt8fXxIx1.qFpFwRwMFVaofdmT6LW3Uggvt3MRhsO', 'ASAD', 'GT', NULL, NULL, NULL, NULL, NULL, '2024-07-23 17:21:00');
+(19, 'john', 'doe@gmail.com', '$2y$10$HpxtapfeVDl3.soGar2PbuN0IUa.YLGIxiv67Obqg/mrPhojOXWVy', 'jonh', 'owmntnu', NULL, 'theetn mad cebu', '123456', 'maru', NULL, '2024-07-20 22:12:00');
 
 -- --------------------------------------------------------
 
