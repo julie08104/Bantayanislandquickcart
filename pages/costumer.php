@@ -94,15 +94,7 @@ $customers = readCustomers();
             foreach ($customers as $customer): ?>
             <div class="btn-group-vertical" role="group">
             <button class="btn btn-success" data-toggle="modal" data-target="#addCustomerModal">
-                                <i class="fas fa-plus"></i> Add</button>
-                            </button>
-                            <button class="btn btn-warning" onclick="openEditModal(<?= htmlspecialchars(json_encode($customer)) ?>)">
-                                <i class="fas fa-edit"></i> Edit
-                            </button>
-                            <button class="btn btn-danger" onclick="deleteCustomer(<?= $customer['id'] ?>)">
-                                <i class="fas fa-trash-alt"> Delete</i>
-                            </button>
-                            </div>
+                                <i class="fas fa-plus"></i> Add</button> <br> 
                 <tr>
                     <td><?= $counter++ ?></td>
                     <td><?= htmlspecialchars($customer['name']) ?></td>
@@ -111,6 +103,19 @@ $customers = readCustomers();
                     <td><?= htmlspecialchars($customer['address']) ?></td>
                     <td><?= htmlspecialchars($customer['contact']) ?></td>
                     <td><?= htmlspecialchars($customer['email']) ?></td>
+                    <td>
+                        <div class="btn-group-vertical" role="group">
+                            <!-- <button class="btn btn-success" data-toggle="modal" data-target="#addCustomerModal">
+                                <i class="fas fa-plus"></i> Add
+                            </button> -->
+                            <button class="btn btn-warning" onclick="openEditModal(<?= htmlspecialchars(json_encode($customer)) ?>)">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="btn btn-danger" onclick="deleteCustomer(<?= $customer['id'] ?>)">
+                                <i class="fas fa-trash-alt"> Delete</i>
+                            </button>
+                        </div>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
