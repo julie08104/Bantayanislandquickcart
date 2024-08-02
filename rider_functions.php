@@ -1,6 +1,22 @@
 <?php
 require_once 'app/init.php'; // Include your database connection file
 
+// Function to add a column if it does not exist
+function addColumnIfNotExists($pdo, $table, $column, $columnDefinition) {
+    $stmt = $pdo->prepare("SHOW COLUMNS FROM `$table` LIKE ?");
+    $stmt->execute([$column]);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if ($result === false) {
+        // Column does not exist, so add it
+        $stmt = $pdo->prepare("ALTER TABLE `$table` ADD COLUMN `$column` $columnDefinition");
+        $stmt->execute();
+    }
+}
+
+// Call the function for 'alert_quantity' column in 'riders' table
+addColumnIfNotExists($pdo, 'riders', 'alert_quantity', 'INT(11) NOT NULL');
+
 // Create Rider
 function createRider($name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined, $total_rides, $rating, $payment_method) {
     global $pdo;
