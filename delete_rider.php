@@ -11,7 +11,6 @@ try {
     if (isset($_POST['id'])) {
         $id = intval($_POST['id']);
 
-        // Prepare the delete statement
         $stmt = $pdo->prepare("DELETE FROM riders WHERE id = :id");
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
