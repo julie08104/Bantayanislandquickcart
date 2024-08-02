@@ -1,16 +1,6 @@
 <?php
-// 
-function addColumnIfNotExists($pdo, $table, $column, $columnDefinition) {
-    $stmt = $pdo->prepare("SHOW COLUMNS FROM `$table` LIKE ?");
-    $stmt->execute([$column]);
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-    if ($result === false) {
-        // Column does not exist, so add it
-        $stmt = $pdo->prepare("ALTER TABLE `$table` ADD COLUMN `$column` $columnDefinition");
-        $stmt->execute();
-    }
-}
+require 'config.php'; 
+
 // Create Rider
 function createRider($name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $total_rides, $rating, $payment_method) {
     global $pdo;
