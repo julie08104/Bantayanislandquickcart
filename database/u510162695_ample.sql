@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 27, 2024 at 11:44 AM
+-- Generation Time: Aug 02, 2024 at 03:18 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -303,7 +303,9 @@ CREATE TABLE `riders` (
 --
 
 INSERT INTO `riders` (`rider_id`, `username`, `password`, `name`, `lastname`, `gender`, `address`, `contact_number`, `email`, `vehicle_type`, `license_number`, `status`, `date_joined`, `total_rides`, `rating`, `payment_method`, `alert_quantity`) VALUES
-(0, 'mama', '123456', 'wawa', 'wawa', 'Male', 'wawwa', '21212121', 'wa@sds', 'dsd', 'dsds', 'Active', '2024-07-21 18:37:02', 0, 0.0, 'utang', 0);
+(0, 'wawa', '123456', 'wawa', 'wawa', 'Male', 'wawwa', '21212121', 'wa@sds', 'dsd', 'dsds', 'Active', '2024-07-21 18:37:02', 0, 0.0, 'utang', 0),
+(1, 'Julie', 'bunny', 'Juliann', 'Almo', 'Female', 'Kaongkod', '098376473287', 'almohallasjulie@gmail.com', 'jhhdkhd', '0968498', 'Inactive', '2024-08-02 01:14:57', 2, 2.2, 'COD', 0),
+(2, 'Julie', 'bunny', 'UHJH', 'UIHYUH', 'Female', 'KJJBHDBVGXCHJ', '097878763637', 'almohallas2gmail.com', 'jhhdkhd', '0968498', 'Inactive', '2024-08-02 01:17:16', 2, 0.1, 'Cash', 884578);
 
 -- --------------------------------------------------------
 
@@ -590,7 +592,7 @@ ALTER TABLE `sales`
 -- AUTO_INCREMENT for table `suppliar`
 --
 ALTER TABLE `suppliar`
-  Mz` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `supplier`
