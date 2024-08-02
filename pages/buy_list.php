@@ -117,11 +117,11 @@ $riders = readRiders();
                          <!-- <button class="btn btn-success" data-toggle="modal" data-target="#addRiderModal">
                                 <i class="fas fa-plus"></i> Add
                             </button> -->
-                                <button class="btn btn-info btn-sm" onclick="openViewModal(<?= htmlentities(json_encode($rider)) ?>)">
+                            <button class="btn btn-info btn-sm" onclick="openViewModal(<?= htmlentities(json_encode($rider)) ?>)">
                                 <i class="fas fa-eye">View</i>
                             </button>
                             <button class="btn btn-warning btn-sm" onclick="openEditModal(<?= htmlentities(json_encode($rider)) ?>)">
-                                <i class="fas fa-edit">Edit</i>
+                            <i class="fas fa-trash">Edit</i>
                             </button>
 
                             <button class="btn btn-danger btn-sm" onclick="deleteRider(<?= $rider['rider_id'] ?>)">
@@ -191,7 +191,7 @@ $riders = readRiders();
                             <option value="inactive">Inactive</option>
                         </select>
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="total_rides">Total Rides:</label>
                         <input type="number" class="form-control" id="total_rides" name="total_rides" required>
                     </div>
@@ -202,7 +202,7 @@ $riders = readRiders();
                     <div class="form-group">
                         <label for="payment_method">Payment Method:</label>
                         <input type="text" class="form-control" id="payment_method" name="payment_method" required>
-                    </div>
+                    </div> -->
                     <button type="submit" class="btn btn-primary">Add Rider</button>
                 </form>
             </div>
