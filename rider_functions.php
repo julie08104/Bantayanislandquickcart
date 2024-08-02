@@ -1,5 +1,5 @@
 <?php
-require_once 'database/connection.php'; // Include your database connection file
+require_once 'app/init.php'; // Include your database connection file
 
 // Function to add a column if it does not exist
 function addColumnIfNotExists($pdo, $table, $column, $columnDefinition) {
