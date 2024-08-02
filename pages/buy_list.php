@@ -119,9 +119,10 @@ $riders = readRiders();
                             </button> -->
                             <button class="btn btn-info btn-sm" onclick="openViewModal(<?= htmlentities(json_encode($rider)) ?>)">
                                 <i class="fas fa-eye">View</i>
+
                             </button>
                             <button class="btn btn-warning btn-sm" onclick="openEditModal(<?= htmlentities(json_encode($rider)) ?>)">
-                            <i class="fas fa-trash">Edit</i>
+                            <i class="fa-solid fa-pen"></i>
                             </button>
 
                             <button class="btn btn-danger btn-sm" onclick="deleteRider(<?= $rider['rider_id'] ?>)">
