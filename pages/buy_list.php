@@ -1,40 +1,31 @@
 <?php
-function addColumnIfNotExists($pdo, $table, $column, $columnDefinition) {
-    $stmt = $pdo->prepare("SHOW COLUMNS FROM `$table` LIKE ?");
-    $stmt->execute([$column]);
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-    if ($result === false) {
-        // Column does not exist, so add it
-        $stmt = $pdo->prepare("ALTER TABLE `$table` ADD COLUMN `$column` $columnDefinition");
-        $stmt->execute();
-    }
-}
-// Create 
-function createCustomer($name, $lastname, $company, $address, $contact, $email) {
+// Include your database connection file
+
+// Create Rider
+function createRider($name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $total_rides, $rating, $payment_method) {
     global $pdo;
-    $stmt = $pdo->prepare("INSERT INTO customer (name, lastname, company, address, contact, email) VALUES (?, ?, ?, ?, ?, ?)");
-    return $stmt->execute([$name, $lastname, $company, $address, $contact, $email]);
+    $stmt = $pdo->prepare("INSERT INTO riders (name, lastname, gender, address, contact_number, email, vehicle_type, license_number, status, total_rides, rating, payment_method) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $total_rides, $rating, $payment_method]);
 }
 
-// Read Customers
-function readCustomers() {
+// Read Riders
+function readRiders() {
     global $pdo;
-    $stmt = $pdo->query("SELECT * FROM customer");
+    $stmt = $pdo->query("SELECT * FROM riders");
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-// Update Customer
-function updateCustomer($id, $name, $lastname, $company, $address, $contact, $email) {
+// Update Rider
+function updateRider($id, $name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $total_rides, $rating, $payment_method) {
     global $pdo;
-    $stmt = $pdo->prepare("UPDATE customer SET name = ?, lastname = ?, company = ?, address = ?, contact = ?, email = ? WHERE id = ?");
-    return $stmt->execute([$name, $lastname, $company, $address, $contact, $email, $id]);
+    $stmt = $pdo->prepare("UPDATE riders SET name = ?, lastname = ?, gender = ?, address = ?, contact_number = ?, email = ?, vehicle_type = ?, license_number = ?, status = ?, total_rides = ?, rating = ?, payment_method = ? WHERE rider_id = ?");
+    return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $total_rides, $rating, $payment_method, $id]);
 }
 
-// Delete Customer
-function deleteCustomer($id) {
+// Delete Rider
+function deleteRider($id) {
     global $pdo;
-    $stmt = $pdo->prepare("DELETE FROM customer WHERE id = ?");
+    $stmt = $pdo->prepare("DELETE FROM riders WHERE rider_id = ?");
     return $stmt->execute([$id]);
 }
 
@@ -44,72 +35,92 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     switch ($action) {
         case 'create':
-            createCustomer($_POST['name'], $_POST['lastname'], $_POST['company'], $_POST['address'], $_POST['contact'], $_POST['email']);
-            break;
+            createRider($_POST['name'], $_POST['lastname'], $_POST['gender'], $_POST['address'], $_POST['contact_number'], $_POST['email'], $_POST['vehicle_type'], $_POST['license_number'], $_POST['status'], $_POST['total_rides'], $_POST['rating'], $_POST['payment_method']);
+            echo json_encode(['success' => true, 'message' => 'Rider added successfully!']);
+            exit;
         case 'update':
-            updateCustomer($_POST['id'], $_POST['name'], $_POST['lastname'], $_POST['company'], $_POST['address'], $_POST['contact'], $_POST['email']);
-            break;
+            updateRider($_POST['rider_id'], $_POST['name'], $_POST['lastname'], $_POST['gender'], $_POST['address'], $_POST['contact_number'], $_POST['email'], $_POST['vehicle_type'], $_POST['license_number'], $_POST['status'], $_POST['total_rides'], $_POST['rating'], $_POST['payment_method']);
+            echo json_encode(['success' => true, 'message' => 'Rider updated successfully!']);
+            exit;
         case 'delete':
-            deleteCustomer($_POST['id']);
-            break;
+            deleteRider($_POST['rider_id']);
+            echo json_encode(['success' => true, 'message' => 'Rider deleted successfully!']);
+            exit;
     }
-    header('Location: index.php?page=costumer'); // Redirect after action
-    exit;
 }
 
-// Fetch customers for display
-$customers = readCustomers();
+// Fetch riders for display
+$riders = readRiders();
 ?>
 
 <!-- HTML and Bootstrap Front-end -->
 <br>
-<div class="container-fluid" style="margin-left: 0px!important;">
-    <h1>Customer List</h1>
+<div class="container-fluid " style="margin-left: 0px!important; ">
+    <h1>Rider List</h1>
 
-    <!-- Print Button -->
-    <div class="text-right mb-3">
-         <!-- <input class="form-control no-print" id="searchInput" type="text" placeholder="Search.."> -->
+    <button id="printButton" class="btn btn-success" style="float: right;"  onclick="printTable()">
+            <i class="fas fa-print"></i> Print
+        </button>
 
-         <button id="printButton" class="btn btn-success no-print"  onclick="printCustomerList()" style="float: right;">Print List</button>
-    </div>
-  
+        <div class=" text-right mb-4" style="float: right;">
+         
+       
+        <input class="form-control no-print" id="searchInput" type="text" placeholder="Search.." style="float: right!important;"> 
+           </div>
+    <!-- Rider Table -->
+    <table id="riderTable" class="table table-bordered table-responsive-sm">
 
-    <!-- Customer Table -->
-    <table id="customerTable" class="table table-bordered table-responsive-sm">
+    
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Name</th>
                 <th>Last Name</th>
-                <th>Company</th>
+                <th>Gender</th>
                 <th>Address</th>
-                <th>Contact</th>
+                <th>Contact Number</th>
                 <th>Email</th>
-                <th>Actions</th> <!-- Include Actions header -->
+                <th>Vehicle Type</th>
+                <th>License Number</th>
+                <th>Status</th>
+                <th>Total Rides</th>
+            <!--     <th>Rating</th>
+                <th>Payment Method</th> -->
+                <th  class="no-print">Actions</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="riderTableBody">
             <?php
-            $counter = 1; // Initialize counter variable
-            foreach ($customers as $customer): ?>
+            $counter = 1;
+            foreach ($riders as $rider): ?>
                 <tr>
                     <td><?= $counter++ ?></td>
-                    <td><?= htmlspecialchars($customer['name']) ?></td>
-                    <td><?= htmlspecialchars($customer['lastname']) ?></td>
-                    <td><?= htmlspecialchars($customer['company']) ?></td>
-                    <td><?= htmlspecialchars($customer['address']) ?></td>
-                    <td><?= htmlspecialchars($customer['contact']) ?></td>
-                    <td><?= htmlspecialchars($customer['email']) ?></td>
+                    <td><?= htmlentities($rider['name']) ?></td>
+                    <td><?= htmlentities($rider['lastname']) ?></td>
+                    <td><?= htmlentities($rider['gender']) ?></td>
+                    <td><?= htmlentities($rider['address']) ?></td>
+                    <td><?= htmlentities($rider['contact_number']) ?></td>
+                    <td><?= htmlentities($rider['email']) ?></td>
+                    <td><?= htmlentities($rider['vehicle_type']) ?></td>
+                    <td><?= htmlentities($rider['license_number']) ?></td>
+                    <td><?= htmlentities($rider['status']) ?></td>
+                    <td><?= htmlentities($rider['total_rides']) ?></td>
+               <!--      <td><?= htmlentities($rider['rating']) ?></td>
+                    <td><?= htmlentities($rider['payment_method']) ?></td> -->
                     <td>
                         <div class="btn-group-vertical" role="group">
-                            <button class="btn btn-success" data-toggle="modal" data-target="#addCustomerModal">
-                                <i class="fas fa-plus"></i> Add
+                            <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#addRiderModal">
+                                <i class="fas fa-plus"></i>Add
                             </button>
-                            <button class="btn btn-warning" onclick="openEditModal(<?= htmlspecialchars(json_encode($customer)) ?>)">
-                                <i class="fas fa-edit"></i> Edit
+                                <button class="btn btn-info btn-sm" onclick="openViewModal(<?= htmlentities(json_encode($rider)) ?>)">
+                                <i class="fas fa-eye">View</i>
                             </button>
-                            <button class="btn btn-danger" onclick="deleteCustomer(<?= $customer['id'] ?>)">
-                                <i class="fas fa-trash-alt"> Delete</i>
+                            <button class="btn btn-warning btn-sm" onclick="openEditModal(<?= htmlentities(json_encode($rider)) ?>)">
+                                <i class="fas fa-edit">Edit</i>
+                            </button>
+
+                            <button class="btn btn-danger btn-sm" onclick="deleteRider(<?= $rider['rider_id'] ?>)">
+                                <i class="fas fa-trash">Delete</i>
                             </button>
                         </div>
                     </td>
@@ -119,286 +130,359 @@ $customers = readCustomers();
     </table>
 </div>
 
-
-<!-- Add Customer Modal -->
-<div class="modal fade" id="addCustomerModal">
-    <div class="modal-dialog">
+<!-- Add Rider Modal -->
+<div class="modal fade" id="addRiderModal" tabindex="-1" role="dialog" aria-labelledby="addRiderModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Add Customer</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h5 class="modal-title" id="addRiderModalLabel">Add New Rider</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
-                <form id="addCustomerForm" method="POST">
+                <form id="addRiderForm" method="POST">
                     <input type="hidden" name="action" value="create">
                     <div class="form-group">
-                        <label>Name:</label>
-                        <input type="text" class="form-control" name="name" required>
+                        <label for="rider_name">Name:</label>
+                        <input type="text" class="form-control" id="rider_name" name="name" required>
                     </div>
                     <div class="form-group">
-                        <label>Last Name:</label>
-                        <input type="text" class="form-control" name="lastname" required>
+                        <label for="rider_lastname">Last Name:</label>
+                        <input type="text" class="form-control" id="rider_lastname" name="lastname" required>
                     </div>
                     <div class="form-group">
-                        <label>Company:</label>
-                        <input type="text" class="form-control" name="company">
+                        <label for="rider_gender">Gender:</label>
+                        <select class="form-control" id="rider_gender" name="gender" required>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label>Address:</label>
-                        <textarea class="form-control" name="address"></textarea>
+                        <label for="rider_address">Address:</label>
+                        <input type="text" class="form-control" id="rider_address" name="address" required>
                     </div>
                     <div class="form-group">
-                        <label>Contact:</label>
-                        <input type="text" class="form-control" name="contact">
+                        <label for="rider_contact_number">Contact Number:</label>
+                        <input type="text" class="form-control" id="rider_contact_number" name="contact_number" required>
                     </div>
                     <div class="form-group">
-                        <label>Email:</label>
-                        <input type="email" class="form-control" name="email" required>
+                        <label for="rider_email">Email:</label>
+                        <input type="email" class="form-control" id="rider_email" name="email" required>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-sm">Add Customer</button>
+                    <div class="form-group">
+                        <label for="vehicle_type">Vehicle Type:</label>
+                        <input type="text" class="form-control" id="vehicle_type" name="vehicle_type" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="license_number">License Number:</label>
+                        <input type="text" class="form-control" id="license_number" name="license_number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status:</label>
+                        <select class="form-control" id="status" name="status" required>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="total_rides">Total Rides:</label>
+                        <input type="number" class="form-control" id="total_rides" name="total_rides" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="rating">Rating:</label>
+                        <input type="number" step="0.1" class="form-control" id="rating" name="rating" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="payment_method">Payment Method:</label>
+                        <input type="text" class="form-control" id="payment_method" name="payment_method" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Rider</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
+ 
 
-<!-- Edit Customer Modal -->
-<div class="modal fade" id="editCustomerModal">
-    <div class="modal-dialog">
+         <!-- View Rider Modal -->
+<div class="modal fade" id="viewRiderModal" tabindex="-1" role="dialog" aria-labelledby="viewRiderModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Edit Customer</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h5 class="modal-title" id="viewRiderModalLabel">View Rider</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
-                <form id="editCustomerForm" method="POST">
-                    <input type="hidden" name="action" value="update">
-                    <input type="hidden" id="edit_customer_id" name="id">
+                <form>
                     <div class="form-group">
-                        <label>Name:</label>
-                        <input type="text" class="form-control" id="edit_name" name="name" required>
+                        <label for="viewName">Name</label>
+                        <input type="text" class="form-control" id="viewName" name="name" readonly>
                     </div>
                     <div class="form-group">
-                        <label>Last Name:</label>
-                        <input type="text" class="form-control" id="edit_lastname" name="lastname" required>
+                        <label for="viewLastname">Lastname</label>
+                        <input type="text" class="form-control" id="viewLastname" name="lastname" readonly>
                     </div>
                     <div class="form-group">
-                        <label>Company:</label>
-                        <input type="text" class="form-control" id="edit_company" name="company">
+                        <label for="viewGender">Gender</label>
+                        <input type="text" class="form-control" id="viewGender" name="gender" readonly>
                     </div>
                     <div class="form-group">
-                        <label>Address:</label>
-                        <textarea class="form-control" id="edit_address" name="address"></textarea>
+                        <label for="viewAddress">Address</label>
+                        <input type="text" class="form-control" id="viewAddress" name="address" readonly>
                     </div>
                     <div class="form-group">
-                        <label>Contact:</label>
-                        <input type="text" class="form-control" id="edit_contact" name="contact">
+                        <label for="viewContactNumber">Contact Number</label>
+                        <input type="text" class="form-control" id="viewContactNumber" name="contact_number" readonly>
                     </div>
                     <div class="form-group">
-                        <label>Email:</label>
-                        <input type="email" class="form-control" id="edit_email" name="email" required>
+                        <label for="viewEmail">Email</label>
+                        <input type="email" class="form-control" id="viewEmail" name="email" readonly>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-sm">Save Changes</button>
+                    <div class="form-group">
+                        <label for="viewVehicleType">Vehicle Type</label>
+                        <input type="text" class="form-control" id="viewVehicleType" name="vehicle_type" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="viewLicenseNumber">License Number</label>
+                        <input type="text" class="form-control" id="viewLicenseNumber" name="license_number" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="viewStatus">Status</label>
+                        <input type="text" class="form-control" id="viewStatus" name="status" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="viewTotalRides">Total Rides</label>
+                        <input type="number" class="form-control" id="viewTotalRides" name="total_rides" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="viewRating">Rating</label>
+                        <input type="number" class="form-control" id="viewRating" name="rating" step="0.1" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="viewPaymentMethod">Payment Method</label>
+                        <input type="text" class="form-control" id="viewPaymentMethod" name="payment_method" readonly>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
 
+<!-- Edit Rider Modal -->
+<div class="modal fade" id="editRiderModal" tabindex="-1" role="dialog" aria-labelledby="editRiderModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editRiderModalLabel">Edit Rider</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editRiderForm" method="POST">
+                    <input type="hidden" name="action" value="update">
+                    <input type="hidden" id="edit_rider_id" name="rider_id">
+                    <div class="form-group">
+                        <label for="edit_rider_name">Name:</label>
+                        <input type="text" class="form-control" id="edit_rider_name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_rider_lastname">Last Name:</label>
+                        <input type="text" class="form-control" id="edit_rider_lastname" name="lastname" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_rider_gender">Gender:</label>
+                        <select class="form-control" id="edit_rider_gender" name="gender" required>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_rider_address">Address:</label>
+                        <input type="text" class="form-control" id="edit_rider_address" name="address" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_rider_contact_number">Contact Number:</label>
+                        <input type="text" class="form-control" id="edit_rider_contact_number" name="contact_number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_rider_email">Email:</label>
+                        <input type="email" class="form-control" id="edit_rider_email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_vehicle_type">Vehicle Type:</label>
+                        <input type="text" class="form-control" id="edit_vehicle_type" name="vehicle_type" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_license_number">License Number:</label>
+                        <input type="text" class="form-control" id="edit_license_number" name="license_number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_status">Status:</label>
+                        <select class="form-control" id="edit_status" name="status" required>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_total_rides">Total Rides:</label>
+                        <input type="number" class="form-control" id="edit_total_rides" name="total_rides" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_rating">Rating:</label>
+                        <input type="number" step="0.1" class="form-control" id="edit_rating" name="rating" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_payment_method">Payment Method:</label>
+                        <input type="text" class="form-control" id="edit_payment_method" name="payment_method" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Rider</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript to handle form submissions and modal opening -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-$(document).ready(function() {
-    $('#customerTable').DataTable({
-        "lengthMenu": [10, 20, 50, 100]
-    });
-});
 
-function openEditModal(customer) {
-    $('#editCustomerModal').modal('show');
-    $('#edit_customer_id').val(customer.id);
-    $('#edit_name').val(customer.name);
-    $('#edit_lastname').val(customer.lastname);
-    $('#edit_company').val(customer.company);
-    $('#edit_address').val(customer.address);
-    $('#edit_contact').val(customer.contact);
-    $('#edit_email').val(customer.email);
-}
-
-function deleteCustomer(id) {
-    if (confirm('Are you sure you want to delete this customer?')) {
-        $.ajax({
-            type: 'POST',
-            url: 'delete_customer.php', // Path to your delete script
-            data: { id: id },
-            success: function(response) {
-                try {
-                    var data = JSON.parse(response); // Parse the JSON response
-                    if (data.success) {
-                        alert(data.message); // Show success message
-                        location.reload(); // Reload the page to see the changes
-                    } else {
-                        alert('Error: ' + data.message); // Show error message
-                    }
-                } catch (e) {
-                    alert('Error parsing response: ' + e.message); // Handle parsing errors
+    $(document).ready(function() {
+        // Add rider form submission
+        $('#addRiderForm').on('submit', function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: 'rider_functions.php',
+                data: $(this).serialize(),
+                success: function(response) {
+                    alert('Rider added successfully!');
+                    location.reload();
                 }
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText); // Log response text for debugging
-                alert('Error deleting customer. Please try again.');
-            }
+            });
         });
+
+        // Edit rider form submission
+        $('#editRiderForm').on('submit', function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: 'rider_functions.php',
+                data: $(this).serialize(),
+                success: function(response) {
+                    alert('Rider updated successfully!');
+                    location.reload();
+                }
+            });
+        });
+    });
+
+    // Open edit modal and populate fields
+    function openEditModal(rider) {
+        $('#edit_rider_id').val(rider.rider_id);
+        $('#edit_rider_name').val(rider.name);
+        $('#edit_rider_lastname').val(rider.lastname);
+        $('#edit_rider_gender').val(rider.gender);
+        $('#edit_rider_address').val(rider.address);
+        $('#edit_rider_contact_number').val(rider.contact_number);
+        $('#edit_rider_email').val(rider.email);
+        $('#edit_vehicle_type').val(rider.vehicle_type);
+        $('#edit_license_number').val(rider.license_number);
+        $('#edit_status').val(rider.status);
+        $('#edit_total_rides').val(rider.total_rides);
+        $('#edit_rating').val(rider.rating);
+        $('#edit_payment_method').val(rider.payment_method);
+        $('#editRiderModal').modal('show');
+    }
+
+    // Delete rider
+    function deleteRider(rider_id) {
+        if (confirm('Are you sure you want to delete this rider?')) {
+            $.ajax({
+                type: 'POST',
+                url: 'rider_functions.php',
+                data: { action: 'delete', rider_id: rider_id },
+                success: function(response) {
+                    alert('Rider deleted successfully!');
+                    location.reload();
+                }
+            });
+        }
+    }
+
+
+
+      function openViewModal(rider) {
+        document.getElementById('viewName').value = rider.name;
+        document.getElementById('viewLastname').value = rider.lastname;
+        document.getElementById('viewGender').value = rider.gender;
+        document.getElementById('viewAddress').value = rider.address;
+        document.getElementById('viewContactNumber').value = rider.contact_number;
+        document.getElementById('viewEmail').value = rider.email;
+        document.getElementById('viewVehicleType').value = rider.vehicle_type;
+        document.getElementById('viewLicenseNumber').value = rider.license_number;
+        document.getElementById('viewStatus').value = rider.status;
+        document.getElementById('viewTotalRides').value = rider.total_rides;
+        document.getElementById('viewRating').value = rider.rating;
+        document.getElementById('viewPaymentMethod').value = rider.payment_method;
+        
+        $('#viewRiderModal').modal('show');
+    }
+  function printTable() {
+    // Hide the entire Actions column (which is the last column in the table)
+    var actionsColumn = document.querySelectorAll('#riderTable th:last-child, #riderTable td:last-child');
+    actionsColumn.forEach(function(cell) {
+        cell.style.display = 'none';
+    });
+
+    // Hide the Print button
+    document.getElementById('printButton').style.display = 'none';
+
+    // Hide DataTables pagination and length selector (if applicable)
+    var dataTablePagination = document.querySelector('.dataTables_paginate');
+    if (dataTablePagination) {
+        dataTablePagination.style.display = 'none';
+    }
+    var dataTableLengthSelector = document.querySelector('.dataTables_length');
+    if (dataTableLengthSelector) {
+        dataTableLengthSelector.style.display = 'none';
+    }
+
+    // Print the table
+    var divToPrint = document.getElementById("riderTable").cloneNode(true);
+    var newWin = window.open("");
+    newWin.document.write('<html><head><title>Print Rider List</title>');
+    newWin.document.write('<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">');
+    newWin.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">');
+    newWin.document.write('</head><body>');
+    newWin.document.write(divToPrint.outerHTML);
+    newWin.document.write('</body></html>');
+    newWin.document.close();
+    newWin.print();
+
+    // Restore visibility of the Actions column, Print button, pagination, and length selector after printing
+    actionsColumn.forEach(function(cell) {
+        cell.style.display = ''; // Restore to default display type
+    });
+    document.getElementById('printButton').style.display = 'inline-block';
+    if (dataTablePagination) {
+        dataTablePagination.style.display = 'block';
+    }
+    if (dataTableLengthSelector) {
+        dataTableLengthSelector.style.display = 'block';
     }
 }
-
-
-function submitEditForm() {
-    var formData = $('#editCustomerForm').serialize(); // Gather form data
-    
-    $.ajax({
-        type: 'POST',
-        url: 'update_customer.php', // Path to your PHP update script
-        data: formData,
-        success: function(response) {
-            var data = JSON.parse(response);
-            if (data.success) {
-                window.location.href = 'index.php?page=customer'; // Redirect after success
-            } else {
-                alert('Error: ' + data.message); // Show error message
-            }
-        },
-        error: function() {
-            alert('Error updating customer. Please try again.');
-        }
-    });
-}
-
-function submitAddForm() {
-    var formData = $('#addCustomerForm').serialize(); // Gather form data
-    
-    $.ajax({
-        type: 'POST',
-        url: 'add_customer.php', // Path to your PHP add script
-        data: formData,
-        success: function(response) {
-            var data = JSON.parse(response);
-            if (data.success) {
-                window.location.href = 'index.php?page=customer'; // Redirect after success
-            } else {
-                alert('Error: ' + data.message); // Show error message
-            }
-        },
-        error: function() {
-            alert('Error adding customer. Please try again.');
-        }
-    });
-}
-function printCustomerList() {
-            console.log("Print function called");         
-            // Hide all buttons in the table body
-            var buttons = document.querySelectorAll('#customerTable tbody button');
-            buttons.forEach(function(button) {
-                button.style.display = 'none';
-            });
-
-            // Hide the Actions column header and cells
-            var actionsHeader = document.querySelector('#customerTable th:nth-child(8)');
-            var actionsCells = document.querySelectorAll('#customerTable td:nth-child(8)');
-            if (actionsHeader) {
-                actionsHeader.style.display = 'none';
-            }
-            actionsCells.forEach(function(cell) {
-                cell.style.display = 'none';
-            });
-
-            // Hide DataTables pagination
-            var dataTablePagination = document.querySelector('.dataTables_paginate');
-            if (dataTablePagination) {
-                dataTablePagination.style.display = 'none';
-            }
-
-            // Hide DataTables table length selector
-            var dataTableLengthSelector = document.querySelector('.dataTables_length');
-            if (dataTableLengthSelector) {
-                dataTableLengthSelector.style.display = 'none';
-            }
-
-            // Hide the search bar
-            var searchInput = document.querySelector('.dataTables_filter');
-            if (searchInput) {
-                searchInput.style.display = 'none';
-            }
-
-            // Optionally, hide the "Print List" button itself
-            var printButton = document.getElementById('printButton');
-            if (printButton) {
-                printButton.style.display = 'none';
-            }
-
-            // Use setTimeout to ensure the styles are applied before printing
-            setTimeout(function() {
-                console.log("Elements hidden, initiating print");
-                window.print();
-
-                console.log("Print initiated");
-
-                // Restore elements after printing
-                buttons.forEach(function(button) {
-                    button.style.display = 'inline-block';
-                });
-
-                if (actionsHeader) {
-                    actionsHeader.style.display = 'table-cell';
-                }
-
-                actionsCells.forEach(function(cell) {
-                    cell.style.display = 'table-cell';
-                });
-
-                if (dataTablePagination) {
-                    dataTablePagination.style.display = 'block';
-                }
-
-                if (dataTableLengthSelector) {
-                    dataTableLengthSelector.style.display = 'block';
-                }
-
-                if (searchInput) {
-                    searchInput.style.display = '';
-                }
-
-                if (printButton) {
-                    printButton.style.display = 'inline-block';
-                }
-
-                console.log("Elements restored after printing");
-            }, 1000); // Increased delay to ensure elements are hidden
-        }
-
-
 document.getElementById('searchInput').addEventListener('keyup', function() {
-    var value = this.value.toLowerCase();
-    document.querySelectorAll('table tbody tr').forEach(function(row) {
-        row.style.display = row.innerText.toLowerCase().includes(value) ? '' : 'none';
-    });
-});
-
-
-
-
-
-   document.addEventListener("DOMContentLoaded", function() {
-            var searchInput = document.getElementById('searchInput');
-
-            if (searchInput) {
-                searchInput.style.display = 'none';
-            }
+            var value = this.value.toLowerCase();
+            document.querySelectorAll('table tbody tr').forEach(function(row) {
+                row.style.display = row.innerText.toLowerCase().includes(value) ? '' : 'none';
+            });
         });
-
-
-
 </script>
-
-
-</body>
-</html>
