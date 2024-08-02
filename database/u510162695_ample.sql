@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 24, 2024 at 09:10 AM
+-- Generation Time: Aug 02, 2024 at 07:10 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -76,8 +76,9 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`id`, `username`, `password`, `name`, `lastname`, `company`, `address`, `contact`, `email`, `created_at`, `updated_at`) VALUES
-(27, NULL, NULL, 'jonhn', 'doe', 'mcc', 'mccc', '11112', 'dsad@gmail.com', '2024-07-18 05:21:10', '2024-07-18 22:17:07'),
-(0, NULL, NULL, 'tae', 'tae', 'kota', 'wewss', '2121212121', 'ano@gmail.com', '2024-07-23 16:30:57', '2024-07-23 16:30:57');
+(22, NULL, NULL, 'mark g', '2121', 'Rakesh Jadhav Pvt Ltd.', 'assa', 'asas', 'ano@gmail.com', '2024-07-17 23:45:48', '2024-07-19 21:38:07'),
+(26, NULL, NULL, 'beloy gwapo', 'hitchoraan', 'kota', 'qw', 'w', 'ano@gmail.com', '2024-07-18 05:17:45', '2024-07-18 19:34:00'),
+(27, NULL, NULL, 'jonhn', 'doe', 'mcc', 'mccc', '11112', 'dsad@gmail.com', '2024-07-18 05:21:10', '2024-07-18 22:17:07');
 
 -- --------------------------------------------------------
 
@@ -312,6 +313,7 @@ INSERT INTO `riders` (`rider_id`, `username`, `password`, `name`, `lastname`, `g
 (184, NULL, NULL, 'richan', 'santillan', 'Male', 'taga poblacion', '12121', 'nandoy@gmail.com', 'fgd', '65787', 'Active', '2024-07-18 23:30:00', 21, 1.0, 'cash', 0);
 
 -- --------------------------------------------------------
+
 --
 -- Table structure for table `sales`
 --
@@ -387,7 +389,12 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `first_name`, `last_name`, `picture`, `address`, `verification_code`, `middle_name`, `user_role`, `created_at`) VALUES
-(19, 'john', 'doe@gmail.com', '$2y$10$HpxtapfeVDl3.soGar2PbuN0IUa.YLGIxiv67Obqg/mrPhojOXWVy', 'jonh', 'owmntnu', NULL, 'theetn mad cebu', '123456', 'maru', NULL, '2024-07-20 22:12:00');
+(2, 'admin a', 'admin@gmail.com', '$2y$10$lTVY84JXlGlpr6VcuZQc3.RFj59ux5Q2jMDmCMbjapd5zl0plugZ2', 'jhonmark', 'cueva', NULL, 'Level 2, Hermes Palazzo, opposite St Anne\'s School, Camp, Pune, Maharashtra 411001', 'q11', 'bacAYU', NULL, '2024-07-19 21:29:35'),
+(3, 'loy', 'angelo2@gmail.com', '$2y$10$KDAldNgGLCP7PFEPexMPBef/0P5nGHNES4omZOL7t4ug1QMiI5pN2', 'admin 1', 'alegre', 'images2.png', 'poblcion mad cebu', '11111', 'bacAYU', NULL, '2024-07-19 21:56:07'),
+(19, 'john', 'doe@gmail.com', '$2y$10$HpxtapfeVDl3.soGar2PbuN0IUa.YLGIxiv67Obqg/mrPhojOXWVy', 'jonh', 'alegre', NULL, 'poblcion mad cebu', '123456', 'maru', NULL, '2024-07-20 22:12:00'),
+(24, 'info', 'admin20@gmail.com', '$2y$10$.SOgJMzNk9egeBBnT8.iCOYwK7ugaePhBqUlgndFrMczreVKNlXHi', 'information ', 'tech', NULL, NULL, NULL, NULL, NULL, '2024-07-23 14:22:36'),
+(25, 'wawa', 'ano121@gmail.com', '$2y$10$pw0vAIdnc6R/vt8fXxIx1.qFpFwRwMFVaofdmT6LW3Uggvt3MRhsO', 'ASAD', 'GT', NULL, NULL, NULL, NULL, NULL, '2024-07-23 17:21:00'),
+(26, 'admin', 'admin@gmail.com', '$2y$10$OeOeQJXz.0jFte72cTh0/OY87IRc.O7XyUL9yxJB4RyTVIL/w86Bi', 'jonh', 'DOEW', NULL, 'taga kaongkod', '11', 'bacAYU', NULL, '2024-07-24 17:03:55');
 
 -- --------------------------------------------------------
 
@@ -607,7 +614,7 @@ ALTER TABLE `supplier`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `your_table_name`
