@@ -65,15 +65,12 @@ $riders = readRiders();
     </button>
 
     <div class="text-right mb-4" style="float: right;">
-<<<<<<< HEAD
+
         <input class="form-control no-print" id="searchInput" type="text" placeholder="Search.." style="float: right!important;"> 
     </div>
 
-=======
-        <input class="form-control no-print" id="searchInput" type="text" placeholder="Search.." style="float: right!important;">
-    </div>
+      
     
->>>>>>> 114f858da6d6d7c284b2cf5518e513a778590f2a
     <!-- Rider Table -->
     <table id="riderTable" class="table table-bordered table-responsive-sm">
         <thead>
@@ -118,7 +115,7 @@ $riders = readRiders();
                                 <i class="fas fa-plus"></i> Add
                             </button>
                             <button class="btn btn-info btn-sm" onclick="openViewModal(<?= htmlentities(json_encode($rider)) ?>)">
-<<<<<<< HEAD
+
                                 <i class="fas fa-eye"> View</i>
                             </button>
                             <button class="btn btn-warning btn-sm" onclick="openEditModal(<?= htmlentities(json_encode($rider)) ?>)">
@@ -126,16 +123,7 @@ $riders = readRiders();
                             </button>
                             <button class="btn btn-danger btn-sm" onclick="deleteRider(<?= $rider['rider_id'] ?>)">
                                 <i class="fas fa-trash"> Delete</i>
-=======
-                                <i class="fas fa-eye"></i> View
-                            </button>
-                            <button class="btn btn-warning btn-sm" onclick="openEditModal(<?= htmlentities(json_encode($rider)) ?>)">
-                                <i class="fas fa-edit"></i> Edit
-                            </button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteRider(<?= $rider['rider_id'] ?>)">
-                                <i class="fas fa-trash"></i> Delete
->>>>>>> 114f858da6d6d7c284b2cf5518e513a778590f2a
-                            </button>
+                            </button> 
                         </div>
                     </td>
                 </tr>
