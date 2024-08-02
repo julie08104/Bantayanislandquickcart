@@ -1,5 +1,5 @@
 <?php
-require_once '/index.php/init.php'; // Adjust this path
+require_once '/buy_list.php/init.php'; // Adjust this path
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
