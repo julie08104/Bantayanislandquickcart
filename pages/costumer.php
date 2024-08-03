@@ -111,9 +111,10 @@ $customers = readCustomers();
                             <button class="btn btn-warning" onclick="openEditModal(<?= htmlspecialchars(json_encode($customer)) ?>)">
                                 <i class="fas fa-edit"></i> Edit
                             </button>
-                            <button class="btn btn-danger" onclick="deleteCustomer(<?= $customer['id'] ?>)">
+                           <button class="btn btn-danger" onclick="deleteCustomer(<?= $customer['id'] ?>)">
     <i class="fas fa-trash-alt"> Delete</i>
 </button>
+
 
                         </div>
                     </td>
@@ -229,7 +230,7 @@ function openEditModal(customer) {
     if (confirm('Are you sure you want to delete this customer?')) {
         $.ajax({
             type: 'POST',
-            url: 'delete_customer.php', // Ensure this URL points to the correct PHP file
+            url: 'delete_customer.php', // Ensure this URL is correct
             data: { action: 'delete', id: id },
             dataType: 'json',
             success: function(response) {
