@@ -48,3 +48,4 @@ try {
     echo json_encode(['success' => false, 'message' => 'Database error: An unexpected error occurred.']);
 }
 ?>
+
