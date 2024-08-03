@@ -10,20 +10,6 @@ function addColumnIfNotExists($pdo, $table, $column, $columnDefinition) {
         $stmt->execute();
     }
 }
-<!-- SweetAlert2 CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-     
-    <!-- jQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    
-    <!-- SweetAlert2 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
-    <!-- DataTables CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
-    
-    <!-- DataTables JS -->
-    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 // Create Customer
 function createCustomer($name, $lastname, $company, $address, $contact, $email) {
     global $pdo;
@@ -236,58 +222,66 @@ $customers = readCustomers();
     }
 
     function deleteCustomer(id) {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: 'Do you want to delete this customer?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    type: 'POST',
-                    url: 'delete_customer.php',
-                    data: { id: id },
-                    success: function(response) {
-                        try {
-                            var data = JSON.parse(response);
-                            if (data.success) {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Deleted!',
-                                    text: data.message
-                                }).then(() => {
-                                    location.reload();
-                                });
-                            } else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Error',
-                                    text: data.message
-                                });
-                            }
-                        } catch (e) {
+    // Show a confirmation dialog using SweetAlert2
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'Do you want to delete this customer?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // If confirmed, send an AJAX request to delete the customer
+            $.ajax({
+                type: 'POST',
+                url: 'delete_customer.php',
+                data: { id: id },
+                success: function(response) {
+                    try {
+                        // Parse the JSON response
+                        var data = JSON.parse(response);
+                        if (data.success) {
+                            // Show success message and reload the page
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Deleted!',
+                                text: data.message
+                            }).then(() => {
+                                location.reload();
+                            });
+                        } else {
+                            // Show error message if deletion was not successful
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Error',
-                                text: 'Error parsing response: ' + e.message
+                                text: data.message
                             });
                         }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(xhr.responseText);
+                    } catch (e) {
+                        // Handle JSON parsing errors
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
-                            text: 'Error deleting customer. Please try again.'
+                            text: 'Error parsing response: ' + e.message
                         });
                     }
-                });
-            }
-        });
-    }
+                },
+                error: function(xhr, status, error) {
+                    // Handle AJAX errors
+                    console.error(xhr.responseText);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error deleting customer. Please try again.'
+                    });
+                }
+            });
+        }
+    });
+}
+
 
     function submitEditForm() {
         var formData = $('#editCustomerForm').serialize();
