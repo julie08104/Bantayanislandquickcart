@@ -72,7 +72,6 @@ $customers = readCustomers();
 
          <button id="printButton" class="btn btn-success no-print"  onclick="printCustomerList()" style="float: right;">Print List</button>
     </div>
-  
 
     <!-- Customer Table -->
     <table id="customerTable" class="table table-bordered table-responsive-sm">
@@ -93,7 +92,9 @@ $customers = readCustomers();
             $counter = 1; // Initialize counter variable
             foreach ($customers as $customer): ?>
             <div class="class="float-left mb-3"" role="group" style="float:left;">
-            <button class="btn btn-success" data-toggle="modal" data-target="#addCustomerModal"> <i class="fas fa-plus"></i> Add</button> <br> <br> 
+            <button class="btn btn-success" data-toggle="modal" data-target="#addCustomerModal">
+                                <i class="fas fa-plus"></i> Add
+                            </button>
                 <tr>
                     <td><?= $counter++ ?></td>
                     <td><?= htmlspecialchars($customer['name']) ?></td>
@@ -108,8 +109,7 @@ $customers = readCustomers();
                                 <i class="fas fa-plus"></i> Add
                             </button> -->
                             <button class="btn btn-warning" onclick="openEditModal(<?= htmlspecialchars(json_encode($customer)) ?>)">
-                                <i class="fas fa-edit"></i> Edit
-                            </button>
+                                <i class="fas fa-edit"></i> Edit</button>
                             <button class="btn btn-danger" onclick="deleteCustomer(<?= $customer['id'] ?>)">
                                 <i class="fas fa-trash-alt"> Delete</i>
                             </button>
