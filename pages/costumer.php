@@ -71,7 +71,7 @@ $customers = readCustomers();
 <!--add customer-->
 <div class="float-left mb-3" role="group" style="float:left;">
             <button class="btn btn-success" data-toggle="modal" data-target="#addCustomerModal">
-                                <i class="fas fa-plus"></i> Add</button> <br> <br> 
+                                <i class="fas fa-plus"></i> Add Customer </button> <br> <br> 
     <!-- Print Button -->
     <div class="text-right mb-3">
          <!-- <input class="form-control no-print" id="searchInput" type="text" placeholder="Search.."> -->
@@ -111,10 +111,10 @@ $customers = readCustomers();
                             </button> -->
                             <button class="btn btn-warning" onclick="openEditModal(<?= htmlspecialchars(json_encode($customer)) ?>)">
                                 <i class="fas fa-edit"></i> Edit
-                            </button>
-                            <button class="btn btn-danger" onclick="deleteCustomer(<?= $customer['id'] ?>)">
-                                <i class="fas fa-trash-alt"> Delete</i>
-                            </button>
+                           <button class="btn btn-danger" onclick="deleteCustomer(<?= htmlspecialchars($customer['id']) ?>)">
+    <i class="fas fa-trash-alt"></i> Delete
+</button>
+
                         </div>
                     </td>
                 </tr>
@@ -230,23 +230,19 @@ function deleteCustomer(id) {
     if (confirm('Are you sure you want to delete this customer?')) {
         $.ajax({
             type: 'POST',
-            url: 'delete_customer.php', // Path to your delete script
-            data: { id: id },
+            url: 'delete_customer.php', // Make sure this URL is correct
+            data: { action: 'delete', id: id },
+            dataType: 'json',
             success: function(response) {
-                try {
-                    var data = JSON.parse(response); // Parse the JSON response
-                    if (data.success) {
-                        alert(data.message); // Show success message
-                        location.reload(); // Reload the page to see the changes
-                    } else {
-                        alert('Error: ' + data.message); // Show error message
-                    }
-                } catch (e) {
-                    alert('Error parsing response: ' + e.message); // Handle parsing errors
+                if (response.success) {
+                    alert(response.message);
+                    location.reload(); // Refresh the page to reflect changes
+                } else {
+                    alert('Error: ' + response.message);
                 }
             },
             error: function(xhr, status, error) {
-                console.error(xhr.responseText); // Log response text for debugging
+                console.error(xhr.responseText);
                 alert('Error deleting customer. Please try again.');
             }
         });
