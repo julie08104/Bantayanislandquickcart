@@ -1,8 +1,8 @@
 <?php
 // Database connection details
-$dsn = 'mysql:host=127.0.0.1;dbname=u510162695_ample'; // Update with your database name
-$username = 'u510162695_ample'; // Update with your username
-$password = '1Ample_database'; // Update with your password
+$dsn = 'mysql:host=127.0.0.1;dbname=u510162695_ample';
+$username = 'u510162695_ample';
+$password = '1Ample_database';
 
 try {
     // Establishing the database connection
@@ -13,7 +13,7 @@ try {
     if (isset($_POST['id']) && filter_var($_POST['id'], FILTER_VALIDATE_INT)) {
         $id = intval($_POST['id']);
 
-        // For debugging: log the ID to ensure it's correct
+        // Log the ID for debugging
         error_log("Attempting to delete customer with ID: " . $id);
 
         // Prepare the delete statement
@@ -22,7 +22,6 @@ try {
 
         // Execute the query
         if ($stmt->execute()) {
-            // Check if any rows were affected
             $rowCount = $stmt->rowCount();
             if ($rowCount > 0) {
                 echo json_encode(['success' => true, 'message' => 'Customer deleted successfully.']);
@@ -30,6 +29,7 @@ try {
                 echo json_encode(['success' => false, 'message' => 'No customer found with the provided ID.']);
             }
         } else {
+            // Log detailed error message
             error_log("Execute failed: " . implode(" ", $stmt->errorInfo()));
             echo json_encode(['success' => false, 'message' => 'Error executing delete operation.']);
         }
@@ -37,7 +37,7 @@ try {
         echo json_encode(['success' => false, 'message' => 'Invalid or missing customer ID.']);
     }
 } catch (PDOException $e) {
-    // Log detailed error message for debugging but avoid exposing sensitive info to users
+    // Log detailed error message
     error_log("Database error: " . $e->getMessage());
     echo json_encode(['success' => false, 'message' => 'Database error: An unexpected error occurred.']);
 }
