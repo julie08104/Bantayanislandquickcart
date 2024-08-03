@@ -68,7 +68,6 @@ $customers = readCustomers();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer List</title>
     <link rel="stylesheet" href="path/to/bootstrap.css">
     <link rel="stylesheet" href="path/to/datatables.css">
     <style>
