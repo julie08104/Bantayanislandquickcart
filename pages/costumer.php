@@ -230,17 +230,13 @@ function deleteCustomer(id) {
             type: 'POST',
             url: 'delete_customer.php',
             data: { id: id },
-            dataType: 'json', // Specify the expected response data type
+            dataType: 'json', // Ensure jQuery treats the response as JSON
             success: function(response) {
-                try {
-                    if (response.success) {
-                        alert(response.message);
-                        location.reload();
-                    } else {
-                        alert('Error: ' + response.message);
-                    }
-                } catch (e) {
-                    alert('Error parsing response: ' + e.message);
+                if (response.success) {
+                    alert(response.message);
+                    location.reload(); // Refresh the page to reflect the change
+                } else {
+                    alert('Error: ' + response.message);
                 }
             },
             error: function(xhr, status, error) {
@@ -250,6 +246,7 @@ function deleteCustomer(id) {
         });
     }
 }
+
 
 
 
