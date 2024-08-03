@@ -13,31 +13,38 @@ try {
     error_log('POST data: ' . print_r($_POST, true));
 
     // Check if ID is set and is a valid integer
-    if (isset($_POST['id']) && filter_var($_POST['id'], FILTER_VALIDATE_INT)) {
-        $id = intval($_POST['id']);
-        
-        // Log ID for debugging
-        error_log("Attempting to delete customer with ID: " . $id);
+    if (isset($_POST['id'])) {
+        $id = $_POST['id'];
+        error_log("Received ID: " . $id); // Log received ID
 
-        // Prepare the delete statement
-        $stmt = $pdo->prepare("DELETE FROM `customer` WHERE id = :id");
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        // Validate ID
+        if (filter_var($id, FILTER_VALIDATE_INT) !== false) {
+            $id = intval($id); // Convert to integer
+            error_log("Validated ID: " . $id); // Log validated ID
 
-        // Execute the query
-        if ($stmt->execute()) {
-            // Check if any rows were affected
-            $rowCount = $stmt->rowCount();
-            if ($rowCount > 0) {
-                echo json_encode(['success' => true, 'message' => 'Customer deleted successfully.']);
+            // Prepare the delete statement
+            $stmt = $pdo->prepare("DELETE FROM `customer` WHERE id = :id");
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+            // Execute the query
+            if ($stmt->execute()) {
+                // Check if any rows were affected
+                $rowCount = $stmt->rowCount();
+                if ($rowCount > 0) {
+                    echo json_encode(['success' => true, 'message' => 'Customer deleted successfully.']);
+                } else {
+                    echo json_encode(['success' => false, 'message' => 'No customer found with the provided ID.']);
+                }
             } else {
-                echo json_encode(['success' => false, 'message' => 'No customer found with the provided ID.']);
+                error_log("Execute failed: " . implode(" ", $stmt->errorInfo()));
+                echo json_encode(['success' => false, 'message' => 'Error executing delete operation.']);
             }
         } else {
-            error_log("Execute failed: " . implode(" ", $stmt->errorInfo()));
-            echo json_encode(['success' => false, 'message' => 'Error executing delete operation.']);
+            error_log('ID is not a valid integer: ' . $id);
+            echo json_encode(['success' => false, 'message' => 'Invalid or missing customer ID.']);
         }
     } else {
-        error_log('Invalid or missing customer ID: ' . (isset($_POST['id']) ? $_POST['id'] : 'none'));
+        error_log('ID not set in POST data.');
         echo json_encode(['success' => false, 'message' => 'Invalid or missing customer ID.']);
     }
 } catch (PDOException $e) {
@@ -46,3 +53,4 @@ try {
     echo json_encode(['success' => false, 'message' => 'Database error: An unexpected error occurred.']);
 }
 ?>
+
