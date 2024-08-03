@@ -232,28 +232,30 @@ function deleteCustomer(id) {
 
     if (confirm('Are you sure you want to delete this customer?')) {
         console.log('Deleting customer with ID:', id); // Log ID for debugging
-        $.ajax({
-            type: 'POST',
-            url: 'delete_customer.php',
-            data: { id: id },
-            success: function(response) {
-                try {
-                    var data = JSON.parse(response);
-                    if (data.success) {
-                        alert(data.message);
-                        location.reload();
-                    } else {
-                        alert('Error: ' + data.message);
-                    }
-                } catch (e) {
-                    alert('Error parsing response: ' + e.message);
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error('AJAX error:', xhr.responseText);
-                alert('Error deleting customer. Please try again.');
+      $.ajax({
+    type: 'POST',
+    url: 'delete_customer.php',
+    data: { id: id },
+    success: function(response) {
+        try {
+            var data = JSON.parse(response);
+            if (data.success) {
+                alert(data.message);
+                location.reload();
+            } else {
+                alert('Error: ' + data.message);
             }
-        });
+        } catch (e) {
+            alert('Error parsing response: ' + e.message);
+        }
+    },
+    error: function(xhr, status, error) {
+        console.error('AJAX error:', xhr.responseText);
+        alert('Error deleting customer. Please try again.');
+    },
+    dataType: 'json' // Ensure the data type is set to JSON
+});
+
     }
 }
 
