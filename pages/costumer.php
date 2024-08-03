@@ -231,6 +231,7 @@ function deleteCustomer(id) {
             url: 'delete_customer.php',
             data: { id: id },
             success: function(response) {
+                console.log("Response: ", response); // Log the response for debugging
                 try {
                     var data = JSON.parse(response);
                     if (data.success) {
@@ -250,6 +251,7 @@ function deleteCustomer(id) {
         });
     }
 }
+
 
 
 function submitEditForm() {
