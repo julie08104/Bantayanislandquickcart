@@ -71,7 +71,7 @@ $customers = readCustomers();
         @media print {
             .print-container {
                 display: flex;
-                align-items: center; /* Align items horizontally */
+                align-items: left; /* Align items horizontally */
                 position: relative;
             }
 
