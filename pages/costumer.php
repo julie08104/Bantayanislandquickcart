@@ -66,7 +66,7 @@ $customers = readCustomers();
 <div class="container-fluid" style="margin-left: 0px!important;">
     <h1>Customer List</h1>
 
-    <!-- Print Button -->
+   <!-- Print Button and Add Customer Button -->
     <div class="text-right mb-3">
     <button class="btn btn-success" data-toggle="modal" data-target="#addCustomerModal">
             <i class="fas fa-plus"></i> Add Customer
