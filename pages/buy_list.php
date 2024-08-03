@@ -403,20 +403,14 @@ $riders = readRiders();
         $('#editRiderModal').modal('show');
     }
 
-    // Delete rider
-    function deleteRider(rider_id) {
+    function deleteRider(riderId) {
         if (confirm('Are you sure you want to delete this rider?')) {
-            $.ajax({
-                type: 'POST',
-                url: 'rider_functions.php',
-                data: { action: 'delete', rider_id: rider_id },
-                success: function(response) {
-                    alert('Rider deleted successfully!');
-                    location.reload();
-                }
+            $.post('', { action: 'delete', rider_id: riderId }, function(response) {
+                location.reload();
             });
         }
     }
+
 
 
 
