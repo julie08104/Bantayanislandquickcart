@@ -70,7 +70,7 @@ $customers = readCustomers();
     <h1>Customer List</h1>
 <!-- Add Customer Button -->
 <div class="float-left mb-3">
-    <button class="btn btn-success" data-toggle="modal" data-target="#addCustomerModal">
+    <button class="btn btn-success no-print" data-toggle="modal" data-target="#addCustomerModal">
         <i class="fas fa-plus"></i> Add Customer
     </button>
 </div>
