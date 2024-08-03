@@ -71,19 +71,19 @@ $customers = readCustomers();
     <title>Customer List</title>
     <link rel="stylesheet" href="path/to/bootstrap.css">
     <link rel="stylesheet" href="path/to/datatables.css">
-    <style>
-     /* Initially hide the print image */
+  <style>
+    /* Initially hide the print image */
     #printImage {
         display: none;
     }
-    
+
     @media print {
         .print-only {
             display: block !important;
             position: absolute;
-            top: 0px;
-            left: 5px; /* Position the image on the left */
-            width: 0px; /* Adjust the width to make the image smaller */
+            top: 10px;
+            left: 10px; /* Position the image on the left */
+            width: 30px; /* Adjust the width to make the image smaller */
             height: auto;
             z-index: 1000;
         }
@@ -98,13 +98,14 @@ $customers = readCustomers();
             display: none !important;
         }
     }
-    </style>
+</style>
+
 </head>
 <body>
-    <!-- Print Image -->
- <div id="printImage" class="print-only">
-       <img src="dist/img/images1.png" alt="logo" class="brand-image" style="display: block; margin: 2px auto; width: 100px; height: auto;">
-    </div>
+   <!-- Print Image -->
+<div id="printImage" class="print-only">
+    <img src="dist/img/images1.png" alt="logo" class="brand-image">
+</div>
   <div class="container-fluid" style="margin-left: 0px!important;">
         <h1>Customer List</h1>
         <!-- Add Customer Button -->
