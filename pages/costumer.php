@@ -11,12 +11,12 @@ function addColumnIfNotExists($pdo, $table, $column, $columnDefinition) {
     }
 }
 // Create Customer
-function createCustomer($name, $lastname, $company, $address, $contact, $email) {
+function createCustomer($name, $lastname, $address, $contact, $email) {
     global $pdo;
     // Prepare the SQL statement with placeholders
-    $stmt = $pdo->prepare("INSERT INTO customer (name, lastname, company, address, contact, email) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt = $pdo->prepare("INSERT INTO customer (name, lastname,  address, contact, email) VALUES (?, ?, ?, ?, ?)");
     // Execute the statement with the provided values
-    return $stmt->execute([$name, $lastname, $company, $address, $contact, $email]);
+    return $stmt->execute([$name, $lastname, $address, $contact, $email]);
 }
 
 
@@ -28,10 +28,10 @@ function readCustomers() {
 }
 
 // Update Customer
-function updateCustomer($id, $name, $lastname, $company, $address, $contact, $email) {
+function updateCustomer($id, $name, $lastname, $address, $contact, $email) {
     global $pdo;
-    $stmt = $pdo->prepare("UPDATE customer SET name = ?, lastname = ?, company = ?, address = ?, contact = ?, email = ? WHERE id = ?");
-    return $stmt->execute([$name, $lastname, $company, $address, $contact, $email, $id]);
+    $stmt = $pdo->prepare("UPDATE customer SET name = ?, lastname = ?, address = ?, contact = ?, email = ? WHERE id = ?");
+    return $stmt->execute([$name, $lastname, $address, $contact, $email, $id]);
 }
 
 // Delete Customer
@@ -47,10 +47,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     switch ($action) {
         case 'create':
-            createCustomer($_POST['name'], $_POST['lastname'], $_POST['company'], $_POST['address'], $_POST['contact'], $_POST['email']);
+            createCustomer($_POST['name'], $_POST['lastname'], $_POST['address'], $_POST['contact'], $_POST['email']);
             break;
         case 'update':
-            updateCustomer($_POST['id'], $_POST['name'], $_POST['lastname'], $_POST['company'], $_POST['address'], $_POST['contact'], $_POST['email']);
+            updateCustomer($_POST['id'], $_POST['name'], $_POST['lastname'], $_POST['address'], $_POST['contact'], $_POST['email']);
             break;
         case 'delete':
             deleteCustomer($_POST['id']);
@@ -100,7 +100,7 @@ $customers = readCustomers();
                     <td><?= $counter++ ?></td>
                     <td><?= htmlspecialchars($customer['name']) ?></td>
                     <td><?= htmlspecialchars($customer['lastname']) ?></td>
-                    <td><?= htmlspecialchars($customer['company']) ?></td>
+                   <!-- <td><?= htmlspecialchars($customer['company']) ?></td>-->
                     <td><?= htmlspecialchars($customer['address']) ?></td>
                     <td><?= htmlspecialchars($customer['contact']) ?></td>
                     <td><?= htmlspecialchars($customer['email']) ?></td>
@@ -144,9 +144,9 @@ $customers = readCustomers();
         <input type="text" class="form-control" name="lastname" required>
     </div>
     <div class="form-group">
-        <label>Company:</label>
+       <!-- <label>Company:</label>
         <input type="text" class="form-control" name="company">
-    </div>
+    </div>-->
     <div class="form-group">
         <label>Address:</label>
         <textarea class="form-control" name="address"></textarea>
@@ -187,10 +187,10 @@ $customers = readCustomers();
                         <label>Last Name:</label>
                         <input type="text" class="form-control" id="edit_lastname" name="lastname" required>
                     </div>
-                    <div class="form-group">
+                   <!-- <div class="form-group">
                         <label>Company:</label>
                         <input type="text" class="form-control" id="edit_company" name="company">
-                    </div>
+                    </div>-->
                     <div class="form-group">
                         <label>Address:</label>
                         <textarea class="form-control" id="edit_address" name="address"></textarea>
@@ -221,7 +221,6 @@ function openEditModal(customer) {
     $('#edit_customer_id').val(customer.id);
     $('#edit_name').val(customer.name);
     $('#edit_lastname').val(customer.lastname);
-    $('#edit_company').val(customer.company);
     $('#edit_address').val(customer.address);
     $('#edit_contact').val(customer.contact);
     $('#edit_email').val(customer.email);
