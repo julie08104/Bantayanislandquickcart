@@ -240,23 +240,15 @@ $customers = readCustomers();
         });
     }
 
-   function printCustomerList() {
-    console.log("Print function called");
+ function printCustomerList() {
+        console.log("Print function called");
 
-    // Show the print image
-    var printImage = document.getElementById('printImage');
-    if (printImage) {
-        printImage.style.display = 'block';
-    }
+        // Show the print image
+        var printImage = document.getElementById('printImage');
+        if (printImage) {
+            printImage.style.display = 'block';
+        }
 
-    // Other code...
-
-    // Use setTimeout to ensure the styles are applied before printing
-    setTimeout(function() {
-        console.log("Elements hidden, initiating print");
-        window.print();
-
-        console.log("Print initiated");
         // Hide all buttons in the table body
         var buttons = document.querySelectorAll('#customerTable tbody button');
         buttons.forEach(function(button) {
