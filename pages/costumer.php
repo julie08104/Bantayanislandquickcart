@@ -105,7 +105,9 @@ $customers = readCustomers();
 <div id="printImage" class="print-only">
     <img src="dist/img/images1.png" alt="logo" class="brand-image" style="display: block; margin: 2px auto; width: 100px; height: auto;">
 </div><br><br>
-    <div class="container-fluid" style="margin-left: 0px!important;">
+     <h1>Customer List</h1>
+<!--add customer-->
+    <div class="container-fluid" style="margin-left: 0px!important;"> 
         <!-- Add Customer Button -->
         <div class="float-left mb-3">
             <button class="btn btn-success no-print" data-toggle="modal" data-target="#addCustomerModal">
