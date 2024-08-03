@@ -72,33 +72,27 @@ $customers = readCustomers();
     <link rel="stylesheet" href="path/to/bootstrap.css">
     <link rel="stylesheet" href="path/to/datatables.css">
     <style>
-  @media print {
-        .print-only {
-            display: block !important;
-            position: fixed;
-            top: 10px;
-            left: 10px;
-            width: 100px;
-            height: auto;
-            z-index: 1000;
+    @media print {
+            .print-only {
+                display: block !important;
+                position: fixed;
+                top: 10px;
+                left: 10px;
+                width: 100px;
+                height: auto;
+                z-index: 1000;
+            }
+            .no-print {
+                display: none !important;
+            }
         }
-        .no-print {
-            display: none !important;
-        }
-        /* Optionally hide table elements for printing */
-        #customerTable td, #customerTable th {
-            display: table-cell !important;
-        }
-        .dataTables_paginate, .dataTables_length, .dataTables_filter {
-            display: none !important;
-        }
-    }
+
     </style>
 </head>
 <body>
     <!-- Print Image -->
  <div id="printImage" class="print-only">
-       <img src="dist/img/images1.png" alt="logo" class="brand-image" style="display: block; margin: 5px auto; width: 180px; height: auto;">
+       <img src="dist/img/images1p.png" alt="logo" class="brand-image" style="display: block; margin: 5px auto; width: 180px; height: auto;">
     </div>
 
     <div class="container-fluid" style="margin-left: 0px!important;">
@@ -244,72 +238,95 @@ $customers = readCustomers();
         });
     }
 
-function printCustomerList() {
-    // Show the print image
-    var printImage = document.getElementById('printImage');
-    if (printImage) {
-        printImage.style.display = 'block';
-    }
+ function printCustomerList() {
+        console.log("Print function called");
 
-    // Hide elements that should not appear in the print view
-    var buttons = document.querySelectorAll('#customerTable tbody button');
-    var actionsHeader = document.querySelector('#customerTable th:nth-child(7)');
-    var actionsCells = document.querySelectorAll('#customerTable td:nth-child(7)');
-    var dataTablePagination = document.querySelector('.dataTables_paginate');
-    var dataTableLengthSelector = document.querySelector('.dataTables_length');
-    var searchInput = document.querySelector('.dataTables_filter');
-    var printButton = document.getElementById('printButton');
-
-    if (buttons.length > 0) {
-        buttons.forEach(button => button.style.display = 'none');
-    }
-    if (actionsHeader) {
-        actionsHeader.style.display = 'none';
-    }
-    actionsCells.forEach(cell => cell.style.display = 'none');
-    if (dataTablePagination) {
-        dataTablePagination.style.display = 'none';
-    }
-    if (dataTableLengthSelector) {
-        dataTableLengthSelector.style.display = 'none';
-    }
-    if (searchInput) {
-        searchInput.style.display = 'none';
-    }
-    if (printButton) {
-        printButton.style.display = 'none';
-    }
-
-    // Use setTimeout to ensure the styles are applied before printing
-    setTimeout(function() {
-        window.print();
-
-        // Restore elements after printing
-        if (buttons.length > 0) {
-            buttons.forEach(button => button.style.display = 'inline-block');
-        }
-        if (actionsHeader) {
-            actionsHeader.style.display = 'table-cell';
-        }
-        actionsCells.forEach(cell => cell.style.display = 'table-cell');
-        if (dataTablePagination) {
-            dataTablePagination.style.display = 'block';
-        }
-        if (dataTableLengthSelector) {
-            dataTableLengthSelector.style.display = 'block';
-        }
-        if (searchInput) {
-            searchInput.style.display = '';
-        }
-        if (printButton) {
-            printButton.style.display = 'inline-block';
-        }
+        // Show the print image
+        var printImage = document.getElementById('printImage');
         if (printImage) {
-            printImage.style.display = 'none';
+            printImage.style.display = 'block';
         }
-    }, 1000); // Adjust the delay if necessary
-}
 
+        // Hide all buttons in the table body
+        var buttons = document.querySelectorAll('#customerTable tbody button');
+        buttons.forEach(function(button) {
+            button.style.display = 'none';
+        });
+
+        // Hide the Actions column header and cells
+        var actionsHeader = document.querySelector('#customerTable th:nth-child(7)');
+        var actionsCells = document.querySelectorAll('#customerTable td:nth-child(7)');
+        if (actionsHeader) {
+            actionsHeader.style.display = 'none';
+        }
+        actionsCells.forEach(function(cell) {
+            cell.style.display = 'none';
+        });
+
+        // Hide DataTables pagination
+        var dataTablePagination = document.querySelector('.dataTables_paginate');
+        if (dataTablePagination) {
+            dataTablePagination.style.display = 'none';
+        }
+
+        // Hide DataTables table length selector
+        var dataTableLengthSelector = document.querySelector('.dataTables_length');
+        if (dataTableLengthSelector) {
+            dataTableLengthSelector.style.display = 'none';
+        }
+
+        // Hide the search bar
+        var searchInput = document.querySelector('.dataTables_filter');
+        if (searchInput) {
+            searchInput.style.display = 'none';
+        }
+
+        // Optionally, hide the "Print List" button itself
+        var printButton = document.getElementById('printButton');
+        if (printButton) {
+            printButton.style.display = 'none';
+        }
+
+        // Use setTimeout to ensure the styles are applied before printing
+        setTimeout(function() {
+            console.log("Elements hidden, initiating print");
+            window.print();
+
+            console.log("Print initiated");
+
+            // Restore elements after printing
+            buttons.forEach(function(button) {
+                button.style.display = 'inline-block';
+            });
+
+            if (actionsHeader) {
+                actionsHeader.style.display = 'table-cell';
+            }
+
+            actionsCells.forEach(function(cell) {
+                cell.style.display = 'table-cell';
+            });
+
+            if (dataTablePagination) {
+                dataTablePagination.style.display = 'block';
+            }
+
+            if (dataTableLengthSelector) {
+                dataTableLengthSelector.style.display = 'block';
+            }
+
+            if (searchInput) {
+                searchInput.style.display = '';
+            }
+
+            if (printButton) {
+                printButton.style.display = 'inline-block';
+            }
+
+            // Hide the print image after printing
+            if (printImage) {
+                printImage.style.display = 'none';
+            }
 
             console.log("Elements restored after printing");
         }, 1000); // Increased delay to ensure elements are hidden
