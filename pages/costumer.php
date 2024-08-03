@@ -27,7 +27,7 @@ function readCustomers() {
 // Update Customer
 function updateCustomer($id, $name, $lastname, $address, $contact, $email) {
     global $pdo;
-    $stmt = $pdo->prepare("UPDATE customer SET name = ?, lastname = ?, company = ?, address = ?, contact = ?, email = ? WHERE id = ?");
+    $stmt = $pdo->prepare("UPDATE customer SET name = ?, lastname = ?, address = ?, contact = ?, email = ? WHERE id = ?");
     return $stmt->execute([$name, $lastname, $address, $contact, $email, $id]);
 }
 
