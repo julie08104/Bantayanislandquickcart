@@ -102,7 +102,7 @@ $riders = readRiders();
     <h1>Rider List</h1>
 
     <button id="printButton" class="btn btn-success" style="float: right;"  onclick="printTable()">
-            <i class="fas fa-print"></i> Print
+            <i class="fas fa-print"></i> Rider List
         </button>
 
         <div class=" text-right mb-4" style="float: right;">
