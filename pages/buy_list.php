@@ -70,12 +70,15 @@ $riders = readRiders();
     </style>
 </head>
 <body>
-    <!-- Container for Rider List Heading -->
-    <div class="container">
-        <div class="rider-list-heading">
-            <h2>Rider List</h2>
+   <!-- Print Container -->
+    <div class="print-container">
+        <!-- Print Image -->
+        <div id="printImage" class="print-only">
+            <img src="dist/img/images1.png" alt="logo" class="brand-image" style="display: block; width: 100px; height: auto;">
         </div>
-  
+        <!-- Rider List Heading -->
+        <h1>Rider List</h1>
+    </div>
 
     <button id="printButton" class="btn btn-success" style="float: right;"  onclick="printTable()">
             <i class="fas fa-print"></i> Rider List
