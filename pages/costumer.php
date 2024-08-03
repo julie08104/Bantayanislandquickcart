@@ -92,7 +92,7 @@ $customers = readCustomers();
 <body>
     <!-- Print Image -->
  <div id="printImage" class="print-only">
-        <img src="dist/img/images(1).png" alt="Print Image" style="width: 100px; height: auto;">
+       <img src="dist/img/images1p.png" alt="logo" class="brand-image" style="display: block; margin: 5px auto; width: 180px; height: auto;">
     </div>
 
     <div class="container-fluid" style="margin-left: 0px!important;">
