@@ -1,5 +1,4 @@
 <?php
-
 function addColumnIfNotExists($pdo, $table, $column, $columnDefinition) {
     $stmt = $pdo->prepare("SHOW COLUMNS FROM `$table` LIKE ?");
     $stmt->execute([$column]);
@@ -11,7 +10,6 @@ function addColumnIfNotExists($pdo, $table, $column, $columnDefinition) {
         $stmt->execute();
     }
 }
-
 // Create Customer
 function createCustomer($name, $lastname, $company, $address, $contact, $email) {
     global $pdo;
@@ -83,7 +81,7 @@ $customers = readCustomers();
                 <th>ID</th>
                 <th>Name</th>
                 <th>Last Name</th>
-                <!--<th>Company</th>-->
+               <!-- <th>Company</th>-->
                 <th>Address</th>
                 <th>Contact</th>
                 <th>Email</th>
@@ -230,48 +228,32 @@ function openEditModal(customer) {
 }
 
 function deleteCustomer(id) {
-            if (confirm('Are you sure you want to delete this customer?')) {
-                $.ajax({
-                    type: 'POST',
-                    url: 'delete_customer.php', // Path to your delete script
-                    data: { id: id },
-                    success: function(response) {
-                        try {
-                            var data = JSON.parse(response); // Parse the JSON response
-                            if (data.success) {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Success',
-                                    text: data.message
-                                }).then(() => {
-                                    location.reload(); // Reload the page to see the changes
-                                });
-                            } else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Error',
-                                    text: data.message
-                                });
-                            }
-                        } catch (e) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: 'Error parsing response: ' + e.message
-                            });
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(xhr.responseText); // Log response text for debugging
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'Error deleting customer. Please try again.'
-                        });
+    if (confirm('Are you sure you want to delete this customer?')) {
+        $.ajax({
+            type: 'POST',
+            url: 'delete_customer.php', // Path to your delete script
+            data: { id: id },
+            success: function(response) {
+                try {
+                    var data = JSON.parse(response); // Parse the JSON response
+                    if (data.success) {
+                        alert(data.message); // Show success message
+                        location.reload(); // Reload the page to see the changes
+                    } else {
+                        alert('Error: ' + data.message); // Show error message
                     }
-                });
+                } catch (e) {
+                    alert('Error parsing response: ' + e.message); // Handle parsing errors
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText); // Log response text for debugging
+                alert('Error deleting customer. Please try again.');
             }
-        }
+        });
+    }
+}
+
 
 function submitEditForm() {
     var formData = $('#editCustomerForm').serialize(); // Gather form data
