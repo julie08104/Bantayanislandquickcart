@@ -90,9 +90,10 @@ $customers = readCustomers();
 </head>
 <body>
     <!-- Print Image -->
-   <div class="print-only">
-        <img src="uploads/images.png" alt="Print Image" style="width: 100px; height: auto;">
-    </div>
+   <div id="printImage" class="print-only">
+    <img src="uploads/images.png" alt="Print Image" style="width: 100px; height: auto;">
+</div>
+
 
     <div class="container-fluid" style="margin-left: 0px!important;">
         <h1>Customer List</h1>
