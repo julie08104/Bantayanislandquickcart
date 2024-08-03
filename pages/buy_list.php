@@ -88,8 +88,8 @@ $riders = readRiders();
                 <th>Vehicle Type</th>
                 <th>License Number</th>
                 <th>Status</th>
-                <th>Total Rides</th>
-            <!--     <th>Rating</th>
+              <!--  <th>Total Rides</th>
+                   <th>Rating</th>
                 <th>Payment Method</th> -->
                 <th  class="no-print">Actions</th>
             </tr>
