@@ -244,95 +244,72 @@ $customers = readCustomers();
         });
     }
 
- function printCustomerList() {
-        console.log("Print function called");
+function printCustomerList() {
+    // Show the print image
+    var printImage = document.getElementById('printImage');
+    if (printImage) {
+        printImage.style.display = 'block';
+    }
 
-        // Show the print image
-        var printImage = document.getElementById('printImage');
-        if (printImage) {
-            printImage.style.display = 'block';
+    // Hide elements that should not appear in the print view
+    var buttons = document.querySelectorAll('#customerTable tbody button');
+    var actionsHeader = document.querySelector('#customerTable th:nth-child(7)');
+    var actionsCells = document.querySelectorAll('#customerTable td:nth-child(7)');
+    var dataTablePagination = document.querySelector('.dataTables_paginate');
+    var dataTableLengthSelector = document.querySelector('.dataTables_length');
+    var searchInput = document.querySelector('.dataTables_filter');
+    var printButton = document.getElementById('printButton');
+
+    if (buttons.length > 0) {
+        buttons.forEach(button => button.style.display = 'none');
+    }
+    if (actionsHeader) {
+        actionsHeader.style.display = 'none';
+    }
+    actionsCells.forEach(cell => cell.style.display = 'none');
+    if (dataTablePagination) {
+        dataTablePagination.style.display = 'none';
+    }
+    if (dataTableLengthSelector) {
+        dataTableLengthSelector.style.display = 'none';
+    }
+    if (searchInput) {
+        searchInput.style.display = 'none';
+    }
+    if (printButton) {
+        printButton.style.display = 'none';
+    }
+
+    // Use setTimeout to ensure the styles are applied before printing
+    setTimeout(function() {
+        window.print();
+
+        // Restore elements after printing
+        if (buttons.length > 0) {
+            buttons.forEach(button => button.style.display = 'inline-block');
         }
-
-        // Hide all buttons in the table body
-        var buttons = document.querySelectorAll('#customerTable tbody button');
-        buttons.forEach(function(button) {
-            button.style.display = 'none';
-        });
-
-        // Hide the Actions column header and cells
-        var actionsHeader = document.querySelector('#customerTable th:nth-child(7)');
-        var actionsCells = document.querySelectorAll('#customerTable td:nth-child(7)');
         if (actionsHeader) {
-            actionsHeader.style.display = 'none';
+            actionsHeader.style.display = 'table-cell';
         }
-        actionsCells.forEach(function(cell) {
-            cell.style.display = 'none';
-        });
-
-        // Hide DataTables pagination
-        var dataTablePagination = document.querySelector('.dataTables_paginate');
+        actionsCells.forEach(cell => cell.style.display = 'table-cell');
         if (dataTablePagination) {
-            dataTablePagination.style.display = 'none';
+            dataTablePagination.style.display = 'block';
         }
-
-        // Hide DataTables table length selector
-        var dataTableLengthSelector = document.querySelector('.dataTables_length');
         if (dataTableLengthSelector) {
-            dataTableLengthSelector.style.display = 'none';
+            dataTableLengthSelector.style.display = 'block';
         }
-
-        // Hide the search bar
-        var searchInput = document.querySelector('.dataTables_filter');
         if (searchInput) {
-            searchInput.style.display = 'none';
+            searchInput.style.display = '';
         }
-
-        // Optionally, hide the "Print List" button itself
-        var printButton = document.getElementById('printButton');
         if (printButton) {
-            printButton.style.display = 'none';
+            printButton.style.display = 'inline-block';
         }
+        if (printImage) {
+            printImage.style.display = 'none';
+        }
+    }, 1000); // Adjust the delay if necessary
+}
 
-        // Use setTimeout to ensure the styles are applied before printing
-        setTimeout(function() {
-            console.log("Elements hidden, initiating print");
-            window.print();
-
-            console.log("Print initiated");
-
-            // Restore elements after printing
-            buttons.forEach(function(button) {
-                button.style.display = 'inline-block';
-            });
-
-            if (actionsHeader) {
-                actionsHeader.style.display = 'table-cell';
-            }
-
-            actionsCells.forEach(function(cell) {
-                cell.style.display = 'table-cell';
-            });
-
-            if (dataTablePagination) {
-                dataTablePagination.style.display = 'block';
-            }
-
-            if (dataTableLengthSelector) {
-                dataTableLengthSelector.style.display = 'block';
-            }
-
-            if (searchInput) {
-                searchInput.style.display = '';
-            }
-
-            if (printButton) {
-                printButton.style.display = 'inline-block';
-            }
-
-            // Hide the print image after printing
-            if (printImage) {
-                printImage.style.display = 'none';
-            }
 
             console.log("Elements restored after printing");
         }, 1000); // Increased delay to ensure elements are hidden
