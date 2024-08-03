@@ -72,21 +72,32 @@ $customers = readCustomers();
     <link rel="stylesheet" href="path/to/bootstrap.css">
     <link rel="stylesheet" href="path/to/datatables.css">
     <style>
+     /* Initially hide the print image */
+    #printImage {
+        display: none;
+    }
+    
     @media print {
-            .print-only {
-                display: block !important;
-                position: fixed;
-                top: 10px;
-                left: 10px;
-                width: 100px;
-                height: auto;
-                z-index: 1000;
-            }
-            .no-print {
-                display: none !important;
-            }
+        .print-only {
+            display: block !important;
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            width: 180px;
+            height: auto;
+            z-index: 1000;
         }
-
+        .no-print {
+            display: none !important;
+        }
+        /* Ensure table cells and headers are displayed properly */
+        #customerTable td, #customerTable th {
+            display: table-cell !important;
+        }
+        .dataTables_paginate, .dataTables_length, .dataTables_filter {
+            display: none !important;
+        }
+    }
     </style>
 </head>
 <body>
