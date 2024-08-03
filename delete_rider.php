@@ -1,49 +1,32 @@
 <?php
-// Database connection
-require '../init.php';// Ensure you include your database connection file
-<?php
-require 'rider_functions.php';
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $name = $_POST['name'];
-    $lastname = $_POST['lastname'];
-    $gender = $_POST['gender'];
-    $address = $_POST['address'];
-    $contact_number = $_POST['contact_number'];
-    $email = $_POST['email'];
-    $vehicle_type = $_POST['vehicle_type'];
-    $license_number = $_POST['license_number'];
-    $status = $_POST['status'];
-    $total_rides = $_POST['total_rides'];
-    $rating = $_POST['rating'];
-    $payment_method = $_POST['payment_method'];
+// Database connection details
+$dsn = 'mysql:host=localhost;dbname=ample'; // Update with your database name
+$username = 'root'; // Update with your username
+$password = ''; // Update with your password
 
-    // Add your PDO connection here
-    try {
-        $stmt = $pdo->prepare("INSERT INTO riders (name, lastname, gender, address, contact_number, email, vehicle_type, license_number, status, total_rides, rating, payment_method, date_joined) VALUES (:name, :lastname, :gender, :address, :contact_number, :email, :vehicle_type, :license_number, :status, :total_rides, :rating, :payment_method, NOW())");
+try {
+    $pdo = new PDO($dsn, $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $stmt->bindParam(':name', $name);
-        $stmt->bindParam(':lastname', $lastname);
-        $stmt->bindParam(':gender', $gender);
-        $stmt->bindParam(':address', $address);
-        $stmt->bindParam(':contact_number', $contact_number);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':vehicle_type', $vehicle_type);
-        $stmt->bindParam(':license_number', $license_number);
-        $stmt->bindParam(':status', $status);
-        $stmt->bindParam(':total_rides', $total_rides);
-        $stmt->bindParam(':rating', $rating);
-        $stmt->bindParam(':payment_method', $payment_method);
+    // Check if ID is set
+    if (isset($_POST['id'])) {
+        $id = intval($_POST['id']);
+
+        // Prepare the delete statement
+        $stmt = $pdo->prepare("DELETE FROM `riders` WHERE id = :id");
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-            echo json_encode(['success' => true]);
+            // Return a success response
+            echo json_encode(['success' => true, 'message' => 'Customer deleted successfully.']);
         } else {
-            echo json_encode(['success' => false, 'message' => 'Failed to add rider.']);
+            // Return an error response
+            echo json_encode(['success' => false, 'message' => 'Error deleting customer.']);
         }
-    } catch (PDOException $e) {
-        echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'No customer ID provided.']);
     }
-} else {
-    echo json_encode(['success' => false, 'message' => 'Invalid request method.']);
+} catch (PDOException $e) {
+    echo json_encode(['success' => false, 'message' => 'Database error: ' . $e->getMessage()]);
 }
-
 ?>
