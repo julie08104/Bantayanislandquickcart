@@ -53,53 +53,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $riders = readRiders();
 ?>
 <style>
-        /* Initially hide the print image */
-        #printImage {
-            display: none;
+        /* Additional CSS here */
+        .rider-list-heading {
+            text-align: center; /* Center the heading text */
+            margin-bottom: 20px; /* Space between heading and table */
+            font-size: 1.5rem; /* Adjust font size as needed */
+            color: #333; /* Text color */
         }
 
-        @media print {
-            .print-container {
-                display: flex;
-                align-items: center; /* Center items vertically */
-                justify-content: center; /* Center items horizontally */
-                text-align: center; /* Center text horizontally */
-                margin-bottom: 20px; /* Add some space below the container */
-            }
-
-            .print-only {
-                display: block !important;
-                width: 100px; /* Adjust the width as needed */
-                height: auto;
-                margin-right: 20px; /* Space between the image and the text */
-            }
-
-            .no-print {
-                display: none !important;
-            }
-
-            /* Ensure table cells and headers are displayed properly */
-            #customerTable td, #customerTable th {
-                display: table-cell !important;
-            }
-
-            .dataTables_paginate, .dataTables_length, .dataTables_filter {
-                display: none !important;
-            }
+        .customer-table-container {
+            padding: 15px;
+            border: 1px solid #dee2e6; /* Border color matching Bootstrap */
+            border-radius: 5px; /* Rounded corners */
+            background-color: #f8f9fa; /* Light background color */
         }
     </style>
 </head>
-  <!-- Container for Rider List Heading -->
-    <div class="rider-list-container">
-        <h2>Rider List</h2>
-    </div>
-    
-    <!-- Print Container -->
-    <div class="print-container">
-        <!-- Print Image -->
-        <div id="printImage" class="print-only">
-            <img src="dist/img/images1.png" alt="logo" class="brand-image" style="display: block; width: 100px; height: auto;">
-        </div><br><br>
+<body>
+    <!-- Container for Rider List Heading -->
+    <div class="container">
+        <div class="rider-list-heading">
+            <h2>Rider List</h2>
+        </div>
   
 
     <button id="printButton" class="btn btn-success" style="float: right;"  onclick="printTable()">
