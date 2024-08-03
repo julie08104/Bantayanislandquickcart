@@ -142,10 +142,10 @@ $customers = readCustomers();
         <label>Last Name:</label>
         <input type="text" class="form-control" name="lastname" required>
     </div>
-    <div class="form-group">
+    <!--<div class="form-group">
         <label>Company:</label>
         <input type="text" class="form-control" name="company">
-    </div>
+    </div>-->
     <div class="form-group">
         <label>Address:</label>
         <textarea class="form-control" name="address"></textarea>
@@ -186,10 +186,10 @@ $customers = readCustomers();
                         <label>Last Name:</label>
                         <input type="text" class="form-control" id="edit_lastname" name="lastname" required>
                     </div>
-                    <div class="form-group">
+                   <!-- <div class="form-group">
                         <label>Company:</label>
                         <input type="text" class="form-control" id="edit_company" name="company">
-                    </div>
+                    </div>-->
                     <div class="form-group">
                         <label>Address:</label>
                         <textarea class="form-control" id="edit_address" name="address"></textarea>
@@ -220,7 +220,6 @@ function openEditModal(customer) {
     $('#edit_customer_id').val(customer.id);
     $('#edit_name').val(customer.name);
     $('#edit_lastname').val(customer.lastname);
-    $('#edit_company').val(customer.company);
     $('#edit_address').val(customer.address);
     $('#edit_contact').val(customer.contact);
     $('#edit_email').val(customer.email);
