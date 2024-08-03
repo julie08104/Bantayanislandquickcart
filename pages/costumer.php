@@ -60,25 +60,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Fetch customers for display
 $customers = readCustomers();
 ?>
-
 <!-- HTML and Bootstrap Front-end -->
 <br>
 <div class="container-fluid" style="margin-left: 0px!important;">
     <h1>Customer List</h1>
-   <!-- Add Customer Button -->
-<div class="float-left mb-3" role="group">
-    <button class="btn btn-success" data-toggle="modal" data-target="#addCustomerModal">
-        <i class="fas fa-plus"></i> Add Customer
-    </button>
-</div>
-
+<!--add customer-->
+<div class="float-left mb-3" role="group" style="float:left;">
+            <button class="btn btn-success" data-toggle="modal" data-target="#addCustomerModal">
+                                <i class="fas fa-plus"></i> Add</button> <br> <br> 
     <!-- Print Button -->
     <div class="text-right mb-3">
          <!-- <input class="form-control no-print" id="searchInput" type="text" placeholder="Search.."> -->
 
          <button id="printButton" class="btn btn-success no-print"  onclick="printCustomerList()" style="float: right;">Print List</button>
     </div>
-
     <!-- Customer Table -->
     <table id="customerTable" class="table table-bordered table-responsive-sm">
         <thead>
@@ -86,7 +81,7 @@ $customers = readCustomers();
                 <th>ID</th>
                 <th>Name</th>
                 <th>Last Name</th>
-               <!-- <th>Company</th>-->
+               <th>Company</th>
                 <th>Address</th>
                 <th>Contact</th>
                 <th>Email</th>
@@ -101,7 +96,7 @@ $customers = readCustomers();
                     <td><?= $counter++ ?></td>
                     <td><?= htmlspecialchars($customer['name']) ?></td>
                     <td><?= htmlspecialchars($customer['lastname']) ?></td>
-                  <!--  <td><?= htmlspecialchars($customer['company']) ?></td> -->
+                    <td><?= htmlspecialchars($customer['company']) ?></td>
                     <td><?= htmlspecialchars($customer['address']) ?></td>
                     <td><?= htmlspecialchars($customer['contact']) ?></td>
                     <td><?= htmlspecialchars($customer['email']) ?></td>
@@ -111,7 +106,8 @@ $customers = readCustomers();
                                 <i class="fas fa-plus"></i> Add
                             </button> -->
                             <button class="btn btn-warning" onclick="openEditModal(<?= htmlspecialchars(json_encode($customer)) ?>)">
-                                <i class="fas fa-edit"></i> Edit</button>
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
                             <button class="btn btn-danger" onclick="deleteCustomer(<?= $customer['id'] ?>)">
                                 <i class="fas fa-trash-alt"> Delete</i>
                             </button>
@@ -133,30 +129,35 @@ $customers = readCustomers();
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <form id="addCustomerForm" method="POST">
-                    <input type="hidden" name="action" value="create">
-                    <div class="form-group">
-                        <label>Name:</label>
-                        <input type="text" class="form-control" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Last Name:</label>
-                        <input type="text" class="form-control" name="lastname" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Address:</label>
-                        <textarea class="form-control" name="address"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Contact:</label>
-                        <input type="text" class="form-control" name="contact">
-                    </div>
-                    <div class="form-group">
-                        <label>Email:</label>
-                        <input type="email" class="form-control" name="email" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-sm">Add Customer</button>
-                </form>
+            <form id="addCustomerForm" method="POST">
+    <input type="hidden" name="action" value="create">
+    <div class="form-group">
+        <label>Name:</label>
+        <input type="text" class="form-control" name="name" required>
+    </div>
+    <div class="form-group">
+        <label>Last Name:</label>
+        <input type="text" class="form-control" name="lastname" required>
+    </div>
+    <div class="form-group">
+        <label>Company:</label>
+        <input type="text" class="form-control" name="company">
+    </div>
+    <div class="form-group">
+        <label>Address:</label>
+        <textarea class="form-control" name="address"></textarea>
+    </div>
+    <div class="form-group">
+        <label>Contact:</label>
+        <input type="text" class="form-control" name="contact">
+    </div>
+    <div class="form-group">
+        <label>Email:</label>
+        <input type="email" class="form-control" name="email" required>
+    </div>
+    <button type="submit" class="btn btn-primary btn-sm">Add Customer</button>
+</form>
+
             </div>
         </div>
     </div>
@@ -205,14 +206,12 @@ $customers = readCustomers();
     </div>
 </div>
 
-
 <script>
 $(document).ready(function() {
     $('#customerTable').DataTable({
         "lengthMenu": [10, 20, 50, 100]
     });
 });
-
 function openEditModal(customer) {
     $('#editCustomerModal').modal('show');
     $('#edit_customer_id').val(customer.id);
@@ -223,63 +222,32 @@ function openEditModal(customer) {
     $('#edit_contact').val(customer.contact);
     $('#edit_email').val(customer.email);
 }
-
 function deleteCustomer(id) {
-    Swal.fire({
-        title: 'Are you sure?',
-        text: 'Do you want to delete this customer?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            console.log('Deleting customer with ID:', id); // Debugging
-
-            $.ajax({
-                type: 'POST',
-                url: 'delete_customer.php', 
-                data: { id: id },
-                success: function(response) {
-                    try {
-                        var data = JSON.parse(response); // Parse the JSON response
-                        if (data.success) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Deleted!',
-                                text: data.message
-                            }).then(() => {
-                                location.reload(); // Reload the page to see the changes
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: 'Error: ' + data.message
-                            });
-                        }
-                    } catch (e) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'Error parsing response: ' + e.message
-                        });
+    if (confirm('Are you sure you want to delete this customer?')) {
+        $.ajax({
+            type: 'POST',
+            url: 'delete_customer.php', // Path to your delete script
+            data: { id: id },
+            success: function(response) {
+                try {
+                    var data = JSON.parse(response); // Parse the JSON response
+                    if (data.success) {
+                        alert(data.message); // Show success message
+                        location.reload(); // Reload the page to see the changes
+                    } else {
+                        alert('Error: ' + data.message); // Show error message
                     }
-                },
-                error: function(xhr, status, error) {
-                    console.error('AJAX Error:', xhr.responseText); // Log response text for debugging
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Error deleting customer. Please try again.'
-                    });
+                } catch (e) {
+                    alert('Error parsing response: ' + e.message); // Handle parsing errors
                 }
-            });
-        }
-    });
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText); // Log response text for debugging
+                alert('Error deleting customer. Please try again.');
+            }
+        });
+    }
 }
-
 
 
 function submitEditForm() {
