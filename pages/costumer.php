@@ -71,18 +71,15 @@ $customers = readCustomers();
 <br>
 <div class="container-fluid" style="margin-left: 0px!important;">
     <h1>Customer List</h1>
-<!-- Add Customer Button -->
-<div class="float-left mb-3">
-    <button class="btn btn-success no-print" data-toggle="modal" data-target="#addCustomerModal">
-        <i class="fas fa-plus"></i> Add Customer
-    </button>
-</div>
-
+    <!-- Add Customer Button -->
+    <div class="float-left mb-3">
+        <button class="btn btn-success no-print" data-toggle="modal" data-target="#addCustomerModal">
+            <i class="fas fa-plus"></i> Add Customer
+        </button>
+    </div>
     <!-- Print Button -->
     <div class="text-right mb-3">
-         <!-- <input class="form-control no-print" id="searchInput" type="text" placeholder="Search.."> -->
-
-         <button id="printButton" class="btn btn-success no-print"  onclick="printCustomerList()" style="float: right;">Print List</button>
+        <button id="printButton" class="btn btn-success no-print" onclick="printCustomerList()" style="float: right;">Print List</button>
     </div>
     <!-- Customer Table -->
     <table id="customerTable" class="table table-bordered table-responsive-sm">
@@ -91,11 +88,10 @@ $customers = readCustomers();
                 <th>ID</th>
                 <th>Name</th>
                 <th>Last Name</th>
-               <!--<th>Company</th>-->
                 <th>Address</th>
                 <th>Contact</th>
                 <th>Email</th>
-                <th>Actions</th> <!-- Include Actions header -->
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -106,21 +102,17 @@ $customers = readCustomers();
                     <td><?= $counter++ ?></td>
                     <td><?= htmlspecialchars($customer['name']) ?></td>
                     <td><?= htmlspecialchars($customer['lastname']) ?></td>
-                   <!-- <td><?= htmlspecialchars($customer['company']) ?></td>-->
                     <td><?= htmlspecialchars($customer['address']) ?></td>
                     <td><?= htmlspecialchars($customer['contact']) ?></td>
                     <td><?= htmlspecialchars($customer['email']) ?></td>
                     <td>
                         <div class="btn-group-vertical" role="group">
-                            <!-- <button class="btn btn-success" data-toggle="modal" data-target="#addCustomerModal">
-                                <i class="fas fa-plus"></i> Add
-                            </button> -->
                             <button class="btn btn-warning" onclick="openEditModal(<?= htmlspecialchars(json_encode($customer)) ?>)">
                                 <i class="fas fa-edit"></i> Edit
-                           <button class="btn btn-danger" onclick="deleteCustomer(<?= htmlspecialchars($customer['id']) ?>)">
-    <i class="fas fa-trash-alt"></i> Delete
-</button>
-
+                            </button>
+                            <button class="btn btn-danger" onclick="deleteCustomer(<?= htmlspecialchars($customer['id']) ?>)">
+                                <i class="fas fa-trash-alt"></i> Delete
+                            </button>
                         </div>
                     </td>
                 </tr>
@@ -129,99 +121,22 @@ $customers = readCustomers();
     </table>
 </div>
 
-
 <!-- Add Customer Modal -->
-<div class="modal fade" id="addCustomerModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Add Customer</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-            <form id="addCustomerForm" method="POST">
-    <input type="hidden" name="action" value="create">
-    <div class="form-group">
-        <label>Name:</label>
-        <input type="text" class="form-control" name="name" required>
-    </div>
-    <div class="form-group">
-        <label>Last Name:</label>
-        <input type="text" class="form-control" name="lastname" required>
-    </div>
-    <div class="form-group">
-       <!-- <label>Company:</label>
-        <input type="text" class="form-control" name="company">
-    </div>-->
-    <div class="form-group">
-        <label>Address:</label>
-        <textarea class="form-control" name="address"></textarea>
-    </div>
-    <div class="form-group">
-        <label>Contact:</label>
-        <input type="text" class="form-control" name="contact">
-    </div>
-    <div class="form-group">
-        <label>Email:</label>
-        <input type="email" class="form-control" name="email" required>
-    </div>
-    <button type="submit" class="btn btn-primary btn-sm">Add Customer</button>
-</form>
-
-            </div>
-        </div>
-    </div>
-</div>
+<!-- Your modal HTML -->
 
 <!-- Edit Customer Modal -->
-<div class="modal fade" id="editCustomerModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Edit Customer</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id="editCustomerForm" method="POST">
-                    <input type="hidden" name="action" value="update">
-                    <input type="hidden" id="edit_customer_id" name="id">
-                    <div class="form-group">
-                        <label>Name:</label>
-                        <input type="text" class="form-control" id="edit_name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Last Name:</label>
-                        <input type="text" class="form-control" id="edit_lastname" name="lastname" required>
-                    </div>
-                   <!-- <div class="form-group">
-                        <label>Company:</label>
-                        <input type="text" class="form-control" id="edit_company" name="company">
-                    </div>-->
-                    <div class="form-group">
-                        <label>Address:</label>
-                        <textarea class="form-control" id="edit_address" name="address"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Contact:</label>
-                        <input type="text" class="form-control" id="edit_contact" name="contact">
-                    </div>
-                    <div class="form-group">
-                        <label>Email:</label>
-                        <input type="email" class="form-control" id="edit_email" name="email" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-sm">Save Changes</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+<!-- Your modal HTML -->
 
+<script src="path/to/jquery.js"></script>
+<script src="path/to/bootstrap.js"></script>
+<script src="path/to/datatables.js"></script>
 <script>
 $(document).ready(function() {
     $('#customerTable').DataTable({
         "lengthMenu": [10, 20, 50, 100]
     });
 });
+
 function openEditModal(customer) {
     $('#editCustomerModal').modal('show');
     $('#edit_customer_id').val(customer.id);
@@ -231,6 +146,7 @@ function openEditModal(customer) {
     $('#edit_contact').val(customer.contact);
     $('#edit_email').val(customer.email);
 }
+
 function deleteCustomer(id) {
     if (confirm('Are you sure you want to delete this customer?')) {
         $.ajax({
@@ -253,7 +169,6 @@ function deleteCustomer(id) {
         });
     }
 }
-
 
 function submitEditForm() {
     var formData = $('#editCustomerForm').serialize(); // Gather form data
@@ -296,8 +211,15 @@ function submitAddForm() {
         }
     });
 }
+
 function printCustomerList() {
     console.log("Print function called");
+
+    // Show the print image
+    var printImage = document.getElementById('printImage');
+    if (printImage) {
+        printImage.style.display = 'block';
+    }
 
     // Hide all buttons in the table body
     var buttons = document.querySelectorAll('#customerTable tbody button');
@@ -375,34 +297,15 @@ function printCustomerList() {
             printButton.style.display = 'inline-block';
         }
 
+        // Hide the print image after printing
+        if (printImage) {
+            printImage.style.display = 'none';
+        }
+
         console.log("Elements restored after printing");
     }, 1000); // Increased delay to ensure elements are hidden
 }
-
-
-document.getElementById('searchInput').addEventListener('keyup', function() {
-    var value = this.value.toLowerCase();
-    document.querySelectorAll('table tbody tr').forEach(function(row) {
-        row.style.display = row.innerText.toLowerCase().includes(value) ? '' : 'none';
-    });
-});
-
-
-
-
-
-   document.addEventListener("DOMContentLoaded", function() {
-            var searchInput = document.getElementById('searchInput');
-
-            if (searchInput) {
-                searchInput.style.display = 'none';
-            }
-        });
-
-
-
 </script>
-
 
 </body>
 </html>
