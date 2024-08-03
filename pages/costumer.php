@@ -59,7 +59,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header('Location: index.php?page=costumer'); // Redirect after action
     exit;
 }
-
+<!-- Print Image -->
+<div id="printImage" class="print-only">
+    <img src="path/to/your/image.jpg" alt="Company Logo" style="width: 100px; height: auto;">
+</div>
 // Fetch customers for display
 $customers = readCustomers();
 ?>
