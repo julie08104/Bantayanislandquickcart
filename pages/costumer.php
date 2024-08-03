@@ -66,9 +66,12 @@ $customers = readCustomers();
 <div class="container-fluid" style="margin-left: 0px!important;">
     <h1>Customer List</h1>
 
-    <div class="float-left mb-3"" role="group" style="float:left;">
-            <button class="btn btn-success" data-toggle="modal" data-target="#addCustomerModal"> <i class="fas fa-plus"></i> Add</button> <br> <br> 
-       
+   <!-- Button Container for Add Customer and Print List -->
+   <div class="d-flex justify-content-between mb-3">
+        <!-- Add Customer Button -->
+        <button class="btn btn-success" data-toggle="modal" data-target="#addCustomerModal">
+            <i class="fas fa-plus"></i> Add Customer
+        </button>
     <!-- Print Button -->
     <div class="text-right mb-3">
          <!-- <input class="form-control no-print" id="searchInput" type="text" placeholder="Search.."> -->
