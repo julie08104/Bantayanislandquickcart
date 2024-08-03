@@ -1,34 +1,29 @@
 <?php
-// Database connection details
+header('Content-Type: application/json'); // Ensure JSON content type
+
 $dsn = 'mysql:host=127.0.0.1;dbname=u510162695_ample';
 $username = 'u510162695_ample';
 $password = '1Ample_database';
 
 try {
-    // Establishing the database connection
     $pdo = new PDO($dsn, $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Log all POST data for debugging
     error_log('POST data: ' . print_r($_POST, true));
 
-    // Check if ID is set and is a valid integer
     if (isset($_POST['id'])) {
         $id = $_POST['id'];
-        error_log("Received ID: " . $id); // Log received ID
+        error_log("Received ID: " . $id);
 
-        // Validate ID
         if (filter_var($id, FILTER_VALIDATE_INT) !== false) {
-            $id = intval($id); // Convert to integer
-            error_log("Validated ID: " . $id); // Log validated ID
+            $id = intval($id);
+            error_log("Validated ID: " . $id);
 
-            // Prepare the delete statement
             $stmt = $pdo->prepare("DELETE FROM `customer` WHERE id = :id");
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
-            // Execute the query
             if ($stmt->execute()) {
-                // Check if any rows were affected
                 $rowCount = $stmt->rowCount();
                 if ($rowCount > 0) {
                     echo json_encode(['success' => true, 'message' => 'Customer deleted successfully.']);
@@ -48,7 +43,6 @@ try {
         echo json_encode(['success' => false, 'message' => 'Invalid or missing customer ID.']);
     }
 } catch (PDOException $e) {
-    // Log detailed error message
     error_log("Database error: " . $e->getMessage());
     echo json_encode(['success' => false, 'message' => 'Database error: An unexpected error occurred.']);
 }
