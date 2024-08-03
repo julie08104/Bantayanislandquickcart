@@ -229,8 +229,8 @@ function openEditModal(customer) {
             if (confirm('Are you sure you want to delete this customer?')) {
                 $.ajax({
                     type: 'POST',
-                    url: 'delete_customer.php',
-                    data: { id: id },
+                    url: 'customer_operations.php', // Updated URL
+                    data: { action: 'delete', id: id },
                     dataType: 'json',
                     success: function(response) {
                         if (response.success) {
@@ -247,7 +247,6 @@ function openEditModal(customer) {
                 });
             }
         }
-
 
 function submitEditForm() {
     var formData = $('#editCustomerForm').serialize(); // Gather form data
