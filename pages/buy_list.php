@@ -1,5 +1,5 @@
 <?php
-// Include your database connection file
+
 
 // Create Rider
 function createRider($name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $total_rides, $rating, $payment_method) {
@@ -52,6 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Fetch riders for display
 $riders = readRiders();
 ?>
+
 
 <!-- HTML and Bootstrap Front-end -->
 <br>
@@ -173,100 +174,30 @@ $riders = readRiders();
                         <input type="email" class="form-control" id="rider_email" name="email" required>
                     </div>
                     <div class="form-group">
-                        <label for="vehicle_type">Vehicle Type:</label>
-                        <input type="text" class="form-control" id="vehicle_type" name="vehicle_type" required>
+                        <label for="rider_vehicle_type">Vehicle Type:</label>
+                        <input type="text" class="form-control" id="rider_vehicle_type" name="vehicle_type" required>
                     </div>
                     <div class="form-group">
-                        <label for="license_number">License Number:</label>
-                        <input type="text" class="form-control" id="license_number" name="license_number" required>
+                        <label for="rider_license_number">License Number:</label>
+                        <input type="text" class="form-control" id="rider_license_number" name="license_number" required>
                     </div>
                     <div class="form-group">
-                        <label for="status">Status:</label>
-                        <select class="form-control" id="status" name="status" required>
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
-                        </select>
-                    </div>
-                    <!-- <div class="form-group">
-                        <label for="total_rides">Total Rides:</label>
-                        <input type="number" class="form-control" id="total_rides" name="total_rides" required>
+                        <label for="rider_status">Status:</label>
+                        <input type="text" class="form-control" id="rider_status" name="status" required>
                     </div>
                     <div class="form-group">
-                        <label for="rating">Rating:</label>
-                        <input type="number" step="0.1" class="form-control" id="rating" name="rating" required>
+                        <label for="rider_total_rides">Total Rides:</label>
+                        <input type="text" class="form-control" id="rider_total_rides" name="total_rides" required>
                     </div>
                     <div class="form-group">
-                        <label for="payment_method">Payment Method:</label>
-                        <input type="text" class="form-control" id="payment_method" name="payment_method" required>
-                    </div> -->
-                    <button type="submit" class="btn btn-primary">Add Rider</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
- 
-
-         <!-- View Rider Modal -->
-<div class="modal fade" id="viewRiderModal" tabindex="-1" role="dialog" aria-labelledby="viewRiderModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="viewRiderModalLabel">View Rider</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="viewName">Name</label>
-                        <input type="text" class="form-control" id="viewName" name="name" readonly>
+                        <label for="rider_rating">Rating:</label>
+                        <input type="text" class="form-control" id="rider_rating" name="rating" required>
                     </div>
                     <div class="form-group">
-                        <label for="viewLastname">Lastname</label>
-                        <input type="text" class="form-control" id="viewLastname" name="lastname" readonly>
+                        <label for="rider_payment_method">Payment Method:</label>
+                        <input type="text" class="form-control" id="rider_payment_method" name="payment_method" required>
                     </div>
-                    <div class="form-group">
-                        <label for="viewGender">Gender</label>
-                        <input type="text" class="form-control" id="viewGender" name="gender" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="viewAddress">Address</label>
-                        <input type="text" class="form-control" id="viewAddress" name="address" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="viewContactNumber">Contact Number</label>
-                        <input type="text" class="form-control" id="viewContactNumber" name="contact_number" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="viewEmail">Email</label>
-                        <input type="email" class="form-control" id="viewEmail" name="email" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="viewVehicleType">Vehicle Type</label>
-                        <input type="text" class="form-control" id="viewVehicleType" name="vehicle_type" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="viewLicenseNumber">License Number</label>
-                        <input type="text" class="form-control" id="viewLicenseNumber" name="license_number" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="viewStatus">Status</label>
-                        <input type="text" class="form-control" id="viewStatus" name="status" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="viewTotalRides">Total Rides</label>
-                        <input type="number" class="form-control" id="viewTotalRides" name="total_rides" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="viewRating">Rating</label>
-                        <input type="number" class="form-control" id="viewRating" name="rating" step="0.1" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="viewPaymentMethod">Payment Method</label>
-                        <input type="text" class="form-control" id="viewPaymentMethod" name="payment_method" readonly>
-                    </div>
+                    <button type="submit" class="btn btn-primary">Save Rider</button>
                 </form>
             </div>
         </div>
@@ -286,7 +217,7 @@ $riders = readRiders();
             <div class="modal-body">
                 <form id="editRiderForm" method="POST">
                     <input type="hidden" name="action" value="update">
-                    <input type="hidden" id="edit_rider_id" name="rider_id">
+                    <input type="hidden" name="rider_id" id="edit_rider_id">
                     <div class="form-group">
                         <label for="edit_rider_name">Name:</label>
                         <input type="text" class="form-control" id="edit_rider_name" name="name" required>
@@ -316,91 +247,91 @@ $riders = readRiders();
                         <input type="email" class="form-control" id="edit_rider_email" name="email" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit_vehicle_type">Vehicle Type:</label>
-                        <input type="text" class="form-control" id="edit_vehicle_type" name="vehicle_type" required>
+                        <label for="edit_rider_vehicle_type">Vehicle Type:</label>
+                        <input type="text" class="form-control" id="edit_rider_vehicle_type" name="vehicle_type" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit_license_number">License Number:</label>
-                        <input type="text" class="form-control" id="edit_license_number" name="license_number" required>
+                        <label for="edit_rider_license_number">License Number:</label>
+                        <input type="text" class="form-control" id="edit_rider_license_number" name="license_number" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit_status">Status:</label>
-                        <select class="form-control" id="edit_status" name="status" required>
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
-                        </select>
+                        <label for="edit_rider_status">Status:</label>
+                        <input type="text" class="form-control" id="edit_rider_status" name="status" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit_total_rides">Total Rides:</label>
-                        <input type="number" class="form-control" id="edit_total_rides" name="total_rides" required>
+                        <label for="edit_rider_total_rides">Total Rides:</label>
+                        <input type="text" class="form-control" id="edit_rider_total_rides" name="total_rides" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit_rating">Rating:</label>
-                        <input type="number" step="0.1" class="form-control" id="edit_rating" name="rating" required>
+                        <label for="edit_rider_rating">Rating:</label>
+                        <input type="text" class="form-control" id="edit_rider_rating" name="rating" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit_payment_method">Payment Method:</label>
-                        <input type="text" class="form-control" id="edit_payment_method" name="payment_method" required>
+                        <label for="edit_rider_payment_method">Payment Method:</label>
+                        <input type="text" class="form-control" id="edit_rider_payment_method" name="payment_method" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Update Rider</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
 
-<!-- JavaScript to handle form submissions and modal opening -->
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- View Rider Modal -->
+<div class="modal fade" id="viewRiderModal" tabindex="-1" role="dialog" aria-labelledby="viewRiderModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewRiderModalLabel">View Rider</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="viewRiderDetails">
+                    <!-- Display rider details here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
-
-    $(document).ready(function() {
-        // Add rider form submission
-        $('#addRiderForm').on('submit', function(e) {
-            e.preventDefault();
-            $.ajax({
-                type: 'POST',
-                url: 'rider_functions.php',
-                data: $(this).serialize(),
-                success: function(response) {
-                    alert('Rider added successfully!');
-                    location.reload();
-                }
-            });
-        });
-
-        // Edit rider form submission
-        $('#editRiderForm').on('submit', function(e) {
-            e.preventDefault();
-            $.ajax({
-                type: 'POST',
-                url: 'rider_functions.php',
-                data: $(this).serialize(),
-                success: function(response) {
-                    alert('Rider updated successfully!');
-                    location.reload();
-                }
-            });
-        });
-    });
-
-    // Open edit modal and populate fields
     function openEditModal(rider) {
-        $('#edit_rider_id').val(rider.rider_id);
-        $('#edit_rider_name').val(rider.name);
-        $('#edit_rider_lastname').val(rider.lastname);
-        $('#edit_rider_gender').val(rider.gender);
-        $('#edit_rider_address').val(rider.address);
-        $('#edit_rider_contact_number').val(rider.contact_number);
-        $('#edit_rider_email').val(rider.email);
-        $('#edit_vehicle_type').val(rider.vehicle_type);
-        $('#edit_license_number').val(rider.license_number);
-        $('#edit_status').val(rider.status);
-        $('#edit_total_rides').val(rider.total_rides);
-        $('#edit_rating').val(rider.rating);
-        $('#edit_payment_method').val(rider.payment_method);
+        document.getElementById('edit_rider_id').value = rider.rider_id;
+        document.getElementById('edit_rider_name').value = rider.name;
+        document.getElementById('edit_rider_lastname').value = rider.lastname;
+        document.getElementById('edit_rider_gender').value = rider.gender;
+        document.getElementById('edit_rider_address').value = rider.address;
+        document.getElementById('edit_rider_contact_number').value = rider.contact_number;
+        document.getElementById('edit_rider_email').value = rider.email;
+        document.getElementById('edit_rider_vehicle_type').value = rider.vehicle_type;
+        document.getElementById('edit_rider_license_number').value = rider.license_number;
+        document.getElementById('edit_rider_status').value = rider.status;
+        document.getElementById('edit_rider_total_rides').value = rider.total_rides;
+        document.getElementById('edit_rider_rating').value = rider.rating;
+        document.getElementById('edit_rider_payment_method').value = rider.payment_method;
+
         $('#editRiderModal').modal('show');
+    }
+
+    function openViewModal(rider) {
+        var details = `
+            <p><strong>Name:</strong> ${rider.name}</p>
+            <p><strong>Last Name:</strong> ${rider.lastname}</p>
+            <p><strong>Gender:</strong> ${rider.gender}</p>
+            <p><strong>Address:</strong> ${rider.address}</p>
+            <p><strong>Contact Number:</strong> ${rider.contact_number}</p>
+            <p><strong>Email:</strong> ${rider.email}</p>
+            <p><strong>Vehicle Type:</strong> ${rider.vehicle_type}</p>
+            <p><strong>License Number:</strong> ${rider.license_number}</p>
+            <p><strong>Status:</strong> ${rider.status}</p>
+            <p><strong>Total Rides:</strong> ${rider.total_rides}</p>
+            <p><strong>Rating:</strong> ${rider.rating}</p>
+            <p><strong>Payment Method:</strong> ${rider.payment_method}</p>
+        `;
+        document.getElementById('viewRiderDetails').innerHTML = details;
+        $('#viewRiderModal').modal('show');
     }
 
     function deleteRider(riderId) {
@@ -411,73 +342,30 @@ $riders = readRiders();
         }
     }
 
-
-
-
-      function openViewModal(rider) {
-        document.getElementById('viewName').value = rider.name;
-        document.getElementById('viewLastname').value = rider.lastname;
-        document.getElementById('viewGender').value = rider.gender;
-        document.getElementById('viewAddress').value = rider.address;
-        document.getElementById('viewContactNumber').value = rider.contact_number;
-        document.getElementById('viewEmail').value = rider.email;
-        document.getElementById('viewVehicleType').value = rider.vehicle_type;
-        document.getElementById('viewLicenseNumber').value = rider.license_number;
-        document.getElementById('viewStatus').value = rider.status;
-        document.getElementById('viewTotalRides').value = rider.total_rides;
-        document.getElementById('viewRating').value = rider.rating;
-        document.getElementById('viewPaymentMethod').value = rider.payment_method;
-        
-        $('#viewRiderModal').modal('show');
-    }
-  function printTable() {
-    // Hide the entire Actions column (which is the last column in the table)
-    var actionsColumn = document.querySelectorAll('#riderTable th:last-child, #riderTable td:last-child');
-    actionsColumn.forEach(function(cell) {
-        cell.style.display = 'none';
-    });
-
-    // Hide the Print button
-    document.getElementById('printButton').style.display = 'none';
-
-    // Hide DataTables pagination and length selector (if applicable)
-    var dataTablePagination = document.querySelector('.dataTables_paginate');
-    if (dataTablePagination) {
-        dataTablePagination.style.display = 'none';
-    }
-    var dataTableLengthSelector = document.querySelector('.dataTables_length');
-    if (dataTableLengthSelector) {
-        dataTableLengthSelector.style.display = 'none';
+    function printTable() {
+        var printContent = document.getElementById('riderTable').outerHTML;
+        var originalContents = document.body.innerHTML;
+        document.body.innerHTML = printContent;
+        window.print();
+        document.body.innerHTML = originalContents;
+        location.reload();
     }
 
-    // Print the table
-    var divToPrint = document.getElementById("riderTable").cloneNode(true);
-    var newWin = window.open("");
-    newWin.document.write('<html><head><title>Print Rider List</title>');
-    newWin.document.write('<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">');
-    newWin.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">');
-    newWin.document.write('</head><body>');
-    newWin.document.write(divToPrint.outerHTML);
-    newWin.document.write('</body></html>');
-    newWin.document.close();
-    newWin.print();
-
-    // Restore visibility of the Actions column, Print button, pagination, and length selector after printing
-    actionsColumn.forEach(function(cell) {
-        cell.style.display = ''; // Restore to default display type
-    });
-    document.getElementById('printButton').style.display = 'inline-block';
-    if (dataTablePagination) {
-        dataTablePagination.style.display = 'block';
-    }
-    if (dataTableLengthSelector) {
-        dataTableLengthSelector.style.display = 'block';
-    }
-}
-document.getElementById('searchInput').addEventListener('keyup', function() {
-            var value = this.value.toLowerCase();
-            document.querySelectorAll('table tbody tr').forEach(function(row) {
-                row.style.display = row.innerText.toLowerCase().includes(value) ? '' : 'none';
+    $(document).ready(function() {
+        $('#addRiderForm').submit(function(event) {
+            event.preventDefault();
+            $.post('', $(this).serialize(), function(response) {
+                location.reload();
             });
         });
+
+        $('#editRiderForm').submit(function(event) {
+            event.preventDefault();
+            $.post('', $(this).serialize(), function(response) {
+                location.reload();
+            });
+        });
+    });
 </script>
+</body>
+</html>
