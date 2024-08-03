@@ -230,27 +230,27 @@ function deleteCustomer(id) {
             type: 'POST',
             url: 'delete_customer.php',
             data: { id: id },
+            dataType: 'json', // Specify the expected response data type
             success: function(response) {
                 try {
-                    var data = JSON.parse(response);
-                    if (data.success) {
-                        alert(data.message);
+                    if (response.success) {
+                        alert(response.message);
                         location.reload();
                     } else {
-                        alert('Error: ' + data.message);
+                        alert('Error: ' + response.message);
                     }
                 } catch (e) {
                     alert('Error parsing response: ' + e.message);
                 }
             },
             error: function(xhr, status, error) {
-                console.error('AJAX error:', xhr.responseText);
+                console.error(xhr.responseText);
                 alert('Error deleting customer. Please try again.');
-            },
-            dataType: 'json'
+            }
         });
     }
 }
+
 
 
 
