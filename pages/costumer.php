@@ -226,27 +226,27 @@ function openEditModal(customer) {
     $('#edit_email').val(customer.email);
 }
       function deleteCustomer(id) {
-            if (confirm('Are you sure you want to delete this customer?')) {
-                $.ajax({
-                    type: 'POST',
-                    url: 'delete_customer.php', // Updated URL
-                    data: { action: 'delete', id: id },
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.success) {
-                            alert(response.message);
-                            location.reload();
-                        } else {
-                            alert('Error: ' + response.message);
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(xhr.responseText);
-                        alert('Error deleting customer. Please try again.');
-                    }
-                });
+    if (confirm('Are you sure you want to delete this customer?')) {
+        $.ajax({
+            type: 'POST',
+            url: 'delete_customer.php', // Ensure this URL points to the correct PHP file
+            data: { action: 'delete', id: id },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    alert(response.message);
+                    location.reload();
+                } else {
+                    alert('Error: ' + response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+                alert('Error deleting customer. Please try again.');
             }
-        }
+        });
+    }
+}
 
 function submitEditForm() {
     var formData = $('#editCustomerForm').serialize(); // Gather form data
