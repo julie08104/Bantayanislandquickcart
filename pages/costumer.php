@@ -231,11 +231,11 @@ function deleteCustomer(id) {
             type: 'POST',
             url: 'delete_customer.php',
             data: { id: id },
-            dataType: 'json', // Ensure jQuery treats the response as JSON
+            dataType: 'json',
             success: function(response) {
                 if (response.success) {
                     alert(response.message);
-                    location.reload(); // Refresh the page to reflect the change
+                    location.reload();
                 } else {
                     alert('Error: ' + response.message);
                 }
