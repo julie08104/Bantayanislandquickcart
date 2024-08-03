@@ -78,23 +78,37 @@ $customers = readCustomers();
     }
 
     @media print {
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .print-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            position: relative;
+        }
+
         .print-only {
             display: block !important;
-            position: absolute;
-            top: 30px;
-            left:30px;
-            right: 20px; /* Position the image on the right */
-            width: 30px; /* Adjust the width to make the image smaller */
+            width: 50px; /* Adjust the width to make the image smaller */
             height: auto;
             z-index: 10;
+            margin-right: 10px; /* Adjust spacing as needed */
         }
+
         .no-print {
             display: none !important;
         }
+
         /* Ensure table cells and headers are displayed properly */
         #customerTable td, #customerTable th {
             display: table-cell !important;
         }
+
         .dataTables_paginate, .dataTables_length, .dataTables_filter {
             display: none !important;
         }
