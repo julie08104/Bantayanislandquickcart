@@ -90,7 +90,7 @@ $customers = readCustomers();
 </head>
 <body>
     <!-- Print Image -->
-    <div id="printImage" class="print-only">
+   <div class="print-only">
         <img src="uploads/images.png" alt="Print Image" style="width: 100px; height: auto;">
     </div>
 
