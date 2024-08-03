@@ -81,9 +81,9 @@ $customers = readCustomers();
         .print-only {
             display: block !important;
             position: absolute;
-            top: 10px;
+            top: 20px;
             left: 10px; /* Position the image on the left */
-            width: 50px; /* Adjust the width to make the image smaller */
+            width: 20px; /* Adjust the width to make the image smaller */
             height: auto;
             z-index: 1000;
         }
