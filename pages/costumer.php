@@ -83,6 +83,7 @@ $customers = readCustomers();
             position: absolute;
             top: 0;
             right: 0;
+            left:15;
             width: 100px; /* Adjust the width as needed */
             height: auto;
             z-index: 1000;
