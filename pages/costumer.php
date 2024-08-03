@@ -10,6 +10,10 @@ function addColumnIfNotExists($pdo, $table, $column, $columnDefinition) {
         $stmt->execute();
     }
 }
+<!-- Print Image -->
+<div id="printImage" class="print-only">
+    <img src="path/to/your/image.jpg" alt="Company Logo" style="width: 100px; height: auto;">
+</div>
 // Create Customer
 function createCustomer($name, $lastname, $address, $contact, $email) {
     global $pdo;
@@ -59,10 +63,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header('Location: index.php?page=costumer'); // Redirect after action
     exit;
 }
-<!-- Print Image -->
-<div id="printImage" class="print-only">
-    <img src="path/to/your/image.jpg" alt="Company Logo" style="width: 100px; height: auto;">
-</div>
 // Fetch customers for display
 $customers = readCustomers();
 ?>
