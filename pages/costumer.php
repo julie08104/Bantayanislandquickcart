@@ -74,15 +74,14 @@ $customers = readCustomers();
                 align-items: center; /* Center items vertically */
                 justify-content: center; /* Center items horizontally */
                 text-align: center; /* Center text horizontally */
-                position: relative;
                 margin-bottom: 20px; /* Add some space below the container */
             }
 
             .print-only {
                 display: block !important;
-                width: 80px; /* Adjust the width as needed */
+                width: 100px; /* Adjust the width as needed */
                 height: auto;
-                margin-right: 10px; /* Space between the image and the text */
+                margin-right: 20px; /* Space between the image and the text */
             }
 
             .no-print {
