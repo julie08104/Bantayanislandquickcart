@@ -239,7 +239,7 @@ function openEditModal(customer) {
     $('#edit_contact').val(customer.contact);
     $('#edit_email').val(customer.email);
 }
-      function deleteCustomer(id) {
+     function deleteCustomer(id) {
     if (confirm('Are you sure you want to delete this customer?')) {
         $.ajax({
             type: 'POST',
