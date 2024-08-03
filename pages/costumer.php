@@ -109,9 +109,6 @@ $customers = readCustomers();
         <!-- Customer List Heading -->
         <h1>Customer List</h1>
     </div>
-        <!-- Customer List Heading -->
-        <h1>Customer List</h1>
-    </div>
 <!--add customer-->
     <div class="container-fluid" style="margin-left: 0px!important;"> 
         <!-- Add Customer Button -->
