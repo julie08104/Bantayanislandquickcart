@@ -63,41 +63,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $customers = readCustomers();
 ?>
 <style>
-    /* Initially hide the print image */
-    #printImage {
-        display: none;
-    }
-
-    @media print {
-        .print-container {
-            display: flex;
-            align-items: center; /* Align items horizontally */
-            position: relative;
+        /* Initially hide the print image */
+        #printImage {
+            display: none;
         }
 
-        .print-only {
-            display: block !important;
-            width: 60px; /* Adjust the width to make the image smaller */
-            height: auto;
-            z-index: 10;
-            margin-right: 20px; /* Space between the image and the text */
-        }
+        @media print {
+            .print-container {
+                display: flex;
+                align-items: center; /* Align items horizontally */
+                position: relative;
+            }
 
-        .no-print {
-            display: none !important;
-        }
+            .print-only {
+                display: block !important;
+                width: 60px; /* Adjust the width to make the image smaller */
+                height: auto;
+                z-index: 10;
+                margin-right: 20px; /* Space between the image and the text */
+            }
 
-        /* Ensure table cells and headers are displayed properly */
-        #customerTable td, #customerTable th {
-            display: table-cell !important;
-        }
+            .no-print {
+                display: none !important;
+            }
 
-        .dataTables_paginate, .dataTables_length, .dataTables_filter {
-            display: none !important;
-        }
-    }
-</style>
+            /* Ensure table cells and headers are displayed properly */
+            #customerTable td, #customerTable th {
+                display: table-cell !important;
+            }
 
+            .dataTables_paginate, .dataTables_length, .dataTables_filter {
+                display: none !important;
+            }
+        }
 
 </head>
 <body>
