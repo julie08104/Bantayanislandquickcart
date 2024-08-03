@@ -11,6 +11,8 @@ try {
     // Check if ID is set
     if (isset($_POST['id'])) {
         $id = intval($_POST['id']);
+        // Debugging: Log the ID to ensure it's correct
+        error_log("Deleting customer with ID: " . $id);
 
         // Prepare the delete statement
         $stmt = $pdo->prepare("DELETE FROM `customer` WHERE id = :id");
