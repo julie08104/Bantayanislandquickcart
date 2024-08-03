@@ -34,8 +34,15 @@ function updateCustomer($id, $name, $lastname, $address, $contact, $email) {
 // Delete Customer
 function deleteCustomer($id) {
     global $pdo;
-    $stmt = $pdo->prepare("DELETE FROM customer WHERE id = ?");
-    return $stmt->execute([$id]);
+
+    // Prepare the DELETE statement with a named placeholder
+    $stmt = $pdo->prepare("DELETE FROM `customer` WHERE id = :id");
+
+    // Bind the parameter to the placeholder
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+    // Execute the statement
+    return $stmt->execute();
 }
 
 // Handle Form Submission
