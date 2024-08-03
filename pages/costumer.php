@@ -72,7 +72,7 @@ $customers = readCustomers();
     <link rel="stylesheet" href="path/to/bootstrap.css">
     <link rel="stylesheet" href="path/to/datatables.css">
     <style>
-  @media print {
+@media print {
         .print-only {
             display: block !important;
             position: fixed;
@@ -85,7 +85,7 @@ $customers = readCustomers();
         .no-print {
             display: none !important;
         }
-        /* Optionally hide table elements for printing */
+        /* Ensure table cells and headers are displayed properly */
         #customerTable td, #customerTable th {
             display: table-cell !important;
         }
@@ -96,10 +96,12 @@ $customers = readCustomers();
     </style>
 </head>
 <body>
-    <!-- Print Image -->
- <div id="printImage" class="print-only">
-       <img src="dist/img/images1.png" alt="logo" class="brand-image" style="display: block; margin: 5px auto; width: 180px; height: auto;">
-    </div>
+   <!-- Print Image -->
+<div id="printImage" class="print-only">
+    <img src="dist/img/images1.png" alt="logo" class="brand-image" style="display: block; margin: 5px auto; width: 180px; height: auto;">
+</div>
+
+<!-- Customer Table and other content -->
 
     <div class="container-fluid" style="margin-left: 0px!important;">
         <h1>Customer List</h1>
