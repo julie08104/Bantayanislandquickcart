@@ -12,6 +12,9 @@ try {
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'delete') {
         $id = isset($_POST['id']) ? intval($_POST['id']) : null;
 
+        // Log or print the ID for debugging
+        error_log("Received ID: " . $id);
+
         if ($id !== null && $id > 0) {
             $stmt = $pdo->prepare("DELETE FROM `customer` WHERE id = :id");
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
@@ -34,4 +37,3 @@ try {
 } catch (PDOException $e) {
     echo json_encode(['success' => false, 'message' => 'Database error: ' . $e->getMessage()]);
 }
-?>
