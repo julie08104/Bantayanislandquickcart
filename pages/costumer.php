@@ -81,7 +81,7 @@ $customers = readCustomers();
                 <th>ID</th>
                 <th>Name</th>
                 <th>Last Name</th>
-               <th>Company</th>
+               <!--<th>Company</th>-->
                 <th>Address</th>
                 <th>Contact</th>
                 <th>Email</th>
@@ -96,7 +96,7 @@ $customers = readCustomers();
                     <td><?= $counter++ ?></td>
                     <td><?= htmlspecialchars($customer['name']) ?></td>
                     <td><?= htmlspecialchars($customer['lastname']) ?></td>
-                    <td><?= htmlspecialchars($customer['company']) ?></td>
+                   <!-- <td><?= htmlspecialchars($customer['company']) ?></td>-->
                     <td><?= htmlspecialchars($customer['address']) ?></td>
                     <td><?= htmlspecialchars($customer['contact']) ?></td>
                     <td><?= htmlspecialchars($customer['email']) ?></td>
