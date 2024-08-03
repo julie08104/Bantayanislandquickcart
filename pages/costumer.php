@@ -225,7 +225,6 @@ function openEditModal(customer) {
     $('#edit_email').val(customer.email);
 }
 function deleteCustomer(id) {
-    // Ensure the ID is a valid number
     if (isNaN(id) || id <= 0) {
         alert('Invalid customer ID.');
         return;
