@@ -8,21 +8,20 @@ try {
     $pdo = new PDO($dsn, $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+    // Check if ID is set
     if (isset($_POST['id'])) {
         $id = intval($_POST['id']);
         error_log("Attempting to delete customer with ID: " . $id); // Debugging
 
+        // Prepare and execute the delete statement
         $stmt = $pdo->prepare("DELETE FROM `customer` WHERE id = :id");
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
 
-        if ($stmt->execute()) {
-            if ($stmt->rowCount() > 0) {
-                echo json_encode(['success' => true, 'message' => 'Customer deleted successfully.']);
-            } else {
-                echo json_encode(['success' => false, 'message' => 'No customer found with the provided ID.']);
-            }
+        if ($stmt->rowCount() > 0) {
+            echo json_encode(['success' => true, 'message' => 'Customer deleted successfully.']);
         } else {
-            echo json_encode(['success' => false, 'message' => 'Error deleting customer.']);
+            echo json_encode(['success' => false, 'message' => 'No customer found with the provided ID.']);
         }
     } else {
         echo json_encode(['success' => false, 'message' => 'No customer ID provided.']);
@@ -31,3 +30,4 @@ try {
     error_log("Database error: " . $e->getMessage()); // Debugging
     echo json_encode(['success' => false, 'message' => 'Database error: ' . $e->getMessage()]);
 }
+?>
