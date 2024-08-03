@@ -20,15 +20,17 @@ try {
         $stmt = $pdo->prepare("DELETE FROM `customer` WHERE id = :id");
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
-        // Execute the query and check if the customer was deleted
+        // Execute the query
         if ($stmt->execute()) {
             // Check if any rows were affected
-            if ($stmt->rowCount() > 0) {
+            $rowCount = $stmt->rowCount();
+            if ($rowCount > 0) {
                 echo json_encode(['success' => true, 'message' => 'Customer deleted successfully.']);
             } else {
                 echo json_encode(['success' => false, 'message' => 'No customer found with the provided ID.']);
             }
         } else {
+            error_log("Execute failed: " . implode(" ", $stmt->errorInfo()));
             echo json_encode(['success' => false, 'message' => 'Error executing delete operation.']);
         }
     } else {
@@ -40,4 +42,5 @@ try {
     echo json_encode(['success' => false, 'message' => 'Database error: An unexpected error occurred.']);
 }
 ?>
+
 
