@@ -225,7 +225,14 @@ function openEditModal(customer) {
     $('#edit_email').val(customer.email);
 }
 function deleteCustomer(id) {
+    // Ensure the ID is a valid number
+    if (isNaN(id) || id <= 0) {
+        alert('Invalid customer ID.');
+        return;
+    }
+
     if (confirm('Are you sure you want to delete this customer?')) {
+        console.log('Deleting customer with ID:', id); // Log ID for debugging
         $.ajax({
             type: 'POST',
             url: 'delete_customer.php',
@@ -244,12 +251,13 @@ function deleteCustomer(id) {
                 }
             },
             error: function(xhr, status, error) {
-                console.error(xhr.responseText);
+                console.error('AJAX error:', xhr.responseText);
                 alert('Error deleting customer. Please try again.');
             }
         });
     }
 }
+
 
 
 
