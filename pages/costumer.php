@@ -14,7 +14,7 @@ function addColumnIfNotExists($pdo, $table, $column, $columnDefinition) {
 function createCustomer($name, $lastname, $address, $contact, $email) {
     global $pdo;
     $stmt = $pdo->prepare("INSERT INTO customer (name, lastname, address, contact, email) VALUES (?, ?, ?, ?, ?, ?)");
-    return $stmt->execute([$name, $lastname, $company, $address, $contact, $email]);
+    return $stmt->execute([$name, $lastname, $address, $contact, $email]);
 }
 
 // Read Customers
