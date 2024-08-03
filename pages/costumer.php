@@ -71,7 +71,7 @@ $customers = readCustomers();
         @media print {
             .print-container {
                 display: flex;
-                align-items: left; /* Align items horizontally */
+                align-items: center; /* Align items horizontally */
                 position: relative;
             }
 
@@ -96,14 +96,18 @@ $customers = readCustomers();
                 display: none !important;
             }
         }
-</style>
+    </style>
 </head>
 <body>
-    <!-- Print Image -->
-<div id="printImage" class="print-only">
-    <img src="dist/img/images1.png" alt="logo" class="brand-image" style="display: block; margin: 2px auto; width: 100px; height: auto;">
-</div><br><br>
-     <h1>Customer List</h1>
+    <!-- Print Container -->
+    <div class="print-container">
+        <!-- Print Image -->
+        <div id="printImage" class="print-only">
+            <img src="dist/img/images1.png" alt="logo" class="brand-image" style="display: block; margin: 2px auto; width: 60px; height: auto;">
+        </div>
+        <!-- Customer List Heading -->
+        <h1>Customer List</h1>
+    </div>
 <!--add customer-->
     <div class="container-fluid" style="margin-left: 0px!important;"> 
         <!-- Add Customer Button -->
