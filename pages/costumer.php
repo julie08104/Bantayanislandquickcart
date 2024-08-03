@@ -67,7 +67,7 @@ $customers = readCustomers();
 <!-- Add Customer Button -->
 <div class="float-left mb-3" role="group">
     <button class="btn btn-success" data-toggle="modal" data-target="#addCustomerModal">
-        <i class="fas fa-plus"></i> Add
+        <i class="fas fa-plus"></i> Add Customer
     </button>
 </div>
 
