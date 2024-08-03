@@ -229,7 +229,7 @@ function openEditModal(customer) {
             if (confirm('Are you sure you want to delete this customer?')) {
                 $.ajax({
                     type: 'POST',
-                    url: 'customer_operations.php', // Updated URL
+                    url: 'delete_customer.php', // Updated URL
                     data: { action: 'delete', id: id },
                     dataType: 'json',
                     success: function(response) {
