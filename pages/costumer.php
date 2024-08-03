@@ -158,21 +158,45 @@ $customers = readCustomers();
         </table>
     </div>
 
-    <!-- Add Customer Modal -->
-    <!-- Your modal HTML -->
+ <!-- Add Customer Modal -->
+<div class="modal fade" id="addCustomerModal" tabindex="-1" role="dialog" aria-labelledby="addCustomerModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addCustomerModalLabel">Add Customer</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addCustomerForm">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastname">Last Name</label>
+                        <input type="text" class="form-control" id="lastname" name="lastname" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" class="form-control" id="address" name="address" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contact">Contact</label>
+                        <input type="text" class="form-control" id="contact" name="contact" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Customer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <!-- Edit Customer Modal -->
-    <!-- Your modal HTML -->
-
-    <script src="path/to/jquery.js"></script>
-    <script src="path/to/bootstrap.js"></script>
-    <script src="path/to/datatables.js"></script>
-    <script>
-    $(document).ready(function() {
-        $('#customerTable').DataTable({
-            "lengthMenu": [10, 20, 50, 100]
-        });
-    });
 
     function openEditModal(customer) {
         $('#editCustomerModal').modal('show');
