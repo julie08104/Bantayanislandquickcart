@@ -80,10 +80,10 @@ $customers = readCustomers();
     @media print {
         .print-only {
             display: block !important;
-            position: fixed;
-            top: 10px;
-            left: 10px;
-            width: 180px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px; /* Adjust the width as needed */
             height: auto;
             z-index: 1000;
         }
@@ -105,8 +105,7 @@ $customers = readCustomers();
  <div id="printImage" class="print-only">
        <img src="dist/img/images1.png" alt="logo" class="brand-image" style="display: block; margin: 5px auto; width: 180px; height: auto;">
     </div>
-
-    <div class="container-fluid" style="margin-left: 0px!important;">
+  <div class="container-fluid" style="margin-left: 0px!important;">
         <h1>Customer List</h1>
         <!-- Add Customer Button -->
         <div class="float-left mb-3">
