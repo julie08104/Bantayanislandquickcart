@@ -112,8 +112,9 @@ $customers = readCustomers();
                                 <i class="fas fa-edit"></i> Edit
                             </button>
                             <button class="btn btn-danger" onclick="deleteCustomer(<?= $customer['id'] ?>)">
-                                <i class="fas fa-trash-alt"> Delete</i>
-                            </button>
+    <i class="fas fa-trash-alt"> Delete</i>
+</button>
+
                         </div>
                     </td>
                 </tr>
