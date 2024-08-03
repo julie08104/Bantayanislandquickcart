@@ -97,7 +97,7 @@ $customers = readCustomers();
             width: 50px; /* Adjust the width to make the image smaller */
             height: auto;
             z-index: 10;
-            margin-right: 10px; /* Adjust spacing as needed */
+            margin-right: 30px; /* Adjust spacing as needed */
         }
 
         .no-print {
@@ -121,7 +121,7 @@ $customers = readCustomers();
  <!-- Print Image -->
 <div id="printImage" class="print-only">
     <img src="dist/img/images1.png" alt="logo" class="brand-image" style="display: block; margin: 2px auto; width: 100px; height: auto;">
-</div><br>
+</div><br><br>
   <div class="container-fluid" style="margin-left: 0px!important;">
         <h1>Customer List</h1>
         <!-- Add Customer Button -->
