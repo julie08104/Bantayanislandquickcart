@@ -103,7 +103,7 @@ $customers = readCustomers();
     <div class="print-container">
         <!-- Print Image -->
         <div id="printImage" class="print-only">
-            <img src="dist/img/images1.png" alt="logo" class="brand-image" style="display: block; margin: 2px auto; width: 60px; height: auto;">
+           <br>  <br>        <br>            <br> <img src="dist/img/images1.png" alt="logo" class="brand-image" style="display: block; margin: 2px auto; width: 80px; height: auto;">
         </div>
         <!-- Customer List Heading -->
         <h1>Customer List</h1>
