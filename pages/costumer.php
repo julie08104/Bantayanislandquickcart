@@ -225,28 +225,28 @@ function openEditModal(customer) {
     $('#edit_contact').val(customer.contact);
     $('#edit_email').val(customer.email);
 }
-function deleteCustomer(id) {
-    if (confirm('Are you sure you want to delete this customer?')) {
-        $.ajax({
-            type: 'POST',
-            url: 'delete_customer.php',
-            data: { id: id },
-            dataType: 'json',
-            success: function(response) {
-                if (response.success) {
-                    alert(response.message);
-                    location.reload();
-                } else {
-                    alert('Error: ' + response.message);
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
-                alert('Error deleting customer. Please try again.');
+      function deleteCustomer(id) {
+            if (confirm('Are you sure you want to delete this customer?')) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'delete_customer.php',
+                    data: { id: id },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            alert(response.message);
+                            location.reload();
+                        } else {
+                            alert('Error: ' + response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                        alert('Error deleting customer. Please try again.');
+                    }
+                });
             }
-        });
-    }
-}
+        }
 
 
 function submitEditForm() {
