@@ -96,10 +96,9 @@ $riders = readRiders();
         <div id="printImage" class="print-only">
             <img src="dist/img/images1.png" alt="logo" class="brand-image" style="display: block; width: 100px; height: auto;">
         </div>
-<!-- HTML and Bootstrap Front-end -->
-<br>
-<div class="container-fluid " style="margin-left: 0px!important; ">
-    <h1>Rider List</h1>
+ <!-- Rider List Heading -->
+        <h1>Rider List</h1>
+    </div>
 
     <button id="printButton" class="btn btn-success" style="float: right;"  onclick="printTable()">
             <i class="fas fa-print"></i> Rider List
