@@ -228,23 +228,23 @@ function deleteCustomer(id) {
     if (confirm('Are you sure you want to delete this customer?')) {
         $.ajax({
             type: 'POST',
-            url: 'delete_customer.php', // Path to your delete script
+            url: 'delete_customer.php',
             data: { id: id },
             success: function(response) {
                 try {
-                    var data = JSON.parse(response); // Parse the JSON response
+                    var data = JSON.parse(response);
                     if (data.success) {
-                        alert(data.message); // Show success message
-                        location.reload(); // Reload the page to see the changes
+                        alert(data.message);
+                        location.reload(); // Reload the page to reflect the changes
                     } else {
-                        alert('Error: ' + data.message); // Show error message
+                        alert('Error: ' + data.message);
                     }
                 } catch (e) {
-                    alert('Error parsing response: ' + e.message); // Handle parsing errors
+                    alert('Error parsing response: ' + e.message);
                 }
             },
             error: function(xhr, status, error) {
-                console.error(xhr.responseText); // Log response text for debugging
+                console.error(xhr.responseText);
                 alert('Error deleting customer. Please try again.');
             }
         });
