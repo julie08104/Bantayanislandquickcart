@@ -228,33 +228,33 @@ function openEditModal(customer) {
 }
 
 function deleteCustomer(id) {
-        if (confirm('Are you sure you want to delete this customer?')) {
-            $.ajax({
-                type: 'POST',
-                url: 'delete_customer.php', // Path to your delete script
-                data: { id: id },
-                success: function(response) {
-                    try {
-                        var data = JSON.parse(response); // Parse the JSON response
-                        if (data.success) {
-                            showCustomAlert(data.message); // Show success message
-                            setTimeout(function() {
-                                location.reload(); // Reload the page to see the changes
-                            }, 2000);
-                        } else {
-                            showCustomAlert('Error: ' + data.message); // Show error message
-                        }
-                    } catch (e) {
-                        showCustomAlert('Error parsing response: ' + e.message); // Handle parsing errors
+    if (confirm('Are you sure you want to delete this customer?')) {
+        $.ajax({
+            type: 'POST',
+            url: 'delete_customer.php', // Path to your delete script
+            data: { id: id },
+            success: function(response) {
+                try {
+                    var data = JSON.parse(response); // Parse the JSON response
+                    if (data.success) {
+                        Swal.fire(data.message); // Show success message
+                        location.reload(); // Reload the page to see the changes
+                    } else {
+                        Swal.fire('Error: ' + data.message); // Show error message
                     }
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText); // Log response text for debugging
-                    showCustomAlert('Error deleting customer. Please try again.');
+                } catch (e) {
+                    Swal.fire('Error parsing response: ' + e.message); // Handle parsing errors
                 }
-            });
-        }
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText); // Log response text for debugging
+                Swal.fire('Error deleting customer. Please try again.');
+            }
+        });
     }
+}
+
+
 function submitEditForm() {
     var formData = $('#editCustomerForm').serialize(); // Gather form data
     
