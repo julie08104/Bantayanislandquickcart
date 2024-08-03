@@ -101,11 +101,12 @@ $customers = readCustomers();
     </style>
 </head>
 <body>
+     <!-- Print Container -->
     <div class="print-container">
         <!-- Print Image -->
         <div id="printImage" class="print-only">
-            <img src="dist/img/images1.png" alt="logo" class="brand-image" style="display: block; width: 80px; height: auto;">
-        </div><br><br>
+            <img src="dist/img/images1.png" alt="logo" class="brand-image" style="display: block; width: 100px; height: auto;">
+        </div>
         <!-- Customer List Heading -->
         <h1>Customer List</h1>
     </div>
