@@ -96,7 +96,7 @@ $customers = readCustomers();
                 display: none !important;
             }
         }
-
+</style>
 </head>
 <body>
     <!-- Print Image -->
