@@ -1,12 +1,12 @@
 <?php
 function addColumnIfNotExists($pdo, $table, $column, $columnDefinition) {
-    $stmt = $pdo->prepare("SHOW COLUMNS FROM `$table` LIKE ?");
+    $stmt = $pdo->prepare("SHOW COLUMNS FROM $table LIKE ?");
     $stmt->execute([$column]);
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     
     if ($result === false) {
         // Column does not exist, so add it
-        $stmt = $pdo->prepare("ALTER TABLE `$table` ADD COLUMN `$column` $columnDefinition");
+        $stmt = $pdo->prepare("ALTER TABLE $table ADD COLUMN $column $columnDefinition");
         $stmt->execute();
     }
 }
@@ -68,10 +68,11 @@ $customers = readCustomers();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer List</title>
     <link rel="stylesheet" href="path/to/bootstrap.css">
     <link rel="stylesheet" href="path/to/datatables.css">
     <style>
-@media print {
+  @media print {
         .print-only {
             display: block !important;
             position: fixed;
@@ -84,7 +85,7 @@ $customers = readCustomers();
         .no-print {
             display: none !important;
         }
-        /* Ensure table cells and headers are displayed properly */
+        /* Optionally hide table elements for printing */
         #customerTable td, #customerTable th {
             display: table-cell !important;
         }
@@ -95,12 +96,10 @@ $customers = readCustomers();
     </style>
 </head>
 <body>
-   <!-- Print Image -->
-<div id="printImage" class="print-only">
-    <img src="dist/img/images1.png" alt="logo" class="brand-image" style="display: block; margin: 5px auto; width: 180px; height: auto;">
-</div>
-
-<!-- Customer Table and other content -->
+    <!-- Print Image -->
+ <div id="printImage" class="print-only">
+       <img src="dist/img/images1.png" alt="logo" class="brand-image" style="display: block; margin: 5px auto; width: 180px; height: auto;">
+    </div>
 
     <div class="container-fluid" style="margin-left: 0px!important;">
         <h1>Customer List</h1>
