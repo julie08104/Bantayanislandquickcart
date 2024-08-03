@@ -93,8 +93,7 @@ $customers = readCustomers();
             $counter = 1; // Initialize counter variable
             foreach ($customers as $customer): ?>
             <div class="class="float-left mb-3"" role="group" style="float:left;">
-            <button class="btn btn-success" data-toggle="modal" data-target="#addCustomerModal">
-                                <i class="fas fa-plus"></i> Add</button> <br> <br> 
+            <button class="btn btn-success" data-toggle="modal" data-target="#addCustomerModal"> <i class="fas fa-plus"></i> Add</button> <br> <br> 
                 <tr>
                     <td><?= $counter++ ?></td>
                     <td><?= htmlspecialchars($customer['name']) ?></td>
