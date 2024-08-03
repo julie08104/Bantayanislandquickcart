@@ -478,18 +478,20 @@ function printTable() {
         dataTableLengthSelector.style.display = 'none';
     }
 
-    // Create a new window for printing
-    var divToPrint = document.getElementById("riderTable").cloneNode(true);
+     // Create a new window for printing
     var newWin = window.open("");
-    newWin.document.write('<html><head><title>Print Rider List</title>');
+    newWin.document.write('<html><head><title>Print Logo</title>');
     newWin.document.write('<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">');
     newWin.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">');
-    newWin.document.write('</head><body>');
-    newWin.document.write('<h1 style="text-align: center;">Rider List</h1>'); // Add header
-    newWin.document.write(divToPrint.outerHTML);
+    newWin.document.write('</head><body style="text-align: center;">');
+
+    // Add the logo image to the new window
+    newWin.document.write('<img src="dist/img/images1.png" alt="logo" style="width: 100px; height: auto;">');
+
     newWin.document.write('</body></html>');
     newWin.document.close();
     newWin.print();
+}
 
     // Restore visibility of the Actions column, Print button, pagination, and length selector after printing
     actionsColumn.forEach(function(cell) {
