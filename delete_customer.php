@@ -9,8 +9,8 @@ try {
     $pdo = new PDO($dsn, $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Check if ID is set
-    if (isset($_POST['id'])) {
+    // Check if ID is set and is a valid integer
+    if (isset($_POST['id']) && filter_var($_POST['id'], FILTER_VALIDATE_INT)) {
         $id = intval($_POST['id']);
 
         // For debugging: log the ID to ensure it's correct
@@ -34,7 +34,7 @@ try {
             echo json_encode(['success' => false, 'message' => 'Error executing delete operation.']);
         }
     } else {
-        echo json_encode(['success' => false, 'message' => 'No customer ID provided.']);
+        echo json_encode(['success' => false, 'message' => 'Invalid or missing customer ID.']);
     }
 } catch (PDOException $e) {
     // Log detailed error message for debugging but avoid exposing sensitive info to users
@@ -42,5 +42,3 @@ try {
     echo json_encode(['success' => false, 'message' => 'Database error: An unexpected error occurred.']);
 }
 ?>
-
-
