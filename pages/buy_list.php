@@ -364,7 +364,7 @@ $riders = readRiders();
                 url: 'rider_functions.php',
                 data: $(this).serialize(),
                 success: function(response) {
-                    sweetalert('Rider added successfully!');
+                    alert('Rider added successfully!');
                     location.reload();
                 }
             });
