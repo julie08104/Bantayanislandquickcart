@@ -11,9 +11,9 @@ function addColumnIfNotExists($pdo, $table, $column, $columnDefinition) {
     }
 }
 // Create Customer
-function createCustomer($name, $lastname, $company, $address, $contact, $email) {
+function createCustomer($name, $lastname, $address, $contact, $email) {
     global $pdo;
-    $stmt = $pdo->prepare("INSERT INTO customer (name, lastname, company, address, contact, email) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt = $pdo->prepare("INSERT INTO customer (name, lastname, address, contact, email) VALUES (?, ?, ?, ?, ?, ?)");
     return $stmt->execute([$name, $lastname, $company, $address, $contact, $email]);
 }
 
@@ -25,10 +25,10 @@ function readCustomers() {
 }
 
 // Update Customer
-function updateCustomer($id, $name, $lastname, $company, $address, $contact, $email) {
+function updateCustomer($id, $name, $lastname, $address, $contact, $email) {
     global $pdo;
     $stmt = $pdo->prepare("UPDATE customer SET name = ?, lastname = ?, company = ?, address = ?, contact = ?, email = ? WHERE id = ?");
-    return $stmt->execute([$name, $lastname, $company, $address, $contact, $email, $id]);
+    return $stmt->execute([$name, $lastname, $address, $contact, $email, $id]);
 }
 
 // Delete Customer
@@ -142,10 +142,6 @@ $customers = readCustomers();
                     <div class="form-group">
                         <label>Last Name:</label>
                         <input type="text" class="form-control" name="lastname" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Company:</label>
-                        <input type="text" class="form-control" name="company">
                     </div>
                     <div class="form-group">
                         <label>Address:</label>
