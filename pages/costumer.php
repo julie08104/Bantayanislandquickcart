@@ -66,15 +66,15 @@ $customers = readCustomers();
 <div class="container-fluid" style="margin-left: 0px!important;">
     <h1>Customer List</h1>
 
-    <div class="float-left mb-3"" role="group" style="float:left;">
-            <button class="btn btn-success" data-toggle="modal" data-target="#addCustomerModal"> <i class="fas fa-plus"></i> Add</button> <br> <br> 
-       
+    <div class="float-left mb-3" role="group" style="float:left;">
+    <button class="btn btn-success" data-toggle="modal" data-target="#addCustomerModal"> <i class="fas fa-plus"></i> Add</button> <br> <br> 
+    
     <!-- Print Button -->
     <div class="text-right mb-3">
-         <!-- <input class="form-control no-print" id="searchInput" type="text" placeholder="Search.."> -->
-
+         <!-- <input class="form-control no-print" id="searchInput" type="text" placeholder="Search.."> -->  
          <button id="printButton" class="btn btn-success no-print"  onclick="printCustomerList()" style="float: right;">Print List</button>
     </div>
+
     <!-- Customer Table -->
     <table id="customerTable" class="table table-bordered table-responsive-sm">
         <thead>
@@ -86,7 +86,8 @@ $customers = readCustomers();
                 <th>Address</th>
                 <th>Contact</th>
                 <th>Email</th>
-                <th>Actions</th> <!-- Include Actions header -->
+                <th>Actions</th> 
+            <!-- Include Actions header -->
             </tr>
         </thead>
         <tbody>
@@ -118,7 +119,6 @@ $customers = readCustomers();
         </tbody>
     </table>
 </div>
-
 
 <!-- Add Customer Modal -->
 <div class="modal fade" id="addCustomerModal">
@@ -183,10 +183,6 @@ $customers = readCustomers();
                         <input type="text" class="form-control" id="edit_lastname" name="lastname" required>
                     </div>
                     <div class="form-group">
-                        <label>Company:</label>
-                        <input type="text" class="form-control" id="edit_company" name="company">
-                    </div>
-                    <div class="form-group">
                         <label>Address:</label>
                         <textarea class="form-control" id="edit_address" name="address"></textarea>
                     </div>
@@ -223,7 +219,6 @@ function openEditModal(customer) {
     $('#edit_contact').val(customer.contact);
     $('#edit_email').val(customer.email);
 }
-
 function deleteCustomer(id) {
     if (confirm('Are you sure you want to delete this customer?')) {
         $.ajax({
