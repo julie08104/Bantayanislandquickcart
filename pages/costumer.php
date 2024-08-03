@@ -71,16 +71,18 @@ $customers = readCustomers();
         @media print {
             .print-container {
                 display: flex;
-                align-items: center; /* Align items horizontally */
+                align-items: center; /* Center items vertically */
+                justify-content: center; /* Center items horizontally */
+                text-align: center; /* Center text horizontally */
                 position: relative;
+                margin-bottom: 20px; /* Add some space below the container */
             }
 
             .print-only {
                 display: block !important;
-                width: 60px; /* Adjust the width to make the image smaller */
+                width: 80px; /* Adjust the width as needed */
                 height: auto;
-                z-index: 10;
-                margin-right: 20px; /* Space between the image and the text */
+                margin-right: 10px; /* Space between the image and the text */
             }
 
             .no-print {
@@ -99,12 +101,14 @@ $customers = readCustomers();
     </style>
 </head>
 <body>
-    <!-- Print Container -->
     <div class="print-container">
         <!-- Print Image -->
         <div id="printImage" class="print-only">
-           <br>  <br>        <br>            <br> <img src="dist/img/images1.png" alt="logo" class="brand-image" style="display: block; margin: 2px auto; width: 80px; height: auto;">
+            <img src="dist/img/images1.png" alt="logo" class="brand-image" style="display: block; width: 80px; height: auto;">
         </div>
+        <!-- Customer List Heading -->
+        <h1>Customer List</h1>
+    </div>
         <!-- Customer List Heading -->
         <h1>Customer List</h1>
     </div>
