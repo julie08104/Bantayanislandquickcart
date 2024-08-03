@@ -10,40 +10,46 @@ function addColumnIfNotExists($pdo, $table, $column, $columnDefinition) {
         $stmt->execute();
     }
 }
+<?php
 // Create Customer
 function createCustomer($name, $lastname, $address, $contact, $email) {
     global $pdo;
+    // Prepare the INSERT statement
     $stmt = $pdo->prepare("INSERT INTO customer (name, lastname, address, contact, email) VALUES (?, ?, ?, ?, ?)");
+    // Execute the statement with the provided parameters
     return $stmt->execute([$name, $lastname, $address, $contact, $email]);
 }
 
 // Read Customers
 function readCustomers() {
     global $pdo;
+    // Execute the SELECT query
     $stmt = $pdo->query("SELECT * FROM customer");
+    // Fetch all results as an associative array
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 // Update Customer
 function updateCustomer($id, $name, $lastname, $address, $contact, $email) {
     global $pdo;
+    // Prepare the UPDATE statement with placeholders
     $stmt = $pdo->prepare("UPDATE customer SET name = ?, lastname = ?, address = ?, contact = ?, email = ? WHERE id = ?");
+    // Execute the statement with the provided parameters, including the ID
     return $stmt->execute([$name, $lastname, $address, $contact, $email, $id]);
 }
 
 // Delete Customer
 function deleteCustomer($id) {
     global $pdo;
-
     // Prepare the DELETE statement with a named placeholder
-    $stmt = $pdo->prepare("DELETE FROM `customer` WHERE id = :id");
-
+    $stmt = $pdo->prepare("DELETE FROM customer WHERE id = :id");
     // Bind the parameter to the placeholder
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-
     // Execute the statement
     return $stmt->execute();
 }
+?>
+
 
 // Handle Form Submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
