@@ -196,7 +196,48 @@ $customers = readCustomers();
         </div>
     </div>
 </div>
-
+<!-- Edit Customer Modal -->
+<div class="modal fade" id="editCustomerModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Customer</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editCustomerForm" method="POST">
+                    <input type="hidden" name="action" value="update">
+                    <input type="hidden" id="edit_customer_id" name="id">
+                    <div class="form-group">
+                        <label>Name:</label>
+                        <input type="text" class="form-control" id="edit_name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name:</label>
+                        <input type="text" class="form-control" id="edit_lastname" name="lastname" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Company:</label>
+                        <input type="text" class="form-control" id="edit_company" name="company">
+                    </div>
+                    <div class="form-group">
+                        <label>Address:</label>
+                        <textarea class="form-control" id="edit_address" name="address"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Contact:</label>
+                        <input type="text" class="form-control" id="edit_contact" name="contact">
+                    </div>
+                    <div class="form-group">
+                        <label>Email:</label>
+                        <input type="email" class="form-control" id="edit_email" name="email" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
     function openEditModal(customer) {
         $('#editCustomerModal').modal('show');
