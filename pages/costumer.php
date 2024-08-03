@@ -72,28 +72,29 @@ $customers = readCustomers();
     <link rel="stylesheet" href="path/to/bootstrap.css">
     <link rel="stylesheet" href="path/to/datatables.css">
     <style>
-        @media print {
-    .print-only {
-        display: block !important;
-        position: fixed;
-        top: 10px;
-        left: 10px;
-        width: 100px;
-        height: auto;
-        z-index: 1000;
-    }
-    .no-print {
-        display: none !important;
-    }
-}
+    @media print {
+            .print-only {
+                display: block !important;
+                position: fixed;
+                top: 10px;
+                left: 10px;
+                width: 100px;
+                height: auto;
+                z-index: 1000;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
 
     </style>
 </head>
 <body>
     <!-- Print Image -->
-  <div id="printImage" style="display: block !important; position: fixed; top: 10px; left: 10px; width: 100px; height: auto; z-index: 1000;">
-    <img src="uploads/images.png" alt="Print Image" style="width: 100px; height: auto;">
-</div>
+ <div id="printImage" class="print-only">
+        <img src="uploads/images.png" alt="Print Image" style="width: 100px; height: auto;">
+    </div>
+    <button onclick="window.print()">Print</button>
 
 
 
