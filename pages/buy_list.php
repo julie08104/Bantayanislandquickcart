@@ -110,8 +110,8 @@ $riders = readRiders();
                     <td><?= htmlentities($rider['vehicle_type']) ?></td>
                     <td><?= htmlentities($rider['license_number']) ?></td>
                     <td><?= htmlentities($rider['status']) ?></td>
-                    <td><?= htmlentities($rider['total_rides']) ?></td>
-               <!--      <td><?= htmlentities($rider['rating']) ?></td>
+                   <!--  <td><?= htmlentities($rider['total_rides']) ?></td>
+                    <td><?= htmlentities($rider['rating']) ?></td>
                     <td><?= htmlentities($rider['payment_method']) ?></td> -->
                     <td>
                          <!-- <button class="btn btn-success" data-toggle="modal" data-target="#addRiderModal">
