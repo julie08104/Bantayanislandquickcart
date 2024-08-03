@@ -9,6 +9,9 @@ try {
     $pdo = new PDO($dsn, $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+    // Log all POST data for debugging
+    error_log('POST data: ' . print_r($_POST, true));
+
     // Check if ID is set and is a valid integer
     if (isset($_POST['id']) && filter_var($_POST['id'], FILTER_VALIDATE_INT)) {
         $id = intval($_POST['id']);
@@ -43,4 +46,3 @@ try {
     echo json_encode(['success' => false, 'message' => 'Database error: An unexpected error occurred.']);
 }
 ?>
-
