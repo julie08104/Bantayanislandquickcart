@@ -14,7 +14,8 @@ try {
     // Function to delete a customer by ID
     function deleteCustomer($pdo, $id) {
         $stmt = $pdo->prepare("DELETE FROM customer WHERE id = ?");
-        return $stmt->execute([$id]);
+        $stmt->execute([$id]);
+        return $stmt->rowCount(); // Return the number of affected rows
     }
 
     // Check if ID is set and is a valid integer
@@ -25,17 +26,11 @@ try {
             error_log("Received ID: " . $id);
 
             // Call the deleteCustomer function
-            if (deleteCustomer($pdo, $id)) {
-                // Check if the customer was actually deleted
-                if ($stmt->rowCount() > 0) {
-                    echo json_encode(['success' => true, 'message' => 'Customer deleted successfully.']);
-                } else {
-                    echo json_encode(['success' => false, 'message' => 'Customer not found or already deleted.']);
-                }
+            $rowCount = deleteCustomer($pdo, $id);
+            if ($rowCount > 0) {
+                echo json_encode(['success' => true, 'message' => 'Customer deleted successfully.']);
             } else {
-                // Output detailed error information
-                error_log("Error executing DELETE statement: " . implode(" | ", $stmt->errorInfo()));
-                echo json_encode(['success' => false, 'message' => 'Error deleting customer.']);
+                echo json_encode(['success' => false, 'message' => 'Customer not found or already deleted.']);
             }
         } else {
             echo json_encode(['success' => false, 'message' => 'Invalid or missing customer ID.']);
