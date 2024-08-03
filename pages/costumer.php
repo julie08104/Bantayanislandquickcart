@@ -62,15 +62,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Fetch customers for display
 $customers = readCustomers();
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer List</title>
-    <link rel="stylesheet" href="path/to/bootstrap.css">
-    <link rel="stylesheet" href="path/to/datatables.css">
 <style>
     /* Initially hide the print image */
     #printImage {
@@ -110,13 +101,11 @@ $customers = readCustomers();
 
 </head>
 <body>
-    <!-- Print Image and Heading -->
-<div class="print-container">
-    <div id="printImage" class="print-only">
-        <img src="dist/img/images1.png" alt="logo" class="brand-image">
-    </div>
-    <h1>Customer List</h1>
-</div>
+    <!-- Print Image -->
+<div id="printImage" class="print-only">
+    <img src="dist/img/images1.png" alt="logo" class="brand-image" style="display: block; margin: 2px auto; width: 100px; height: auto;">
+</div><br><br>
+    <div class="container-fluid" style="margin-left: 0px!important;">
         <!-- Add Customer Button -->
         <div class="float-left mb-3">
             <button class="btn btn-success no-print" data-toggle="modal" data-target="#addCustomerModal">
