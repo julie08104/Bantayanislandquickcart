@@ -244,12 +244,13 @@ function deleteCustomer(id) {
                 }
             },
             error: function(xhr, status, error) {
-                console.error(xhr.responseText); // Log response text for debugging
-                alert('Error deleting customer. Please try again.');
+                console.error('AJAX Error:', xhr.responseText); // Log response text for debugging
+                alert('Error deleting customer. Please try again.'); // Show error message
             }
         });
     }
 }
+
 
 
 
