@@ -11,7 +11,7 @@ try {
     $pdo = new PDO($dsn, $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Delete Customer function
+    // Function to delete a customer by ID
     function deleteCustomer($pdo, $id) {
         $stmt = $pdo->prepare("DELETE FROM customer WHERE id = ?");
         return $stmt->execute([$id]);
@@ -27,7 +27,7 @@ try {
             // Call the deleteCustomer function
             if (deleteCustomer($pdo, $id)) {
                 // Check if the customer was actually deleted
-                if ($pdo->lastInsertId() == 0) {
+                if ($stmt->rowCount() > 0) {
                     echo json_encode(['success' => true, 'message' => 'Customer deleted successfully.']);
                 } else {
                     echo json_encode(['success' => false, 'message' => 'Customer not found or already deleted.']);
