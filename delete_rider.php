@@ -26,8 +26,15 @@ try {
 
             // Call the deleteCustomer function
             if (deleteCustomer($pdo, $id)) {
-                echo json_encode(['success' => true, 'message' => 'Customer deleted successfully.']);
+                // Check if the customer was actually deleted
+                if ($pdo->lastInsertId() == 0) {
+                    echo json_encode(['success' => true, 'message' => 'Customer deleted successfully.']);
+                } else {
+                    echo json_encode(['success' => false, 'message' => 'Customer not found or already deleted.']);
+                }
             } else {
+                // Output detailed error information
+                error_log("Error executing DELETE statement: " . implode(" | ", $stmt->errorInfo()));
                 echo json_encode(['success' => false, 'message' => 'Error deleting customer.']);
             }
         } else {
