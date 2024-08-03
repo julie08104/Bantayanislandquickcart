@@ -73,26 +73,28 @@ $customers = readCustomers();
     <link rel="stylesheet" href="path/to/datatables.css">
     <style>
         @media print {
-            .print-only {
-                display: block !important;
-                position: fixed;
-                top: 10px;
-                left: 10px;
-                width: 100px;
-                height: auto;
-                z-index: 1000;
-            }
-            .no-print {
-                display: none !important;
-            }
-        }
+    .print-only {
+        display: block !important;
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        width: 100px;
+        height: auto;
+        z-index: 1000;
+    }
+    .no-print {
+        display: none !important;
+    }
+}
+
     </style>
 </head>
 <body>
     <!-- Print Image -->
-   <div id="printImage" class="print-only">
+  <div id="printImage" style="display: block !important; position: fixed; top: 10px; left: 10px; width: 100px; height: auto; z-index: 1000;">
     <img src="uploads/images.png" alt="Print Image" style="width: 100px; height: auto;">
 </div>
+
 
 
     <div class="container-fluid" style="margin-left: 0px!important;">
@@ -238,15 +240,23 @@ $customers = readCustomers();
         });
     }
 
-    function printCustomerList() {
-        console.log("Print function called");
+   function printCustomerList() {
+    console.log("Print function called");
 
-        // Show the print image
-        var printImage = document.getElementById('printImage');
-        if (printImage) {
-            printImage.style.display = 'block';
-        }
+    // Show the print image
+    var printImage = document.getElementById('printImage');
+    if (printImage) {
+        printImage.style.display = 'block';
+    }
 
+    // Other code...
+
+    // Use setTimeout to ensure the styles are applied before printing
+    setTimeout(function() {
+        console.log("Elements hidden, initiating print");
+        window.print();
+
+        console.log("Print initiated");
         // Hide all buttons in the table body
         var buttons = document.querySelectorAll('#customerTable tbody button');
         buttons.forEach(function(button) {
