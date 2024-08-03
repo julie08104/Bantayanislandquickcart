@@ -72,27 +72,33 @@ $customers = readCustomers();
     <link rel="stylesheet" href="path/to/bootstrap.css">
     <link rel="stylesheet" href="path/to/datatables.css">
     <style>
-    @media print {
-            .print-only {
-                display: block !important;
-                position: fixed;
-                top: 10px;
-                left: 10px;
-                width: 100px;
-                height: auto;
-                z-index: 1000;
-            }
-            .no-print {
-                display: none !important;
-            }
+  @media print {
+        .print-only {
+            display: block !important;
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            width: 100px;
+            height: auto;
+            z-index: 1000;
         }
-
+        .no-print {
+            display: none !important;
+        }
+        /* Optionally hide table elements for printing */
+        #customerTable td, #customerTable th {
+            display: table-cell !important;
+        }
+        .dataTables_paginate, .dataTables_length, .dataTables_filter {
+            display: none !important;
+        }
+    }
     </style>
 </head>
 <body>
     <!-- Print Image -->
  <div id="printImage" class="print-only">
-       <img src="dist/img/images1p.png" alt="logo" class="brand-image" style="display: block; margin: 5px auto; width: 180px; height: auto;">
+       <img src="dist/img/images1.png" alt="logo" class="brand-image" style="display: block; margin: 5px auto; width: 180px; height: auto;">
     </div>
 
     <div class="container-fluid" style="margin-left: 0px!important;">
