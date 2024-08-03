@@ -68,10 +68,13 @@ $customers = readCustomers();
 <br>
 <div class="container-fluid" style="margin-left: 0px!important;">
     <h1>Customer List</h1>
-<!--add customer-->
-<div class="float-left mb-3"  style="float:left;">
-            <button class="btn btn-success" data-toggle="modal" data-target="#addCustomerModal">
-                                <i class="fas fa-plus"></i> Add Customer </button> <br> <br> 
+<!-- Add Customer Button -->
+<div class="float-left mb-3">
+    <button class="btn btn-success" data-toggle="modal" data-target="#addCustomerModal">
+        <i class="fas fa-plus"></i> Add Customer
+    </button>
+</div>
+
     <!-- Print Button -->
     <div class="text-right mb-3">
          <!-- <input class="form-control no-print" id="searchInput" type="text" placeholder="Search.."> -->
