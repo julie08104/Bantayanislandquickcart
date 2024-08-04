@@ -506,10 +506,10 @@ function printTable() {
     newWin.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">');
     newWin.document.write('<style>');
     newWin.document.write('.header { display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }'); // Add margin-bottom to the header
-    newWin.document.write('.header img { margin-right: 10px; }');
+    newWin.document.write('.header img { margin-right: 20px; }'); // Increase margin-right for the image
     newWin.document.write('</style>');
     newWin.document.write('</head><body>');
-    newWin.document.write('<div class="header"><img src="dist/img/images1.png" alt="Logo" width="80" height="80"><h1>Rider List</h1></div>'); // Add header with image
+    newWin.document.write('<div class="header"><img src="dist/img/images1.png" alt="Logo" width="50" height="50"><h1>Rider List</h1></div>'); // Add header with image
     newWin.document.write(divToPrint.outerHTML);
     newWin.document.write('</body></html>');
     newWin.document.close();
