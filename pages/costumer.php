@@ -37,17 +37,7 @@ function updateCustomer($id, $name, $lastname, $address, $contact, $email) {
 }
 
 // Delete Customer
-function deleteCustomer($id) {
-    global $pdo;
-    $stmt = $pdo->prepare("DELETE FROM customer WHERE id = ?");
-    if ($stmt->execute([$id])) {
-        return true;
-    } else {
-        $errorInfo = $stmt->errorInfo();
-        error_log('SQL Error: ' . print_r($errorInfo, true)); // Log the error
-        return false;
-    }
-}
+
 
 
 
