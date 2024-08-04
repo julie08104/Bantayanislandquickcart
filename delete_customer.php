@@ -11,7 +11,13 @@ try {
 function deleteCustomer($id) {
     global $pdo;
     $stmt = $pdo->prepare("DELETE FROM customer WHERE id = ?");
-    return $stmt->execute([$id]);
+    if ($stmt->execute([$id])) {
+        return true;
+    } else {
+        $errorInfo = $stmt->errorInfo();
+        error_log('SQL Error: ' . print_r($errorInfo, true)); // Log the error
+        return false;
+    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
