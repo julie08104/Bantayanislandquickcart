@@ -1,35 +1,40 @@
-function deleteCustomer(id) {
-    console.log('Attempting to delete customer with ID:', id);
-    $.ajax({
-        url: 'delete_customer.php',
-        method: 'POST',
-        data: { id: id },
-        success: function(response) {
-            console.log('Server response:', response); // Log server response
-            if (response === 'success') {
-                Swal.fire(
-                    'Deleted!',
-                    'Customer deleted successfully.',
-                    'success'
-                ).then(() => {
-                    location.reload(); // Refresh the page to update the table
-                });
+<?php
+include 'database_connection.php'; // Ensure this includes your PDO setup
+
+header('Content-Type: text/plain');
+
+$response = ['success' => false, 'message' => ''];
+
+try {
+    if (isset($_POST['id'])) {
+        $id = intval($_POST['id']);
+
+        // Check if ID exists
+        $stmt = $pdo->prepare("SELECT id FROM customer WHERE id = ?");
+        $stmt->execute([$id]);
+        if ($stmt->rowCount() > 0) {
+            // ID exists, proceed with delete
+            $stmt = $pdo->prepare("DELETE FROM customer WHERE id = ?");
+            $stmt->execute([$id]);
+
+            if ($stmt->rowCount() > 0) {
+                $response['success'] = true;
+                $response['message'] = 'Customer deleted successfully.';
+                echo 'success';
             } else {
-                Swal.fire(
-                    'Failed!',
-                    'Customer not found or error occurred.',
-                    'error'
-                );
+                $response['message'] = 'Error deleting customer.';
+                echo 'error';
             }
-        },
-        error: function(xhr, status, error) {
-            console.log('AJAX error:', status, error); // Log AJAX error
-            console.log('Response text:', xhr.responseText); // Log the server response text
-            Swal.fire(
-                'Error!',
-                'There was an error processing your request.',
-                'error'
-            );
+        } else {
+            $response['message'] = 'Customer not found.';
+            echo 'error';
         }
-    });
+    } else {
+        $response['message'] = 'Invalid request.';
+        echo 'error';
+    }
+} catch (PDOException $e) {
+    $response['message'] = 'Database error: ' . $e->getMessage();
+    echo 'error';
 }
+?>
