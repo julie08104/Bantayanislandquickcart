@@ -1,12 +1,12 @@
 <?php
-header('Content-Type: application/json'); // Ensure JSON output is properly handled
+header('Content-Type: application/json');
 
 try {
-    // Connect to the database
     $pdo = new PDO('mysql:host=127.0.0.1;dbname=u510162695_ample', 'u510162695_ample', '1Ample_database');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
-    die(json_encode(['success' => false, 'message' => 'Database connection failed: ' . $e->getMessage()]));
+    echo json_encode(['success' => false, 'message' => 'Database connection failed: ' . $e->getMessage()]);
+    exit;
 }
 
 function deleteCustomer($id) {
@@ -16,7 +16,7 @@ function deleteCustomer($id) {
         return true;
     } else {
         $errorInfo = $stmt->errorInfo();
-        error_log('SQL Error: ' . print_r($errorInfo, true)); // Log the error for debugging
+        error_log('SQL Error: ' . print_r($errorInfo, true)); // Log the error
         return false;
     }
 }
