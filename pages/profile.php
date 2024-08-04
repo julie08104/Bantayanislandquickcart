@@ -1,5 +1,4 @@
 <?php
-<?php
 session_start();
 require 'init.php';
 require 'User.php';
