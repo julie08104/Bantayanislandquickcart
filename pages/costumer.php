@@ -84,7 +84,7 @@ if ($customers === false) {
 
             .print-only {
                 display: block !important;
-                width: 30px; /* Adjust the width to make the image smaller */
+                width: 80px; /* Adjust the width to make the image smaller */
                 height: auto;
                 z-index: 10;
                 margin-right: 10px; /* Space between the image and the text */
