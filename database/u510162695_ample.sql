@@ -58,18 +58,20 @@ CREATE TABLE `category` (
 --
 
 CREATE TABLE `customer` (
-  `id` int(11) NOT NULL,
-  `username` varchar(50) DEFAULT NULL,
-  `password` varchar(50) DEFAULT NULL,
-  `name` varchar(100) NOT NULL,
-  `lastname` varchar(100) NOT NULL,
-  `company` varchar(100) DEFAULT NULL,
-  `address` varchar(255) DEFAULT NULL,
-  `contact` varchar(20) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(50) UNIQUE NOT NULL,
+  `password` VARCHAR(255) NOT NULL, -- Use VARCHAR(255) for hashed passwords
+  `name` VARCHAR(100) NOT NULL,
+  `lastname` VARCHAR(100) NOT NULL,
+  `company` VARCHAR(100) DEFAULT NULL,
+  `address` VARCHAR(255) DEFAULT NULL,
+  `contact` VARCHAR(20) DEFAULT NULL,
+  `email` VARCHAR(100) UNIQUE DEFAULT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 --
 -- Dumping data for table `customer`
