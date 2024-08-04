@@ -274,60 +274,33 @@ function openEditModal(customer) {
     $('#edit_email').val(customer.email);
 }
 
-function confirmDelete(id) {
-    Swal.fire({
-        title: 'Are you sure you want to delete this customer?',
-        text: "This action cannot be undone!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'Cancel'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            deleteCustomer(id);
-        }
-    });
-}
-
-
-function deleteCustomer(id) {
-    console.log('Attempting to delete customer with ID:', id);
+ function deleteCustomer(id) {
+    console.log('Attempting to delete customer with ID:', id); // Debugging log
     $.ajax({
         url: 'delete_customer.php',
         method: 'POST',
         data: { id: id },
         success: function(response) {
-            console.log('Server response:', response);
-            try {
-                var data = JSON.parse(response);
-                if (data.success) {
-                    Swal.fire(
-                        'Deleted!',
-                        data.message,
-                        'success'
-                    ).then(() => {
-                        location.reload(); // Refresh the page to update the table
-                    });
-                } else {
-                    Swal.fire(
-                        'Failed!',
-                        data.message,
-                        'error'
-                    );
-                }
-            } catch (e) {
-                console.error('Error parsing JSON:', e);
+            console.log('Server response:', response); // Debugging log
+            var data = JSON.parse(response);
+            if (data.success) {
                 Swal.fire(
-                    'Error!',
-                    'Invalid response from server.',
+                    'Deleted!',
+                    data.message,
+                    'success'
+                ).then(() => {
+                    location.reload(); // Refresh the page to update the table
+                });
+            } else {
+                Swal.fire(
+                    'Failed!',
+                    data.message,
                     'error'
                 );
             }
         },
         error: function(xhr, status, error) {
-            console.log('AJAX error:', status, error);
+            console.log('AJAX error:', status, error); // Debugging log
             Swal.fire(
                 'Error!',
                 'There was an error processing your request.',
@@ -336,6 +309,24 @@ function deleteCustomer(id) {
         }
     });
 }
+
+
+    
+function confirmDelete(id) {
+        Swal.fire({
+            title: 'Are you sure you want to delete this customer?',
+            text: "This action cannot be undone!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteCustomer(id);
+            }
+        });
+    }
 
 
          
