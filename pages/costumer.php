@@ -156,8 +156,8 @@ if ($customers === false) {
                                 <button class="btn btn-warning" onclick="openEditModal(<?= htmlspecialchars(json_encode($customer)) ?>)">
                                     <i class="fas fa-edit"></i> Edit
                                 </button>
-                              <button class="btn btn-danger" onclick="confirmDelete(<?= $customer['id'] ?>)">
-                                <i class="fas fa-trash-alt"></i> Delete
+                             <button class="btn btn-danger" onclick="deleteCustomer(<?= $customer['id'] ?>)">
+                                <i class="fas fa-trash-alt"> Delete</i>
                             </button>
 
                             </div>
@@ -289,34 +289,30 @@ function confirmDelete(id) {
 }
 
 function deleteCustomer(id) {
-    console.log("Deleting customer with ID:", id);
-
-    $.ajax({
-        type: 'POST',
-        url: 'delete_customer.php',
-        data: { id: id },
-        success: function(response) {
-            console.log("Response:", response); // Log response for debugging
-            try {
-                var data = JSON.parse(response);
-                if (data.success) {
-                    Swal.fire('Deleted!', data.message, 'success').then(() => {
-                        location.reload();
-                    });
-                } else {
-                    Swal.fire('Error!', data.message, 'error');
+    if (confirm('Are you sure you want to delete this customer?')) {
+        $.ajax({
+            type: 'POST',
+            url: 'delete_customer.php', // Path to your delete script
+            data: { id: id },
+            success: function(response) {
+                try {
+                    var data = JSON.parse(response); // Parse the JSON response
+                    if (data.success) {
+                        alert(data.message); // Show success message
+                        location.reload(); // Reload the page to see the changes
+                    } else {
+                        alert('Error: ' + data.message); // Show error message
+                    }
+                } catch (e) {
+                    alert('Error parsing response: ' + e.message); // Handle parsing errors
                 }
-            } catch (e) {
-                Swal.fire('Error!', 'Error parsing response: ' + e.message, 'error');
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText); // Log response text for debugging
+                alert('Error deleting customer. Please try again.');
             }
-        },
-        error: function(xhr, status, error) {
-            console.error("XHR:", xhr);
-            console.error("Status:", status);
-            console.error("Error:", error);
-            Swal.fire('Error!', 'Error deleting customer. Please try again.', 'error');
-        }
-    });
+        });
+    }
 }
 
 
