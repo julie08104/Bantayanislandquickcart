@@ -34,41 +34,10 @@ function updateCustomer($id, $name, $lastname, $address, $contact, $email) {
     return $stmt->execute([$name, $lastname, $address, $contact, $email, $id]);
 }
 
-function deleteCustomer(id) {
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to delete this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'Cancel'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            $.ajax({
-                type: 'POST',
-                url: 'index.php', // Ensure this URL matches where your PHP script is located
-                data: {
-                    action: 'delete',
-                    id: id
-                },
-                success: function(response) {
-                    var data = JSON.parse(response);
-                    if (data.success) {
-                        Swal.fire('Deleted!', data.message, 'success').then(() => {
-                            location.reload(); // Reload the page to see the changes
-                        });
-                    } else {
-                        Swal.fire('Error!', data.message, 'error');
-                    }
-                },
-                error: function(xhr, status, error) {
-                    Swal.fire('Error!', 'Error deleting customer. Please try again.', 'error');
-                }
-            });
-        }
-    });
+function deleteCustomer($id) {
+    global $pdo;
+    $stmt = $pdo->prepare("DELETE FROM customer WHERE id = ?");
+    return $stmt->execute([$id]);
 }
 
 // Fetch customers for display
