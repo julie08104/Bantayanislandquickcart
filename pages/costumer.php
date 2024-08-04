@@ -103,8 +103,8 @@ if ($customers === false) {
             display: none !important;
         }
         .brand-image {
-            heigth: 10px;
-            width: 10px;
+            heigth: 30px;
+            width: 30px;
         }
     }
 </style>
