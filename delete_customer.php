@@ -1,32 +1,29 @@
 <?php
-header('Content-Type: application/json');
-include 'database_connection.php'; // Adjust path as necessary
+include 'database_connection.php'; // Ensure this includes your PDO setup
 
-$response = ['success' => false, 'message' => 'An error occurred.'];
+$response = ['success' => false, 'message' => ''];
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
-    
-    if ($id > 0) {
-        try {
-            // Try directly executing a delete query
-            $stmt = $pdo->prepare("DELETE FROM customer WHERE id = ?");
-            $success = $stmt->execute([$id]);
+if (isset($_POST['id'])) {
+    $id = intval($_POST['id']);
 
-            if ($success) {
-                $response = ['success' => true, 'message' => 'Customer deleted successfully.'];
-            } else {
-                $response = ['success' => false, 'message' => 'Failed to delete customer.'];
-            }
-        } catch (Exception $e) {
-            $response = ['success' => false, 'message' => 'Exception: ' . $e->getMessage()];
+    try {
+        $stmt = $pdo->prepare("DELETE FROM customer WHERE id = ?");
+        $stmt->execute([$id]);
+
+        if ($stmt->rowCount() > 0) {
+            $response['success'] = true;
+            $response['message'] = 'Customer deleted successfully.';
+        } else {
+            $response['message'] = 'Customer not found.';
         }
-    } else {
-        $response = ['success' => false, 'message' => 'Invalid ID.'];
+    } catch (PDOException $e) {
+        $response['message'] = 'Database error: ' . $e->getMessage();
     }
 } else {
-    $response = ['success' => false, 'message' => 'Invalid request method.'];
+    $response['message'] = 'Invalid request.';
 }
 
-echo json_encode($response);
+// Output as plain text
+header('Content-Type: text/plain');
+echo $response['success'] ? 'success' : 'error';
 ?>
