@@ -1,25 +1,38 @@
 <?php
-header('Content-Type: application/json');
+header('Content-Type: application/json'); // Ensure JSON output is properly handled
 
 try {
     $pdo = new PDO('mysql:host=127.0.0.1;dbname=u510162695_ample', 'u510162695_ample', '1Ample_database');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    if (isset($_POST['id'])) {
-        $id = intval($_POST['id']);
-        $stmt = $pdo->prepare("DELETE FROM customer WHERE id = :id");
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-            echo json_encode(['success' => true, 'message' => 'Customer deleted successfully.']);
-        } else {
-            echo json_encode(['success' => false, 'message' => 'Error deleting customer.']);
-        }
-    } else {
-        echo json_encode(['success' => false, 'message' => 'No customer ID provided.']);
-    }
 } catch (PDOException $e) {
-    echo json_encode(['success' => false, 'message' => 'Database connection failed: ' . $e->getMessage()]);
-    exit;
+    die(json_encode(['success' => false, 'message' => 'Database connection failed: ' . $e->getMessage()]));
+}
+
+function deleteCustomer($id) {
+    global $pdo;
+    $stmt = $pdo->prepare("DELETE FROM customer WHERE id = ?");
+    if ($stmt->execute([$id])) {
+        return true;
+    } else {
+        $errorInfo = $stmt->errorInfo();
+        error_log('SQL Error: ' . print_r($errorInfo, true)); // Log the error
+        return false;
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+    
+    if ($id > 0) {
+        $success = deleteCustomer($id);
+        echo json_encode([
+            'success' => $success,
+            'message' => $success ? 'Customer deleted successfully.' : 'Failed to delete customer.'
+        ]);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Invalid ID.']);
+    }
+} else {
+    echo json_encode(['success' => false, 'message' => 'Invalid request method.']);
 }
 ?>
