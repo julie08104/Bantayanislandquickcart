@@ -1,36 +1,24 @@
 <?php
-header('Content-Type: application/json'); // Ensure JSON output is properly handled
-
-try {
-    $pdo = new PDO('mysql:host=127.0.0.1;dbname=u510162695_ample', 'u510162695_ample', '1Ample_database');
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die(json_encode(['success' => false, 'message' => 'Database connection failed: ' . $e->getMessage()]));
-}
-
-function deleteCustomer($id) {
-    global $pdo;
-    $stmt = $pdo->prepare("DELETE FROM customer WHERE id = ?");
-    if ($stmt->execute([$id])) {
-        return true;
-    } else {
-        $errorInfo = $stmt->errorInfo();
-        error_log('SQL Error: ' . print_r($errorInfo, true)); // Log the error
-        return false;
-    }
-}
+require 'db_connection.php'; // Ensure this file includes your database connection setup
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+    $id = $_POST['id'];
     
-    if ($id > 0) {
-        $success = deleteCustomer($id);
-        echo json_encode([
-            'success' => $success,
-            'message' => $success ? 'Customer deleted successfully.' : 'Failed to delete customer.'
-        ]);
+    if (!empty($id)) {
+        try {
+            $stmt = $pdo->prepare("DELETE FROM customer WHERE id = ?");
+            $stmt->execute([$id]);
+
+            if ($stmt->rowCount() > 0) {
+                echo json_encode(['success' => true, 'message' => 'Customer deleted successfully.']);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Customer not found or already deleted.']);
+            }
+        } catch (PDOException $e) {
+            echo json_encode(['success' => false, 'message' => 'Error deleting customer: ' . $e->getMessage()]);
+        }
     } else {
-        echo json_encode(['success' => false, 'message' => 'Invalid ID.']);
+        echo json_encode(['success' => false, 'message' => 'Invalid customer ID.']);
     }
 } else {
     echo json_encode(['success' => false, 'message' => 'Invalid request method.']);
