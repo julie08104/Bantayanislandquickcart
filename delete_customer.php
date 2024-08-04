@@ -2,6 +2,7 @@
 header('Content-Type: application/json'); // Ensure JSON output is properly handled
 
 try {
+    // Connect to the database
     $pdo = new PDO('mysql:host=127.0.0.1;dbname=u510162695_ample', 'u510162695_ample', '1Ample_database');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
@@ -15,7 +16,7 @@ function deleteCustomer($id) {
         return true;
     } else {
         $errorInfo = $stmt->errorInfo();
-        error_log('SQL Error: ' . print_r($errorInfo, true)); // Log the error
+        error_log('SQL Error: ' . print_r($errorInfo, true)); // Log the error for debugging
         return false;
     }
 }
