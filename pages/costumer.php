@@ -266,7 +266,7 @@ function openEditModal(customer) {
 
 function deleteCustomer(id) {
     console.log('Attempting to delete customer with ID:', id);
-   $.ajax({
+    $.ajax({
         url: 'delete_customer.php',
         method: 'POST',
         data: { id: id },
@@ -290,6 +290,7 @@ function deleteCustomer(id) {
         },
         error: function(xhr, status, error) {
             console.log('AJAX error:', status, error); // Log AJAX error
+            console.log('Response text:', xhr.responseText); // Log the server response text
             Swal.fire(
                 'Error!',
                 'There was an error processing your request.',
