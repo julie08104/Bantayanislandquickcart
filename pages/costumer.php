@@ -307,7 +307,7 @@ function deleteCustomer(id) {
                     Swal.fire('Error!', data.message, 'error');
                 }
             } catch (e) {
-                Swal.fire('Error!', 'Error parsing response: ' + e.message, 'error');
+                Swal.fire('Error!', 'Response is not valid JSON: ' + e.message, 'error');
             }
         },
         error: function(xhr, status, error) {
@@ -318,6 +318,7 @@ function deleteCustomer(id) {
         }
     });
 }
+
 
 
 
