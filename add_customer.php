@@ -1,33 +1,20 @@
 <?php
-// Include your database connection or initialization script
-require_once '../init.php'; // Adjust path as necessary
+// add_customer.php
+header('Content-Type: application/json');
+include 'database_connection.php'; // Your PDO connection script
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
-        // Get POST data
-        $name = $_POST['name'];
-        $lastname = $_POST['lastname'];
-        $company = $_POST['company'];
-        $address = $_POST['address'];
-        $contact = $_POST['contact'];
-        $email = $_POST['email'];
+$name = $_POST['name'];
+$lastname = $_POST['lastname'];
+$address = $_POST['address'];
+$contact = $_POST['contact'];
+$email = $_POST['email'];
+$company = isset($_POST['company']) ? $_POST['company'] : null;
 
-        // Prepare SQL statement
-        $stmt = $pdo->prepare("INSERT INTO customers (name, lastname, company, address, contact, email) VALUES (?, ?, ?, ?, ?, ?)");
-        
-        // Execute the statement
-        $stmt->execute([$name, $lastname, $company, $address, $contact, $email]);
+$stmt = $pdo->prepare("INSERT INTO customers (name, lastname, address, contact, email, company) VALUES (?, ?, ?, ?, ?, ?)");
+$success = $stmt->execute([$name, $lastname, $address, $contact, $email, $company]);
 
-        // Check if the insertion was successful
-        if ($stmt->rowCount() > 0) {
-            echo json_encode(['success' => true]);
-        } else {
-            echo json_encode(['success' => false, 'message' => 'Failed to add customer.']);
-        }
-    } catch (PDOException $e) {
-        echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
-    }
-} else {
-    echo json_encode(['success' => false, 'message' => 'Invalid request method.']);
-}
+echo json_encode([
+    'success' => $success,
+    'message' => $success ? 'Customer added successfully' : 'Failed to add customer'
+]);
 ?>
