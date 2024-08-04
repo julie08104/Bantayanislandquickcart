@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     if (!empty($id)) {
         try {
-            $stmt = $pdo->prepare("DELETE FROM customer WHERE id = ?");
+            $stmt = $pdo->prepare("DELETE FROM costumer WHERE id = ?");
             $stmt->execute([$id]);
 
             if ($stmt->rowCount() > 0) {
