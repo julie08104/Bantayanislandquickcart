@@ -303,7 +303,7 @@ function deleteCustomer(id) {
         method: 'POST',
         data: { id: id },
         success: function(response) {
-            console.log('Server response:', response); // Debugging log
+            console.log('Raw Server response:', response); // Log raw response
             try {
                 var data = JSON.parse(response); // Attempt to parse JSON response
                 if (data.success) {
@@ -340,6 +340,8 @@ function deleteCustomer(id) {
         }
     });
 }
+
+
 
 
 
