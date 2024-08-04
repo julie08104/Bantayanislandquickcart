@@ -37,6 +37,11 @@ function updateCustomer($id, $name, $lastname, $address, $contact, $email) {
 }
 
 // Delete Customer
+function deleteCustomer($id) {
+    global $pdo;
+    $stmt = $pdo->prepare("DELETE FROM customer WHERE id = ?");
+    return $stmt->execute([$id]);
+}
 
 
 
