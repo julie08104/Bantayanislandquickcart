@@ -265,30 +265,58 @@ function openEditModal(customer) {
     $('#edit_email').val(customer.email);
 }
 function deleteCustomer(id) {
-    if (confirm('Are you sure you want to delete this customer?')) {
-        $.ajax({
-            type: 'POST',
-            url: 'delete_customer.php', // Path to your delete script
-            data: { id: id },
-            success: function(response) {
-                try {
-                    var data = JSON.parse(response); // Parse the JSON response
-                    if (data.success) {
-                        alert(data.message); // Show success message
-                        location.reload(); // Reload the page to see the changes
-                    } else {
-                        alert('Error: ' + data.message); // Show error message
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: 'POST',
+                url: 'delete_customer.php', // Path to your delete script
+                data: { id: id },
+                success: function(response) {
+                    try {
+                        var data = JSON.parse(response); // Parse the JSON response
+                        if (data.success) {
+                            Swal.fire(
+                                'Deleted!',
+                                data.message,
+                                'success'
+                            ).then(() => {
+                                location.reload(); // Reload the page to see the changes
+                            });
+                        } else {
+                            Swal.fire(
+                                'Error!',
+                                'Error: ' + data.message,
+                                'error'
+                            );
+                        }
+                    } catch (e) {
+                        Swal.fire(
+                            'Error!',
+                            'Error parsing response: ' + e.message,
+                            'error'
+                        );
                     }
-                } catch (e) {
-                    alert('Error parsing response: ' + e.message); // Handle parsing errors
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText); // Log response text for debugging
+                    Swal.fire(
+                        'Error!',
+                        'Error deleting customer. Please try again.',
+                        'error'
+                    );
                 }
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText); // Log response text for debugging
-                alert('Error deleting customer. Please try again.');
-            }
-        });
-    }
+            });
+        }
+    });
 }
 
 
