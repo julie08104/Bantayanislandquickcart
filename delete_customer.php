@@ -1,5 +1,5 @@
 <?php
-require 'db_connection.php'; // Ensure this file includes your database connection setup
+require '../init.php'; // Ensure this file includes your database connection setup
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = $_POST['id'];
