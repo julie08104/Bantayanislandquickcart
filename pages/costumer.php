@@ -273,40 +273,29 @@ function openEditModal(customer) {
 }
 
 function deleteCustomer(id) {
-    console.log('Attempting to delete customer with ID:', id); // Debugging log
-    $.ajax({
-        url: 'delete_customer.php',
-        method: 'POST',
-        data: { id: id },
-        success: function(response) {
-            console.log('Server response:', response); // Debugging log
-            var data = JSON.parse(response);
-            if (data.success) {
-                Swal.fire(
-                    'Deleted!',
-                    data.message,
-                    'success'
-                ).then(() => {
-                    location.reload(); // Refresh the page to update the table
-                });
-            } else {
-                Swal.fire(
-                    'Failed!',
-                    data.message,
-                    'error'
-                );
+    console.log("Deleting customer with ID:", id); // Debugging line
+    if (confirm('Are you sure you want to delete this customer?')) {
+        $.ajax({
+            type: 'POST',
+            url: 'delete_customer.php',
+            data: { id: id },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    alert(response.message);
+                    location.reload();
+                } else {
+                    alert('Error: ' + response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+                alert('Error deleting customer. Please try again.');
             }
-        },
-        error: function(xhr, status, error) {
-            console.log('AJAX error:', status, error); // Debugging log
-            Swal.fire(
-                'Error!',
-                'There was an error processing your request.',
-                'error'
-            );
-        }
-    });
+        });
+    }
 }
+
 
 
 
