@@ -11,9 +11,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $email = $_POST['email'];
 
         $stmt = $pdo->prepare("INSERT INTO customers (name, lastname, company, address, contact, email) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$name, $lastname, $company, $address, $contact, $email]);
+        $success = $stmt->execute([$name, $lastname, $company, $address, $contact, $email]);
 
-        if ($stmt->rowCount() > 0) {
+        if ($success) {
             echo json_encode(['success' => true]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Failed to add customer.']);
