@@ -12,8 +12,7 @@ try {
     exit();
 }
 
-header('Content-Type: application/json');
-include 'db_connection.php'; // Replace with your actual DB connection script
+
 
 $id = $_POST['id'] ?? '';
 
