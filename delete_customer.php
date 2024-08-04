@@ -1,12 +1,11 @@
 <?php
-header('Content-Type: application/json');
+header('Content-Type: application/json'); // Ensure JSON output
 
 try {
     $pdo = new PDO('mysql:host=127.0.0.1;dbname=u510162695_ample', 'u510162695_ample', '1Ample_database');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
-    echo json_encode(['success' => false, 'message' => 'Database connection failed: ' . $e->getMessage()]);
-    exit;
+    die(json_encode(['success' => false, 'message' => 'Database connection failed: ' . $e->getMessage()]));
 }
 
 function deleteCustomer($id) {
@@ -23,7 +22,9 @@ function deleteCustomer($id) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
-    
+
+    error_log('Received ID: ' . $id); // Log received ID
+
     if ($id > 0) {
         $success = deleteCustomer($id);
         echo json_encode([
