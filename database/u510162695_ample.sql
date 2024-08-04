@@ -60,11 +60,12 @@ CREATE TABLE customer (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     lastname VARCHAR(255) NOT NULL,
-    company VARCHAR(255),
     address TEXT,
     contact VARCHAR(50),
-    email VARCHAR(255) NOT NULL UNIQUE
+    email VARCHAR(255) NOT NULL UNIQUE,
+    company VARCHAR(255)
 );
+
 
 
 
