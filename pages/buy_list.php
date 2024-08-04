@@ -435,10 +435,10 @@ $riders = readRiders();
         $('#editVehicleType').val(rider.vehicle_type);
         $('#editLicenseNumber').val(rider.license_number);
         $('#editStatus').val(rider.status);
-        $('#editTotalRides').val(rider.total_rides);
-        $('#editRating').val(rider.rating);
-        $('#editPaymentMethod').val(rider.payment_method);
-        $('#editRiderModal').modal('show');
+        // $('#editTotalRides').val(rider.total_rides);
+        // $('#editRating').val(rider.rating);
+        // $('#editPaymentMethod').val(rider.payment_method);
+        // $('#editRiderModal').modal('show');
     }
 
     // Delete rider
