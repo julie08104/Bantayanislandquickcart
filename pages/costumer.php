@@ -40,6 +40,7 @@ function deleteCustomer($id) {
     return $stmt->execute([$id]);
 }
 
+
 // Fetch customers for display
 $customers = readCustomers();
 ?>
@@ -270,7 +271,8 @@ function deleteCustomer(id) {
         method: 'POST',
         data: { id: id },
         success: function(response) {
-            console.log('Server response:', response); // Log server response
+            console.log('Raw server response:', response); // Log raw server response
+            
             try {
                 var data = JSON.parse(response);
                 if (data.success) {
@@ -307,6 +309,7 @@ function deleteCustomer(id) {
         }
     });
 }
+
 
 
 
