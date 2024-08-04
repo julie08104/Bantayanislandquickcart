@@ -2,29 +2,26 @@
 try {
     $pdo = new PDO('mysql:host=127.0.0.1;dbname=u510162695_ample', 'u510162695_ample', '1Ample_database');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die(json_encode(['success' => false, 'message' => 'Database connection failed: ' . $e->getMessage()]));
-}
+ if (isset($_POST['id'])) {
+        $id = intval($_POST['id']);
 
-function deleteCustomer($id) {
-    global $pdo;
-    $stmt = $pdo->prepare("DELETE FROM customer WHERE id = ?");
-    return $stmt->execute([$id]);
-}
+        // Prepare the delete statement
+        $stmt = $pdo->prepare("DELETE FROM `customer` WHERE id = :id");
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
-    
-    if ($id > 0) {
-        $success = deleteCustomer($id);
-        echo json_encode([
-            'success' => $success,
-            'message' => $success ? 'Customer deleted successfully.' : 'Failed to delete customer.'
-        ]);
+        if ($stmt->execute()) {
+            // Return a success response
+            echo json_encode(['success' => true, 'message' => 'Customer deleted successfully.']);
+        } else {
+            // Return an error response
+            echo json_encode(['success' => false, 'message' => 'Error deleting customer.']);
+        }
     } else {
-        echo json_encode(['success' => false, 'message' => 'Invalid ID.']);
+        echo json_encode(['success' => false, 'message' => 'No customer ID provided.']);
     }
-} else {
-    echo json_encode(['success' => false, 'message' => 'Invalid request method.']);
+} catch (PDOException $e) {
+    echo json_encode(['success' => false, 'message' => 'Database error: ' . $e->getMessage()]);
 }
+
+
 ?>
