@@ -107,6 +107,7 @@ $customers = readCustomers();
             <img src="dist/img/images1.png" alt="logo" class="brand-image" style="display: block; width: 100px; height: auto;">
         </div>
         <!-- Customer List Heading -->
+        <br> <br> <br> <br>
         <h1>Customer List</h1>
     </div>
 <!--add customer-->
