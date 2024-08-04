@@ -10,6 +10,7 @@ function addColumnIfNotExists($pdo, $table, $column, $columnDefinition) {
         $stmt->execute();
     }
 }
+
 // Create Customer
 function createCustomer($name, $lastname, $address, $contact, $email) {
     global $pdo;
@@ -47,8 +48,6 @@ function deleteCustomer($id) {
     // Execute the statement
     return $stmt->execute();
 }
-?>
-
 
 // Handle Form Submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -72,22 +71,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Fetch customers for display
 $customers = readCustomers();
 ?>
+
 <!-- HTML and Bootstrap Front-end -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Management</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Include DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+</head>
+<body>
 <br>
 <div class="container-fluid" style="margin-left: 0px!important;">
     <h1>Customer List</h1>
-<!-- Add Customer Button -->
-<div class="float-left mb-3" role="group">
-    <button class="btn btn-success" data-toggle="modal" data-target="#addCustomerModal">
-        <i class="fas fa-plus"></i> Add Customer
-    </button>
-</div>
+    <!-- Add Customer Button -->
+    <div class="float-left mb-3" role="group">
+        <button class="btn btn-success" data-toggle="modal" data-target="#addCustomerModal">
+            <i class="fas fa-plus"></i> Add Customer
+        </button>
+    </div>
 
     <!-- Print Button -->
     <div class="text-right mb-3">
-         <!-- <input class="form-control no-print" id="searchInput" type="text" placeholder="Search.."> -->
-
-         <button id="printButton" class="btn btn-success no-print"  onclick="printCustomerList()" style="float: right;">Print List</button>
+         <button id="printButton" class="btn btn-success no-print" onclick="printCustomerList()" style="float: right;">Print List</button>
     </div>
     <!-- Customer Table -->
     <table id="customerTable" class="table table-bordered table-responsive-sm">
@@ -96,38 +106,31 @@ $customers = readCustomers();
                 <th>ID</th>
                 <th>Name</th>
                 <th>Last Name</th>
-               <!--<th>Company</th>-->
                 <th>Address</th>
                 <th>Contact</th>
                 <th>Email</th>
-                <th>Actions</th> <!-- Include Actions header -->
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             <?php
             $counter = 1; // Initialize counter variable
-            foreach ($customer as $customer): ?>
+            foreach ($customers as $customer): ?>
                 <tr>
                     <td><?= $counter++ ?></td>
                     <td><?= htmlspecialchars($customer['name']) ?></td>
                     <td><?= htmlspecialchars($customer['lastname']) ?></td>
-                   <!-- <td><?= htmlspecialchars($customer['company']) ?></td>-->
                     <td><?= htmlspecialchars($customer['address']) ?></td>
                     <td><?= htmlspecialchars($customer['contact']) ?></td>
                     <td><?= htmlspecialchars($customer['email']) ?></td>
                     <td>
                         <div class="btn-group-vertical" role="group">
-                            <!-- <button class="btn btn-success" data-toggle="modal" data-target="#addCustomerModal">
-                                <i class="fas fa-plus"></i> Add
-                            </button> -->
                             <button class="btn btn-warning" onclick="openEditModal(<?= htmlspecialchars(json_encode($customer)) ?>)">
                                 <i class="fas fa-edit"></i> Edit
                             </button>
                            <button class="btn btn-danger" onclick="deleteCustomer(<?= $customer['id'] ?>)">
-    <i class="fas fa-trash-alt"> Delete</i>
-</button>
-
-
+                                <i class="fas fa-trash-alt"></i> Delete
+                           </button>
                         </div>
                     </td>
                 </tr>
@@ -135,7 +138,6 @@ $customers = readCustomers();
         </tbody>
     </table>
 </div>
-
 
 <!-- Add Customer Modal -->
 <div class="modal fade" id="addCustomerModal">
@@ -146,35 +148,30 @@ $customers = readCustomers();
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-            <form id="addCustomerForm" method="POST">
-    <input type="hidden" name="action" value="create">
-    <div class="form-group">
-        <label>Name:</label>
-        <input type="text" class="form-control" name="name" required>
-    </div>
-    <div class="form-group">
-        <label>Last Name:</label>
-        <input type="text" class="form-control" name="lastname" required>
-    </div>
-    <!--<div class="form-group">
-        <label>Company:</label>
-        <input type="text" class="form-control" name="company">
-    </div>-->
-    <div class="form-group">
-        <label>Address:</label>
-        <textarea class="form-control" name="address"></textarea>
-    </div>
-    <div class="form-group">
-        <label>Contact:</label>
-        <input type="text" class="form-control" name="contact">
-    </div>
-    <div class="form-group">
-        <label>Email:</label>
-        <input type="email" class="form-control" name="email" required>
-    </div>
-    <button type="submit" class="btn btn-primary btn-sm">Add Customer</button>
-</form>
-
+                <form id="addCustomerForm" method="POST">
+                    <input type="hidden" name="action" value="create">
+                    <div class="form-group">
+                        <label>Name:</label>
+                        <input type="text" class="form-control" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name:</label>
+                        <input type="text" class="form-control" name="lastname" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Address:</label>
+                        <textarea class="form-control" name="address"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Contact:</label>
+                        <input type="text" class="form-control" name="contact">
+                    </div>
+                    <div class="form-group">
+                        <label>Email:</label>
+                        <input type="email" class="form-control" name="email" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm">Add Customer</button>
+                </form>
             </div>
         </div>
     </div>
@@ -200,10 +197,6 @@ $customers = readCustomers();
                         <label>Last Name:</label>
                         <input type="text" class="form-control" id="edit_lastname" name="lastname" required>
                     </div>
-                   <!-- <div class="form-group">
-                        <label>Company:</label>
-                        <input type="text" class="form-control" id="edit_company" name="company">
-                    </div>-->
                     <div class="form-group">
                         <label>Address:</label>
                         <textarea class="form-control" id="edit_address" name="address"></textarea>
@@ -223,6 +216,12 @@ $customers = readCustomers();
     </div>
 </div>
 
+<!-- Include jQuery, Bootstrap JS, and DataTables JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script>
 $(document).ready(function() {
     $('#customerTable').DataTable({
         "lengthMenu": [10, 20, 50, 100]
@@ -393,8 +392,5 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 </script>
-
-
-
 </body>
 </html>
