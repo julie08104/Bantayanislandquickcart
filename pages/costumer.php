@@ -246,14 +246,30 @@ function openEditModal(customer) {
     $('#edit_email').val(customer.email);
 }
 
-   function deleteCustomer(id) {
-    console.log('Attempting to delete customer with ID:', id); // Debugging log
+  function confirmDelete(id) {
+    Swal.fire({
+        title: 'Are you sure you want to delete this customer?',
+        text: "This action cannot be undone!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            deleteCustomer(id);
+        }
+    });
+}
+
+function deleteCustomer(id) {
+    console.log('Attempting to delete customer with ID:', id);
     $.ajax({
         url: 'delete_customer.php',
         method: 'POST',
         data: { id: id },
         success: function(response) {
-            console.log('Server response:', response); // Debugging log
+            console.log('Server response:', response);
             var data = JSON.parse(response);
             if (data.success) {
                 Swal.fire(
@@ -272,7 +288,7 @@ function openEditModal(customer) {
             }
         },
         error: function(xhr, status, error) {
-            console.log('AJAX error:', status, error); // Debugging log
+            console.log('AJAX error:', status, error);
             Swal.fire(
                 'Error!',
                 'There was an error processing your request.',
@@ -281,24 +297,6 @@ function openEditModal(customer) {
         }
     });
 }
-
-
-    
-function confirmDelete(id) {
-        Swal.fire({
-            title: 'Are you sure you want to delete this customer?',
-            text: "This action cannot be undone!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                deleteCustomer(id);
-            }
-        });
-    }
 
 
 function submitEditForm() {
