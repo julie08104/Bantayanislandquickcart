@@ -1,6 +1,8 @@
 <?php
-session_start();
-require 'init.php';
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+require '../init.php'; // Adjust the path if necessary
 require 'User.php';
 
 $response = ['success' => false, 'message' => ''];
@@ -77,6 +79,9 @@ $stmt->execute();
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <!-- SweetAlert CDN -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <style>
@@ -110,24 +115,12 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
         <!-- Display avatar -->
         <div class="text-center">
             <?php if ($user['picture']): ?>
-                <center><img src="uploads/<?php echo htmlspecialchars($user['picture']); ?>" alt="Avatar" class="avatar">  </center>
+                <center><img src="uploads/<?php echo htmlspecialchars($user['picture']); ?>" alt="Avatar" class="avatar"></center>
             <?php else: ?>
-               <center><img src="uploads/images2.png" alt="Avatar" class="avatar"> </center>
+                <center><img src="uploads/images2.png" alt="Avatar" class="avatar"></center>
             <?php endif; ?>
         </div>
-                     <form id="updateProfileForm" enctype="multipart/form-data">
-                            <div class="form-group">
-                                <label for="name">First Name</label>
-                                <input type="text" name="name" id="name" class="form-control" value="<?php echo htmlspecialchars($user['first_name']); ?>" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="lastname">Last Name</label>
-                                <input type="text" name="lastname" id="lastname" class="form-control" value="<?php echo htmlspecialchars($user['last_name']); ?>" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" name="email" id="email" class="form-control" value="<?php echo htmlspecialchars($user['email']); ?>" required>
-                            </div>
+
         <!-- Button to open the modal -->
         <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#profileModal">
             Update Profile
@@ -156,11 +149,10 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
                                 <input type="email" name="email" id="email" class="form-control" value="<?php echo htmlspecialchars($user['email']); ?>" required>
                             </div>
                             <div class="form-group">
-                            <label for="address">Address</label>
-                            <textarea name="address" id="address" class="form-control" rows="4" required><?php echo htmlspecialchars($user['address'] ?? ''); ?>
-</textarea>
-
-                           <!--  <div class="form-group">
+                                <label for="address">Address</label>
+                                <textarea name="address" id="address" class="form-control" rows="4" required><?php echo htmlspecialchars($user['address'] ?? ''); ?></textarea>
+                            </div>
+                            <!-- <div class="form-group">
                                 <label for="avatar">Avatar</label>
                                 <input type="file" name="avatar" id="avatar" class="form-control">
                             </div> -->
@@ -223,3 +215,5 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
         });
     });
     </script>
+</body>
+</html>
