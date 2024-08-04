@@ -57,16 +57,16 @@ CREATE TABLE `category` (
 -- Table structure for table `customer`
 --
 
-CREATE TABLE `customers` (
-    `id` INT(11) NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(255) NOT NULL,
-    `lastname` VARCHAR(255) NOT NULL,
-    `company` VARCHAR(255),
-    `address` TEXT,
-    `contact` VARCHAR(50),
-    `email` VARCHAR(255) NOT NULL,
-    PRIMARY KEY (`id`)
+CREATE TABLE customers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    lastname VARCHAR(255) NOT NULL,
+    company VARCHAR(255),
+    address TEXT,
+    contact VARCHAR(50),
+    email VARCHAR(255) NOT NULL UNIQUE
 );
+
 
 
 --
