@@ -162,9 +162,9 @@ if ($customers === false) {
                                 <button class="btn btn-warning" onclick="openEditModal(<?= htmlspecialchars(json_encode($customer)) ?>)">
                                     <i class="fas fa-edit"></i> Edit
                                 </button>
-                            <button class="btn btn-danger" onclick="confirmDelete(<?= $customer['id'] ?>)">
-                                <i class="fas fa-trash-alt"> Delete</i>
-                            </button>
+                           <button class="btn btn-danger" onclick="confirmDelete(<?= $customer['id'] ?>)">
+                                <i class="fas fa-trash-alt"></i> Delete
+                           </button>
 
 
                             </div>
@@ -295,15 +295,12 @@ function confirmDelete(id) {
     });
 }
 
-
 function deleteCustomer(id) {
-    console.log('Attempting to delete customer with ID:', id);
     $.ajax({
         url: 'delete_customer.php',
         method: 'POST',
         data: { id: id },
         success: function(response) {
-            console.log('Server response:', response);
             try {
                 var data = JSON.parse(response);
                 if (data.success) {
@@ -330,7 +327,6 @@ function deleteCustomer(id) {
             }
         },
         error: function(xhr, status, error) {
-            console.log('AJAX error:', status, error);
             Swal.fire(
                 'Error!',
                 'There was an error processing your request.',
