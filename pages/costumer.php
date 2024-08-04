@@ -132,10 +132,9 @@ $customers = readCustomers();
                                 <button class="btn btn-warning" onclick="openEditModal(<?= htmlspecialchars(json_encode($customer)) ?>)">
                                     <i class="fas fa-edit"></i> Edit
                                 </button>
-                              <button class="btn btn-danger" onclick="confirmDelete(<?= $customer['id'] ?>)">
+                                <button class="btn btn-danger" onclick="confirmDelete(<?= htmlspecialchars($customer['id']) ?>)">
                                     <i class="fas fa-trash-alt"></i> Delete
                                 </button>
-
                             </div>
                         </td>
                     </tr>
@@ -247,58 +246,59 @@ function openEditModal(customer) {
     $('#edit_email').val(customer.email);
 }
 
-function confirmDelete(id) {
-    Swal.fire({
-        title: 'Are you sure you want to delete this customer?',
-        text: "This action cannot be undone!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            deleteCustomer(id);
-        }
-    });
-}
-
-function deleteCustomer(id) {
-    console.log("Deleting customer with ID:", id);
-
+   function deleteCustomer(id) {
+    console.log('Attempting to delete customer with ID:', id); // Debugging log
     $.ajax({
-        type: 'POST',
         url: 'delete_customer.php',
+        method: 'POST',
         data: { id: id },
         success: function(response) {
-            console.log("Response:", response); // Log response for debugging
-            try {
-                var data = JSON.parse(response);
-                if (data.success) {
-                    Swal.fire('Deleted!', data.message, 'success').then(() => {
-                        location.reload();
-                    });
-                } else {
-                    Swal.fire('Error!', data.message, 'error');
-                }
-            } catch (e) {
-                Swal.fire('Error!', 'Error parsing response: ' + e.message, 'error');
+            console.log('Server response:', response); // Debugging log
+            var data = JSON.parse(response);
+            if (data.success) {
+                Swal.fire(
+                    'Deleted!',
+                    data.message,
+                    'success'
+                ).then(() => {
+                    location.reload(); // Refresh the page to update the table
+                });
+            } else {
+                Swal.fire(
+                    'Failed!',
+                    data.message,
+                    'error'
+                );
             }
         },
         error: function(xhr, status, error) {
-            console.error("XHR:", xhr);
-            console.error("Status:", status);
-            console.error("Error:", error);
-            Swal.fire('Error!', 'Error deleting customer. Please try again.', 'error');
+            console.log('AJAX error:', status, error); // Debugging log
+            Swal.fire(
+                'Error!',
+                'There was an error processing your request.',
+                'error'
+            );
         }
     });
 }
 
 
-
-
-
-
+    
+function confirmDelete(id) {
+        Swal.fire({
+            title: 'Are you sure you want to delete this customer?',
+            text: "This action cannot be undone!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteCustomer(id);
+            }
+        });
+    }
 
 
 function submitEditForm() {
@@ -453,3 +453,44 @@ document.getElementById('searchInput').addEventListener('keyup', function() {
 
 </body>
 </html>
+
+and here is my delete_costumer.php
+
+<?php
+header('Content-Type: application/json'); // Ensure JSON output is properly handled
+
+try {
+    $pdo = new PDO('mysql:host=127.0.0.1;dbname=u510162695_ample', 'u510162695_ample', '1Ample_database');
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die(json_encode(['success' => false, 'message' => 'Database connection failed: ' . $e->getMessage()]));
+}
+
+function deleteCustomer($id) {
+    global $pdo;
+    $stmt = $pdo->prepare("DELETE FROM customer WHERE id = ?");
+    if ($stmt->execute([$id])) {
+        return true;
+    } else {
+        $errorInfo = $stmt->errorInfo();
+        error_log('SQL Error: ' . print_r($errorInfo, true)); // Log the error
+        return false;
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+    
+    if ($id > 0) {
+        $success = deleteCustomer($id);
+        echo json_encode([
+            'success' => $success,
+            'message' => $success ? 'Customer deleted successfully.' : 'Failed to delete customer.'
+        ]);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Invalid ID.']);
+    }
+} else {
+    echo json_encode(['success' => false, 'message' => 'Invalid request method.']);
+}
+?>
