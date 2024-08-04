@@ -247,29 +247,41 @@ function openEditModal(customer) {
 }
 
     function deleteCustomer(id) {
-        $.ajax({
-            url: 'delete_customer.php',
-            method: 'POST',
-            data: { action: 'delete', id: id },
-            success: function(response) {
-                if (response === 'success') {
-                    Swal.fire(
-                        'Deleted!',
-                        'Customer has been deleted.',
-                        'success'
-                    ).then(() => {
-                        location.reload(); // Refresh the page to update the table
-                    });
-                } else {
-                    Swal.fire(
-                        'Failed!',
-                        'Failed to delete customer.',
-                        'error'
-                    );
-                }
+    console.log('Attempting to delete customer with ID:', id); // Debugging log
+    $.ajax({
+        url: 'delete_customer.php',
+        method: 'POST',
+        data: { id: id },
+        success: function(response) {
+            console.log('Server response:', response); // Debugging log
+            var data = JSON.parse(response);
+            if (data.success) {
+                Swal.fire(
+                    'Deleted!',
+                    data.message,
+                    'success'
+                ).then(() => {
+                    location.reload(); // Refresh the page to update the table
+                });
+            } else {
+                Swal.fire(
+                    'Failed!',
+                    data.message,
+                    'error'
+                );
             }
-        });
-    }
+        },
+        error: function(xhr, status, error) {
+            console.log('AJAX error:', status, error); // Debugging log
+            Swal.fire(
+                'Error!',
+                'There was an error processing your request.',
+                'error'
+            );
+        }
+    });
+}
+
     
 function confirmDelete(id) {
         Swal.fire({
