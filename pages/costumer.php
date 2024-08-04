@@ -335,7 +335,7 @@ function deleteCustomer(id) {
             console.log('AJAX error:', status, error); // Debugging log
             Swal.fire(
                 'Error!',
-                'There was an error processing your request.',
+                'There was an error processing your request. Status: ' + status + ', Error: ' + error,
                 'error'
             );
         }
