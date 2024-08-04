@@ -21,7 +21,7 @@ function createCustomer($name, $lastname, $address, $contact, $email, $company =
 // Read Customers
 function readCustomers() {
     global $pdo;
-    $stmt = $pdo->query("SELECT * FROM customers"); // Ensure table name is 'customers'
+    $stmt = $pdo->query("SELECT * FROM customer"); // Ensure table name is 'customers'
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
