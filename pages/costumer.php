@@ -34,31 +34,43 @@ function updateCustomer($id, $name, $lastname, $address, $contact, $email) {
     return $stmt->execute([$name, $lastname, $address, $contact, $email, $id]);
 }
 
-// Delete Customer
-function deleteCustomer($id) {
-    global $pdo;
-    $stmt = $pdo->prepare("DELETE FROM customer WHERE id = ?");
-    return $stmt->execute([$id]);
+function deleteCustomer(id) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to delete this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: 'POST',
+                url: 'index.php', // Ensure this URL matches where your PHP script is located
+                data: {
+                    action: 'delete',
+                    id: id
+                },
+                success: function(response) {
+                    var data = JSON.parse(response);
+                    if (data.success) {
+                        Swal.fire('Deleted!', data.message, 'success').then(() => {
+                            location.reload(); // Reload the page to see the changes
+                        });
+                    } else {
+                        Swal.fire('Error!', data.message, 'error');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire('Error!', 'Error deleting customer. Please try again.', 'error');
+                }
+            });
+        }
+    });
 }
 
-// Handle Form Submission
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $action = $_POST['action'];
-    
-    switch ($action) {
-        case 'create':
-            createCustomer($_POST['name'], $_POST['lastname'], $_POST['address'], $_POST['contact'], $_POST['email']);
-            break;
-        case 'update':
-            updateCustomer($_POST['id'], $_POST['name'], $_POST['lastname'], $_POST['address'], $_POST['contact'], $_POST['email']);
-            break;
-        case 'delete':
-            deleteCustomer($_POST['id']);
-            break;
-    }
-    header('Location: index.php?page=costumer'); // Redirect after action
-    exit;
-}
 // Fetch customers for display
 $customers = readCustomers();
 ?>
@@ -264,12 +276,11 @@ function openEditModal(customer) {
     $('#edit_contact').val(customer.contact);
     $('#edit_email').val(customer.email);
 }
+    
 function deleteCustomer(id) {
-    console.log("Delete function called with ID: ", id);
-
     Swal.fire({
         title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        text: "You won't be able to delete this!",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -278,56 +289,31 @@ function deleteCustomer(id) {
         cancelButtonText: 'Cancel'
     }).then((result) => {
         if (result.isConfirmed) {
-            console.log("User confirmed deletion");
-
             $.ajax({
                 type: 'POST',
-                url: 'delete_customer.php',
-                data: { id: id },
+                url: 'index.php', // Ensure this URL matches where your PHP script is located
+                data: {
+                    action: 'delete',
+                    id: id
+                },
                 success: function(response) {
-                    console.log("AJAX request successful: ", response);
-
-                    try {
-                        var data = JSON.parse(response); // Parse the JSON response
-                        console.log("Parsed response: ", data);
-
-                        if (data.success) {
-                            Swal.fire(
-                                'Deleted!',
-                                data.message,
-                                'success'
-                            ).then(() => {
-                                location.reload(); // Reload the page to see the changes
-                            });
-                        } else {
-                            Swal.fire(
-                                'Error!',
-                                data.message,
-                                'error'
-                            );
-                        }
-                    } catch (e) {
-                        Swal.fire(
-                            'Error!',
-                            'Error parsing response: ' + e.message,
-                            'error'
-                        );
+                    var data = JSON.parse(response);
+                    if (data.success) {
+                        Swal.fire('Deleted!', data.message, 'success').then(() => {
+                            location.reload(); // Reload the page to see the changes
+                        });
+                    } else {
+                        Swal.fire('Error!', data.message, 'error');
                     }
                 },
                 error: function(xhr, status, error) {
-                    console.error("AJAX request error: ", xhr.responseText);
-                    Swal.fire(
-                        'Error!',
-                        'Error deleting customer. Please try again.',
-                        'error'
-                    );
+                    Swal.fire('Error!', 'Error deleting customer. Please try again.', 'error');
                 }
             });
-        } else {
-            console.log("User canceled deletion");
         }
     });
 }
+
 
 
 
