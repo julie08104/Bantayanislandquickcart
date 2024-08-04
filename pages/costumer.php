@@ -21,7 +21,7 @@ function createCustomer($name, $lastname, $address, $contact, $email, $company =
 // Read Customers
 function readCustomers() {
     global $pdo;
-    $stmt = $pdo->query("SELECT * FROM customer");
+    $stmt = $pdo->query("SELECT * FROM customers"); // Ensure table name is 'customers'
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
@@ -320,56 +320,52 @@ function submitEditForm() {
     });
 }
 
-$(document).ready(function() {
-    $('#addCustomerForm').on('submit', function(event) {
-        event.preventDefault(); // Prevent the default form submission
-
-        $.ajax({
-            type: 'POST',
-            url: 'add_customer.php', // Path to your PHP script
-            data: $(this).serialize(), // Serialize form data
-            success: function(response) {
-                try {
-                    var data = JSON.parse(response);
-                    if (data.success) {
-                        Swal.fire({
-                            title: 'Success!',
-                            text: 'Customer added successfully.',
-                            icon: 'success',
-                            confirmButtonText: 'OK'
-                        }).then(() => {
-                            $('#addCustomerModal').modal('hide'); // Hide the modal
-                            location.reload(); // Reload the page or update the table
-                        });
-                    } else {
-                        Swal.fire({
-                            title: 'Error!',
-                            text: data.message,
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        });
-                    }
-                } catch (e) {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: 'Invalid response from server.',
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
-                }
-            },
-            error: function(xhr, status, error) {
-                console.log('AJAX error:', status, error); // Debugging log
+$.ajax({
+    type: 'POST',
+    url: 'add_customer.php',
+    data: $(this).serialize(),
+    success: function(response) {
+        console.log('Server response:', response);
+        try {
+            var data = JSON.parse(response);
+            if (data.success) {
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Customer added successfully.',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    $('#addCustomerModal').modal('hide');
+                    location.reload();
+                });
+            } else {
                 Swal.fire({
                     title: 'Error!',
-                    text: 'An error occurred. Please try again.',
+                    text: data.message,
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
             }
+        } catch (e) {
+            Swal.fire({
+                title: 'Error!',
+                text: 'Invalid response from server.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        }
+    },
+    error: function(xhr, status, error) {
+        console.log('AJAX error:', status, error);
+        Swal.fire({
+            title: 'Error!',
+            text: 'An error occurred. Please try again.',
+            icon: 'error',
+            confirmButtonText: 'OK'
         });
-    });
+    }
 });
+
 
 
 function printCustomerList() {
