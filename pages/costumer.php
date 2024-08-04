@@ -132,7 +132,7 @@ $customers = readCustomers();
                                 <button class="btn btn-warning" onclick="openEditModal(<?= htmlspecialchars(json_encode($customer)) ?>)">
                                     <i class="fas fa-edit"></i> Edit
                                 </button>
-                                 <button class="btn btn-danger" onclick="deleteCustomer(<?= htmlspecialchars($customer['id']) ?>)">
+                                <button class="btn btn-danger" onclick="confirmDelete(<?= htmlspecialchars($customer['id']) ?>)">
                                     <i class="fas fa-trash-alt"></i> Delete
                                 </button>
                             </div>
