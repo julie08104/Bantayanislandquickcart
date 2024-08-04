@@ -366,18 +366,6 @@ $riders = readRiders();
                         <label for="editStatus">Status</label>
                         <input type="text" class="form-control" id="editStatus" name="status" required>
                     </div>
-                    <div class="form-group">
-                        <label for="editTotalRides">Total Rides</label>
-                        <input type="number" class="form-control" id="editTotalRides" name="total_rides" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="editRating">Rating</label>
-                        <input type="number" class="form-control" id="editRating" name="rating" step="0.01" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="editPaymentMethod">Payment Method</label>
-                        <input type="text" class="form-control" id="editPaymentMethod" name="payment_method" required>
-                    </div>
                     <button type="submit" class="btn btn-primary">Save Changes</button>
                 </form>
             </div>
@@ -423,23 +411,25 @@ $riders = readRiders();
 });
 
 
-    // Open edit modal and populate fields
-    function openEditModal(rider) {
-       $('#editRiderId').val(rider.rider_id);
-        $('#editName').val(rider.name);
-        $('#editLastname').val(rider.lastname);
-        $('#editGender').val(rider.gender);
-        $('#editAddress').val(rider.address);
-        $('#editContactNumber').val(rider.contact_number);
-        $('#editEmail').val(rider.email);
-        $('#editVehicleType').val(rider.vehicle_type);
-        $('#editLicenseNumber').val(rider.license_number);
-        $('#editStatus').val(rider.status);
-        // $('#editTotalRides').val(rider.total_rides);
-        // $('#editRating').val(rider.rating);
-        // $('#editPaymentMethod').val(rider.payment_method);
-        // $('#editRiderModal').modal('show');
-    }
+   // Open edit modal and populate fields
+function openEditModal(rider) {
+    $('#editRiderId').val(rider.rider_id);
+    $('#editName').val(rider.name);
+    $('#editLastname').val(rider.lastname);
+    $('#editGender').val(rider.gender);
+    $('#editAddress').val(rider.address);
+    $('#editContactNumber').val(rider.contact_number);
+    $('#editEmail').val(rider.email);
+    $('#editVehicleType').val(rider.vehicle_type);
+    $('#editLicenseNumber').val(rider.license_number);
+    $('#editStatus').val(rider.status);
+    // Ensure these fields are not present in the modal
+    $('#editTotalRides').remove();
+    $('#editRating').remove();
+    $('#editPaymentMethod').remove();
+    $('#editRiderModal').modal('show');
+}
+
 
     // Delete rider
     function deleteRider(rider_id) {
