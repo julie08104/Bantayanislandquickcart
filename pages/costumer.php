@@ -156,9 +156,10 @@ if ($customers === false) {
                                 <button class="btn btn-warning" onclick="openEditModal(<?= htmlspecialchars(json_encode($customer)) ?>)">
                                     <i class="fas fa-edit"></i> Edit
                                 </button>
-                               <button class="btn btn-danger" onclick="deleteCustomer(<?= $customer['id'] ?>)">
-                                    <i class="fas fa-trash-alt"></i> Delete
-                               </button>
+                              <button class="btn btn-danger" onclick="confirmDelete(<?= $customer['id'] ?>)">
+                                <i class="fas fa-trash-alt"></i> Delete
+                            </button>
+
                             </div>
                         </td>
                     </tr>
@@ -271,29 +272,53 @@ function openEditModal(customer) {
     $('#edit_email').val(customer.email);
 }
 
-function deleteCustomer(id) {
-    console.log("Deleting customer with ID:", id); // Debugging line
-    if (confirm('Are you sure you want to delete this customer?')) {
-        $.ajax({
-            type: 'POST',
-            url: 'delete_customer.php',
-            data: { id: id },
-            dataType: 'json',
-            success: function(response) {
-                if (response.success) {
-                    alert(response.message);
-                    location.reload(); // Refresh to see the change
-                } else {
-                    alert('Error: ' + response.message);
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
-                alert('Error deleting customer. Please try again.');
-            }
-        });
-    }
+function confirmDelete(id) {
+    Swal.fire({
+        title: 'Are you sure you want to delete this customer?',
+        text: "This action cannot be undone!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            deleteCustomer(id);
+        }
+    });
 }
+
+function deleteCustomer(id) {
+    console.log("Deleting customer with ID:", id);
+
+    $.ajax({
+        type: 'POST',
+        url: 'delete_customer.php',
+        data: { id: id },
+        success: function(response) {
+            console.log("Response:", response); // Log response for debugging
+            try {
+                var data = JSON.parse(response);
+                if (data.success) {
+                    Swal.fire('Deleted!', data.message, 'success').then(() => {
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire('Error!', data.message, 'error');
+                }
+            } catch (e) {
+                Swal.fire('Error!', 'Error parsing response: ' + e.message, 'error');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("XHR:", xhr);
+            console.error("Status:", status);
+            console.error("Error:", error);
+            Swal.fire('Error!', 'Error deleting customer. Please try again.', 'error');
+        }
+    });
+}
+
 
 
 
