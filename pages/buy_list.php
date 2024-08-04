@@ -162,8 +162,9 @@ $riders = readRiders();
                             </button> -->
                             <button class="btn btn-info btn-sm" onclick="openViewModal(<?= htmlentities(json_encode($rider)) ?>)">
                                 <i class="fas fa-eye">View</i></button>
-                                <button class="btn btn-warning" onclick="openEditModal(<?= htmlspecialchars(json_encode($customer)) ?>)">
-                                <i class="fas fa-edit"></i> Edit</button>
+                                 <button class="btn btn-warning" onclick="openEditModal(<?= htmlentities(json_encode($rider)) ?>)">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
                             <button class="btn btn-danger btn-sm" onclick="deleteRider(<?= $rider['rider_id'] ?>)">
                                 <i class="fas fa-trash">Delete</i></button>
                         </div>
@@ -327,65 +328,58 @@ $riders = readRiders();
                 </button>
             </div>
             <div class="modal-body">
-                <form id="editRiderForm" method="POST">
-                    <input type="hidden" name="action" value="update">
-                    <input type="hidden" id="edit_rider_id" name="rider_id">
+                <form id="editRiderForm">
+                    <input type="hidden" id="editRiderId" name="rider_id">
+                    <!-- Add necessary fields here -->
                     <div class="form-group">
-                        <label for="edit_rider_name">Name:</label>
-                        <input type="text" class="form-control" id="edit_rider_name" name="name" required>
+                        <label for="editName">Name</label>
+                        <input type="text" class="form-control" id="editName" name="name" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit_rider_lastname">Last Name:</label>
-                        <input type="text" class="form-control" id="edit_rider_lastname" name="lastname" required>
+                        <label for="editLastname">Last Name</label>
+                        <input type="text" class="form-control" id="editLastname" name="lastname" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit_rider_gender">Gender:</label>
-                        <select class="form-control" id="edit_rider_gender" name="gender" required>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="other">Other</option>
-                        </select>
+                        <label for="editGender">Gender</label>
+                        <input type="text" class="form-control" id="editGender" name="gender" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit_rider_address">Address:</label>
-                        <input type="text" class="form-control" id="edit_rider_address" name="address" required>
+                        <label for="editAddress">Address</label>
+                        <input type="text" class="form-control" id="editAddress" name="address" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit_rider_contact_number">Contact Number:</label>
-                        <input type="text" class="form-control" id="edit_rider_contact_number" name="contact_number" required>
+                        <label for="editContactNumber">Contact Number</label>
+                        <input type="text" class="form-control" id="editContactNumber" name="contact_number" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit_rider_email">Email:</label>
-                        <input type="email" class="form-control" id="edit_rider_email" name="email" required>
+                        <label for="editEmail">Email</label>
+                        <input type="email" class="form-control" id="editEmail" name="email" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit_vehicle_type">Vehicle Type:</label>
-                        <input type="text" class="form-control" id="edit_vehicle_type" name="vehicle_type" required>
+                        <label for="editVehicleType">Vehicle Type</label>
+                        <input type="text" class="form-control" id="editVehicleType" name="vehicle_type" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit_license_number">License Number:</label>
-                        <input type="text" class="form-control" id="edit_license_number" name="license_number" required>
+                        <label for="editLicenseNumber">License Number</label>
+                        <input type="text" class="form-control" id="editLicenseNumber" name="license_number" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit_status">Status:</label>
-                        <select class="form-control" id="edit_status" name="status" required>
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
-                        </select>
+                        <label for="editStatus">Status</label>
+                        <input type="text" class="form-control" id="editStatus" name="status" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit_total_rides">Total Rides:</label>
-                        <input type="number" class="form-control" id="edit_total_rides" name="total_rides" required>
+                        <label for="editTotalRides">Total Rides</label>
+                        <input type="number" class="form-control" id="editTotalRides" name="total_rides" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit_rating">Rating:</label>
-                        <input type="number" step="0.1" class="form-control" id="edit_rating" name="rating" required>
+                        <label for="editRating">Rating</label>
+                        <input type="number" class="form-control" id="editRating" name="rating" step="0.01" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit_payment_method">Payment Method:</label>
-                        <input type="text" class="form-control" id="edit_payment_method" name="payment_method" required>
+                        <label for="editPaymentMethod">Payment Method</label>
+                        <input type="text" class="form-control" id="editPaymentMethod" name="payment_method" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Update Rider</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
                 </form>
             </div>
         </div>
