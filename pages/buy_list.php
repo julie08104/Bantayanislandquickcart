@@ -479,37 +479,41 @@ $riders = readRiders();
         $('#viewRiderModal').modal('show');
     }
 function printTable() {
+    // Hide the entire Actions column (which is the last column in the table)
     var actionsColumn = document.querySelectorAll('#riderTable th:last-child, #riderTable td:last-child');
     actionsColumn.forEach(function(cell) {
         cell.style.display = 'none';
     });
 
+    // Hide the Print button
     document.getElementById('printButton').style.display = 'none';
 
+    // Hide DataTables pagination and length selector (if applicable)
     var dataTablePagination = document.querySelector('.dataTables_paginate');
-    var dataTableLengthSelector = document.querySelector('.dataTables_length');
-
     if (dataTablePagination) {
         dataTablePagination.style.display = 'none';
     }
+    var dataTableLengthSelector = document.querySelector('.dataTables_length');
     if (dataTableLengthSelector) {
         dataTableLengthSelector.style.display = 'none';
     }
 
+    // Create a new window for printing
+    var divToPrint = document.getElementById("riderTable").cloneNode(true);
     var newWin = window.open("");
-    newWin.document.write('<html><head><title>Rider List</title>');
+    newWin.document.write('<html><head><title>Print Rider List</title>');
     newWin.document.write('<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">');
     newWin.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">');
-    newWin.document.write('</head><body style="text-align: center;">');
-    newWin.document.write('<img src="dist/img/images1.png" alt="logo" style="width: 100px; height: auto;">');
-    newWin.document.write(document.querySelector('#riderTable').outerHTML);
+    newWin.document.write('</head><body>');
+    newWin.document.write('<h1 style="text-align: center;">Rider List</h1>'); // Add header
+    newWin.document.write(divToPrint.outerHTML);
     newWin.document.write('</body></html>');
     newWin.document.close();
     newWin.print();
 
     // Restore visibility of the Actions column, Print button, pagination, and length selector after printing
     actionsColumn.forEach(function(cell) {
-        cell.style.display = ''; 
+        cell.style.display = ''; // Restore to default display type
     });
     document.getElementById('printButton').style.display = 'inline-block';
     if (dataTablePagination) {
