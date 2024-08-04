@@ -296,6 +296,7 @@ function deleteCustomer(id) {
         url: 'delete_customer.php',
         data: { id: id },
         success: function(response) {
+            console.log('Raw Response:', response); // Log the raw response
             try {
                 var data = JSON.parse(response); // Parse the JSON response
                 if (data.success) {
@@ -331,6 +332,7 @@ function deleteCustomer(id) {
         }
     });
 }
+
 
 
 
