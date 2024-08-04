@@ -97,6 +97,7 @@ $riders = readRiders();
             <img src="dist/img/images1.png" alt="logo" class="brand-image" style="display: block; width: 100px; height: auto;">
         </div>
         <!-- Rider List Heading -->
+         <br> <br> <br>
         <h1>Rider List</h1>
     </div>
 
