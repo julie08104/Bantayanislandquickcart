@@ -350,6 +350,7 @@ $('#addCustomerForm').on('submit', function(e) {
                     });
                 }
             } catch (e) {
+                console.error('JSON parsing error:', e); // Log parsing errors
                 Swal.fire({
                     title: 'Error!',
                     text: 'Invalid response from server.',
@@ -359,7 +360,7 @@ $('#addCustomerForm').on('submit', function(e) {
             }
         },
         error: function(xhr, status, error) {
-            console.log('AJAX error:', status, error);
+            console.error('AJAX error:', status, error); // Log AJAX errors
             Swal.fire({
                 title: 'Error!',
                 text: 'An error occurred. Please try again.',
@@ -369,6 +370,7 @@ $('#addCustomerForm').on('submit', function(e) {
         }
     });
 });
+
 
 
 
