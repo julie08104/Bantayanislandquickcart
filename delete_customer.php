@@ -10,7 +10,6 @@ try {
         // Debugging line to verify the ID received
         file_put_contents('log.txt', "ID received: " . $id . "\n", FILE_APPEND);
 
-        // Prepare the delete statement
         $stmt = $pdo->prepare("DELETE FROM `customer` WHERE id = :id");
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
