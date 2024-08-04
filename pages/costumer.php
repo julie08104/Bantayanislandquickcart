@@ -156,9 +156,10 @@ if ($customers === false) {
                                 <button class="btn btn-warning" onclick="openEditModal(<?= htmlspecialchars(json_encode($customer)) ?>)">
                                     <i class="fas fa-edit"></i> Edit
                                 </button>
-                             <button class="btn btn-danger" onclick="deleteCustomer(<?= $customer['id'] ?>)">
+                            <button class="btn btn-danger" onclick="confirmDelete(<?= $customer['id'] ?>)">
                                 <i class="fas fa-trash-alt"> Delete</i>
                             </button>
+
 
                             </div>
                         </td>
