@@ -44,6 +44,7 @@ function deleteCustomer($id) {
     return $stmt->execute();
 }
 
+
 // Handle Form Submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'];
