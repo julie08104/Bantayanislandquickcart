@@ -110,7 +110,7 @@ if ($customers === false) {
     <div class="print-container">
         <div id="printImage" class="print-only">
             <img src="dist/img/images1.png" alt="logo" class="brand-image">
-        </div>
+        </div><br><br><br>
         <h1>Customer List</h1>
     </div>
 
