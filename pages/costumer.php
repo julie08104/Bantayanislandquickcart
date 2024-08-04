@@ -297,12 +297,12 @@ function confirmDelete(id) {
 
 
 function deleteCustomer(id) {
-    console.log('Attempting to delete customer with ID:', id);
+    console.log('Attempting to delete customer with ID:', id); // Check if ID is correct
     $.ajax({
         url: 'delete_customer.php',
         method: 'POST',
         data: { id: id },
-        dataType: 'json', // Expect JSON response
+        dataType: 'json', // Ensure we're expecting JSON
         success: function(response) {
             console.log('Server response:', response);
             if (response.success) {
@@ -315,7 +315,7 @@ function deleteCustomer(id) {
         },
         error: function(xhr, status, error) {
             console.log('AJAX error:', status, error);
-            console.log('Response Text:', xhr.responseText); // Log raw response text
+            console.log('Response Text:', xhr.responseText);
             Swal.fire('Error!', 'There was an error processing your request.', 'error');
         }
     });
