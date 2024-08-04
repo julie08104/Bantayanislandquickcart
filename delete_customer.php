@@ -1,18 +1,23 @@
 <?php
-header('Content-Type: application/json'); // Ensure the content type is JSON
+header('Content-Type: application/json');
+include 'db_connection.php'; // Include your database connection file
 
-try {
-    $pdo = new PDO('mysql:host=127.0.0.1;dbname=u510162695_ample', 'u510162695_ample', '1Ample_database');
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    echo json_encode([
-        'success' => false,
-        'message' => 'Database connection failed: ' . $e->getMessage()
-    ]);
-    exit();
+function deleteCustomer($id) {
+    global $pdo;
+    try {
+        $stmt = $pdo->prepare("DELETE FROM customer WHERE id = ?");
+        if ($stmt->execute([$id])) {
+            return true;
+        } else {
+            $errorInfo = $stmt->errorInfo();
+            error_log('SQL Error: ' . print_r($errorInfo, true)); // Log the error
+            return false;
+        }
+    } catch (PDOException $e) {
+        error_log('Database Error: ' . $e->getMessage());
+        return false;
+    }
 }
-
-
 
 $id = $_POST['id'] ?? '';
 
@@ -25,6 +30,4 @@ if ($id) {
 } else {
     echo json_encode(['success' => false, 'message' => 'Invalid ID.']);
 }
-
-
 ?>
