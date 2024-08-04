@@ -310,19 +310,28 @@ function deleteCustomer(id) {
         data: { id: id },
         success: function(response) {
             console.log('Server response:', response);
-            var data = JSON.parse(response);
-            if (data.success) {
+            try {
+                var data = JSON.parse(response);
+                if (data.success) {
+                    Swal.fire(
+                        'Deleted!',
+                        data.message,
+                        'success'
+                    ).then(() => {
+                        location.reload(); // Refresh the page to update the table
+                    });
+                } else {
+                    Swal.fire(
+                        'Failed!',
+                        data.message,
+                        'error'
+                    );
+                }
+            } catch (e) {
+                console.error('Error parsing JSON:', e);
                 Swal.fire(
-                    'Deleted!',
-                    data.message,
-                    'success'
-                ).then(() => {
-                    location.reload(); // Refresh the page to update the table
-                });
-            } else {
-                Swal.fire(
-                    'Failed!',
-                    data.message,
+                    'Error!',
+                    'Invalid response from server.',
                     'error'
                 );
             }
