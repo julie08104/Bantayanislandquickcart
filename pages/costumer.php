@@ -297,15 +297,15 @@ function confirmDelete(id) {
 
 
 function deleteCustomer(id) {
-    console.log('Attempting to delete customer with ID:', id);
+    console.log('Attempting to delete customer with ID:', id); // Debugging log
     $.ajax({
         url: 'delete_customer.php',
         method: 'POST',
         data: { id: id },
         success: function(response) {
-            console.log('Server response:', response);
+            console.log('Server response:', response); // Debugging log
             try {
-                var data = JSON.parse(response);
+                var data = JSON.parse(response); // Attempt to parse JSON response
                 if (data.success) {
                     Swal.fire(
                         'Deleted!',
@@ -325,13 +325,13 @@ function deleteCustomer(id) {
                 console.error('Error parsing JSON response:', e);
                 Swal.fire(
                     'Error!',
-                    'Unexpected server response.',
+                    'Unexpected server response. Please try again.',
                     'error'
                 );
             }
         },
         error: function(xhr, status, error) {
-            console.log('AJAX error:', status, error);
+            console.log('AJAX error:', status, error); // Debugging log
             Swal.fire(
                 'Error!',
                 'There was an error processing your request.',
@@ -340,6 +340,7 @@ function deleteCustomer(id) {
         }
     });
 }
+
 
 
 
