@@ -69,28 +69,59 @@ if ($customers === false) {
     $customers = []; // Default to empty array if error occurred
 }
 ?>
+<style>
+        /* Initially hide the print image */
+        #printImage {
+            display: none;
+        }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Management</title>
-    <!-- Include Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Include DataTables CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+        @media print {
+            .print-container {
+                display: flex;
+                align-items: center; /* Align items horizontally */
+                position: relative;
+            }
+
+            .print-only {
+                display: block !important;
+                width: 60px; /* Adjust the width to make the image smaller */
+                height: auto;
+                z-index: 10;
+                margin-right: 20px; /* Space between the image and the text */
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            /* Ensure table cells and headers are displayed properly */
+            #customerTable td, #customerTable th {
+                display: table-cell !important;
+            }
+
+            .dataTables_paginate, .dataTables_length, .dataTables_filter {
+                display: none !important;
+            }
+        }
+    </style>
 </head>
 <body>
-<br>
-<div class="container-fluid" style="margin-left: 0px!important;">
-    <h1>Customer List</h1>
-    <!-- Add Customer Button -->
-    <div class="float-left mb-3" role="group">
-        <button class="btn btn-success" data-toggle="modal" data-target="#addCustomerModal">
-            <i class="fas fa-plus"></i> Add Customer
-        </button>
+    <!-- Print Image and Heading -->
+    <div class="print-container">
+        <div id="printImage" class="print-only">
+            <img src="dist/img/images1.png" alt="logo" class="brand-image">
+        </div>
+        <h1>Customer List</h1>
     </div>
+
+    <div class="container-fluid" style="margin-left: 0px!important;">
+        <!-- Add Customer Button -->
+        <div class="float-left mb-3">
+            <button class="btn btn-success no-print" data-toggle="modal" data-target="#addCustomerModal">
+                <i class="fas fa-plus"></i> Add Customer
+            </button>
+        </div>
+
 
     <!-- Print Button -->
     <div class="text-right mb-3">
