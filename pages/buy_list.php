@@ -330,7 +330,6 @@ $riders = readRiders();
             <div class="modal-body">
                 <form id="editRiderForm">
                     <input type="hidden" id="editRiderId" name="rider_id">
-                    <!-- Add necessary fields here -->
                     <div class="form-group">
                         <label for="editName">Name</label>
                         <input type="text" class="form-control" id="editName" name="name" required>
@@ -386,6 +385,7 @@ $riders = readRiders();
     </div>
 </div>
 
+
 <!-- JavaScript to handle form submissions and modal opening -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -393,50 +393,51 @@ $riders = readRiders();
 <script>
 
     $(document).ready(function() {
-        // Add rider form submission
-        $('#addRiderForm').on('submit', function(e) {
-            e.preventDefault();
-            $.ajax({
-                type: 'POST',
-                url: 'rider_functions.php',
-                data: $(this).serialize(),
-                success: function(response) {
-                    alert('Rider added successfully!');
-                    location.reload();
-                }
-            });
-        });
-
-        // Edit rider form submission
-        $('#editRiderForm').on('submit', function(e) {
-            e.preventDefault();
-            $.ajax({
-                type: 'POST',
-                url: 'rider_functions.php',
-                data: $(this).serialize(),
-                success: function(response) {
-                    alert('Rider updated successfully!');
-                    location.reload();
-                }
-            });
+    // Add rider form submission
+    $('#addRiderForm').on('submit', function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: 'rider_functions.php',
+            data: $(this).serialize(),
+            success: function(response) {
+                alert('Rider added successfully!');
+                location.reload();
+            }
         });
     });
 
+    // Edit rider form submission
+    $('#editRiderForm').on('submit', function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: 'rider_functions.php',
+            data: $(this).serialize(),
+            success: function(response) {
+                alert('Rider updated successfully!');
+                location.reload();
+            }
+        });
+    });
+});
+
+
     // Open edit modal and populate fields
     function openEditModal(rider) {
-        $('#edit_rider_id').val(rider.rider_id);
-        $('#edit_rider_name').val(rider.name);
-        $('#edit_rider_lastname').val(rider.lastname);
-        $('#edit_rider_gender').val(rider.gender);
-        $('#edit_rider_address').val(rider.address);
-        $('#edit_rider_contact_number').val(rider.contact_number);
-        $('#edit_rider_email').val(rider.email);
-        $('#edit_vehicle_type').val(rider.vehicle_type);
-        $('#edit_license_number').val(rider.license_number);
-        $('#edit_status').val(rider.status);
-        $('#edit_total_rides').val(rider.total_rides);
-        $('#edit_rating').val(rider.rating);
-        $('#edit_payment_method').val(rider.payment_method);
+       $('#editRiderId').val(rider.rider_id);
+        $('#editName').val(rider.name);
+        $('#editLastname').val(rider.lastname);
+        $('#editGender').val(rider.gender);
+        $('#editAddress').val(rider.address);
+        $('#editContactNumber').val(rider.contact_number);
+        $('#editEmail').val(rider.email);
+        $('#editVehicleType').val(rider.vehicle_type);
+        $('#editLicenseNumber').val(rider.license_number);
+        $('#editStatus').val(rider.status);
+        $('#editTotalRides').val(rider.total_rides);
+        $('#editRating').val(rider.rating);
+        $('#editPaymentMethod').val(rider.payment_method);
         $('#editRiderModal').modal('show');
     }
 
