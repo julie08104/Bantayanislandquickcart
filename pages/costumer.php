@@ -14,19 +14,18 @@ function addColumnIfNotExists($pdo, $table, $column, $columnDefinition) {
 // Create Customer
 function createCustomer($name, $lastname, $address, $contact, $email) {
     global $pdo;
-    $stmt = $pdo->prepare("INSERT INTO customers (name, lastname, address, contact, email) VALUES (?, ?, ?, ?, ?)");
+    // Prepare the SQL statement with placeholders
+    $stmt = $pdo->prepare("INSERT INTO customer (name, lastname, address, contact, email) VALUES (?, ?, ?, ?, ?)");
+    // Execute the statement with the provided values
     return $stmt->execute([$name, $lastname, $address, $contact, $email]);
 }
-
-
 
 // Read Customers
 function readCustomers() {
     global $pdo;
-    $stmt = $pdo->query("SELECT * FROM customers");
+    $stmt = $pdo->query("SELECT * FROM customer");
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-
 
 // Update Customer
 function updateCustomer($id, $name, $lastname, $address, $contact, $email) {
@@ -333,18 +332,16 @@ function submitAddForm() {
         success: function(response) {
             var data = JSON.parse(response);
             if (data.success) {
-                location.reload(); // Refresh the page to update the table
+                window.location.href = 'index.php?page=customer'; // Redirect after success
             } else {
                 alert('Error: ' + data.message); // Show error message
             }
         },
-        error: function(xhr, status, error) {
-            console.log('AJAX error:', status, error); // Debugging log
+        error: function() {
             alert('Error adding customer. Please try again.');
         }
     });
 }
-
 function printCustomerList() {
     console.log("Print function called");
 
@@ -456,4 +453,3 @@ document.getElementById('searchInput').addEventListener('keyup', function() {
 
 </body>
 </html>
-
