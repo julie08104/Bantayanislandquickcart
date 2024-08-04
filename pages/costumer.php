@@ -266,35 +266,24 @@ function openEditModal(customer) {
 
 function deleteCustomer(id) {
     console.log('Attempting to delete customer with ID:', id);
-    $.ajax({
+   $.ajax({
         url: 'delete_customer.php',
         method: 'POST',
         data: { id: id },
         success: function(response) {
-            console.log('Raw server response:', response); // Log raw server response
-            
-            try {
-                var data = JSON.parse(response);
-                if (data.success) {
-                    Swal.fire(
-                        'Deleted!',
-                        data.message,
-                        'success'
-                    ).then(() => {
-                        location.reload(); // Refresh the page to update the table
-                    });
-                } else {
-                    Swal.fire(
-                        'Failed!',
-                        data.message,
-                        'error'
-                    );
-                }
-            } catch (e) {
-                console.error('Error parsing JSON response:', e);
+            console.log('Server response:', response); // Log server response
+            if (response === 'success') {
                 Swal.fire(
-                    'Error!',
-                    'Unexpected server response.',
+                    'Deleted!',
+                    'Customer deleted successfully.',
+                    'success'
+                ).then(() => {
+                    location.reload(); // Refresh the page to update the table
+                });
+            } else {
+                Swal.fire(
+                    'Failed!',
+                    'Customer not found or error occurred.',
                     'error'
                 );
             }
@@ -309,6 +298,7 @@ function deleteCustomer(id) {
         }
     });
 }
+
 
 
 
