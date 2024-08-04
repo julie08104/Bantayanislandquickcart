@@ -248,7 +248,7 @@ function openEditModal(customer) {
 
     function deleteCustomer(id) {
         $.ajax({
-            url: 'customer_process.php',
+            url: 'delete_customer.php',
             method: 'POST',
             data: { action: 'delete', id: id },
             success: function(response) {
