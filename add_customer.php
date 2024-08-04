@@ -1,10 +1,8 @@
 <?php
-// Include your database connection or initialization script
-require_once '../init.php'; // Adjust path as necessary
+require_once '../init.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
-        // Get POST data
         $name = $_POST['name'];
         $lastname = $_POST['lastname'];
         $company = $_POST['company'];
@@ -12,13 +10,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $contact = $_POST['contact'];
         $email = $_POST['email'];
 
-        // Prepare SQL statement
         $stmt = $pdo->prepare("INSERT INTO customers (name, lastname, company, address, contact, email) VALUES (?, ?, ?, ?, ?, ?)");
-        
-        // Execute the statement
         $stmt->execute([$name, $lastname, $company, $address, $contact, $email]);
 
-        // Check if the insertion was successful
         if ($stmt->rowCount() > 0) {
             echo json_encode(['success' => true]);
         } else {
