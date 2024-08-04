@@ -295,6 +295,7 @@ function confirmDelete(id) {
     });
 }
 
+
 function deleteCustomer(id) {
     console.log('Attempting to delete customer with ID:', id);
     $.ajax({
