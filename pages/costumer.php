@@ -296,42 +296,35 @@ function confirmDelete(id) {
 
 
 function deleteCustomer(id) {
+    console.log('Attempting to delete customer with ID:', id); // Debugging log
     $.ajax({
-        type: 'POST',
         url: 'delete_customer.php',
+        method: 'POST',
         data: { id: id },
         success: function(response) {
-            console.log('Raw Response:', response); // Log the raw response
-            try {
-                var data = JSON.parse(response); // Parse the JSON response
-                if (data.success) {
-                    Swal.fire(
-                        'Deleted!',
-                        data.message,
-                        'success'
-                    ).then(() => {
-                        // Reload the DataTable to reflect changes
-                        $('#customerTable').DataTable().ajax.reload();
-                    });
-                } else {
-                    Swal.fire(
-                        'Error!',
-                        data.message,
-                        'error'
-                    );
-                }
-            } catch (e) {
+            console.log('Server response:', response); // Debugging log
+            var data = JSON.parse(response);
+            if (data.success) {
                 Swal.fire(
-                    'Error!',
-                    'Error parsing response: ' + e.message,
+                    'Deleted!',
+                    data.message,
+                    'success'
+                ).then(() => {
+                    location.reload(); // Refresh the page to update the table
+                });
+            } else {
+                Swal.fire(
+                    'Failed!',
+                    data.message,
                     'error'
                 );
             }
         },
         error: function(xhr, status, error) {
+            console.log('AJAX error:', status, error); // Debugging log
             Swal.fire(
                 'Error!',
-                'Error deleting customer. Please try again.',
+                'There was an error processing your request.',
                 'error'
             );
         }
