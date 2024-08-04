@@ -265,6 +265,8 @@ function openEditModal(customer) {
     $('#edit_email').val(customer.email);
 }
 function deleteCustomer(id) {
+    console.log("Delete function called with ID: ", id);
+
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -276,13 +278,19 @@ function deleteCustomer(id) {
         cancelButtonText: 'Cancel'
     }).then((result) => {
         if (result.isConfirmed) {
+            console.log("User confirmed deletion");
+
             $.ajax({
                 type: 'POST',
-                url: 'delete_customer.php', // Path to your delete script
+                url: 'delete_customer.php',
                 data: { id: id },
                 success: function(response) {
+                    console.log("AJAX request successful: ", response);
+
                     try {
                         var data = JSON.parse(response); // Parse the JSON response
+                        console.log("Parsed response: ", data);
+
                         if (data.success) {
                             Swal.fire(
                                 'Deleted!',
@@ -307,7 +315,7 @@ function deleteCustomer(id) {
                     }
                 },
                 error: function(xhr, status, error) {
-                    console.error(xhr.responseText); // Log response text for debugging
+                    console.error("AJAX request error: ", xhr.responseText);
                     Swal.fire(
                         'Error!',
                         'Error deleting customer. Please try again.',
@@ -315,6 +323,8 @@ function deleteCustomer(id) {
                     );
                 }
             });
+        } else {
+            console.log("User canceled deletion");
         }
     });
 }
