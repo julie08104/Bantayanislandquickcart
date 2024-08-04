@@ -1,9 +1,4 @@
 <?php
-require '../init.php';
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 header('Content-Type: application/json');
 include 'database_connection.php'; // Adjust path as necessary
 
@@ -14,8 +9,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     if ($id > 0) {
         try {
-            $success = deleteCustomer($id);
-            
+            // Try directly executing a delete query
+            $stmt = $pdo->prepare("DELETE FROM customer WHERE id = ?");
+            $success = $stmt->execute([$id]);
+
             if ($success) {
                 $response = ['success' => true, 'message' => 'Customer deleted successfully.'];
             } else {
