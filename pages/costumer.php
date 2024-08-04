@@ -247,7 +247,7 @@ function openEditModal(customer) {
     $('#edit_email').val(customer.email);
 }
 
-  function confirmDelete(id) {
+function confirmDelete(id) {
     Swal.fire({
         title: 'Are you sure you want to delete this customer?',
         text: "This action cannot be undone!",
@@ -263,13 +263,15 @@ function openEditModal(customer) {
     });
 }
 
-
 function deleteCustomer(id) {
+    console.log("Deleting customer with ID:", id);
+
     $.ajax({
         type: 'POST',
         url: 'delete_customer.php',
         data: { id: id },
         success: function(response) {
+            console.log("Response:", response); // Log response for debugging
             try {
                 var data = JSON.parse(response);
                 if (data.success) {
@@ -284,11 +286,14 @@ function deleteCustomer(id) {
             }
         },
         error: function(xhr, status, error) {
-            console.error(xhr.responseText);
+            console.error("XHR:", xhr);
+            console.error("Status:", status);
+            console.error("Error:", error);
             Swal.fire('Error!', 'Error deleting customer. Please try again.', 'error');
         }
     });
 }
+
 
 
 
