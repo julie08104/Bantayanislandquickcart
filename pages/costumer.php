@@ -297,25 +297,35 @@ function confirmDelete(id) {
 
 function deleteCustomer(id) {
     console.log('Attempting to delete customer with ID:', id); // Debugging log
+
     $.ajax({
         url: 'delete_customer.php',
         method: 'POST',
         data: { id: id },
         success: function(response) {
             console.log('Server response:', response); // Debugging log
-            var data = JSON.parse(response);
-            if (data.success) {
+            try {
+                var data = JSON.parse(response);
+                if (data.success) {
+                    Swal.fire(
+                        'Deleted!',
+                        data.message,
+                        'success'
+                    ).then(() => {
+                        location.reload(); // Refresh the page to update the table
+                    });
+                } else {
+                    Swal.fire(
+                        'Failed!',
+                        data.message,
+                        'error'
+                    );
+                }
+            } catch (e) {
+                console.log('Error parsing JSON response:', e);
                 Swal.fire(
-                    'Deleted!',
-                    data.message,
-                    'success'
-                ).then(() => {
-                    location.reload(); // Refresh the page to update the table
-                });
-            } else {
-                Swal.fire(
-                    'Failed!',
-                    data.message,
+                    'Error!',
+                    'Error parsing server response.',
                     'error'
                 );
             }
@@ -330,6 +340,7 @@ function deleteCustomer(id) {
         }
     });
 }
+
 
 
 
