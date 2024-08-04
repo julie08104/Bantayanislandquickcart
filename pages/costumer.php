@@ -245,6 +245,31 @@ function openEditModal(customer) {
     $('#edit_contact').val(customer.contact);
     $('#edit_email').val(customer.email);
 }
+
+    function deleteCustomer(id) {
+        $.ajax({
+            url: 'customer_process.php',
+            method: 'POST',
+            data: { action: 'delete', id: id },
+            success: function(response) {
+                if (response === 'success') {
+                    Swal.fire(
+                        'Deleted!',
+                        'Customer has been deleted.',
+                        'success'
+                    ).then(() => {
+                        location.reload(); // Refresh the page to update the table
+                    });
+                } else {
+                    Swal.fire(
+                        'Failed!',
+                        'Failed to delete customer.',
+                        'error'
+                    );
+                }
+            }
+        });
+    }
     
 function confirmDelete(id) {
         Swal.fire({
