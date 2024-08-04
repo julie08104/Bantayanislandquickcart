@@ -280,7 +280,8 @@ function confirmDelete(id) {
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel'
     }).then((result) => {
         if (result.isConfirmed) {
             deleteCustomer(id);
@@ -288,32 +289,49 @@ function confirmDelete(id) {
     });
 }
 
+
 function deleteCustomer(id) {
-    if (confirm('Are you sure you want to delete this customer?')) {
-        $.ajax({
-            type: 'POST',
-            url: 'delete_customer.php', // Path to your delete script
-            data: { id: id },
-            success: function(response) {
-                try {
-                    var data = JSON.parse(response); // Parse the JSON response
-                    if (data.success) {
-                        alert(data.message); // Show success message
-                        location.reload(); // Reload the page to see the changes
-                    } else {
-                        alert('Error: ' + data.message); // Show error message
-                    }
-                } catch (e) {
-                    alert('Error parsing response: ' + e.message); // Handle parsing errors
+    $.ajax({
+        type: 'POST',
+        url: 'delete_customer.php',
+        data: { id: id },
+        success: function(response) {
+            try {
+                var data = JSON.parse(response); // Parse the JSON response
+                if (data.success) {
+                    Swal.fire(
+                        'Deleted!',
+                        data.message,
+                        'success'
+                    ).then(() => {
+                        // Reload the DataTable to reflect changes
+                        $('#customerTable').DataTable().ajax.reload();
+                    });
+                } else {
+                    Swal.fire(
+                        'Error!',
+                        data.message,
+                        'error'
+                    );
                 }
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText); // Log response text for debugging
-                alert('Error deleting customer. Please try again.');
+            } catch (e) {
+                Swal.fire(
+                    'Error!',
+                    'Error parsing response: ' + e.message,
+                    'error'
+                );
             }
-        });
-    }
+        },
+        error: function(xhr, status, error) {
+            Swal.fire(
+                'Error!',
+                'Error deleting customer. Please try again.',
+                'error'
+            );
+        }
+    });
 }
+
 
 
 
