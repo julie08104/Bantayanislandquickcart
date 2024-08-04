@@ -257,7 +257,7 @@ function openEditModal(customer) {
         confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
         if (result.isConfirmed) {
-            deleteCustomer(id); // Ensure this function is called with correct ID
+            deleteCustomer(id);
         }
     });
 }
