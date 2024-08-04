@@ -1,16 +1,16 @@
 <?php
-include 'database_connection.php'; 
+include 'database_connection.php'; // Ensure this file sets up the $pdo variable correctly
 
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Retrieve and sanitize input data
-    $name = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
-    $lastname = filter_var($_POST['lastname'], FILTER_SANITIZE_STRING);
-    $address = filter_var($_POST['address'], FILTER_SANITIZE_STRING);
-    $contact = filter_var($_POST['contact'], FILTER_SANITIZE_STRING);
-    $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
-    $company = !empty($_POST['company']) ? filter_var($_POST['company'], FILTER_SANITIZE_STRING) : null;
+    $name = isset($_POST['name']) ? filter_var($_POST['name'], FILTER_SANITIZE_STRING) : '';
+    $lastname = isset($_POST['lastname']) ? filter_var($_POST['lastname'], FILTER_SANITIZE_STRING) : '';
+    $address = isset($_POST['address']) ? filter_var($_POST['address'], FILTER_SANITIZE_STRING) : '';
+    $contact = isset($_POST['contact']) ? filter_var($_POST['contact'], FILTER_SANITIZE_STRING) : '';
+    $email = isset($_POST['email']) ? filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) : '';
+    $company = isset($_POST['company']) ? filter_var($_POST['company'], FILTER_SANITIZE_STRING) : null;
 
     if (!$email) {
         echo json_encode(['success' => false, 'message' => 'Invalid email address.']);
