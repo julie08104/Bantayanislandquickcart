@@ -1,8 +1,5 @@
 <?php
-// Database connection details
-$dsn = 'mysql:host=localhost;dbname=ample'; // Update with your database name
-$username = 'root'; // Update with your username
-$password = ''; // Update with your password
+include 'database_connection.php'; /
 
 try {
     $pdo = new PDO($dsn, $username, $password);
