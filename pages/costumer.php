@@ -320,30 +320,57 @@ function submitEditForm() {
     });
 }
 
-function submitAddForm() {
-    var formData = $('#addCustomerForm').serialize(); // Gather form data
-    
 $(document).ready(function() {
     $('#addCustomerForm').on('submit', function(event) {
         event.preventDefault(); // Prevent the default form submission
+
         $.ajax({
             type: 'POST',
-            url: 'add_customer.php', // Adjust path as necessary
-            data: $(this).serialize(),
+            url: 'add_customer.php', // Path to your PHP script
+            data: $(this).serialize(), // Serialize form data
             success: function(response) {
-                var data = JSON.parse(response);
-                if (data.success) {
-                    location.reload(); // Reload the page or update the table
-                } else {
-                    alert(data.message);
+                try {
+                    var data = JSON.parse(response);
+                    if (data.success) {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Customer added successfully.',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            $('#addCustomerModal').modal('hide'); // Hide the modal
+                            location.reload(); // Reload the page or update the table
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: data.message,
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                } catch (e) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Invalid response from server.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
                 }
             },
-            error: function() {
-                alert('An error occurred. Please try again.');
+            error: function(xhr, status, error) {
+                console.log('AJAX error:', status, error); // Debugging log
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'An error occurred. Please try again.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
             }
         });
     });
 });
+
 
 function printCustomerList() {
     console.log("Print function called");
