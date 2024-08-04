@@ -84,10 +84,10 @@ if ($customers === false) {
 
             .print-only {
                 display: block !important;
-                width: 80px; /* Adjust the width to make the image smaller */
+                width: 60px; /* Adjust the width to make the image smaller */
                 height: auto;
                 z-index: 10;
-                margin-right: 10px; /* Space between the image and the text */
+                margin-right: 20px; /* Space between the image and the text */
             }
 
             .no-print {
@@ -110,7 +110,7 @@ if ($customers === false) {
     <div class="print-container">
         <div id="printImage" class="print-only">
             <img src="dist/img/images1.png" alt="logo" class="brand-image">
-        </div><br><br><br>
+        </div>
         <h1>Customer List</h1>
     </div>
 
@@ -121,7 +121,6 @@ if ($customers === false) {
                 <i class="fas fa-plus"></i> Add Customer
             </button>
         </div>
-
 
     <!-- Print Button -->
     <div class="text-right mb-3">
