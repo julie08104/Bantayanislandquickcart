@@ -1,38 +1,22 @@
 <?php
-header('Content-Type: application/json'); // Ensure JSON output is properly handled
+header('Content-Type: application/json');
 
-try {
-    $pdo = new PDO('mysql:host=127.0.0.1;dbname=u510162695_ample', 'u510162695_ample', '1Ample_database');
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die(json_encode(['success' => false, 'message' => 'Database connection failed: ' . $e->getMessage()]));
-}
+require 'database.php'; // Include your database connection file
 
-function deleteCustomer($id) {
-    global $pdo;
-    $stmt = $pdo->prepare("DELETE FROM customer WHERE id = ?");
-    if ($stmt->execute([$id])) {
-        return true;
-    } else {
-        $errorInfo = $stmt->errorInfo();
-        error_log('SQL Error: ' . print_r($errorInfo, true)); // Log the error
-        return false;
-    }
-}
+$response = ['success' => false, 'message' => 'An error occurred'];
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+if (isset($_POST['id'])) {
+    $id = intval($_POST['id']);
     
-    if ($id > 0) {
-        $success = deleteCustomer($id);
-        echo json_encode([
-            'success' => $success,
-            'message' => $success ? 'Customer deleted successfully.' : 'Failed to delete customer.'
-        ]);
+    if (deleteCustomer($id)) {
+        $response['success'] = true;
+        $response['message'] = 'Customer deleted successfully.';
     } else {
-        echo json_encode(['success' => false, 'message' => 'Invalid ID.']);
+        $response['message'] = 'Failed to delete customer.';
     }
 } else {
-    echo json_encode(['success' => false, 'message' => 'Invalid request method.']);
+    $response['message'] = 'No ID provided.';
 }
+
+echo json_encode($response);
 ?>
