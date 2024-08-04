@@ -102,6 +102,10 @@ if ($customers === false) {
         .dataTables_paginate, .dataTables_length, .dataTables_filter {
             display: none !important;
         }
+        .brand-image {
+            heigth: 10px;
+            width: 10px;
+        }
     }
 </style>
 </head>
