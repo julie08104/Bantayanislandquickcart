@@ -10,7 +10,6 @@ function addColumnIfNotExists($pdo, $table, $column, $columnDefinition) {
         $stmt->execute();
     }
 }
-<?php
 // Create Customer
 function createCustomer($name, $lastname, $address, $contact, $email) {
     global $pdo;
