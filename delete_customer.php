@@ -1,5 +1,5 @@
 <?php
-include 'db_connection.php'; // Ensure this file connects to your database
+require_once 'app/init.php'; // Ensure this file connects to your database
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = $_POST['id'];
