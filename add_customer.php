@@ -1,6 +1,7 @@
 <?php
-// Include your database connection file
 include 'database_connection.php'; 
+
+header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Retrieve and sanitize input data
@@ -11,21 +12,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
     $company = !empty($_POST['company']) ? filter_var($_POST['company'], FILTER_SANITIZE_STRING) : null;
 
-    // Validate input
     if (!$email) {
         echo json_encode(['success' => false, 'message' => 'Invalid email address.']);
         exit;
     }
 
-    // Prepare and execute the SQL statement
-    $sql = "INSERT INTO customers (name, lastname, address, contact, email, company) VALUES (?, ?, ?, ?, ?, ?)";
-    $stmt = $pdo->prepare($sql);
-    $result = $stmt->execute([$name, $lastname, $address, $contact, $email, $company]);
+    try {
+        $stmt = $pdo->prepare("INSERT INTO customers (name, lastname, address, contact, email, company) VALUES (?, ?, ?, ?, ?, ?)");
+        $result = $stmt->execute([$name, $lastname, $address, $contact, $email, $company]);
 
-    if ($result) {
-        echo json_encode(['success' => true, 'message' => 'Customer added successfully.']);
-    } else {
-        echo json_encode(['success' => false, 'message' => 'Failed to add customer.']);
+        if ($result) {
+            echo json_encode(['success' => true, 'message' => 'Customer added successfully.']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Failed to add customer.']);
+        }
+    } catch (PDOException $e) {
+        echo json_encode(['success' => false, 'message' => 'Database error: ' . $e->getMessage()]);
     }
 } else {
     echo json_encode(['success' => false, 'message' => 'Invalid request method.']);
