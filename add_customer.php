@@ -1,13 +1,13 @@
 <?php
-// Include your database connection or initialization script
-include 'db_connection.php';
-require_once '../init.php'; // Adjust path as necessary
 header('Content-Type: application/json');
- // Ensure your DB connection is included
+include 'db_connection.php'; // Ensure your DB connection is included
 
 $response = array('success' => false, 'message' => 'Something went wrong.');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Log incoming POST data for debugging
+    file_put_contents('debug_log.txt', print_r($_POST, true), FILE_APPEND);
+
     $name = $_POST['name'];
     $lastname = $_POST['lastname'];
     $address = $_POST['address'];
