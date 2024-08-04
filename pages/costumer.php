@@ -320,51 +320,56 @@ function submitEditForm() {
     });
 }
 
-$.ajax({
-    type: 'POST',
-    url: 'add_customer.php',
-    data: $(this).serialize(),
-    success: function(response) {
-        console.log('Server response:', response);
-        try {
-            var data = JSON.parse(response);
-            if (data.success) {
-                Swal.fire({
-                    title: 'Success!',
-                    text: 'Customer added successfully.',
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                }).then(() => {
-                    $('#addCustomerModal').modal('hide');
-                    location.reload();
-                });
-            } else {
+$('#addCustomerForm').on('submit', function(e) {
+    e.preventDefault(); // Prevent the default form submission
+
+    $.ajax({
+        type: 'POST',
+        url: 'add_customer.php',
+        data: $(this).serialize(),
+        success: function(response) {
+            console.log('Server response:', response);
+            try {
+                var data = JSON.parse(response);
+                if (data.success) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Customer added successfully.',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        $('#addCustomerModal').modal('hide');
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: data.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            } catch (e) {
                 Swal.fire({
                     title: 'Error!',
-                    text: data.message,
+                    text: 'Invalid response from server.',
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
             }
-        } catch (e) {
+        },
+        error: function(xhr, status, error) {
+            console.log('AJAX error:', status, error);
             Swal.fire({
                 title: 'Error!',
-                text: 'Invalid response from server.',
+                text: 'An error occurred. Please try again.',
                 icon: 'error',
                 confirmButtonText: 'OK'
             });
         }
-    },
-    error: function(xhr, status, error) {
-        console.log('AJAX error:', status, error);
-        Swal.fire({
-            title: 'Error!',
-            text: 'An error occurred. Please try again.',
-            icon: 'error',
-            confirmButtonText: 'OK'
-        });
-    }
+    });
 });
+
 
 
 
