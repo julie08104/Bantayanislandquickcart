@@ -246,7 +246,7 @@ function openEditModal(customer) {
     $('#edit_email').val(customer.email);
 }
 
-    function deleteCustomer(id) {
+   function deleteCustomer(id) {
     console.log('Attempting to delete customer with ID:', id); // Debugging log
     $.ajax({
         url: 'delete_customer.php',
@@ -281,6 +281,7 @@ function openEditModal(customer) {
         }
     });
 }
+
 
     
 function confirmDelete(id) {
