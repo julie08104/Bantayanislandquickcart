@@ -12,37 +12,20 @@ try {
     exit();
 }
 
-function deleteCustomer($id) {
-    global $pdo;
-    $stmt = $pdo->prepare("DELETE FROM customer WHERE id = ?");
-    if ($stmt->execute([$id])) {
-        return true;
-    } else {
-        $errorInfo = $stmt->errorInfo();
-        error_log('SQL Error: ' . print_r($errorInfo, true)); // Log the error
-        return false;
-    }
-}
+header('Content-Type: application/json');
+include 'db_connection.php'; // Replace with your actual DB connection script
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+$id = $_POST['id'] ?? '';
 
-    if ($id > 0) {
-        $success = deleteCustomer($id);
-        echo json_encode([
-            'success' => $success,
-            'message' => $success ? 'Customer deleted successfully.' : 'Failed to delete customer.'
-        ]);
+if ($id) {
+    if (deleteCustomer($id)) {
+        echo json_encode(['success' => true, 'message' => 'Customer deleted successfully.']);
     } else {
-        echo json_encode([
-            'success' => false,
-            'message' => 'Invalid ID.'
-        ]);
+        echo json_encode(['success' => false, 'message' => 'Failed to delete customer.']);
     }
 } else {
-    echo json_encode([
-        'success' => false,
-        'message' => 'Invalid request method.'
-    ]);
+    echo json_encode(['success' => false, 'message' => 'Invalid ID.']);
 }
+
+
 ?>
