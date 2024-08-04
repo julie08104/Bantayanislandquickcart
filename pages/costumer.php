@@ -84,10 +84,10 @@ if ($customers === false) {
 
             .print-only {
                 display: block !important;
-                width: 60px; /* Adjust the width to make the image smaller */
+                width: 30px; /* Adjust the width to make the image smaller */
                 height: auto;
                 z-index: 10;
-                margin-right: 20px; /* Space between the image and the text */
+                margin-right: 10px; /* Space between the image and the text */
             }
 
             .no-print {
