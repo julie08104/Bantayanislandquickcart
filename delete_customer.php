@@ -1,5 +1,5 @@
 <?php
-header('Content-Type: application/json'); // Ensure JSON output is properly handled
+header('Content-Type: application/json');
 
 try {
     $pdo = new PDO('mysql:host=127.0.0.1;dbname=u510162695_ample', 'u510162695_ample', '1Ample_database');
