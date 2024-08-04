@@ -1,4 +1,6 @@
 <?php
+header('Content-Type: application/json'); // Ensure JSON output is properly handled
+
 try {
     $pdo = new PDO('mysql:host=127.0.0.1;dbname=u510162695_ample', 'u510162695_ample', '1Ample_database');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
