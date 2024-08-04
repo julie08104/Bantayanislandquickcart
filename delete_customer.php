@@ -16,7 +16,7 @@ function deleteCustomer($id) {
         return true;
     } else {
         $errorInfo = $stmt->errorInfo();
-        error_log('SQL Error: ' . print_r($errorInfo, true)); // Log the error for debugging
+        error_log('SQL Error: ' . print_r($errorInfo, true)); // Log the error
         return false;
     }
 }
