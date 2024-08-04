@@ -323,23 +323,28 @@ function submitEditForm() {
 function submitAddForm() {
     var formData = $('#addCustomerForm').serialize(); // Gather form data
     
-    $.ajax({
-        type: 'POST',
-        url: 'add_customer.php', // Path to your PHP add script
-        data: formData,
-        success: function(response) {
-            var data = JSON.parse(response);
-            if (data.success) {
-                window.location.href = 'index.php?page=customer'; // Redirect after success
-            } else {
-                alert('Error: ' + data.message); // Show error message
+$(document).ready(function() {
+    $('#addCustomerForm').on('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+        $.ajax({
+            type: 'POST',
+            url: 'add_customer.php', // Adjust path as necessary
+            data: $(this).serialize(),
+            success: function(response) {
+                var data = JSON.parse(response);
+                if (data.success) {
+                    location.reload(); // Reload the page or update the table
+                } else {
+                    alert(data.message);
+                }
+            },
+            error: function() {
+                alert('An error occurred. Please try again.');
             }
-        },
-        error: function() {
-            alert('Error adding customer. Please try again.');
-        }
+        });
     });
-}
+});
+
 function printCustomerList() {
     console.log("Print function called");
 
