@@ -297,32 +297,41 @@ function confirmDelete(id) {
 
 
 function deleteCustomer(id) {
-    console.log('Attempting to delete customer with ID:', id); // Debugging log
+    console.log('Attempting to delete customer with ID:', id);
     $.ajax({
         url: 'delete_customer.php',
         method: 'POST',
         data: { id: id },
         success: function(response) {
-            console.log('Server response:', response); // Debugging log
-            var data = JSON.parse(response);
-            if (data.success) {
+            console.log('Server response:', response);
+            try {
+                var data = JSON.parse(response);
+                if (data.success) {
+                    Swal.fire(
+                        'Deleted!',
+                        data.message,
+                        'success'
+                    ).then(() => {
+                        location.reload(); // Refresh the page to update the table
+                    });
+                } else {
+                    Swal.fire(
+                        'Failed!',
+                        data.message,
+                        'error'
+                    );
+                }
+            } catch (e) {
+                console.error('Error parsing JSON response:', e);
                 Swal.fire(
-                    'Deleted!',
-                    data.message,
-                    'success'
-                ).then(() => {
-                    location.reload(); // Refresh the page to update the table
-                });
-            } else {
-                Swal.fire(
-                    'Failed!',
-                    data.message,
+                    'Error!',
+                    'Unexpected server response.',
                     'error'
                 );
             }
         },
         error: function(xhr, status, error) {
-            console.log('AJAX error:', status, error); // Debugging log
+            console.log('AJAX error:', status, error);
             Swal.fire(
                 'Error!',
                 'There was an error processing your request.',
@@ -331,17 +340,6 @@ function deleteCustomer(id) {
         }
     });
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
