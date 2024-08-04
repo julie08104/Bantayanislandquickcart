@@ -57,15 +57,21 @@ CREATE TABLE `category` (
 -- Table structure for table `customer`
 --
 
-CREATE TABLE customers (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    lastname VARCHAR(255) NOT NULL,
-    company VARCHAR(255),
-    address TEXT,
-    contact VARCHAR(50),
-    email VARCHAR(255) NOT NULL UNIQUE
-);
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `first_name` varchar(50) DEFAULT NULL,
+  `last_name` varchar(50) DEFAULT NULL,
+  `picture` varchar(255) DEFAULT NULL,
+  `address` text DEFAULT NULL,
+  `verification_code` varchar(50) DEFAULT NULL,
+  `middle_name` varchar(255) DEFAULT NULL,
+  `user_role` varchar(20) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
 
 
 
