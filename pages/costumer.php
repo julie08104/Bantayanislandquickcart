@@ -23,9 +23,10 @@ function createCustomer($name, $lastname, $address, $contact, $email) {
 // Read Customers
 function readCustomers() {
     global $pdo;
-    $stmt = $pdo->query("SELECT * FROM customer");
+    $stmt = $pdo->query("SELECT * FROM customers");
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
 
 // Update Customer
 function updateCustomer($id, $name, $lastname, $address, $contact, $email) {
@@ -332,16 +333,18 @@ function submitAddForm() {
         success: function(response) {
             var data = JSON.parse(response);
             if (data.success) {
-                window.location.href = 'index.php?page=customer'; // Redirect after success
+                location.reload(); // Refresh the page to update the table
             } else {
                 alert('Error: ' + data.message); // Show error message
             }
         },
-        error: function() {
+        error: function(xhr, status, error) {
+            console.log('AJAX error:', status, error); // Debugging log
             alert('Error adding customer. Please try again.');
         }
     });
 }
+
 function printCustomerList() {
     console.log("Print function called");
 
