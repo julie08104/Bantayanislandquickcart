@@ -1,40 +1,32 @@
 <?php
-include 'database_connection.php'; // Ensure this includes your PDO setup
-
-header('Content-Type: text/plain');
-
-$response = ['success' => false, 'message' => ''];
+// Database connection details
+$dsn = 'mysql:host=localhost;dbname=ample'; // Update with your database name
+$username = 'root'; // Update with your username
+$password = ''; // Update with your password
 
 try {
+    $pdo = new PDO($dsn, $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Check if ID is set
     if (isset($_POST['id'])) {
         $id = intval($_POST['id']);
 
-        // Check if ID exists
-        $stmt = $pdo->prepare("SELECT id FROM customer WHERE id = ?");
-        $stmt->execute([$id]);
-        if ($stmt->rowCount() > 0) {
-            // ID exists, proceed with delete
-            $stmt = $pdo->prepare("DELETE FROM customer WHERE id = ?");
-            $stmt->execute([$id]);
+        // Prepare the delete statement
+        $stmt = $pdo->prepare("DELETE FROM `customer` WHERE id = :id");
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
-            if ($stmt->rowCount() > 0) {
-                $response['success'] = true;
-                $response['message'] = 'Customer deleted successfully.';
-                echo 'success';
-            } else {
-                $response['message'] = 'Error deleting customer.';
-                echo 'error';
-            }
+        if ($stmt->execute()) {
+            // Return a success response
+            echo json_encode(['success' => true, 'message' => 'Customer deleted successfully.']);
         } else {
-            $response['message'] = 'Customer not found.';
-            echo 'error';
+            // Return an error response
+            echo json_encode(['success' => false, 'message' => 'Error deleting customer.']);
         }
     } else {
-        $response['message'] = 'Invalid request.';
-        echo 'error';
+        echo json_encode(['success' => false, 'message' => 'No customer ID provided.']);
     }
 } catch (PDOException $e) {
-    $response['message'] = 'Database error: ' . $e->getMessage();
-    echo 'error';
+    echo json_encode(['success' => false, 'message' => 'Database error: ' . $e->getMessage()]);
 }
 ?>
