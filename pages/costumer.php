@@ -40,7 +40,6 @@ function deleteCustomer($id) {
     return $stmt->execute([$id]);
 }
 
-
 // Fetch customers for display
 $customers = readCustomers();
 ?>
@@ -133,9 +132,9 @@ $customers = readCustomers();
                                 <button class="btn btn-warning" onclick="openEditModal(<?= htmlspecialchars(json_encode($customer)) ?>)">
                                     <i class="fas fa-edit"></i> Edit
                                 </button>
-                                <button class="btn btn-danger" onclick="confirmDelete(<?= htmlspecialchars($customer['id']) ?>)">
-                                    <i class="fas fa-trash-alt"></i> Delete
-                                </button>
+                               <button class="btn btn-danger" onclick="deleteCustomer(<?= $customer['id'] ?>)">
+                                <i class="fas fa-trash-alt"> Delete</i>
+                             </button>
                             </div>
                         </td>
                     </tr>
@@ -265,39 +264,30 @@ function openEditModal(customer) {
 
 
 function deleteCustomer(id) {
-    console.log('Attempting to delete customer with ID:', id);
-    $.ajax({
-        url: 'delete_customer.php',
-        method: 'POST',
-        data: { id: id },
-        success: function(response) {
-            console.log('Server response:', response); // Log server response
-            if (response === 'success') {
-                Swal.fire(
-                    'Deleted!',
-                    'Customer deleted successfully.',
-                    'success'
-                ).then(() => {
-                    location.reload(); // Refresh the page to update the table
-                });
-            } else {
-                Swal.fire(
-                    'Failed!',
-                    'Customer not found or error occurred.',
-                    'error'
-                );
+    if (confirm('Are you sure you want to delete this customer?')) {
+        $.ajax({
+            type: 'POST',
+            url: 'delete_customer.php', // Path to your delete script
+            data: { id: id },
+            success: function(response) {
+                try {
+                    var data = JSON.parse(response); // Parse the JSON response
+                    if (data.success) {
+                        alert(data.message); // Show success message
+                        location.reload(); // Reload the page to see the changes
+                    } else {
+                        alert('Error: ' + data.message); // Show error message
+                    }
+                } catch (e) {
+                    alert('Error parsing response: ' + e.message); // Handle parsing errors
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText); // Log response text for debugging
+                alert('Error deleting customer. Please try again.');
             }
-        },
-        error: function(xhr, status, error) {
-            console.log('AJAX error:', status, error); // Log AJAX error
-            console.log('Response text:', xhr.responseText); // Log the server response text
-            Swal.fire(
-                'Error!',
-                'There was an error processing your request.',
-                'error'
-            );
-        }
-    });
+        });
+    }
 }
 
 
