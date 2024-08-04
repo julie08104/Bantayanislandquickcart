@@ -57,21 +57,20 @@ CREATE TABLE `category` (
 -- Table structure for table `customer`
 --
 
-CREATE TABLE `customer` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `username` VARCHAR(50) UNIQUE NOT NULL,
-  `password` VARCHAR(255) NOT NULL, -- Use VARCHAR(255) for hashed passwords
-  `name` VARCHAR(100) NOT NULL,
-  `lastname` VARCHAR(100) NOT NULL,
-  `company` VARCHAR(100) DEFAULT NULL,
-  `address` VARCHAR(255) DEFAULT NULL,
-  `contact` VARCHAR(20) DEFAULT NULL,
-  `email` VARCHAR(100) UNIQUE DEFAULT NULL,
-  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `first_name` varchar(50) DEFAULT NULL,
+  `last_name` varchar(50) DEFAULT NULL,
+  `picture` varchar(255) DEFAULT NULL,
+  `address` text DEFAULT NULL,
+  `verification_code` varchar(50) DEFAULT NULL,
+  `middle_name` varchar(255) DEFAULT NULL,
+  `user_role` varchar(20) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `customer`
