@@ -302,7 +302,7 @@ function deleteCustomer(id) {
                         } else {
                             Swal.fire(
                                 'Error!',
-                                'Error: ' + data.message,
+                                data.message,
                                 'error'
                             );
                         }
@@ -328,6 +328,7 @@ function deleteCustomer(id) {
         }
     });
 }
+
 
 
 function submitEditForm() {
