@@ -2,8 +2,10 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-require '../init.php'; // Adjust the path if necessary
-require 'User.php';
+
+// Define the absolute path to init.php
+require dirname(__DIR__) . '/init.php'; // Adjust the path if necessary
+require dirname(__DIR__) . '/User.php';
 
 $response = ['success' => false, 'message' => ''];
 
