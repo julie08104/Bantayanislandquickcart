@@ -283,7 +283,7 @@ function deleteCustomer(id) {
             success: function(response) {
                 if (response.success) {
                     alert(response.message);
-                    location.reload();
+                    location.reload(); // Refresh to see the change
                 } else {
                     alert('Error: ' + response.message);
                 }
