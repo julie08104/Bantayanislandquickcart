@@ -1,4 +1,5 @@
 <?php
+require '../init.php';
 header('Content-Type: application/json');
 include 'database_connection.php'; // Adjust path as necessary
 
