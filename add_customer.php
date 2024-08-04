@@ -1,33 +1,31 @@
 <?php
-include 'database_connection.php'; // Ensure this file sets up the $pdo variable correctly
-
-header('Content-Type: application/json');
+// Include your database connection or initialization script
+require_once '../init.php'; // Adjust path as necessary
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Retrieve and sanitize input data
-    $name = isset($_POST['name']) ? filter_var($_POST['name'], FILTER_SANITIZE_STRING) : '';
-    $lastname = isset($_POST['lastname']) ? filter_var($_POST['lastname'], FILTER_SANITIZE_STRING) : '';
-    $address = isset($_POST['address']) ? filter_var($_POST['address'], FILTER_SANITIZE_STRING) : '';
-    $contact = isset($_POST['contact']) ? filter_var($_POST['contact'], FILTER_SANITIZE_STRING) : '';
-    $email = isset($_POST['email']) ? filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) : '';
-    $company = isset($_POST['company']) ? filter_var($_POST['company'], FILTER_SANITIZE_STRING) : null;
-
-    if (!$email) {
-        echo json_encode(['success' => false, 'message' => 'Invalid email address.']);
-        exit;
-    }
-
     try {
-        $stmt = $pdo->prepare("INSERT INTO customers (name, lastname, address, contact, email, company) VALUES (?, ?, ?, ?, ?, ?)");
-        $result = $stmt->execute([$name, $lastname, $address, $contact, $email, $company]);
+        // Get POST data
+        $name = $_POST['name'];
+        $lastname = $_POST['lastname'];
+        $company = $_POST['company'];
+        $address = $_POST['address'];
+        $contact = $_POST['contact'];
+        $email = $_POST['email'];
 
-        if ($result) {
-            echo json_encode(['success' => true, 'message' => 'Customer added successfully.']);
+        // Prepare SQL statement
+        $stmt = $pdo->prepare("INSERT INTO customers (name, lastname, company, address, contact, email) VALUES (?, ?, ?, ?, ?, ?)");
+        
+        // Execute the statement
+        $stmt->execute([$name, $lastname, $company, $address, $contact, $email]);
+
+        // Check if the insertion was successful
+        if ($stmt->rowCount() > 0) {
+            echo json_encode(['success' => true]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Failed to add customer.']);
         }
     } catch (PDOException $e) {
-        echo json_encode(['success' => false, 'message' => 'Database error: ' . $e->getMessage()]);
+        echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
     }
 } else {
     echo json_encode(['success' => false, 'message' => 'Invalid request method.']);
