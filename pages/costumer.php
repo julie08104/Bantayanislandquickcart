@@ -12,12 +12,10 @@ function addColumnIfNotExists($pdo, $table, $column, $columnDefinition) {
 }
 
 // Create Customer
-function createCustomer($name, $lastname, $address, $contact, $email) {
+function createCustomer($name, $lastname, $address, $contact, $email, $company = null) {
     global $pdo;
-    // Prepare the SQL statement with placeholders
-    $stmt = $pdo->prepare("INSERT INTO customer (name, lastname, address, contact, email) VALUES (?, ?, ?, ?, ?)");
-    // Execute the statement with the provided values
-    return $stmt->execute([$name, $lastname, $address, $contact, $email]);
+    $stmt = $pdo->prepare("INSERT INTO customers (name, lastname, address, contact, email, company) VALUES (?, ?, ?, ?, ?, ?)");
+    return $stmt->execute([$name, $lastname, $address, $contact, $email, $company]);
 }
 
 // Read Customers
