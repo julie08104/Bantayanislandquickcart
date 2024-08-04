@@ -278,44 +278,22 @@ function openEditModal(customer) {
 }
     
 function deleteCustomer(id) {
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to delete this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'Cancel'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            $.ajax({
-                type: 'POST',
-                url: 'index.php', // Ensure this URL matches where your PHP script is located
-                data: {
-                    action: 'delete',
-                    id: id
-                },
-                success: function(response) {
-                    var data = JSON.parse(response);
-                    if (data.success) {
-                        Swal.fire('Deleted!', data.message, 'success').then(() => {
-                            location.reload(); // Reload the page to see the changes
-                        });
-                    } else {
-                        Swal.fire('Error!', data.message, 'error');
-                    }
-                },
-                error: function(xhr, status, error) {
-                    Swal.fire('Error!', 'Error deleting customer. Please try again.', 'error');
+    if (confirm("Are you sure you want to delete this customer?")) {
+        $.ajax({
+            url: 'customer_process.php',
+            method: 'POST',
+            data: { action: 'delete', id: id },
+            success: function(response) {
+                if (response === 'success') {
+                    alert("Customer deleted successfully.");
+                    location.reload(); // Refresh the page to update the table
+                } else {
+                    alert("Failed to delete customer.");
                 }
-            });
-        }
-    });
+            }
+        });
+    }
 }
-
-
-
 
 function submitEditForm() {
     var formData = $('#editCustomerForm').serialize(); // Gather form data
