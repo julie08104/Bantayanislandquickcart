@@ -242,6 +242,7 @@ function openEditModal(customer) {
 }
 
 function deleteCustomer(id) {
+    console.log("Deleting customer with ID:", id); // Debugging line
     if (confirm('Are you sure you want to delete this customer?')) {
         $.ajax({
             type: 'POST',
@@ -263,6 +264,7 @@ function deleteCustomer(id) {
         });
     }
 }
+
 
 
 function submitEditForm() {
