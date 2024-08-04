@@ -246,23 +246,22 @@ function openEditModal(customer) {
     $('#edit_email').val(customer.email);
 }
     
-function deleteCustomer(id) {
-    if (confirm("Are you sure you want to delete this customer?")) {
-        $.ajax({
-            url: 'customer_process.php',
-            method: 'POST',
-            data: { action: 'delete', id: id },
-            success: function(response) {
-                if (response === 'success') {
-                    alert("Customer deleted successfully.");
-                    location.reload(); // Refresh the page to update the table
-                } else {
-                    alert("Failed to delete customer.");
-                }
+function confirmDelete(id) {
+        Swal.fire({
+            title: 'Are you sure you want to delete this customer?',
+            text: "This action cannot be undone!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteCustomer(id);
             }
         });
     }
-}
+
 
 function submitEditForm() {
     var formData = $('#editCustomerForm').serialize(); // Gather form data
