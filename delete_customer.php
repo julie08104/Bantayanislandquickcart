@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 header('Content-Type: application/json');
 include 'db_connection.php'; // Include your database connection file
 
@@ -30,4 +33,7 @@ if ($id) {
 } else {
     echo json_encode(['success' => false, 'message' => 'Invalid ID.']);
 }
+
+// Debugging: Add a line to log the raw POST data
+error_log('Raw POST data: ' . print_r($_POST, true));
 ?>
