@@ -107,7 +107,7 @@ $customers = readCustomers();
         <tbody>
             <?php
             $counter = 1; // Initialize counter variable
-            foreach ($customers as $customer): ?>
+            foreach ($customer as $customer): ?>
                 <tr>
                     <td><?= $counter++ ?></td>
                     <td><?= htmlspecialchars($customer['name']) ?></td>
