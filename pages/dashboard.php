@@ -33,7 +33,7 @@ try {
     echo "Error: " . $e->getMessage();
 }
 ?>
->
+
   <div class="content-wrapper" style="margin-left: 0px!important; margin-top: 0px!important; padding-left: 0px!important;">
     <!-- Content Header (Page header) -->
     <div class="content-header">
