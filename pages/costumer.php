@@ -120,6 +120,9 @@ if ($customers === false) {
         <br><br><br>
         <h1>Customer List</h1>
     </div>
+ <div class=" text-right mb-4" style="float: right;"> 
+        <input class="form-control no-print" id="searchInput" type="text" placeholder="Search.." style="float: right!important;"> 
+           </div>
 
     <div class="container-fluid" style="margin-left: 0px!important;">
         <!-- Add Customer Button -->
