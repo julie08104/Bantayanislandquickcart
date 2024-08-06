@@ -85,43 +85,44 @@ function deleteRider($rider_id) {
 
 // Handle Form Submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $action = $_POST['action'];
+    $action = $_POST['action'] ?? '';
 
     $success = false;
     switch ($action) {
         case 'create':
             $success = createRider(
-                $_POST['name'],
-                $_POST['lastname'],
-                $_POST['gender'],
-                $_POST['address'],
-                $_POST['contact_number'],
-                $_POST['email'],
-                $_POST['vehicle_type'],
-                $_POST['license_number'],
-                $_POST['status'],
-                $_POST['date_joined']
+                $_POST['name'] ?? '',
+                $_POST['lastname'] ?? '',
+                $_POST['gender'] ?? '',
+                $_POST['address'] ?? '',
+                $_POST['contact_number'] ?? '',
+                $_POST['email'] ?? '',
+                $_POST['vehicle_type'] ?? '',
+                $_POST['license_number'] ?? '',
+                $_POST['status'] ?? '',
+                $_POST['date_joined'] ?? ''
             );
             break;
         case 'update':
             $success = updateRider(
-                $_POST['rider_id'],
-                $_POST['name'],
-                $_POST['lastname'],
-                $_POST['gender'],
-                $_POST['address'],
-                $_POST['contact_number'],
-                $_POST['email'],
-                $_POST['vehicle_type'],
-                $_POST['license_number'],
-                $_POST['status'],
-                $_POST['date_joined']
+                $_POST['rider_id'] ?? 0,
+                $_POST['name'] ?? '',
+                $_POST['lastname'] ?? '',
+                $_POST['gender'] ?? '',
+                $_POST['address'] ?? '',
+                $_POST['contact_number'] ?? '',
+                $_POST['email'] ?? '',
+                $_POST['vehicle_type'] ?? '',
+                $_POST['license_number'] ?? '',
+                $_POST['status'] ?? '',
+                $_POST['date_joined'] ?? ''
             );
             break;
         case 'delete':
-            $success = deleteRider($_POST['rider_id']);
+            $success = deleteRider($_POST['rider_id'] ?? 0);
             break;
         default:
+            error_log('Invalid action: ' . $action);
             $success = false;
             break;
     }
