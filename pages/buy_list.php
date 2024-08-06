@@ -369,140 +369,144 @@ $riders = readRiders();
 </div>
 
 
+<!-- JavaScript to handle form submissions and modal opening -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    $(document).ready(function() {
-        // Add rider form submission
-        $('#addRiderForm').on('submit', function(e) {
-            e.preventDefault();
-            $.ajax({
-                type: 'POST',
-                url: 'rider_functions.php',
-                data: $(this).serialize(),
-                success: function(response) {
-                    alert('Rider added successfully!');
-                    location.reload();
-                }
-            });
-        });
 
-        // Edit rider form submission
-        $('#editRiderForm').on('submit', function(e) {
-            e.preventDefault();
-            $.ajax({
-                type: 'POST',
-                url: 'rider_functions.php',
-                data: $(this).serialize(),
-                success: function(response) {
-                    alert('Rider updated successfully!');
-                    location.reload();
-                }
-            });
+    $(document).ready(function() {
+    // Add rider form submission
+    $('#addRiderForm').on('submit', function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: 'rider_functions.php',
+            data: $(this).serialize(),
+            success: function(response) {
+                alert('Rider added successfully!');
+                location.reload();
+            }
         });
     });
 
-    // Open edit modal and populate fields
-    function openEditModal(rider) {
-        $('#edit_rider_id').val(rider.rider_id);
-        $('#edit_rider_name').val(rider.name);
-        $('#edit_rider_lastname').val(rider.lastname);
-        $('#edit_rider_gender').val(rider.gender);
-        $('#edit_rider_address').val(rider.address);
-        $('#edit_rider_contact_number').val(rider.contact_number);
-        $('#edit_rider_email').val(rider.email);
-        $('#edit_rider_vehicle_type').val(rider.vehicle_type);
-        $('#edit_rider_license_number').val(rider.license_number);
-        $('#edit_rider_status').val(rider.status);
-        $('#edit_rider_total_rides').val(rider.total_rides);
-        $('#edit_rider_rating').val(rider.rating);
-        $('#edit_rider_payment_method').val(rider.payment_method);
+    // Edit rider form submission
+    $('#editRiderForm').on('submit', function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: 'rider_functions.php',
+            data: $(this).serialize(),
+            success: function(response) {
+                alert('Rider updated successfully!');
+                location.reload();
+            }
+        });
+    });
+});
 
-        $('#editRiderModal').modal('show');
-    }
 
-    // Open view modal and display details
-    function openViewModal(rider) {
-        var details = `
-            <p><strong>Name:</strong> ${rider.name}</p>
-            <p><strong>Last Name:</strong> ${rider.lastname}</p>
-            <p><strong>Gender:</strong> ${rider.gender}</p>
-            <p><strong>Address:</strong> ${rider.address}</p>
-            <p><strong>Contact Number:</strong> ${rider.contact_number}</p>
-            <p><strong>Email:</strong> ${rider.email}</p>
-            <p><strong>Vehicle Type:</strong> ${rider.vehicle_type}</p>
-            <p><strong>License Number:</strong> ${rider.license_number}</p>
-            <p><strong>Status:</strong> ${rider.status}</p>
-            <p><strong>Total Rides:</strong> ${rider.total_rides}</p>
-            <p><strong>Rating:</strong> ${rider.rating}</p>
-            <p><strong>Payment Method:</strong> ${rider.payment_method}</p>
-        `;
-        $('#viewRiderDetails').html(details);
-        $('#viewRiderModal').modal('show');
-    }
+   // Open edit modal and populate fields
+function openEditModal(rider) {
+    $('#editRiderId').val(rider.rider_id);
+    $('#editName').val(rider.name);
+    $('#editLastname').val(rider.lastname);
+    $('#editGender').val(rider.gender);
+    $('#editAddress').val(rider.address);
+    $('#editContactNumber').val(rider.contact_number);
+    $('#editEmail').val(rider.email);
+    $('#editVehicleType').val(rider.vehicle_type);
+    $('#editLicenseNumber').val(rider.license_number);
+    $('#editStatus').val(rider.status);
+     $('#editRiderModal').modal('show');
+}
+
 
     // Delete rider
-    function deleteRider(riderId) {
+    function deleteRider(rider_id) {
         if (confirm('Are you sure you want to delete this rider?')) {
-            $.post('rider_functions.php', { action: 'delete', rider_id: riderId }, function(response) {
-                alert('Rider deleted successfully!');
-                location.reload();
+            $.ajax({
+                type: 'POST',
+                url: 'rider_functions.php',
+                data: { action: 'delete', rider_id: rider_id },
+                success: function(response) {
+                    alert('Rider deleted successfully!');
+                    location.reload();
+                }
             });
         }
     }
 
-    // Print table
-    function printTable() {
-        var actionsColumn = document.querySelectorAll('#riderTable th:last-child, #riderTable td:last-child');
-        actionsColumn.forEach(function(cell) {
-            cell.style.display = 'none';
-        });
 
-        document.getElementById('printButton').style.display = 'none';
 
-        var dataTablePagination = document.querySelector('.dataTables_paginate');
-        if (dataTablePagination) {
-            dataTablePagination.style.display = 'none';
-        }
-        var dataTableLengthSelector = document.querySelector('.dataTables_length');
-        if (dataTableLengthSelector) {
-            dataTableLengthSelector.style.display = 'none';
-        }
+      function openViewModal(rider) {
+        document.getElementById('viewName').value = rider.name;
+        document.getElementById('viewLastname').value = rider.lastname;
+        document.getElementById('viewGender').value = rider.gender;
+        document.getElementById('viewAddress').value = rider.address;
+        document.getElementById('viewContactNumber').value = rider.contact_number;
+        document.getElementById('viewEmail').value = rider.email;
+        document.getElementById('viewVehicleType').value = rider.vehicle_type;
+        document.getElementById('viewLicenseNumber').value = rider.license_number;
+        document.getElementById('viewStatus').value = rider.status;
+        
+        $('#viewRiderModal').modal('show');
+    }
+function printTable() {
+    // Hide the entire Actions column (which is the last column in the table)
+    var actionsColumn = document.querySelectorAll('#riderTable th:last-child, #riderTable td:last-child');
+    actionsColumn.forEach(function(cell) {
+        cell.style.display = 'none';
+    });
 
-        var divToPrint = document.getElementById("riderTable").cloneNode(true);
-        var newWin = window.open("");
-        newWin.document.write('<html><head><title>Print Rider List</title>');
-        newWin.document.write('<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">');
-        newWin.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">');
-        newWin.document.write('<style>');
-        newWin.document.write('.header { display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }');
-        newWin.document.write('.header img { margin-right: 25px; }');
-        newWin.document.write('</style>');
-        newWin.document.write('</head><body>');
-        newWin.document.write('<div class="header"><img src="dist/img/images1.png" alt="Logo" width="90" height="90"><h1>Rider List</h1></div>');
-        newWin.document.write(divToPrint.outerHTML);
-        newWin.document.write('</body></html>');
-        newWin.document.close();
-        newWin.print();
+    // Hide the Print button
+    document.getElementById('printButton').style.display = 'none';
 
-        actionsColumn.forEach(function(cell) {
-            cell.style.display = ''; 
-        });
-        document.getElementById('printButton').style.display = 'inline-block';
-        if (dataTablePagination) {
-            dataTablePagination.style.display = 'block';
-        }
-        if (dataTableLengthSelector) {
-            dataTableLengthSelector.style.display = 'block';
-        }
+    // Hide DataTables pagination and length selector (if applicable)
+    var dataTablePagination = document.querySelector('.dataTables_paginate');
+    if (dataTablePagination) {
+        dataTablePagination.style.display = 'none';
+    }
+    var dataTableLengthSelector = document.querySelector('.dataTables_length');
+    if (dataTableLengthSelector) {
+        dataTableLengthSelector.style.display = 'none';
     }
 
-    // Search functionality
-    document.getElementById('searchInput').addEventListener('keyup', function() {
-        var value = this.value.toLowerCase();
-        document.querySelectorAll('table tbody tr').forEach(function(row) {
-            row.style.display = row.innerText.toLowerCase().includes(value) ? '' : 'none';
-        });
+    // Create a new window for printing
+    var divToPrint = document.getElementById("riderTable").cloneNode(true);
+    var newWin = window.open("");
+    newWin.document.write('<html><head><title>Print Rider List</title>');
+    newWin.document.write('<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">');
+    newWin.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">');
+    newWin.document.write('<style>');
+    newWin.document.write('.header { display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }'); // Add margin-bottom to the header
+    newWin.document.write('.header img { margin-right: 25px; }'); // Increase margin-right for the image
+    newWin.document.write('</style>');
+    newWin.document.write('</head><body>');
+    newWin.document.write('<div class="header"><img src="dist/img/images1.png" alt="Logo" width="90" height="90"><h1>Rider List</h1></div>'); // Add header with image
+    newWin.document.write(divToPrint.outerHTML);
+    newWin.document.write('</body></html>');
+    newWin.document.close();
+    newWin.print();
+
+    // Restore visibility of the Actions column, Print button, pagination, and length selector after printing
+    actionsColumn.forEach(function(cell) {
+        cell.style.display = ''; // Restore to default display type
     });
+    document.getElementById('printButton').style.display = 'inline-block';
+    if (dataTablePagination) {
+        dataTablePagination.style.display = 'block';
+    }
+    if (dataTableLengthSelector) {
+        dataTableLengthSelector.style.display = 'block';
+    }
+}
+
+
+document.getElementById('searchInput').addEventListener('keyup', function() {
+            var value = this.value.toLowerCase();
+            document.querySelectorAll('table tbody tr').forEach(function(row) {
+                row.style.display = row.innerText.toLowerCase().includes(value) ? '' : 'none';
+            });
+        });
 </script>
