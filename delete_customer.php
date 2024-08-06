@@ -2,9 +2,6 @@
 require_once 'app/init.php'; // Ensure this file connects to your database
 
 try {
-    $pdo = new PDO($dsn, $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
     // Check if ID is set
     if (isset($_POST['id'])) {
         $id = intval($_POST['id']);
