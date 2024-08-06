@@ -63,7 +63,6 @@ CREATE TABLE customer (
     address TEXT,
     contact VARCHAR(50),
     email VARCHAR(255) NOT NULL UNIQUE,
-    company VARCHAR(255)
 );
 
 
