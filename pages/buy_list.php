@@ -377,48 +377,48 @@ $riders = readRiders();
 
    <script>
     $(document).ready(function() {
-        // Add rider form submission
-        $('#addRiderForm').on('submit', function(e) {
-            e.preventDefault();
-            console.log("Add Rider Form Submitted");
-            $.ajax({
-                type: 'POST',
-                url: 'rider_functions.php',
-                data: $(this).serialize(),
-                dataType: 'json',
-                success: function(response) {
-                    console.log("Add Rider Response: ", response);
-                    if (response.success) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: 'Rider added successfully!',
-                            confirmButtonText: 'OK'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                location.reload();
-                            }
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'Error adding rider.',
-                            confirmButtonText: 'OK'
-                        });
+       // Add rider form submission
+$('#addRiderForm').on('submit', function(e) {
+    e.preventDefault();
+    console.log("Add Rider Form Submitted");
+    $.ajax({
+        type: 'POST',
+        url: 'rider_functions.php',
+        data: $(this).serialize() + '&action=create', // Make sure 'action' is correctly appended
+        dataType: 'json',
+        success: function(response) {
+            console.log("Add Rider Response: ", response);
+            if (response.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: response.message || 'Rider added successfully!',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.reload();
                     }
-                },
-                error: function(xhr, status, error) {
-                    console.error("Add Rider Error: ", xhr.responseText);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'An error occurred.',
-                        confirmButtonText: 'OK'
-                    });
-                }
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message || 'Error adding rider.',
+                    confirmButtonText: 'OK'
+                });
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Add Rider Error: ", xhr.responseText);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'An error occurred while adding the rider.',
+                confirmButtonText: 'OK'
             });
-        });
+        }
+    });
+});
 
         // Edit rider form submission
         $('#editRiderForm').on('submit', function(e) {
