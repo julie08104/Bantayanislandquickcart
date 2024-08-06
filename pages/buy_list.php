@@ -397,29 +397,28 @@ $riders = readRiders();
             }
         });
     });
-    // Edit rider form submission
+   // Edit rider form submission
     $('#editRiderForm').on('submit', function(e) {
-    e.preventDefault(); // Prevent the default form submission
-    
-    $.ajax({
-        type: 'POST',
-        url: 'rider_functions.php',
-        data: $(this).serialize() + '&action=updateRider', // Append action parameter
-        dataType: 'json',
-        success: function(response) {
-            if (response.success) {
-                alert('Rider updated successfully!');
-                $('#editRiderModal').modal('hide'); // Hide the modal
-                fetchRiders(); // Refresh the rider list
-            } else {
-                alert('Error updating rider: ' + response.message);
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: 'rider_functions.php',
+            data: $(this).serialize(),
+            success: function(response) {
+                if (response.success) {
+                    alert('Rider updated successfully!');
+                    location.reload();
+                } else {
+                    alert('Error updating rider.');
+                }
+            },
+            error: function() {
+                alert('An error occurred.');
             }
-        },
-        error: function() {
-            alert('An error occurred while updating the rider.');
-        }
+        });
     });
 });
+
 
 
 function openEditModal(rider) {
@@ -450,7 +449,7 @@ function fetchRiders() {
                 $('#riderTableBody').empty(); // Clear the existing table rows
                 data.riders.forEach(function(rider) {
                     $('#riderTableBody').append(
-                        `<tr>
+                        <tr>
                             <td>${rider.rider_id}</td>
                             <td>${rider.name}</td>
                             <td>${rider.lastname}</td>
@@ -472,7 +471,7 @@ function fetchRiders() {
                                     <i class="fas fa-trash"></i> Delete
                                 </button>
                             </td>
-                        </tr>`
+                        </tr>
                     );
                 });
             } else {
@@ -483,8 +482,7 @@ function fetchRiders() {
             alert('An error occurred while fetching riders.');
         }
     });
-}
-
+} 
 function deleteRider(rider_id) {
     if (confirm('Are you sure you want to delete this rider?')) {
         $.ajax({
