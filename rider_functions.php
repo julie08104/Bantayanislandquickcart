@@ -18,10 +18,10 @@ function addColumnIfNotExists($pdo, $table, $column, $columnDefinition) {
 addColumnIfNotExists($pdo, 'riders', 'alert_quantity', 'INT(11) NOT NULL');
 
 // Create Rider
-function createRider($name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined, $total_rides, $rating, $payment_method) {
+function createRider($name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status) {
     global $pdo;
-    $stmt = $pdo->prepare("INSERT INTO riders (name, lastname, gender, address, contact_number, email, vehicle_type, license_number, status, date_joined, total_rides, rating, payment_method) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined, $total_rides, $rating, $payment_method]);
+    $stmt = $pdo->prepare("INSERT INTO riders (name, lastname, gender, address, contact_number, email, vehicle_type, license_number, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status]);
 }
 
 // Read Riders
@@ -32,7 +32,7 @@ function readRiders() {
 }
 
 // Update Rider
-function updateRider($rider_id, $name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined, $total_rides, $rating, $payment_method) {
+function updateRider($rider_id, $name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status) {
     global $pdo;
     $stmt = $pdo->prepare("
         UPDATE riders 
@@ -46,13 +46,9 @@ function updateRider($rider_id, $name, $lastname, $gender, $address, $contact_nu
             vehicle_type = ?, 
             license_number = ?, 
             status = ?, 
-            date_joined = ?, 
-            total_rides = ?, 
-            rating = ?, 
-            payment_method = ? 
         WHERE rider_id = ?
     ");
-    return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined, $total_rides, $rating, $payment_method, $rider_id]);
+    return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status]);
 }
 
 // Delete Rider
@@ -82,10 +78,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_POST['vehicle_type'],
                     $_POST['license_number'],
                     $_POST['status'],
-                    $_POST['date_joined'],
-                    $_POST['total_rides'],
-                    $_POST['rating'],
-                    $_POST['payment_method']
                 );
                 $response['success'] = $success;
                 $response['message'] = $success ? 'Rider added successfully!' : 'Failed to add rider.';
@@ -102,10 +94,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_POST['vehicle_type'],
                     $_POST['license_number'],
                     $_POST['status'],
-                    $_POST['date_joined'],
-                    $_POST['total_rides'],
-                    $_POST['rating'],
-                    $_POST['payment_method']
                 );
                 $response['success'] = $success;
                 $response['message'] = $success ? 'Rider updated successfully!' : 'Failed to update rider.';
