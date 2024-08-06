@@ -14,7 +14,9 @@ function addColumnIfNotExists($pdo, $table, $column, $columnDefinition) {
 // Create Customer
 function createCustomer($name, $lastname, $address, $contact, $email) {
     global $pdo;
+    // Prepare the SQL statement with placeholders
     $stmt = $pdo->prepare("INSERT INTO customer (name, lastname, address, contact, email) VALUES (?, ?, ?, ?, ?)");
+    // Execute the statement with the provided values
     return $stmt->execute([$name, $lastname, $address, $contact, $email]);
 }
 
@@ -22,11 +24,7 @@ function createCustomer($name, $lastname, $address, $contact, $email) {
 function readCustomers() {
     global $pdo;
     $stmt = $pdo->query("SELECT * FROM customer");
-    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    if ($result === false) {
-        return [];
-    }
-    return $result;
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 // Update Customer
@@ -58,94 +56,72 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             deleteCustomer($_POST['id']);
             break;
     }
-    header('Location: index.php?page=customer'); // Redirect after action
+    header('Location: index.php?page=costumer'); // Redirect after action
     exit;
 }
-
 // Fetch customers for display
 $customers = readCustomers();
-if ($customers === false) {
-    $customers = []; // Default to empty array if error occurred
-}
 ?>
 <style>
-    /* Initially hide the print image */
-    #printImage {
-        display: none;
-    }
-
-    @media print {
-        /* Print container adjustments */
-        .print-container {
-            display: flex;
-            align-items: center; /* Align items horizontally */
-            position: relative;
+        /* Initially hide the print image */
+        #printImage {
+            display: none;
         }
 
-        .print-only {
-            display: block !important;
-            width: 60px; /* Adjust the width to make the image smaller */
-            height: auto;
-            z-index: 10;
-            margin-right: 20px; /* Space between the image and the text */
-        }
+        @media print {
+            .print-container {
+                display: flex;
+                align-items: center; /* Center items vertically */
+                justify-content: center; /* Center items horizontally */
+                text-align: center; /* Center text horizontally */
+                margin-bottom: 20px; /* Add some space below the container */
+            }
 
-        .no-print {
-            display: none !important;
-        }
+            .print-only {
+                display: block !important;
+                width: 100px; /* Adjust the width as needed */
+                height: auto;
+                margin-right: 20px; /* Space between the image and the text */
+            }
 
-        /* Hide actions column and buttons */
-        #customerTable td:nth-child(7), /* Adjust if the Actions column index is different */
-        #customerTable th:nth-child(7),
-        #customerTable tbody button {
-            display: none !important;
-        }
+            .no-print {
+                display: none !important;
+            }
 
-        /* Hide DataTables elements */
-        .dataTables_paginate,
-        .dataTables_length,
-        .dataTables_filter {
-            display: none !important;
-        }
+            /* Ensure table cells and headers are displayed properly */
+            #customerTable td, #customerTable th {
+                display: table-cell !important;
+            }
 
-        /* Ensure table cells and headers are displayed properly */
-        #customerTable td, #customerTable th {
-            display: table-cell !important;
+            .dataTables_paginate, .dataTables_length, .dataTables_filter {
+                display: none !important;
+            }
         }
-
-        .brand-image {
-            height: 70px;
-            width: 70px;
-        }
-    }
-</style>
-
+    </style>
 </head>
 <body>
-    <!-- Print Image and Heading -->
+     <!-- Print Container -->
     <div class="print-container">
+        <!-- Print Image -->
         <div id="printImage" class="print-only">
-            <img src="dist/img/images1.png" alt="logo" class="brand-image">
+            <img src="dist/img/images1.png" alt="logo" class="brand-image" style="display: block; width: 100px; height: auto;">
         </div>
-        <br><br><br>
+        <!-- Customer List Heading -->
+        <br> <br> <br>
         <h1>Customer List</h1>
     </div>
-
-    <div class="container-fluid" style="margin-left: 0px!important;">
+<!--add customer-->
+    <div class="container-fluid" style="margin-left: 0px!important;"> 
         <!-- Add Customer Button -->
         <div class="float-left mb-3">
             <button class="btn btn-success no-print" data-toggle="modal" data-target="#addCustomerModal">
                 <i class="fas fa-plus"></i> Add Customer
             </button>
         </div>
-
         <!-- Print Button -->
         <div class="text-right mb-3">
-            
-            <button id="printButton" class="btn btn-success no-print"  onclick="printCustomerList()" style="float: right;">Print List</button>
-           
+            <button id="printButton" class="btn btn-success no-print" onclick="printCustomerList()" style="float: right;">Print List</button>
         </div>
-
         <!-- Customer Table -->
         <table id="customerTable" class="table table-bordered table-responsive-sm">
             <thead>
@@ -160,39 +136,33 @@ if ($customers === false) {
                 </tr>
             </thead>
             <tbody>
-                <?php if (!empty($customers)): ?>
-                    <?php
-                    $counter = 1; // Initialize counter variable
-                    foreach ($customers as $customer): ?>
-                        <tr>
-                            <td><?= $counter++ ?></td>
-                            <td><?= htmlspecialchars($customer['name']) ?></td>
-                            <td><?= htmlspecialchars($customer['lastname']) ?></td>
-                            <td><?= htmlspecialchars($customer['address']) ?></td>
-                            <td><?= htmlspecialchars($customer['contact']) ?></td>
-                            <td><?= htmlspecialchars($customer['email']) ?></td>
-                            <td>
-                                <div class="btn-group-vertical" role="group">
-                                    <button class="btn btn-warning" onclick="openEditModal(<?= htmlspecialchars(json_encode($customer)) ?>)">
-                                        <i class="fas fa-edit"></i> Edit
-                                    </button>
-                                    <button class="btn btn-danger" onclick="confirmDelete(<?= $customer['id'] ?>)">
-                                        <i class="fas fa-trash-alt"></i> Delete
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php else: ?>
+                <?php
+                $counter = 1; // Initialize counter variable
+                foreach ($customers as $customer): ?>
                     <tr>
-                        <td colspan="7" class="text-center">No customers found.</td>
+                        <td><?= $counter++ ?></td>
+                        <td><?= htmlspecialchars($customer['name']) ?></td>
+                        <td><?= htmlspecialchars($customer['lastname']) ?></td>
+                        <td><?= htmlspecialchars($customer['address']) ?></td>
+                        <td><?= htmlspecialchars($customer['contact']) ?></td>
+                        <td><?= htmlspecialchars($customer['email']) ?></td>
+                        <td>
+                            <div class="btn-group-vertical" role="group">
+                                <button class="btn btn-warning" onclick="openEditModal(<?= htmlspecialchars(json_encode($customer)) ?>)">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="btn btn-danger" onclick="deleteCustomer(<?= htmlspecialchars($customer['id']) ?>)">
+                                    <i class="fas fa-trash-alt"></i> Delete
+                                </button>
+                            </div>
+                        </td>
                     </tr>
-                <?php endif; ?>
+                <?php endforeach; ?>
             </tbody>
         </table>
     </div>
 
-   <!-- Add Customer Modal -->
+ <!-- Add Customer Modal -->
 <div class="modal fade" id="addCustomerModal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -201,176 +171,186 @@ if ($customers === false) {
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <form id="addCustomerForm" method="POST">
-                    <input type="hidden" name="action" value="create">
+            <form id="addCustomerForm" method="POST">
+    <input type="hidden" name="action" value="create">
+    <div class="form-group">
+        <label>Name:</label>
+        <input type="text" class="form-control" name="name" required>
+    </div>
+    <div class="form-group">
+        <label>Last Name:</label>
+        <input type="text" class="form-control" name="lastname" required>
+    </div>
+    <div class="form-group">
+        <label>Company:</label>
+        <input type="text" class="form-control" name="company">
+    </div>
+    <div class="form-group">
+        <label>Address:</label>
+        <textarea class="form-control" name="address"></textarea>
+    </div>
+    <div class="form-group">
+        <label>Contact:</label>
+        <input type="text" class="form-control" name="contact">
+    </div>
+    <div class="form-group">
+        <label>Email:</label>
+        <input type="email" class="form-control" name="email" required>
+    </div>
+    <button type="submit" class="btn btn-primary btn-sm">Add Customer</button>
+</form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Customer Modal -->
+<div class="modal fade" id="editCustomerModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Customer</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editCustomerForm" method="POST">
+                    <input type="hidden" name="action" value="update">
+                    <input type="hidden" id="edit_customer_id" name="id">
                     <div class="form-group">
                         <label>Name:</label>
-                        <input type="text" class="form-control" name="name" required>
+                        <input type="text" class="form-control" id="edit_name" name="name" required>
                     </div>
                     <div class="form-group">
                         <label>Last Name:</label>
-                        <input type="text" class="form-control" name="lastname" required>
+                        <input type="text" class="form-control" id="edit_lastname" name="lastname" required>
                     </div>
                     <div class="form-group">
                         <label>Company:</label>
-                        <input type="text" class="form-control" name="company">
+                        <input type="text" class="form-control" id="edit_company" name="company">
                     </div>
                     <div class="form-group">
                         <label>Address:</label>
-                        <textarea class="form-control" name="address"></textarea>
+                        <textarea class="form-control" id="edit_address" name="address"></textarea>
                     </div>
                     <div class="form-group">
                         <label>Contact:</label>
-                        <input type="text" class="form-control" name="contact">
+                        <input type="text" class="form-control" id="edit_contact" name="contact">
                     </div>
                     <div class="form-group">
                         <label>Email:</label>
-                        <input type="email" class="form-control" name="email" required>
+                        <input type="email" class="form-control" id="edit_email" name="email" required>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-sm">Add Customer</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Save Changes</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
-    <!-- Edit Customer Modal -->
-    <div class="modal fade" id="editCustomerModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Edit Customer</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <form id="editCustomerForm" method="POST">
-                        <input type="hidden" name="action" value="update">
-                        <input type="hidden" id="edit_customer_id" name="id">
-                        <div class="form-group">
-                            <label>Name:</label>
-                            <input type="text" id="edit_name" class="form-control" name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Last Name:</label>
-                            <input type="text" id="edit_lastname" class="form-control" name="lastname" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Address:</label>
-                            <textarea id="edit_address" class="form-control" name="address"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Contact:</label>
-                            <input type="text" id="edit_contact" class="form-control" name="contact">
-                        </div>
-                        <div class="form-group">
-                            <label>Email:</label>
-                            <input type="email" id="edit_email" class="form-control" name="email" required>
-                        </div>
-                        <button type="button" class="btn btn-primary btn-sm" onclick="submitEditForm()">Save Changes</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Include jQuery, Bootstrap, and DataTables JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-    <script>
-    $(document).ready(function() {
-        $('#customerTable').DataTable({
-            "lengthMenu": [10, 20, 50, 100]
-        });
+<script>
+$(document).ready(function() {
+    $('#customerTable').DataTable({
+        "lengthMenu": [10, 20, 50, 100]
     });
+});
+function openEditModal(customer) {
+    $('#editCustomerModal').modal('show');
+    $('#edit_customer_id').val(customer.id);
+    $('#edit_name').val(customer.name);
+    $('#edit_lastname').val(customer.lastname);
+    $('#edit_company').val(customer.company);
+    $('#edit_address').val(customer.address);
+    $('#edit_contact').val(customer.contact);
+    $('#edit_email').val(customer.email);
+}
+function deleteCustomer(id) {
+    console.log("Delete function called with ID: ", id);
 
-    function openEditModal(customer) {
-        $('#editCustomerModal').modal('show');
-        $('#edit_customer_id').val(customer.id);
-        $('#edit_name').val(customer.name);
-        $('#edit_lastname').val(customer.lastname);
-        $('#edit_address').val(customer.address);
-        $('#edit_contact').val(customer.contact);
-        $('#edit_email').val(customer.email);
-    }
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            console.log("User confirmed deletion");
 
-    function confirmDelete(id) {
-        Swal.fire({
-            title: 'Are you sure you want to delete this customer?',
-            text: "This action cannot be undone!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                deleteCustomer(id);
-            }
-        });
-    }
+            $.ajax({
+                type: 'POST',
+                url: 'delete_customer.php',
+                data: { id: id },
+                success: function(response) {
+                    console.log("AJAX request successful: ", response);
 
-    function deleteCustomer(id) {
-        $.ajax({
-            url: 'delete_customer.php',
-            method: 'POST',
-            data: { id: id },
-            success: function(response) {
-                try {
-                    var data = JSON.parse(response);
-                    if (data.success) {
+                    try {
+                        var data = JSON.parse(response); // Parse the JSON response
+                        console.log("Parsed response: ", data);
+
+                        if (data.success) {
+                            Swal.fire(
+                                'Deleted!',
+                                data.message,
+                                'success'
+                            ).then(() => {
+                                location.reload(); // Reload the page to see the changes
+                            });
+                        } else {
+                            Swal.fire(
+                                'Error!',
+                                data.message,
+                                'error'
+                            );
+                        }
+                    } catch (e) {
                         Swal.fire(
-                            'Deleted!',
-                            data.message,
-                            'success'
-                        ).then(() => {
-                            location.reload(); // Refresh the page to update the table
-                        });
-                    } else {
-                        Swal.fire(
-                            'Failed!',
-                            data.message,
+                            'Error!',
+                            'Error parsing response: ' + e.message,
                             'error'
                         );
                     }
-                } catch (e) {
+                },
+                error: function(xhr, status, error) {
+                    console.error("AJAX request error: ", xhr.responseText);
                     Swal.fire(
                         'Error!',
-                        'Invalid server response format.',
+                        'Error deleting customer. Please try again.',
                         'error'
                     );
                 }
-            },
-            error: function(xhr, status, error) {
-                Swal.fire(
-                    'Error!',
-                    'There was an error processing your request.',
-                    'error'
-                );
-            }
-        });
-    }
+            });
+        } else {
+            console.log("User canceled deletion");
+        }
+    });
+}
 
-    function submitEditForm() {
-        var formData = $('#editCustomerForm').serialize();
-        
-        $.ajax({
-            type: 'POST',
-            url: 'update_customer.php',
-            data: formData,
-            success: function(response) {
-                var data = JSON.parse(response);
-                if (data.success) {
-                    window.location.href = 'index.php?page=customer';
-                } else {
-                    alert('Error: ' + data.message);
-                }
-            },
-            error: function() {
-                alert('Error updating customer. Please try again.');
+
+
+function submitEditForm() {
+    var formData = $('#editCustomerForm').serialize(); // Gather form data
+    
+    $.ajax({
+        type: 'POST',
+        url: 'update_customer.php', // Path to your PHP update script
+        data: formData,
+        success: function(response) {
+            var data = JSON.parse(response);
+            if (data.success) {
+                window.location.href = 'index.php?page=customer'; // Redirect after success
+            } else {
+                alert('Error: ' + data.message); // Show error message
             }
-        });
-    }
+        },
+        error: function() {
+            alert('Error updating customer. Please try again.');
+        }
+    });
+}
 
 function submitAddForm() {
     var formData = $('#addCustomerForm').serialize(); // Gather form data
@@ -392,18 +372,18 @@ function submitAddForm() {
         }
     });
 }
-    function printCustomerList() {
-    console.log("Print function called");         
+function printCustomerList() {
+    console.log("Print function called");
 
-    // Hide action buttons and action column
+    // Hide all buttons in the table body
     var buttons = document.querySelectorAll('#customerTable tbody button');
-    var actionsHeader = document.querySelector('#customerTable th:nth-child(8)');
-    var actionsCells = document.querySelectorAll('#customerTable td:nth-child(8)');
-
-    // Hide elements
     buttons.forEach(function(button) {
         button.style.display = 'none';
     });
+
+    // Hide the Actions column header and cells
+    var actionsHeader = document.querySelector('#customerTable th:nth-last-child(1)'); // Assuming Actions is the last column
+    var actionsCells = document.querySelectorAll('#customerTable td:nth-last-child(1)'); // Assuming Actions is the last column
     if (actionsHeader) {
         actionsHeader.style.display = 'none';
     }
@@ -411,21 +391,26 @@ function submitAddForm() {
         cell.style.display = 'none';
     });
 
-    // Hide DataTables elements
+    // Hide DataTables pagination
     var dataTablePagination = document.querySelector('.dataTables_paginate');
-    var dataTableLengthSelector = document.querySelector('.dataTables_length');
-    var searchInput = document.querySelector('.dataTables_filter');
-    var printButton = document.getElementById('printButton');
-
     if (dataTablePagination) {
         dataTablePagination.style.display = 'none';
     }
+
+    // Hide DataTables table length selector
+    var dataTableLengthSelector = document.querySelector('.dataTables_length');
     if (dataTableLengthSelector) {
         dataTableLengthSelector.style.display = 'none';
     }
+
+    // Hide the search bar
+    var searchInput = document.querySelector('.dataTables_filter');
     if (searchInput) {
         searchInput.style.display = 'none';
     }
+
+    // Optionally, hide the "Print List" button itself
+    var printButton = document.getElementById('printButton');
     if (printButton) {
         printButton.style.display = 'none';
     }
@@ -441,42 +426,60 @@ function submitAddForm() {
         buttons.forEach(function(button) {
             button.style.display = 'inline-block';
         });
+
         if (actionsHeader) {
             actionsHeader.style.display = 'table-cell';
         }
+
         actionsCells.forEach(function(cell) {
             cell.style.display = 'table-cell';
         });
+
         if (dataTablePagination) {
             dataTablePagination.style.display = 'block';
         }
+
         if (dataTableLengthSelector) {
             dataTableLengthSelector.style.display = 'block';
         }
+
         if (searchInput) {
-            searchInput.style.display = 'inline-block'; // Ensure display is restored
+            searchInput.style.display = '';
         }
+
         if (printButton) {
             printButton.style.display = 'inline-block';
         }
 
         console.log("Elements restored after printing");
-    }, 500); // Adjust the delay as needed
+    }, 1000); // Ensure styles are applied before printing
 }
 
-    document.getElementById('searchInput').addEventListener('keyup', function() {
-        var value = this.value.toLowerCase();
-        document.querySelectorAll('table tbody tr').forEach(function(row) {
-            row.style.display = row.innerText.toLowerCase().includes(value) ? '' : 'none';
-        });
-    });
 
-    document.addEventListener("DOMContentLoaded", function() {
-        var searchInput = document.getElementById('searchInput');
-        if (searchInput) {
-            searchInput.style.display = 'block'; // Ensure the search input is displayed
-        }
+
+document.getElementById('searchInput').addEventListener('keyup', function() {
+    var value = this.value.toLowerCase();
+    document.querySelectorAll('table tbody tr').forEach(function(row) {
+        row.style.display = row.innerText.toLowerCase().includes(value) ? '' : 'none';
     });
-    </script>
+});
+
+
+
+
+
+   document.addEventListener("DOMContentLoaded", function() {
+            var searchInput = document.getElementById('searchInput');
+
+            if (searchInput) {
+                searchInput.style.display = 'none';
+            }
+        });
+
+
+
+</script>
+
+
 </body>
 </html>
