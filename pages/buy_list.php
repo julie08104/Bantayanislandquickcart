@@ -151,9 +151,9 @@ $riders = readRiders();
                         <td><?= htmlentities($rider['license_number']) ?></td>
                         <td><?= htmlentities($rider['status']) ?></td>
               <td>
-   <!-- <button class="btn btn-info btn-sm btn-custom" onclick="openViewModal(<?= htmlentities(json_encode($rider)) ?>)">
+    <button class="btn btn-info btn-sm btn-custom" onclick="openViewModal(<?= htmlentities(json_encode($rider)) ?>)">
         <i class="fas fa-eye"></i> View
-    </button>-->
+    </button>
     <button class="btn btn-warning btn-sm btn-custom" onclick="openEditModal(<?= htmlentities(json_encode($rider)) ?>)">
         <i class="fas fa-edit"></i> Edit
     </button>
@@ -295,18 +295,18 @@ $riders = readRiders();
                         <label for="viewStatus">Status</label>
                         <input type="text" class="form-control" id="viewStatus" name="status" readonly>
                     </div>
-                    <div class="form-group">
+                   <!-- <div class="form-group">
                         <label for="viewTotalRides">Total Rides</label>
                         <input type="number" class="form-control" id="viewTotalRides" name="total_rides" readonly>
-                    </div>
-                    <div class="form-group">
+                    </div>-->
+                   <!-- <div class="form-group">
                         <label for="viewRating">Rating</label>
                         <input type="number" class="form-control" id="viewRating" name="rating" step="0.1" readonly>
-                    </div>
-                    <div class="form-group">
+                    </div>-->
+                   <!-- <div class="form-group">
                         <label for="viewPaymentMethod">Payment Method</label>
                         <input type="text" class="form-control" id="viewPaymentMethod" name="payment_method" readonly>
-                    </div>
+                    </div>-->
                 </form>
             </div>
         </div>
