@@ -372,27 +372,26 @@ if ($customers === false) {
         });
     }
 
-    function submitAddForm() {
-        var formData = $('#addCustomerForm').serialize();
-        
-        $.ajax({
-            type: 'POST',
-            url: 'add_customer.php',
-            data: formData,
-            success: function(response) {
-                var data = JSON.parse(response);
-                if (data.success) {
-                    window.location.href = 'index.php?page=customer';
-                } else {
-                    alert('Error: ' + data.message);
-                }
-            },
-            error: function() {
-                alert('Error adding customer. Please try again.');
+  function submitAddForm() {
+    var formData = $('#addCustomerForm').serialize(); // Gather form data
+    
+    $.ajax({
+        type: 'POST',
+        url: 'add_customer.php', // Path to your PHP add script
+        data: formData,
+        success: function(response) {
+            var data = JSON.parse(response);
+            if (data.success) {
+                window.location.href = 'index.php?page=customer'; // Redirect after success
+            } else {
+                alert('Error: ' + data.message); // Show error message
             }
-        });
-    }
-
+        },
+        error: function() {
+            alert('Error adding customer. Please try again.');
+        }
+    });
+}
     function printCustomerList() {
     console.log("Print function called");         
 
