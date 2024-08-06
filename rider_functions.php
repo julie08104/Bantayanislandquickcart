@@ -46,30 +46,21 @@ function readRiders() {
 }
 
 // Update Rider
-function updateRider($rider_id, $name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined) {
+function updateRider($id, $name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status) {
     global $pdo;
-    try {
-        $stmt = $pdo->prepare("
-            UPDATE riders 
-            SET 
-                name = ?, 
-                lastname = ?, 
-                gender = ?, 
-                address = ?, 
-                contact_number = ?, 
-                email = ?, 
-                vehicle_type = ?, 
-                license_number = ?, 
-                status = ?, 
-                date_joined = ? 
-            WHERE rider_id = ?
-        ");
-        return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined, $rider_id]);
-    } catch (PDOException $e) {
-        error_log('Error updating rider: ' . $e->getMessage());
-        return false;
+    $stmt = $pdo->prepare("UPDATE riders SET name = ?, lastname = ?, gender = ?, address = ?, contact_number = ?, email = ?, vehicle_type = ?, license_number = ?, status = ? WHERE rider_id = ?");
+    $result = $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $id]);
+    if ($result) {
+        // Fetch the updated rider
+        $stmt = $pdo->prepare("SELECT * FROM riders WHERE rider_id = ?");
+        $stmt->execute([$id]);
+        $rider = $stmt->fetch(PDO::FETCH_ASSOC);
+        echo json_encode(['success' => true, 'rider' => $rider]);
+    } else {
+        echo json_encode(['success' => false]);
     }
 }
+
 
 // Delete Rider
 function deleteRider($rider_id) {
