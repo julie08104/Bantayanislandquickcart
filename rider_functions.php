@@ -49,12 +49,7 @@ function updateRider($rider_id, $name, $lastname, $gender, $address, $contact_nu
             date_joined = ? 
         WHERE rider_id = ?
     ");
-    if ($stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined, $rider_id])) {
-        return true;
-    } else {
-        error_log(print_r($stmt->errorInfo(), true)); // Log any SQL errors
-        return false;
-    }
+    return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined, $rider_id]);
 }
 
 // Delete Rider
@@ -70,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     switch ($action) {
         case 'create':
-            createRider(
+            $success = createRider(
                 $_POST['name'],
                 $_POST['lastname'],
                 $_POST['gender'],
@@ -84,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             );
             break;
         case 'update':
-            updateRider(
+            $success = updateRider(
                 $_POST['rider_id'],
                 $_POST['name'],
                 $_POST['lastname'],
@@ -99,11 +94,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             );
             break;
         case 'delete':
-            deleteRider($_POST['rider_id']);
+            $success = deleteRider($_POST['rider_id']);
+            break;
+        default:
+            $success = false;
             break;
     }
+
     header('Content-Type: application/json');
-    echo json_encode(['success' => true]);
+    echo json_encode(['success' => $success]);
     exit;
 }
 
