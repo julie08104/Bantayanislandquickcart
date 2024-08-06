@@ -504,19 +504,18 @@ function deleteRider(rider_id) {
     }
 }
 
-function openEditModal(rider) {
-    $('#editRiderId').val(rider.rider_id);
-    $('#editName').val(rider.name);
-    $('#editLastname').val(rider.lastname);
-    $('#editGender').val(rider.gender);
-    $('#editAddress').val(rider.address);
-    $('#editContactNumber').val(rider.contact_number);
-    $('#editEmail').val(rider.email);
-    $('#editVehicleType').val(rider.vehicle_type);
-    $('#editLicenseNumber').val(rider.license_number);
-    $('#editStatus').val(rider.status);
 
-    $('#editRiderModal').modal('show');
+function openViewModal(rider) {
+    $('#viewName').val(rider.name);
+    $('#viewLastname').val(rider.lastname);
+    $('#viewGender').val(rider.gender);
+    $('#viewAddress').val(rider.address);
+    $('#viewContactNumber').val(rider.contact_number);
+    $('#viewEmail').val(rider.email);
+    $('#viewVehicleType').val(rider.vehicle_type);
+    $('#viewLicenseNumber').val(rider.license_number);
+    $('#viewStatus').val(rider.status);
+    $('#viewRiderModal').modal('show');
 }
 
 // Ensure to bind the edit form submission to the PHP update function
