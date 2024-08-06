@@ -18,10 +18,10 @@ function addColumnIfNotExists($pdo, $table, $column, $columnDefinition) {
 addColumnIfNotExists($pdo, 'riders', 'alert_quantity', 'INT(11) NOT NULL');
 
 // Create Rider
-function createRider($name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined, $total_rides, $rating, $payment_method) {
+function createRider($name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined) {
     global $pdo;
-    $stmt = $pdo->prepare("INSERT INTO riders (name, lastname, gender, address, contact_number, email, vehicle_type, license_number, status, date_joined, total_rides, rating, payment_method) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined, $total_rides, $rating, $payment_method]);
+    $stmt = $pdo->prepare("INSERT INTO riders (name, lastname, gender, address, contact_number, email, vehicle_type, license_number, status, date_joined) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined]);
 }
 
 // Read Riders
