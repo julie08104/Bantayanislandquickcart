@@ -1,55 +1,130 @@
 <?php
-// Initialize session if not already done
-session_start();
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-// Include necessary initialization or configuration files
-require_once 'app/init.php';
+require_once 'app/init.php'; // Include your database connection file
 
-// Check if token is provided and valid
-if (isset($_GET['token'])) {
-    $token = $_GET['token'];
-    // Verify token validity (e.g., check against database)
-    // Example: $user = find_user_by_token($token);
-    // If token is valid, allow user to reset password
-    // Otherwise, handle invalid token scenario
-} else {
-    // Handle case where token is not provided
-    // Redirect to appropriate page or display error message
+// Function to add a column if it does not exist
+function addColumnIfNotExists($pdo, $table, $column, $columnDefinition) {
+    $stmt = $pdo->prepare("SHOW COLUMNS FROM `$table` LIKE ?");
+    $stmt->execute([$column]);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if ($result === false) {
+        // Column does not exist, so add it
+        $stmt = $pdo->prepare("ALTER TABLE `$table` ADD COLUMN `$column` $columnDefinition");
+        $stmt->execute();
+    }
 }
-?>
 
-<!DOCTYPE HTML>
-<html lang="en-us">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reset Password</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" type="text/css" />
-    <!-- Additional styles if needed -->
-</head>
-<body>
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title text-center">Reset Password</h3>
-                        <!-- Password reset form -->
-                        <form action="reset_password.php" method="post">
-                            <div class="form-group">
-                                <label for="new_password">Enter your new password:</label>
-                                <input type="password" id="new_password" name="new_password" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="confirm_password">Confirm your new password:</label>
-                                <input type="password" id="confirm_password" name="confirm_password" class="form-control" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-block">Reset Password</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
-</html>
+// Call the function for 'alert_quantity' column in 'riders' table
+addColumnIfNotExists($pdo, 'riders', 'alert_quantity', 'INT(11) NOT NULL');
+
+// Create Rider
+function createRider($name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status) {
+    global $pdo;
+    $stmt = $pdo->prepare("
+        INSERT INTO riders (name, lastname, gender, address, contact_number, email, vehicle_type, license_number, status) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ");
+    return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status]);
+}
+
+// Read Riders
+function readRiders() {
+    global $pdo;
+    $stmt = $pdo->query("SELECT * FROM riders");
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Update Rider
+function updateRider($rider_id, $name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status) {
+    global $pdo;
+    $stmt = $pdo->prepare("
+        UPDATE riders 
+        SET 
+            name = ?, 
+            lastname = ?, 
+            gender = ?, 
+            address = ?, 
+            contact_number = ?, 
+            email = ?, 
+            vehicle_type = ?, 
+            license_number = ?, 
+            status = ? 
+        WHERE rider_id = ?
+    ");
+    return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $rider_id]);
+}
+
+// Delete Rider
+function deleteRider($rider_id) {
+    global $pdo;
+    $stmt = $pdo->prepare("DELETE FROM riders WHERE rider_id = ?");
+    return $stmt->execute([$rider_id]);
+}
+
+// Handle Form Submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Debugging: Check what data is being sent
+    error_log('Received POST data: ' . print_r($_POST, true));
+
+    $action = $_POST['action'] ?? '';
+
+    switch ($action) {
+        case 'create':
+            if (createRider(
+                $_POST['name'],
+                $_POST['lastname'],
+                $_POST['gender'],
+                $_POST['address'],
+                $_POST['contact_number'],
+                $_POST['email'],
+                $_POST['vehicle_type'],
+                $_POST['license_number'],
+                $_POST['status']
+            )) {
+                header('Location: index.php?page=buy_list'); // Redirect after success
+                exit;
+            } else {
+                echo 'Error creating rider.';
+            }
+            break;
+        case 'update':
+            if (updateRider(
+                $_POST['rider_id'],
+                $_POST['name'],
+                $_POST['lastname'],
+                $_POST['gender'],
+                $_POST['address'],
+                $_POST['contact_number'],
+                $_POST['email'],
+                $_POST['vehicle_type'],
+                $_POST['license_number'],
+                $_POST['status']
+            )) {
+                header('Location: index.php?page=buy_list'); // Redirect after success
+                exit;
+            } else {
+                echo 'Error updating rider.';
+                error_log('Update failed: ' . print_r($stmt->errorInfo(), true));
+            }
+            break;
+        case 'delete':
+            if (deleteRider($_POST['rider_id'])) {
+                header('Location: index.php?page=buy_list'); // Redirect after success
+                exit;
+            } else {
+                echo 'Error deleting rider.';
+            }
+            break;
+        default:
+            echo 'Invalid action.';
+            break;
+    }
+}
+
+// Fetch riders for display
+$riders = readRiders();
+?>
