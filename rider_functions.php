@@ -26,15 +26,7 @@ function createRider($name, $lastname, $gender, $address, $contact_number, $emai
     global $pdo;
     try {
         $stmt = $pdo->prepare("INSERT INTO riders (name, lastname, gender, address, contact_number, email, vehicle_type, license_number, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $result = $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status]);
-
-        if (!$result) {
-            error_log('Create query failed: ' . implode(', ', $stmt->errorInfo()));
-        } else {
-            error_log('Create query succeeded');
-        }
-
-        return $result;
+        return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status]);
     } catch (PDOException $e) {
         error_log('Error creating rider: ' . $e->getMessage());
         return false;
@@ -96,15 +88,7 @@ function deleteRider($rider_id) {
     global $pdo;
     try {
         $stmt = $pdo->prepare("DELETE FROM riders WHERE rider_id = ?");
-        $result = $stmt->execute([$rider_id]);
-
-        if (!$result) {
-            error_log('Delete query failed: ' . implode(', ', $stmt->errorInfo()));
-        } else {
-            error_log('Delete query succeeded');
-        }
-
-        return $result;
+        return $stmt->execute([$rider_id]);
     } catch (PDOException $e) {
         error_log('Error deleting rider: ' . $e->getMessage());
         return false;
