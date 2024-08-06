@@ -142,16 +142,18 @@ if ($customers === false) {
 <div class="container-fluid">
     <div class="row">
         <div class="col text-right">
-            <div class="d-flex align-items-center justify-content-end mb-3">
+            <div class="float-right mb-3">
                 <!-- Print Button -->
-                <button id="printButton" class="btn btn-success no-print me-3" onclick="printCustomerList()">Print List</button> <!-- Use me-3 for margin-right -->
-
+                <button id="printButton" class="btn btn-success no-print" onclick="printCustomerList()">Print List</button>
+            </div>
+            <div class="float-right mb-3" style="margin-left: 20px;"> <!-- Adjust margin-left here -->
                 <!-- Search Input -->
                 <input class="form-control form-control-sm no-print" id="searchInput" type="text" placeholder="Search.." style="width: 200px;">
             </div>
         </div>
     </div>
 </div>
+
 
 
 
