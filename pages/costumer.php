@@ -393,7 +393,7 @@ if ($customers === false) {
         });
     }
 
-    function printCustomerList() {
+ function printCustomerList() {
     console.log("Print function called");         
 
     // Hide action buttons and action column
@@ -455,14 +455,14 @@ if ($customers === false) {
             dataTableLengthSelector.style.display = 'block';
         }
         if (searchInput) {
-            searchInput.style.display = '';
+            searchInput.style.display = 'inline-block'; // Ensure display is restored
         }
         if (printButton) {
             printButton.style.display = 'inline-block';
         }
 
         console.log("Elements restored after printing");
-    }, 100); // Adjust the delay as needed
+    }, 500); // Adjust the delay as needed
 }
 
     document.getElementById('searchInput').addEventListener('keyup', function() {
