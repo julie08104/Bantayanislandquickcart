@@ -416,9 +416,6 @@ $riders = readRiders();
             <p><strong>Vehicle Type:</strong> ${rider.vehicle_type}</p>
             <p><strong>License Number:</strong> ${rider.license_number}</p>
             <p><strong>Status:</strong> ${rider.status}</p>
-            <p><strong>Total Rides:</strong> ${rider.total_rides}</p>
-            <p><strong>Rating:</strong> ${rider.rating}</p>
-            <p><strong>Payment Method:</strong> ${rider.payment_method}</p>
         `;
         document.getElementById('viewRiderDetails').innerHTML = details;
         $('#viewRiderModal').modal('show');
