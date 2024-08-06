@@ -1,8 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 require_once 'app/init.php'; // Include your database connection file
 
 // Function to add a column if it does not exist
@@ -22,13 +18,10 @@ function addColumnIfNotExists($pdo, $table, $column, $columnDefinition) {
 addColumnIfNotExists($pdo, 'riders', 'alert_quantity', 'INT(11) NOT NULL');
 
 // Create Rider
-function createRider($name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status) {
+function createRider($name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined, $total_rides, $rating, $payment_method) {
     global $pdo;
-    $stmt = $pdo->prepare("
-        INSERT INTO riders (name, lastname, gender, address, contact_number, email, vehicle_type, license_number, status) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-    ");
-    return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status]);
+    $stmt = $pdo->prepare("INSERT INTO riders (name, lastname, gender, address, contact_number, email, vehicle_type, license_number, status, date_joined, total_rides, rating, payment_method) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined, $total_rides, $rating, $payment_method]);
 }
 
 // Read Riders
@@ -39,39 +32,27 @@ function readRiders() {
 }
 
 // Update Rider
-function updateRider($rider_id, $name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status) {
+function updateRider($rider_id, $name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined, $total_rides, $rating, $payment_method) {
     global $pdo;
-    try {
-        $stmt = $pdo->prepare("
-            UPDATE riders 
-            SET 
-                name = ?, 
-                lastname = ?, 
-                gender = ?, 
-                address = ?, 
-                contact_number = ?, 
-                email = ?, 
-                vehicle_type = ?, 
-                license_number = ?, 
-                status = ? 
-            WHERE rider_id = ?
-        ");
-        $result = $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $rider_id]);
-        if ($result) {
-            // Return updated rider
-            $stmt = $pdo->prepare("SELECT * FROM riders WHERE rider_id = ?");
-            $stmt->execute([$rider_id]);
-            return $stmt->fetch(PDO::FETCH_ASSOC);
-        } else {
-            throw new Exception('Failed to update rider: ' . implode(", ", $stmt->errorInfo()));
-        }
-    } catch (PDOException $e) {
-        error_log('Error updating rider: ' . $e->getMessage());
-        return false;
-    } catch (Exception $e) {
-        error_log($e->getMessage());
-        return false;
-    }
+    $stmt = $pdo->prepare("
+        UPDATE riders 
+        SET 
+            name = ?, 
+            lastname = ?, 
+            gender = ?, 
+            address = ?, 
+            contact_number = ?, 
+            email = ?, 
+            vehicle_type = ?, 
+            license_number = ?, 
+            status = ?, 
+            date_joined = ?, 
+            total_rides = ?, 
+            rating = ?, 
+            payment_method = ? 
+        WHERE rider_id = ?
+    ");
+    return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined, $total_rides, $rating, $payment_method, $rider_id]);
 }
 
 // Delete Rider
@@ -83,14 +64,11 @@ function deleteRider($rider_id) {
 
 // Handle Form Submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Debugging: Check what data is being sent
-    error_log('Received POST data: ' . print_r($_POST, true));
-
-    $action = $_POST['action'] ?? '';
-
+    $action = $_POST['action'];
+    
     switch ($action) {
         case 'create':
-            if (createRider(
+            createRider(
                 $_POST['name'],
                 $_POST['lastname'],
                 $_POST['gender'],
@@ -99,16 +77,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_POST['email'],
                 $_POST['vehicle_type'],
                 $_POST['license_number'],
-                $_POST['status']
-            )) {
-                header('Location: index.php?page=buy_list'); // Redirect after success
-                exit;
-            } else {
-                echo 'Error creating rider.';
-            }
+                $_POST['status'],
+                $_POST['date_joined'],
+                $_POST['total_rides'],
+                $_POST['rating'],
+                $_POST['payment_method']
+            );
             break;
         case 'update':
-            $updatedRider = updateRider(
+            updateRider(
                 $_POST['rider_id'],
                 $_POST['name'],
                 $_POST['lastname'],
@@ -118,27 +95,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_POST['email'],
                 $_POST['vehicle_type'],
                 $_POST['license_number'],
-                $_POST['status']
+                $_POST['status'],
+                $_POST['date_joined'],
+                $_POST['total_rides'],
+                $_POST['rating'],
+                $_POST['payment_method']
             );
-            if ($updatedRider) {
-                header('Location: index.php?page=buy_list'); // Redirect after success
-                exit;
-            } else {
-                echo 'Error updating rider.';
-            }
             break;
         case 'delete':
-            if (deleteRider($_POST['rider_id'])) {
-                header('Location: index.php?page=buy_list'); // Redirect after success
-                exit;
-            } else {
-                echo 'Error deleting rider.';
-            }
-            break;
-        default:
-            echo 'Invalid action.';
+            deleteRider($_POST['rider_id']);
             break;
     }
+     header('Location: index.php?page=buy_list'); // Redirect after action
+    exit;
 }
 
 // Fetch riders for display
