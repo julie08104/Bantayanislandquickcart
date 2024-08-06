@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once 'app/init.php'; // Include your database connection file
 
 // Function to add a column if it does not exist
@@ -63,8 +67,11 @@ function deleteRider($rider_id) {
 
 // Handle Form Submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Debugging: Check what data is being sent
+    error_log('Received POST data: ' . print_r($_POST, true));
+
     $action = $_POST['action'] ?? '';
-    
+
     switch ($action) {
         case 'create':
             if (createRider(
@@ -101,6 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 exit;
             } else {
                 echo 'Error updating rider.';
+                error_log('Update failed: ' . print_r($stmt->errorInfo(), true));
             }
             break;
         case 'delete':
