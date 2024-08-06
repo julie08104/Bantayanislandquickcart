@@ -75,6 +75,7 @@ if ($customers === false) {
     }
 
     @media print {
+        /* Print container adjustments */
         .print-container {
             display: flex;
             align-items: center; /* Align items horizontally */
@@ -93,13 +94,23 @@ if ($customers === false) {
             display: none !important;
         }
 
+        /* Hide actions column and buttons */
+        #customerTable td:nth-child(7), /* Adjust if the Actions column index is different */
+        #customerTable th:nth-child(7),
+        #customerTable tbody button {
+            display: none !important;
+        }
+
+        /* Hide DataTables elements */
+        .dataTables_paginate,
+        .dataTables_length,
+        .dataTables_filter {
+            display: none !important;
+        }
+
         /* Ensure table cells and headers are displayed properly */
         #customerTable td, #customerTable th {
             display: table-cell !important;
-        }
-
-        .dataTables_paginate, .dataTables_length, .dataTables_filter {
-            display: none !important;
         }
 
         .brand-image {
@@ -108,6 +119,7 @@ if ($customers === false) {
         }
     }
 </style>
+
 </head>
 <body>
     <!-- Print Image and Heading -->
