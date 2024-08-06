@@ -468,12 +468,18 @@ document.getElementById('searchInput').addEventListener('keyup', function() {
     });
 });
 
-document.addEventListener("DOMContentLoaded", function() {
-    var searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-        searchInput.style.display = 'none';
-    }
-});
+
+
+
+
+   document.addEventListener("DOMContentLoaded", function() {
+            var searchInput = document.getElementById('searchInput');
+
+            if (searchInput) {
+                searchInput.style.display = 'none';
+            }
+        });
+
 </script>
 </body>
 </html>
