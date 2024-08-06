@@ -397,9 +397,6 @@ $riders = readRiders();
             }
         });
     });
-   $(document).ready(function() {
-    fetchRiders(); // Load riders when the page is ready
-
     // Edit rider form submission
     $('#editRiderForm').on('submit', function(e) {
         e.preventDefault();
