@@ -32,7 +32,7 @@ function readRiders() {
 }
 
 // Update Rider
-function updateRider($rider_id, $name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined, $total_rides, $rating, $payment_method) {
+function updateRider($rider_id, $name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined,) {
     global $pdo;
     $stmt = $pdo->prepare("
         UPDATE riders 
@@ -47,12 +47,9 @@ function updateRider($rider_id, $name, $lastname, $gender, $address, $contact_nu
             license_number = ?, 
             status = ?, 
             date_joined = ?, 
-            total_rides = ?, 
-            rating = ?, 
-            payment_method = ? 
         WHERE rider_id = ?
     ");
-    return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined, $total_rides, $rating, $payment_method, $rider_id]);
+    return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined, $rider_id]);
 }
 
 // Delete Rider
@@ -79,9 +76,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_POST['license_number'],
                 $_POST['status'],
                 $_POST['date_joined'],
-                $_POST['total_rides'],
-                $_POST['rating'],
-                $_POST['payment_method']
             );
             break;
         case 'update':
@@ -97,9 +91,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_POST['license_number'],
                 $_POST['status'],
                 $_POST['date_joined'],
-                $_POST['total_rides'],
-                $_POST['rating'],
-                $_POST['payment_method']
             );
             break;
         case 'delete':
