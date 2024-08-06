@@ -1,6 +1,11 @@
 <?php
 require_once 'app/init.php'; // Include your database connection file
 
+// Enable error reporting
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+header('Content-Type: application/json');
+
 // Function to add a column if it does not exist
 function addColumnIfNotExists($pdo, $table, $column, $columnDefinition) {
     $stmt = $pdo->prepare("SHOW COLUMNS FROM `$table` LIKE ?");
@@ -28,7 +33,12 @@ function createRider($name, $lastname, $gender, $address, $contact_number, $emai
 function readRiders() {
     global $pdo;
     $stmt = $pdo->query("SELECT * FROM riders");
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if ($stmt) {
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Error fetching riders: ' . $pdo->errorInfo()[2]]);
+        exit;
+    }
 }
 
 // Update Rider
@@ -68,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     switch ($action) {
         case 'create':
-            createRider(
+            $success = createRider(
                 $_POST['name'],
                 $_POST['lastname'],
                 $_POST['gender'],
@@ -85,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             );
             break;
         case 'update':
-            updateRider(
+            $success = updateRider(
                 $_POST['rider_id'],
                 $_POST['name'],
                 $_POST['lastname'],
@@ -103,13 +113,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             );
             break;
         case 'delete':
-            deleteRider($_POST['rider_id']);
+            $success = deleteRider($_POST['rider_id']);
+            break;
+        default:
+            $success = false;
             break;
     }
-     header('Location: index.php?page=buy_list'); // Redirect after action
+    echo json_encode(['success' => $success]);
     exit;
 }
 
 // Fetch riders for display
 $riders = readRiders();
+echo json_encode(['success' => true, 'riders' => $riders]);
+exit;
 ?>
