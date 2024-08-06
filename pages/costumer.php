@@ -134,7 +134,7 @@ if ($customers === false) {
                 <!-- Print Button -->
                 <button id="printButton" class="btn btn-success no-print" onclick="printCustomerList()">Print List</button>
             </div>
-            <div class="mb-3">
+              <div class="float-right mb-3">
                 <!-- Search Input -->
                 <input class="form-control form-control-sm no-print" id="searchInput" type="text" placeholder="Search.." style="width: 150px;">
             </div>
