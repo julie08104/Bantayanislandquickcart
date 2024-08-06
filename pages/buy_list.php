@@ -22,7 +22,6 @@ function updateRider($id, $name, $lastname, $gender, $address, $contact_number, 
     return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $id]);
 }
 
-
 // Delete Rider
 function deleteRider($id) {
     global $pdo;
@@ -369,6 +368,9 @@ $riders = readRiders();
 </div>
 
 
+<!-- JavaScript to handle form submissions and modal opening -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
 
@@ -387,23 +389,23 @@ $riders = readRiders();
         });
     });
 
-   // Edit rider form submission
-$('#editRiderForm').on('submit', function(e) {
-    e.preventDefault();
-    $.ajax({
-        type: 'POST',
-        url: 'rider_functions.php',
-        data: $(this).serialize(),
-        success: function(response) {
-            alert('Rider updated successfully!');
-            location.reload();
-        }
+    // Edit rider form submission
+    $('#editRiderForm').on('submit', function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: 'rider_functions.php',
+            data: $(this).serialize(),
+            success: function(response) {
+                alert('Rider updated successfully!');
+                location.reload();
+            }
+        });
     });
 });
 
 
-
-  // Open edit modal and populate fields
+   // Open edit modal and populate fields
 function openEditModal(rider) {
     $('#editRiderId').val(rider.rider_id);
     $('#editName').val(rider.name);
@@ -415,9 +417,8 @@ function openEditModal(rider) {
     $('#editVehicleType').val(rider.vehicle_type);
     $('#editLicenseNumber').val(rider.license_number);
     $('#editStatus').val(rider.status);
-    $('#editRiderModal').modal('show');
+     $('#editRiderModal').modal('show');
 }
-
 
 
     // Delete rider
@@ -508,5 +509,3 @@ document.getElementById('searchInput').addEventListener('keyup', function() {
             });
         });
 </script>
-</body>
-</html>
