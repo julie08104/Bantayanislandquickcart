@@ -126,11 +126,20 @@ if ($customers === false) {
                 <i class="fas fa-plus"></i> Add Customer
             </button>
         </div>
-<!-- Print Button and Search Input  -->
-<div class="text-right mb-3">
-    <input class="form-control form-control-sm no-print" id="searchInput" type="text" placeholder="Search.." style="display: inline-block; width: 150px; margin-right: 10px;">
-    <button id="printButton" class="btn btn-success no-print" onclick="printCustomerList()" style="float: right;">Print List</button>
+<!-- Print Button and Search Input -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6">
+            <!-- Search Input -->
+            <input class="form-control form-control-sm no-print" id="searchInput" type="text" placeholder="Search.." style="width: 150px; display: inline-block;">
+        </div>
+        <div class="col-md-6 text-right">
+            <!-- Print Button -->
+            <button id="printButton" class="btn btn-success no-print" onclick="printCustomerList()">Print List</button>
+        </div>
+    </div>
 </div>
+
 
 
 
