@@ -129,7 +129,7 @@ if ($customers === false) {
             </button>
         </div>
 
-  <!-- Print Button -->
+  <!-- Print Button and Search Input  -->
     <div class="text-right mb-3">
         <input class="form-control no-print" id="searchInput" type="text" placeholder="Search..">
 
