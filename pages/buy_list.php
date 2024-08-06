@@ -463,7 +463,7 @@ $riders = readRiders();
             });
         });
 
-  // Fetch riders function
+ // Fetch riders function
 function fetchRiders() {
     console.log("Fetching Riders");
     $.ajax({
@@ -505,7 +505,7 @@ function fetchRiders() {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Error fetching riders.',
+                    text: data.message || 'Error fetching riders.',
                     confirmButtonText: 'OK'
                 });
             }
@@ -522,9 +522,8 @@ function fetchRiders() {
     });
 }
 
-
-        // Call fetchRiders on page load
-        fetchRiders();
+// Call fetchRiders on page load
+fetchRiders();
 
         // Delete rider function
         window.deleteRider = function(rider_id) {
