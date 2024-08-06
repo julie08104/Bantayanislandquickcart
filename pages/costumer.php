@@ -394,79 +394,76 @@ if ($customers === false) {
     }
 
     function printCustomerList() {
-        console.log("Print function called");         
-        
-        var buttons = document.querySelectorAll('#customerTable tbody button');
-        buttons.forEach(function(button) {
-            button.style.display = 'none';
-        });
+    console.log("Print function called");         
 
-        var actionsHeader = document.querySelector('#customerTable th:nth-child(8)');
-        var actionsCells = document.querySelectorAll('#customerTable td:nth-child(8)');
+    // Hide action buttons and action column
+    var buttons = document.querySelectorAll('#customerTable tbody button');
+    var actionsHeader = document.querySelector('#customerTable th:nth-child(8)');
+    var actionsCells = document.querySelectorAll('#customerTable td:nth-child(8)');
+
+    // Hide elements
+    buttons.forEach(function(button) {
+        button.style.display = 'none';
+    });
+    if (actionsHeader) {
+        actionsHeader.style.display = 'none';
+    }
+    actionsCells.forEach(function(cell) {
+        cell.style.display = 'none';
+    });
+
+    // Hide DataTables elements
+    var dataTablePagination = document.querySelector('.dataTables_paginate');
+    var dataTableLengthSelector = document.querySelector('.dataTables_length');
+    var searchInput = document.querySelector('.dataTables_filter');
+    var printButton = document.getElementById('printButton');
+
+    if (dataTablePagination) {
+        dataTablePagination.style.display = 'none';
+    }
+    if (dataTableLengthSelector) {
+        dataTableLengthSelector.style.display = 'none';
+    }
+    if (searchInput) {
+        searchInput.style.display = 'none';
+    }
+    if (printButton) {
+        printButton.style.display = 'none';
+    }
+
+    // Use setTimeout to ensure the styles are applied before printing
+    setTimeout(function() {
+        console.log("Elements hidden, initiating print");
+        window.print();
+
+        console.log("Print initiated");
+
+        // Restore elements after printing
+        buttons.forEach(function(button) {
+            button.style.display = 'inline-block';
+        });
         if (actionsHeader) {
-            actionsHeader.style.display = 'none';
+            actionsHeader.style.display = 'table-cell';
         }
         actionsCells.forEach(function(cell) {
-            cell.style.display = 'none';
+            cell.style.display = 'table-cell';
         });
-
-        var dataTablePagination = document.querySelector('.dataTables_paginate');
         if (dataTablePagination) {
-            dataTablePagination.style.display = 'none';
+            dataTablePagination.style.display = 'block';
         }
-
-        var dataTableLengthSelector = document.querySelector('.dataTables_length');
         if (dataTableLengthSelector) {
-            dataTableLengthSelector.style.display = 'none';
+            dataTableLengthSelector.style.display = 'block';
         }
-
-        var searchInput = document.querySelector('.dataTables_filter');
         if (searchInput) {
-            searchInput.style.display = 'none';
+            searchInput.style.display = 'inline-block'; // Ensure display is restored
         }
-
-        var printButton = document.getElementById('printButton');
         if (printButton) {
-            printButton.style.display = 'none';
+            printButton.style.display = 'inline-block';
         }
 
-        setTimeout(function() {
-            console.log("Elements hidden, initiating print");
-            window.print();
-
-            console.log("Print initiated");
-
-            buttons.forEach(function(button) {
-                button.style.display = 'inline-block';
-            });
-
-            if (actionsHeader) {
-                actionsHeader.style.display = 'table-cell';
-            }
-
-            actionsCells.forEach(function(cell) {
-                cell.style.display = 'table-cell';
-            });
-
-            if (dataTablePagination) {
-                dataTablePagination.style.display = 'block';
-            }
-
-            if (dataTableLengthSelector) {
-                dataTableLengthSelector.style.display = 'block';
-            }
-
-            if (searchInput) {
-                searchInput.style.display = '';
-            }
-
-            if (printButton) {
-                printButton.style.display = 'inline-block';
-            }
-
-            console.log("Elements restored after printing");
-        }, 1000);
-    }
+        console.log("Elements restored after printing");
+    }, 500); // Adjust the delay as needed
+}
 
     document.getElementById('searchInput').addEventListener('keyup', function() {
         var value = this.value.toLowerCase();
