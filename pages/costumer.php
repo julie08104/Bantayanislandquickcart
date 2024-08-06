@@ -136,7 +136,7 @@ if ($customers === false) {
             </div>
               <div class="float-right mb-3">
                 <!-- Search Input -->
-                <input class="form-control form-control-sm no-print" id="searchInput" type="text" placeholder="Search.." style="width: 150px;">
+                <input class="form-control form-control-sm no-print" id="searchInput" type="text" placeholder="Search.." style="width: 180px;">
             </div>
         </div>
     </div>
