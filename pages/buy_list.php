@@ -402,6 +402,7 @@ $riders = readRiders();
             }
         });
     });
+  });
 
 
    // Open edit modal and populate fields
