@@ -28,12 +28,15 @@ try {
         if ($stmt->execute()) {
             echo json_encode(['success' => true, 'message' => 'Customer updated successfully.']);
         } else {
+            $errorInfo = $stmt->errorInfo(); // Get error information
+            error_log("Update failed: " . implode(", ", $errorInfo)); // Log error info
             echo json_encode(['success' => false, 'message' => 'Error updating customer.']);
         }
     } else {
         echo json_encode(['success' => false, 'message' => 'No customer ID provided.']);
     }
 } catch (PDOException $e) {
+    error_log("Database error: " . $e->getMessage()); // Log database errors
     echo json_encode(['success' => false, 'message' => 'Database error: ' . $e->getMessage()]);
 }
 ?>
