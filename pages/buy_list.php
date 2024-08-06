@@ -417,11 +417,6 @@ function openEditModal(rider) {
     $('#editVehicleType').val(rider.vehicle_type);
     $('#editLicenseNumber').val(rider.license_number);
     $('#editStatus').val(rider.status);
-    // Ensure these fields are not present in the modal
-    $('#editTotalRides').remove();
-    $('#editRating').remove();
-    $('#editPaymentMethod').remove();
-    $('#editRiderModal').modal('show');
 }
 
 
