@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             deleteCustomer($_POST['id']);
             break;
     }
-    header('Location: index.php?page=customer'); // Redirect after action
+    header('Location: index.php?page=costumer'); // Redirect after action
     exit;
 }
 
