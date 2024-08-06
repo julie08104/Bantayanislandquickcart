@@ -409,6 +409,7 @@ $riders = readRiders();
             }
         });
     });
+});
 
     // Open edit modal and populate fields
     function openEditModal(rider) {
