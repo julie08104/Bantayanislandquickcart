@@ -463,64 +463,65 @@ $riders = readRiders();
             });
         });
 
-        // Fetch riders function
-        function fetchRiders() {
-            console.log("Fetching Riders");
-            $.ajax({
-                type: 'GET',
-                url: 'rider_functions.php',
-                dataType: 'json',
-                success: function(data) {
-                    console.log("Fetch Riders Response: ", data);
-                    if (data.success) {
-                        $('#riderTableBody').empty(); // Clear the existing table rows
-                        data.riders.forEach(function(rider) {
-                            $('#riderTableBody').append(
-                                `<tr>
-                                    <td>${rider.rider_id}</td>
-                                    <td>${rider.name}</td>
-                                    <td>${rider.lastname}</td>
-                                    <td>${rider.gender}</td>
-                                    <td>${rider.address}</td>
-                                    <td>${rider.contact_number}</td>
-                                    <td>${rider.email}</td>
-                                    <td>${rider.vehicle_type}</td>
-                                    <td>${rider.license_number}</td>
-                                    <td>${rider.status}</td>
-                                    <td>
-                                        <button class="btn btn-info btn-sm" onclick='openEditModal(${JSON.stringify(rider)})'>
-                                            <i class="fas fa-eye"></i> View
-                                        </button>
-                                        <button class="btn btn-warning btn-sm" onclick='openEditModal(${JSON.stringify(rider)})'>
-                                            <i class="fas fa-edit"></i> Edit
-                                        </button>
-                                        <button class="btn btn-danger btn-sm" onclick='deleteRider(${rider.rider_id})'>
-                                            <i class="fas fa-trash"></i> Delete
-                                        </button>
-                                    </td>
-                                </tr>`
-                            );
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'Error fetching riders.',
-                            confirmButtonText: 'OK'
-                        });
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error("Fetch Riders Error: ", xhr.responseText);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'An error occurred while fetching riders.',
-                        confirmButtonText: 'OK'
-                    });
-                }
+  // Fetch riders function
+function fetchRiders() {
+    console.log("Fetching Riders");
+    $.ajax({
+        type: 'GET',
+        url: 'rider_functions.php',
+        dataType: 'json',
+        success: function(data) {
+            console.log("Fetch Riders Response: ", data);
+            if (data.success) {
+                $('#riderTableBody').empty(); // Clear the existing table rows
+                data.riders.forEach(function(rider) {
+                    $('#riderTableBody').append(
+                        `<tr>
+                            <td>${rider.rider_id}</td>
+                            <td>${rider.name}</td>
+                            <td>${rider.lastname}</td>
+                            <td>${rider.gender}</td>
+                            <td>${rider.address}</td>
+                            <td>${rider.contact_number}</td>
+                            <td>${rider.email}</td>
+                            <td>${rider.vehicle_type}</td>
+                            <td>${rider.license_number}</td>
+                            <td>${rider.status}</td>
+                            <td>
+                                <button class="btn btn-info btn-sm" onclick='openEditModal(${JSON.stringify(rider)})'>
+                                    <i class="fas fa-eye"></i> View
+                                </button>
+                                <button class="btn btn-warning btn-sm" onclick='openEditModal(${JSON.stringify(rider)})'>
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="btn btn-danger btn-sm" onclick='deleteRider(${rider.rider_id})'>
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </td>
+                        </tr>`
+                    );
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error fetching riders.',
+                    confirmButtonText: 'OK'
+                });
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Fetch Riders Error: ", xhr.responseText);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'An error occurred while fetching riders.',
+                confirmButtonText: 'OK'
             });
         }
+    });
+}
+
 
         // Call fetchRiders on page load
         fetchRiders();
