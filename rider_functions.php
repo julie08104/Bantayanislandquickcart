@@ -22,11 +22,11 @@ function addColumnIfNotExists($pdo, $table, $column, $columnDefinition) {
 addColumnIfNotExists($pdo, 'riders', 'alert_quantity', 'INT(11) NOT NULL');
 
 // Create Rider
-function createRider($name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined) {
+function createRider($name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status) {
     global $pdo;
     try {
-        $stmt = $pdo->prepare("INSERT INTO riders (name, lastname, gender, address, contact_number, email, vehicle_type, license_number, status, date_joined) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined]);
+        $stmt = $pdo->prepare("INSERT INTO riders (firstname, lastname, gender, address, contact_number, email, vehicle_type, license_number, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status]);
     } catch (PDOException $e) {
         error_log('Error creating rider: ' . $e->getMessage());
         return false;
@@ -46,11 +46,11 @@ function readRiders() {
 }
 
 // Update Rider
-function updateRider($rider_id, $name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined) {
+function updateRider($rider_id, $name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status) {
     global $pdo;
     try {
         // Log the data being updated for debugging
-        error_log("Updating rider: $rider_id, $name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined");
+        error_log("Updating rider: $rider_id, $name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status");
 
         $stmt = $pdo->prepare("
         UPDATE riders 
@@ -64,12 +64,11 @@ SET
     vehicle_type = ?, 
     license_number = ?, 
     status = ?, 
-    date_joined = ? 
 WHERE rider_id = ?
 
         ");
 
-        $result = $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined, $rider_id]);
+        $result = $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status]);
 
         if (!$result) {
             error_log('Update query failed: ' . implode(', ', $stmt->errorInfo()));
@@ -112,7 +111,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_POST['vehicle_type'],
                 $_POST['license_number'],
                 $_POST['status'],
-                $_POST['date_joined']
             );
             break;
         case 'update':
@@ -127,7 +125,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_POST['vehicle_type'],
                 $_POST['license_number'],
                 $_POST['status'],
-                $_POST['date_joined']
             );
             break;
         case 'delete':
