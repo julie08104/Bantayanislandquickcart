@@ -151,9 +151,9 @@ $riders = readRiders();
                         <td><?= htmlentities($rider['license_number']) ?></td>
                         <td><?= htmlentities($rider['status']) ?></td>
               <td>
-    <button class="btn btn-info btn-sm btn-custom" onclick="openViewModal(<?= htmlentities(json_encode($rider)) ?>)">
+   <!-- <button class="btn btn-info btn-sm btn-custom" onclick="openViewModal(<?= htmlentities(json_encode($rider)) ?>)">
         <i class="fas fa-eye"></i> View
-    </button>
+    </button>-->
     <button class="btn btn-warning btn-sm btn-custom" onclick="openEditModal(<?= htmlentities(json_encode($rider)) ?>)">
         <i class="fas fa-edit"></i> Edit
     </button>
