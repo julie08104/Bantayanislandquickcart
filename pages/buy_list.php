@@ -293,7 +293,7 @@ $riders = readRiders();
                         <label for="viewStatus">Status</label>
                         <input type="text" class="form-control" id="viewStatus" name="status" readonly>
                     </div>
-                    <div class="form-group">
+                    <!--<div class="form-group">
                         <label for="viewTotalRides">Total Rides</label>
                         <input type="number" class="form-control" id="viewTotalRides" name="total_rides" readonly>
                     </div>
@@ -304,7 +304,7 @@ $riders = readRiders();
                     <div class="form-group">
                         <label for="viewPaymentMethod">Payment Method</label>
                         <input type="text" class="form-control" id="viewPaymentMethod" name="payment_method" readonly>
-                    </div>
+                    </div>-->
                 </form>
             </div>
         </div>
