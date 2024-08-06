@@ -25,7 +25,7 @@ addColumnIfNotExists($pdo, 'riders', 'alert_quantity', 'INT(11) NOT NULL');
 function createRider($name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status) {
     global $pdo;
     try {
-        $stmt = $pdo->prepare("INSERT INTO riders (firstname, lastname, gender, address, contact_number, email, vehicle_type, license_number, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $pdo->prepare("INSERT INTO riders (name, lastname, gender, address, contact_number, email, vehicle_type, license_number, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status]);
     } catch (PDOException $e) {
         error_log('Error creating rider: ' . $e->getMessage());
@@ -53,22 +53,21 @@ function updateRider($rider_id, $name, $lastname, $gender, $address, $contact_nu
         error_log("Updating rider: $rider_id, $name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status");
 
         $stmt = $pdo->prepare("
-        UPDATE riders 
-SET 
-    name = ?, 
-    lastname = ?, 
-    gender = ?, 
-    address = ?, 
-    contact_number = ?, 
-    email = ?, 
-    vehicle_type = ?, 
-    license_number = ?, 
-    status = ?, 
-WHERE rider_id = ?
-
+            UPDATE riders 
+            SET 
+                name = ?, 
+                lastname = ?, 
+                gender = ?, 
+                address = ?, 
+                contact_number = ?, 
+                email = ?, 
+                vehicle_type = ?, 
+                license_number = ?, 
+                status = ? 
+            WHERE rider_id = ?
         ");
 
-        $result = $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status]);
+        $result = $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $rider_id]);
 
         if (!$result) {
             error_log('Update query failed: ' . implode(', ', $stmt->errorInfo()));
@@ -80,7 +79,6 @@ WHERE rider_id = ?
         return false;
     }
 }
-
 
 // Delete Rider
 function deleteRider($rider_id) {
@@ -110,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_POST['email'],
                 $_POST['vehicle_type'],
                 $_POST['license_number'],
-                $_POST['status'],
+                $_POST['status']
             );
             break;
         case 'update':
@@ -124,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_POST['email'],
                 $_POST['vehicle_type'],
                 $_POST['license_number'],
-                $_POST['status'],
+                $_POST['status']
             );
             break;
         case 'delete':
