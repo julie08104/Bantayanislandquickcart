@@ -142,7 +142,7 @@ if ($customers === false) {
 <div class="container-fluid">
     <div class="row">
         <div class="col text-right">
-            <div class="mb-3">
+           <div class="float-right mb-3">
                 <!-- Print Button -->
                 <button id="printButton" class="btn btn-success no-print" onclick="printCustomerList()">Print List</button>
             </div>
