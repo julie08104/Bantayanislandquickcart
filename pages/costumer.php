@@ -128,17 +128,15 @@ if ($customers === false) {
         </div>
 <!-- Print Button and Search Input -->
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-6">
-            <!-- Search Input -->
-            <input class="form-control form-control-sm no-print" id="searchInput" type="text" placeholder="Search.." style="width: 150px; display: inline-block;">
-        </div>
-        <div class="col-md-6 text-right">
-            <!-- Print Button -->
-            <button id="printButton" class="btn btn-success no-print" onclick="printCustomerList()">Print List</button>
-        </div>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <!-- Search Input -->
+        <input class="form-control form-control-sm no-print" id="searchInput" type="text" placeholder="Search.." style="width: 150px; margin-right: 10px;">
+        
+        <!-- Print Button -->
+        <button id="printButton" class="btn btn-success no-print" onclick="printCustomerList()">Print List</button>
     </div>
 </div>
+
 
 
 
