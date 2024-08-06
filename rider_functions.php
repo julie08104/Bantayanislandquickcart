@@ -4,13 +4,13 @@ require_once 'app/init.php'; // Include your database connection file
 // Function to add a column if it does not exist
 function addColumnIfNotExists($pdo, $table, $column, $columnDefinition) {
     try {
-        $stmt = $pdo->prepare("SHOW COLUMNS FROM `$table` LIKE ?");
+        $stmt = $pdo->prepare("SHOW COLUMNS FROM $table LIKE ?");
         $stmt->execute([$column]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($result === false) {
             // Column does not exist, so add it
-            $stmt = $pdo->prepare("ALTER TABLE `$table` ADD COLUMN `$column` $columnDefinition");
+            $stmt = $pdo->prepare("ALTER TABLE $table ADD COLUMN $column $columnDefinition");
             $stmt->execute();
         }
     } catch (PDOException $e) {
@@ -132,10 +132,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Fetch riders for display
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $riders = readRiders();
-    header('Content-Type: application/json');
-    echo json_encode(['success' => true, 'riders' => $riders]);
-    exit;
-}
+$riders = readRiders();
 ?>
