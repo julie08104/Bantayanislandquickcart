@@ -377,23 +377,35 @@ $riders = readRiders();
     // Add rider form submission
     $('#addRiderForm').on('submit', function(e) {
         e.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: 'rider_functions.php',
-            data: $(this).serialize(),
-            success: function(response) {
-                if (response.success) {
-                    alert('Rider added successfully!');
-                    location.reload();
-                } else {
-                    alert('Error adding rider.');
-                }
-            },
-            error: function() {
-                alert('An error occurred.');
-            }
-        });
-    });
+       $.ajax({
+    url: 'rider_functions.php',
+    type: 'POST',
+    dataType: 'json',
+    data: {
+        action: 'update', // or 'create', 'delete'
+        rider_id: $('#rider_id').val(), // Ensure this matches your form field IDs
+        name: $('#name').val(),
+        lastname: $('#lastname').val(),
+        gender: $('#gender').val(),
+        address: $('#address').val(),
+        contact_number: $('#contact_number').val(),
+        email: $('#email').val(),
+        vehicle_type: $('#vehicle_type').val(),
+        license_number: $('#license_number').val(),
+        status: $('#status').val()
+    },
+    success: function(response) {
+        if (response.success) {
+            alert('Rider updated successfully!');
+        } else {
+            alert('Failed to update rider: ' + response.message);
+        }
+    },
+    error: function(xhr, status, error) {
+        console.error('AJAX Error:', status, error);
+        alert('An error occurred while updating the rider.');
+    }
+});
 
     // Edit rider form submission
     $('#editRiderForm').on('submit', function(e) {
