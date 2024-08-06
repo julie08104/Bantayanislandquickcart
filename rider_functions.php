@@ -6,7 +6,7 @@ function addColumnIfNotExists($pdo, $table, $column, $columnDefinition) {
     $stmt = $pdo->prepare("SHOW COLUMNS FROM `$table` LIKE ?");
     $stmt->execute([$column]);
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+
     if ($result === false) {
         // Column does not exist, so add it
         $stmt = $pdo->prepare("ALTER TABLE `$table` ADD COLUMN `$column` $columnDefinition");
@@ -65,7 +65,7 @@ function deleteRider($rider_id) {
 // Handle Form Submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'];
-    
+
     switch ($action) {
         case 'create':
             createRider(
@@ -106,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             deleteRider($_POST['rider_id']);
             break;
     }
-    header('Location: index.php?page=buy_list'); // Redirect after action
+    header('Location: index.php'); // Redirect after action
     exit;
 }
 
