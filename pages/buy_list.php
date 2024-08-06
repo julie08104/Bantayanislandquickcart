@@ -377,16 +377,24 @@ $riders = readRiders();
     // Add rider form submission
     $('#addRiderForm').on('submit', function(e) {
         e.preventDefault();
-        $.ajax({
+         $.ajax({
             type: 'POST',
             url: 'rider_functions.php',
             data: $(this).serialize(),
             success: function(response) {
-                alert('Rider added successfully!');
-                location.reload();
+                if (response.success) {
+                    alert('Rider updated successfully!');
+                    location.reload();
+                } else {
+                    alert('Error updating rider.');
+                }
+            },
+            error: function() {
+                alert('An error occurred.');
             }
         });
     });
+});
 
      $(document).ready(function() {
     // Edit rider form submission
