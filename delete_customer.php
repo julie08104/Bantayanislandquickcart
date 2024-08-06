@@ -5,7 +5,6 @@ try {
     // Check if ID is set
     if (isset($_POST['id'])) {
         $id = intval($_POST['id']);
-        error_log("Attempting to delete customer with ID: $id"); // Log the ID being deleted
 
         // Prepare the delete statement
         $stmt = $pdo->prepare("DELETE FROM `customer` WHERE id = :id");
@@ -16,15 +15,12 @@ try {
             echo json_encode(['success' => true, 'message' => 'Customer deleted successfully.']);
         } else {
             // Return an error response
-            error_log("Error executing delete statement: " . implode(", ", $stmt->errorInfo())); // Log error info
             echo json_encode(['success' => false, 'message' => 'Error deleting customer.']);
         }
     } else {
-        error_log("No customer ID provided."); // Log when no ID is provided
         echo json_encode(['success' => false, 'message' => 'No customer ID provided.']);
     }
 } catch (PDOException $e) {
-    error_log("Database error: " . $e->getMessage()); // Log database errors
     echo json_encode(['success' => false, 'message' => 'Database error: ' . $e->getMessage()]);
 }
 ?>
