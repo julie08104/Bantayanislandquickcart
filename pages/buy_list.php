@@ -116,64 +116,58 @@ $riders = readRiders();
             <i class="fas fa-plus"></i> Add Rider</button> <br> <br>
             </div>
 
-    <!-- Rider Table -->
-    <table id="riderTable" class="table table-bordered table-responsive-sm">
-    
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Last Name</th>
-                <th>Gender</th>
-                <th>Address</th>
-                <th>Contact Number</th>
-                <th>Email</th>
-                <th>Vehicle Type</th>
-                <th>License Number</th>
-                <th>Status</th>
-              <!--  <th>Total Rides</th>
-                   <th>Rating</th>
-                <th>Payment Method</th> -->
-                <th  class="no-print">Actions</th>
-            </tr>
-        </thead>
-        <tbody id="riderTableBody">
-            <?php
-            $counter = 1;// Initialize counter variable
-            foreach ($riders as $rider): ?>
-          
+   <!-- Rider Table -->
+<div class="container-fluid">
+    <div class="table-responsive">
+        <table id="riderTable" class="table table-bordered table-sm">
+            <thead>
                 <tr>
-                    <td><?= $counter++ ?></td>
-                    <td><?= htmlentities($rider['name']) ?></td>
-                    <td><?= htmlentities($rider['lastname']) ?></td>
-                    <td><?= htmlentities($rider['gender']) ?></td>
-                    <td><?= htmlentities($rider['address']) ?></td>
-                    <td><?= htmlentities($rider['contact_number']) ?></td>
-                    <td><?= htmlentities($rider['email']) ?></td>
-                    <td><?= htmlentities($rider['vehicle_type']) ?></td>
-                    <td><?= htmlentities($rider['license_number']) ?></td>
-                    <td><?= htmlentities($rider['status']) ?></td>
-                   <!--  <td><?= htmlentities($rider['total_rides']) ?></td>
-                    <td><?= htmlentities($rider['rating']) ?></td>
-                    <td><?= htmlentities($rider['payment_method']) ?></td> -->
-                    <td>
-                         <!-- <button class="btn btn-success" data-toggle="modal" data-target="#addRiderModal">
-                                <i class="fas fa-plus"></i> Add
-                            </button> -->
-                            <button class="btn btn-info btn-sm" onclick="openViewModal(<?= htmlentities(json_encode($rider)) ?>)">
-                                <i class="fas fa-eye">View</i></button>
-                                 <button class="btn btn-warning" onclick="openEditModal(<?= htmlentities(json_encode($rider)) ?>)">
-                            <i class="fas fa-edit"></i> Edit
-                        </button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteRider(<?= $rider['rider_id'] ?>)">
-                                <i class="fas fa-trash">Delete</i></button>
-                        </div>
-                    </td>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Last Name</th>
+                    <th>Gender</th>
+                    <th>Address</th>
+                    <th>Contact Number</th>
+                    <th>Email</th>
+                    <th>Vehicle Type</th>
+                    <th>License Number</th>
+                    <th>Status</th>
+                    <th class="no-print">Actions</th>
                 </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody id="riderTableBody">
+                <?php
+                $counter = 1; // Initialize counter variable
+                foreach ($riders as $rider): ?>
+                    <tr>
+                        <td><?= $counter++ ?></td>
+                        <td><?= htmlentities($rider['name']) ?></td>
+                        <td><?= htmlentities($rider['lastname']) ?></td>
+                        <td><?= htmlentities($rider['gender']) ?></td>
+                        <td><?= htmlentities($rider['address']) ?></td>
+                        <td><?= htmlentities($rider['contact_number']) ?></td>
+                        <td><?= htmlentities($rider['email']) ?></td>
+                        <td><?= htmlentities($rider['vehicle_type']) ?></td>
+                        <td><?= htmlentities($rider['license_number']) ?></td>
+                        <td><?= htmlentities($rider['status']) ?></td>
+                        <td>
+                            <button class="btn btn-info btn-sm" onclick="openViewModal(<?= htmlentities(json_encode($rider)) ?>)">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                            <button class="btn btn-warning btn-sm" onclick="openEditModal(<?= htmlentities(json_encode($rider)) ?>)">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteRider(<?= $rider['rider_id'] ?>)">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 </div>
+
 
 <!-- Add Rider Modal -->
 <div class="modal fade" id="addRiderModal" tabindex="-1" role="dialog" aria-labelledby="addRiderModalLabel" aria-hidden="true">
