@@ -407,84 +407,85 @@ $riders = readRiders();
             type: 'POST',
             url: 'rider_functions.php',
             data: $(this).serialize(),
-            dataType: 'json',
             success: function(response) {
                 if (response.success) {
                     alert('Rider updated successfully!');
-                    $('#editRiderModal').modal('hide'); // Hide the modal
-                    fetchRiders(); // Refresh the rider list
+                    location.reload();
                 } else {
-                    alert('Error updating rider: ' + (response.message || 'Unknown error'));
+                    alert('Error updating rider.');
                 }
             },
             error: function() {
-                alert('An error occurred while updating the rider.');
+                alert('An error occurred.');
             }
         });
     });
+});
 
-    // Open the edit modal with rider data
-    function openEditModal(rider) {
-        $('#rider_id').val(rider.rider_id);
-        $('#name').val(rider.name);
-        $('#lastname').val(rider.lastname);
-        $('#gender').val(rider.gender);
-        $('#address').val(rider.address);
-        $('#contact_number').val(rider.contact_number);
-        $('#email').val(rider.email);
-        $('#vehicle_type').val(rider.vehicle_type);
-        $('#license_number').val(rider.license_number);
-        $('#status').val(rider.status);
 
-        $('#editRiderModal').modal('show');
-    }
 
-    // Fetch riders and populate the table
-    function fetchRiders() {
-        $.ajax({
-            type: 'GET',
-            url: 'rider_functions.php',
-            dataType: 'json',
-            success: function(data) {
-                if (data.success) {
-                    $('#riderTableBody').empty(); // Clear the existing table rows
-                    data.riders.forEach(function(rider) {
-                        $('#riderTableBody').append(
-                            `<tr>
-                                <td>${rider.rider_id}</td>
-                                <td>${rider.name}</td>
-                                <td>${rider.lastname}</td>
-                                <td>${rider.gender}</td>
-                                <td>${rider.address}</td>
-                                <td>${rider.contact_number}</td>
-                                <td>${rider.email}</td>
-                                <td>${rider.vehicle_type}</td>
-                                <td>${rider.license_number}</td>
-                                <td>${rider.status}</td>
-                                <td>
-                                    <button class="btn btn-info btn-sm" onclick='openEditModal(${JSON.stringify(rider)})'>
-                                        <i class="fas fa-eye"></i> View
-                                    </button>
-                                    <button class="btn btn-warning btn-sm" onclick='openEditModal(${JSON.stringify(rider)})'>
-                                        <i class="fas fa-edit"></i> Edit
-                                    </button>
-                                    <button class="btn btn-danger btn-sm" onclick='deleteRider(${rider.rider_id})'>
-                                        <i class="fas fa-trash"></i> Delete
-                                    </button>
-                                </td>
-                            </tr>`
-                        );
-                    });
-                } else {
-                    alert('Error fetching riders.');
-                }
-            },
-            error: function() {
-                alert('An error occurred while fetching riders.');
+function openEditModal(rider) {
+    // Populate the form fields in the modal with the rider's data
+    $('#rider_id').val(rider.rider_id);
+    $('#name').val(rider.name);
+    $('#lastname').val(rider.lastname);
+    $('#gender').val(rider.gender);
+    $('#address').val(rider.address);
+    $('#contact_number').val(rider.contact_number);
+    $('#email').val(rider.email);
+    $('#vehicle_type').val(rider.vehicle_type);
+    $('#license_number').val(rider.license_number);
+    $('#status').val(rider.status);
+
+    // Show the modal
+    $('#editRiderModal').modal('show');
+}
+
+
+function fetchRiders() {
+    $.ajax({
+        type: 'GET',
+        url: 'rider_functions.php',
+        dataType: 'json',
+        success: function(data) {
+            if (data.success) {
+                $('#riderTableBody').empty(); // Clear the existing table rows
+                data.riders.forEach(function(rider) {
+                    $('#riderTableBody').append(
+                        `<tr>
+                            <td>${rider.rider_id}</td>
+                            <td>${rider.name}</td>
+                            <td>${rider.lastname}</td>
+                            <td>${rider.gender}</td>
+                            <td>${rider.address}</td>
+                            <td>${rider.contact_number}</td>
+                            <td>${rider.email}</td>
+                            <td>${rider.vehicle_type}</td>
+                            <td>${rider.license_number}</td>
+                            <td>${rider.status}</td>
+                            <td>
+                                <button class="btn btn-info btn-sm" onclick='openEditModal(${JSON.stringify(rider)})'>
+                                    <i class="fas fa-eye"></i> View
+                                </button>
+                                <button class="btn btn-warning btn-sm" onclick='openEditModal(${JSON.stringify(rider)})'>
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="btn btn-danger btn-sm" onclick='deleteRider(${rider.rider_id})'>
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </td>
+                        </tr>`
+                    );
+                });
+            } else {
+                alert('Error fetching riders.');
             }
-        });
-    }
-
+        },
+        error: function() {
+            alert('An error occurred while fetching riders.');
+        }
+    });
+}
 
 function deleteRider(rider_id) {
     if (confirm('Are you sure you want to delete this rider?')) {
