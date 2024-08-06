@@ -139,14 +139,15 @@ if ($customers === false) {
             </button>
         </div>
 <!-- Print Button and Search Input -->
-<div class="container-fluid">
+
+    <div class="container-fluid" style="margin-right: 0px!important;">
     <div class="row">
         <div class="col text-right">
             <div class="float-right mb-3">
                 <!-- Print Button -->
                 <button id="printButton" class="btn btn-success no-print" onclick="printCustomerList()">Print List</button>
             </div>
-            <div class="float-right mb-3" style="margin-left: 20px;"> <!-- Adjust margin-left here -->
+            <div class="float-right mb-3" style="margin-left: 30px;"> <!-- Adjust margin-left here -->
                 <!-- Search Input -->
                 <input class="form-control form-control-sm no-print" id="searchInput" type="text" placeholder="Search.." style="width: 200px;">
             </div>
