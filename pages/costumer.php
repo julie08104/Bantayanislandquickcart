@@ -266,7 +266,7 @@ function openEditModal(customer) {
     $('#edit_email').val(customer.email);
 }
 function deleteCustomer(id) {
-    console.log("Delete function called with ID: ", id);
+    console.log("Delete function called with ID: ", id); // Debugging output
 
     Swal.fire({
         title: 'Are you sure?',
@@ -329,7 +329,6 @@ function deleteCustomer(id) {
         }
     });
 }
-
 
 function submitEditForm() {
     var formData = $('#editCustomerForm').serialize(); // Gather form data
