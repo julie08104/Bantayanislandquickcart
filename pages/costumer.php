@@ -115,11 +115,15 @@ if ($customers === false) {
         <div id="printImage" class="print-only">
             <img src="dist/img/images1.png" alt="logo" class="brand-image">
         </div>
+        <div class="container-fluid" style="margin-left: 0px!important;">  
         <br><br><br>
-        <h1>Customer List</h1>
-    </div>
+        <h1>Customer List</h1>  <!-- Print Button -->
+    <div class="text-right mb-3">
+         <!-- <input class="form-control no-print" id="searchInput" type="text" placeholder="Search.."> -->
 
-    <div class="container-fluid" style="margin-left: 0px!important;">
+         <button id="printButton" class="btn btn-success no-print"  onclick="printCustomerList()" style="float: right;">Print List</button>
+    </div>
+   
         <!-- Add Customer Button -->
         <div class="float-left mb-3">
             <button class="btn btn-success no-print" data-toggle="modal" data-target="#addCustomerModal">
@@ -127,12 +131,6 @@ if ($customers === false) {
             </button>
         </div>
 
-       <!-- Print Button and Search Input  -->
-<div class="text-right mb-3">
-    <button id="printButton" class="btn btn-success no-print" onclick="printCustomerList()" style="float: right;">Print List</button>
-   <input class="form-control form-control-sm no-print" id="searchInput" type="text" placeholder="Search..">
-
-</div>
 
 
         <!-- Customer Table -->
