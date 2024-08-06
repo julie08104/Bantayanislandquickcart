@@ -389,7 +389,8 @@ $riders = readRiders();
         });
     });
 
-      // Edit rider form submission
+     $(document).ready(function() {
+    // Edit rider form submission
     $('#editRiderForm').on('submit', function(e) {
         e.preventDefault();
         $.ajax({
@@ -397,28 +398,64 @@ $riders = readRiders();
             url: 'rider_functions.php',
             data: $(this).serialize(),
             success: function(response) {
-                alert('Rider updated successfully!');
-                location.reload();
+                if (response.success) {
+                    alert('Rider updated successfully!');
+                    location.reload();
+                } else {
+                    alert('Error updating rider.');
+                }
+            },
+            error: function() {
+                alert('An error occurred.');
             }
         });
     });
-  });
 
+    // Open edit modal and populate fields
+    function openEditModal(rider) {
+        $('#editRiderId').val(rider.rider_id);
+        $('#editName').val(rider.name);
+        $('#editLastname').val(rider.lastname);
+        $('#editGender').val(rider.gender);
+        $('#editAddress').val(rider.address);
+        $('#editContactNumber').val(rider.contact_number);
+        $('#editEmail').val(rider.email);
+        $('#editVehicleType').val(rider.vehicle_type);
+        $('#editLicenseNumber').val(rider.license_number);
+        $('#editStatus').val(rider.status);
+        $('#editDateJoined').val(rider.date_joined); // Ensure date_joined field exists
+        $('#editRiderModal').modal('show');
+    }
 
-   // Open edit modal and populate fields
-function openEditModal(rider) {
-    $('#editRiderId').val(rider.rider_id);
-    $('#editName').val(rider.name);
-    $('#editLastname').val(rider.lastname);
-    $('#editGender').val(rider.gender);
-    $('#editAddress').val(rider.address);
-    $('#editContactNumber').val(rider.contact_number);
-    $('#editEmail').val(rider.email);
-    $('#editVehicleType').val(rider.vehicle_type);
-    $('#editLicenseNumber').val(rider.license_number);
-    $('#editStatus').val(rider.status);
-     $('#editRiderModal').modal('show');
-}
+    // Assuming you have a function to fetch riders and populate them
+    function fetchRiders() {
+        $.ajax({
+            type: 'GET',
+            url: 'rider_functions.php',
+            dataType: 'json',
+            success: function(data) {
+                if (data.success) {
+                    // Populate riders on the page (example)
+                    data.riders.forEach(function(rider) {
+                        // Example: Populate a table or list
+                        $('#ridersTable').append(
+                            `<tr>
+                                <td>${rider.name}</td>
+                                <td>${rider.lastname}</td>
+                                <td><button onclick='openEditModal(${JSON.stringify(rider)})'>Edit</button></td>
+                            </tr>`
+                        );
+                    });
+                }
+            },
+            error: function() {
+                alert('An error occurred while fetching riders.');
+            }
+        });
+    }
+
+    fetchRiders(); // Call to populate riders on page load
+});
 
 
     // Delete rider
