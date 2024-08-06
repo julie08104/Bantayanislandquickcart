@@ -181,43 +181,46 @@ if ($customers === false) {
     </div>
 
     <!-- Add Customer Modal -->
-    <div class="modal fade" id="addCustomerModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Add Customer</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <form id="addCustomerForm" method="POST">
-                        <input type="hidden" name="action" value="create">
-                        <div class="form-group">
-                            <label>Name:</label>
-                            <input type="text" class="form-control" name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Last Name:</label>
-                            <input type="text" class="form-control" name="lastname" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Address:</label>
-                            <textarea class="form-control" name="address"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Contact:</label>
-                            <input type="text" class="form-control" name="contact">
-                        </div>
-                        <div class="form-group">
-                            <label>Email:</label>
-                            <input type="email" class="form-control" name="email" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-sm">Add Customer</button>
-                    </form>
-                </div>
+<div class="modal fade" id="addCustomerModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Customer</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addCustomerForm" method="POST">
+                    <input type="hidden" name="action" value="create">
+                    <div class="form-group">
+                        <label>Name:</label>
+                        <input type="text" class="form-control" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name:</label>
+                        <input type="text" class="form-control" name="lastname" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Company:</label>
+                        <input type="text" class="form-control" name="company">
+                    </div>
+                    <div class="form-group">
+                        <label>Address:</label>
+                        <textarea class="form-control" name="address"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Contact:</label>
+                        <input type="text" class="form-control" name="contact">
+                    </div>
+                    <div class="form-group">
+                        <label>Email:</label>
+                        <input type="email" class="form-control" name="email" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm">Add Customer</button>
+                </form>
             </div>
         </div>
     </div>
-
+</div>
     <!-- Edit Customer Modal -->
     <div class="modal fade" id="editCustomerModal">
         <div class="modal-dialog">
