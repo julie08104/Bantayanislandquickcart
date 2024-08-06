@@ -390,17 +390,38 @@ $riders = readRiders();
     });
 
     // Edit rider form submission
-    $('#editRiderForm').on('submit', function(e) {
-        e.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: 'rider_functions.php',
-            data: $(this).serialize(),
-            success: function(response) {
+$('#editRiderForm').on('submit', function(e) {
+    e.preventDefault();
+    $.ajax({
+        type: 'POST',
+        url: 'rider_functions.php',
+        data: $(this).serialize(),
+        success: function(response) {
+            // Parse the JSON response
+            var response = JSON.parse(response);
+            if (response.success) {
+                // Update the table row in the DOM
+                var rider = response.rider;
+                var row = $('#riderTableBody').find('tr').filter(function() {
+                    return $(this).find('td').first().text().trim() == rider.rider_id;
+                });
+                if (row.length > 0) {
+                    row.find('td:eq(1)').text(rider.name);
+                    row.find('td:eq(2)').text(rider.lastname);
+                    row.find('td:eq(3)').text(rider.gender);
+                    row.find('td:eq(4)').text(rider.address);
+                    row.find('td:eq(5)').text(rider.contact_number);
+                    row.find('td:eq(6)').text(rider.email);
+                    row.find('td:eq(7)').text(rider.vehicle_type);
+                    row.find('td:eq(8)').text(rider.license_number);
+                    row.find('td:eq(9)').text(rider.status);
+                }
+                $('#editRiderModal').modal('hide');
                 alert('Rider updated successfully!');
-                location.reload();
+            } else {
+                alert('Error updating rider!');
             }
-        });
+        }
     });
 });
 
