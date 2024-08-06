@@ -99,6 +99,9 @@ function deleteRider($rider_id) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
 
+    // Log the action for debugging
+    error_log("Form action: $action");
+
     $success = false;
     switch ($action) {
         case 'create':
@@ -135,6 +138,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $success = false;
             break;
     }
+
+    // Log the result for debugging
+    error_log("Operation success: " . var_export($success, true));
 
     header('Content-Type: application/json');
     echo json_encode(['success' => $success]);
