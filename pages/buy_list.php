@@ -298,12 +298,12 @@ $riders = readRiders();
                    <!-- <div class="form-group">
                         <label for="viewTotalRides">Total Rides</label>
                         <input type="number" class="form-control" id="viewTotalRides" name="total_rides" readonly>
-                    </div>-->
-                   <!-- <div class="form-group">
+                    </div>
+                       <div class="form-group">
                         <label for="viewRating">Rating</label>
                         <input type="number" class="form-control" id="viewRating" name="rating" step="0.1" readonly>
-                    </div>-->
-                   <!-- <div class="form-group">
+                    </div>
+                      <div class="form-group">
                         <label for="viewPaymentMethod">Payment Method</label>
                         <input type="text" class="form-control" id="viewPaymentMethod" name="payment_method" readonly>
                     </div>-->
