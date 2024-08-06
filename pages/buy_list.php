@@ -2,7 +2,7 @@
 // Include your database connection file
 
 // Create Rider
-function createRider($name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, ) {
+function createRider($name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status) {
     global $pdo;
     $stmt = $pdo->prepare("INSERT INTO riders (name, lastname, gender, address, contact_number, email, vehicle_type, license_number, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
     return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status]);
@@ -19,7 +19,7 @@ function readRiders() {
 function updateRider($id, $name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status) {
     global $pdo;
     $stmt = $pdo->prepare("UPDATE riders SET name = ?, lastname = ?, gender = ?, address = ?, contact_number = ?, email = ?, vehicle_type = ?, license_number = ?, status = ? WHERE rider_id = ?");
-    return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status]);
+    return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $id]);
 }
 
 // Delete Rider
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     switch ($action) {
         case 'create':
-            createRider($_POST['name'], $_POST['lastname'], $_POST['gender'], $_POST['address'], $_POST['contact_number'], $_POST['email'], $_POST['vehicle_type'], $_POST['license_number'], $_POST['status'], $_POST['total_rides'], $_POST['rating'], $_POST['payment_method']);
+            createRider($_POST['name'], $_POST['lastname'], $_POST['gender'], $_POST['address'], $_POST['contact_number'], $_POST['email'], $_POST['vehicle_type'], $_POST['license_number'], $_POST['status']);
             echo json_encode(['success' => true, 'message' => 'Rider added successfully!']);
             exit;
         case 'update':
@@ -52,6 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Fetch riders for display
 $riders = readRiders();
 ?>
+
 <style>
         /* Initially hide the print image */
         #printImage {
@@ -367,6 +368,7 @@ $riders = readRiders();
     </div>
 </div>
 
+
 <!-- JavaScript to handle form submissions and modal opening -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -497,18 +499,43 @@ function deleteRider(rider_id) {
     }
 }
 
-function openViewModal(rider) {
-    $('#viewName').val(rider.name);
-    $('#viewLastname').val(rider.lastname);
-    $('#viewGender').val(rider.gender);
-    $('#viewAddress').val(rider.address);
-    $('#viewContactNumber').val(rider.contact_number);
-    $('#viewEmail').val(rider.email);
-    $('#viewVehicleType').val(rider.vehicle_type);
-    $('#viewLicenseNumber').val(rider.license_number);
-    $('#viewStatus').val(rider.status);
-    $('#viewRiderModal').modal('show');
+function openEditModal(rider) {
+    $('#editRiderId').val(rider.rider_id);
+    $('#editName').val(rider.name);
+    $('#editLastname').val(rider.lastname);
+    $('#editGender').val(rider.gender);
+    $('#editAddress').val(rider.address);
+    $('#editContactNumber').val(rider.contact_number);
+    $('#editEmail').val(rider.email);
+    $('#editVehicleType').val(rider.vehicle_type);
+    $('#editLicenseNumber').val(rider.license_number);
+    $('#editStatus').val(rider.status);
+
+    $('#editRiderModal').modal('show');
 }
+
+// Ensure to bind the edit form submission to the PHP update function
+$('#editRiderForm').on('submit', function(e) {
+    e.preventDefault();
+    $.ajax({
+        type: 'POST',
+        url: 'rider_functions.php',
+        data: $(this).serialize() + '&action=update',
+        dataType: 'json',
+        success: function(response) {
+            if (response.success) {
+                alert('Rider updated successfully!');
+                location.reload();
+            } else {
+                alert('Error updating rider.');
+            }
+        },
+        error: function() {
+            alert('An error occurred.');
+        }
+    });
+});
+
 
 function printTable() {
     var actionsColumn = document.querySelectorAll('#riderTable th:last-child, #riderTable td:last-child');
