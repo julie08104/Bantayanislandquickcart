@@ -79,6 +79,43 @@ function updateRider($rider_id, $name, $lastname, $gender, $address, $contact_nu
         return false;
     }
 }
+// Update Rider
+function updateRider($rider_id, $name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status) {
+    global $pdo;
+    try {
+        // Log the data being updated for debugging
+        error_log("Updating rider with ID $rider_id");
+        error_log("Data: name=$name, lastname=$lastname, gender=$gender, address=$address, contact_number=$contact_number, email=$email, vehicle_type=$vehicle_type, license_number=$license_number, status=$status");
+
+        $stmt = $pdo->prepare("
+            UPDATE riders 
+            SET 
+                name = ?, 
+                lastname = ?, 
+                gender = ?, 
+                address = ?, 
+                contact_number = ?, 
+                email = ?, 
+                vehicle_type = ?, 
+                license_number = ?, 
+                status = ? 
+            WHERE rider_id = ?
+        ");
+
+        $result = $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $rider_id]);
+
+        if (!$result) {
+            error_log('Update query failed: ' . implode(', ', $stmt->errorInfo()));
+        } else {
+            error_log('Update query succeeded');
+        }
+
+        return $result;
+    } catch (PDOException $e) {
+        error_log('Error updating rider: ' . $e->getMessage());
+        return false;
+    }
+}
 
 // Delete Rider
 function deleteRider($rider_id) {
