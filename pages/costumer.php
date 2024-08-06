@@ -330,6 +330,7 @@ function deleteCustomer(id) {
 
 
 
+
 function submitEditForm() {
     var formData = $('#editCustomerForm').serialize(); // Gather form data
     
