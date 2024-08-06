@@ -1,4 +1,5 @@
 <?php
+// Database connection details
 $dsn = 'mysql:host=127.0.0.1;dbname=u510162695_ample'; 
 $username = 'u510162695_ample'; 
 $password = '1Ample_database'; 
@@ -9,8 +10,7 @@ try {
 
     if (isset($_POST['id'])) {
         $id = intval($_POST['id']);
-        echo "Attempting to delete record with ID: $id"; // Debugging output
-
+        
         // Prepare and execute the delete statement
         $stmt = $pdo->prepare("DELETE FROM customer WHERE id = ?");
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
