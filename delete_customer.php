@@ -13,8 +13,8 @@ try {
         error_log("Deleting customer with ID: $id"); // Log for debugging
 
         // Prepare and execute the delete statement
-        $stmt = $pdo->prepare("DELETE FROM `customer` WHERE id = :id");
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt = $pdo->prepare("DELETE FROM customer WHERE id = ?");
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             echo json_encode(['success' => true, 'message' => 'Customer deleted successfully.']);
