@@ -376,24 +376,43 @@ $riders = readRiders();
 
 <script>
 
-  $(document).ready(function() {
+ $(document).ready(function() {
     // Add rider form submission
     $('#addRiderForm').on('submit', function(e) {
         e.preventDefault();
-         $.ajax({
+        $.ajax({
             type: 'POST',
             url: 'rider_functions.php',
             data: $(this).serialize(),
+            dataType: 'json',
             success: function(response) {
                 if (response.success) {
-                    alert('Rider added successfully!');
-                    location.reload();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Rider added successfully!',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.reload();
+                        }
+                    });
                 } else {
-                    alert('Error adding rider.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error adding rider.',
+                        confirmButtonText: 'OK'
+                    });
                 }
             },
             error: function() {
-                alert('An error occurred.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An error occurred.',
+                    confirmButtonText: 'OK'
+                });
             }
         });
     });
