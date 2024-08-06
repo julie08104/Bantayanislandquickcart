@@ -371,242 +371,284 @@ $riders = readRiders();
 
 
 <!-- JavaScript to handle form submissions and modal opening -->
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<script>
-
- $(document).ready(function() {
-    // Add rider form submission
-    $('#addRiderForm').on('submit', function(e) {
-        e.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: 'rider_functions.php',
-            data: $(this).serialize(),
-            dataType: 'json',
-            success: function(response) {
-                if (response.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: 'Rider added successfully!',
-                        confirmButtonText: 'OK'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            location.reload();
+    <script>
+        $(document).ready(function() {
+            // Add rider form submission
+            $('#addRiderForm').on('submit', function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: 'rider_functions.php',
+                    data: $(this).serialize(),
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: 'Rider added successfully!',
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.reload();
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Error adding rider.',
+                                confirmButtonText: 'OK'
+                            });
                         }
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Error adding rider.',
-                        confirmButtonText: 'OK'
-                    });
-                }
-            },
-            error: function() {
+                    },
+                    error: function() {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'An error occurred.',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            });
+
+            // Edit rider form submission
+            $('#editRiderForm').on('submit', function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: 'rider_functions.php',
+                    data: $(this).serialize() + '&action=update',
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: 'Rider updated successfully!',
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.reload();
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Error updating rider.',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    },
+                    error: function() {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'An error occurred.',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            });
+
+            // Fetch riders function
+            function fetchRiders() {
+                $.ajax({
+                    type: 'GET',
+                    url: 'rider_functions.php',
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.success) {
+                            $('#riderTableBody').empty(); // Clear the existing table rows
+                            data.riders.forEach(function(rider) {
+                                $('#riderTableBody').append(
+                                    `<tr>
+                                        <td>${rider.rider_id}</td>
+                                        <td>${rider.name}</td>
+                                        <td>${rider.lastname}</td>
+                                        <td>${rider.gender}</td>
+                                        <td>${rider.address}</td>
+                                        <td>${rider.contact_number}</td>
+                                        <td>${rider.email}</td>
+                                        <td>${rider.vehicle_type}</td>
+                                        <td>${rider.license_number}</td>
+                                        <td>${rider.status}</td>
+                                        <td>
+                                            <button class="btn btn-info btn-sm" onclick='openEditModal(${JSON.stringify(rider)})'>
+                                                <i class="fas fa-eye"></i> View
+                                            </button>
+                                            <button class="btn btn-warning btn-sm" onclick='openEditModal(${JSON.stringify(rider)})'>
+                                                <i class="fas fa-edit"></i> Edit
+                                            </button>
+                                            <button class="btn btn-danger btn-sm" onclick='deleteRider(${rider.rider_id})'>
+                                                <i class="fas fa-trash"></i> Delete
+                                            </button>
+                                        </td>
+                                    </tr>`
+                                );
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Error fetching riders.',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    },
+                    error: function() {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'An error occurred while fetching riders.',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            }
+
+            // Call fetchRiders on page load
+            fetchRiders();
+
+            // Delete rider function
+            window.deleteRider = function(rider_id) {
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'An error occurred.',
-                    confirmButtonText: 'OK'
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: 'POST',
+                            url: 'rider_functions.php',
+                            data: { action: 'delete', rider_id: rider_id },
+                            dataType: 'json',
+                            success: function(response) {
+                                if (response.success) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Deleted!',
+                                        text: 'Rider has been deleted.',
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            location.reload();
+                                        }
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error',
+                                        text: 'Error deleting rider.',
+                                        confirmButtonText: 'OK'
+                                    });
+                                }
+                            },
+                            error: function() {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: 'An error occurred.',
+                                    confirmButtonText: 'OK'
+                                });
+                            }
+                        });
+                    }
                 });
-            }
-        });
-    });
-  // Edit rider form submission
-    $('#editRiderForm').on('submit', function(e) {
-        e.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: 'rider_functions.php',
-            data: $(this).serialize(),
-            success: function(response) {
-                if (response.success) {
-                    alert('Rider updated successfully!');
-                    location.reload();
-                } else {
-                    alert('Error updating rider.');
-                }
-            },
-            error: function() {
-                alert('An error occurred.');
-            }
-        });
-    });
-});
+            };
 
+            // Open edit modal function
+            window.openEditModal = function(rider) {
+                // Populate the form fields in the modal with the rider's data
+                $('#rider_id').val(rider.rider_id);
+                $('#name').val(rider.name);
+                $('#lastname').val(rider.lastname);
+                $('#gender').val(rider.gender);
+                $('#address').val(rider.address);
+                $('#contact_number').val(rider.contact_number);
+                $('#email').val(rider.email);
+                $('#vehicle_type').val(rider.vehicle_type);
+                $('#license_number').val(rider.license_number);
+                $('#status').val(rider.status);
 
+                // Show the modal
+                $('#editRiderModal').modal('show');
+            };
 
-function openEditModal(rider) {
-    // Populate the form fields in the modal with the rider's data
-    $('#rider_id').val(rider.rider_id);
-    $('#name').val(rider.name);
-    $('#lastname').val(rider.lastname);
-    $('#gender').val(rider.gender);
-    $('#address').val(rider.address);
-    $('#contact_number').val(rider.contact_number);
-    $('#email').val(rider.email);
-    $('#vehicle_type').val(rider.vehicle_type);
-    $('#license_number').val(rider.license_number);
-    $('#status').val(rider.status);
+            // Open view modal function
+            window.openViewModal = function(rider) {
+                $('#viewName').val(rider.name);
+                $('#viewLastname').val(rider.lastname);
+                $('#viewGender').val(rider.gender);
+                $('#viewAddress').val(rider.address);
+                $('#viewContactNumber').val(rider.contact_number);
+                $('#viewEmail').val(rider.email);
+                $('#viewVehicleType').val(rider.vehicle_type);
+                $('#viewLicenseNumber').val(rider.license_number);
+                $('#viewStatus').val(rider.status);
+                $('#viewRiderModal').modal('show');
+            };
 
-    // Show the modal
-    $('#editRiderModal').modal('show');
-}
-
-
-function fetchRiders() {
-    $.ajax({
-        type: 'GET',
-        url: 'rider_functions.php',
-        dataType: 'json',
-        success: function(data) {
-            if (data.success) {
-                $('#riderTableBody').empty(); // Clear the existing table rows
-                data.riders.forEach(function(rider) {
-                    $('#riderTableBody').append(
-                        `<tr>
-                            <td>${rider.rider_id}</td>
-                            <td>${rider.name}</td>
-                            <td>${rider.lastname}</td>
-                            <td>${rider.gender}</td>
-                            <td>${rider.address}</td>
-                            <td>${rider.contact_number}</td>
-                            <td>${rider.email}</td>
-                            <td>${rider.vehicle_type}</td>
-                            <td>${rider.license_number}</td>
-                            <td>${rider.status}</td>
-                            <td>
-                                <button class="btn btn-info btn-sm" onclick='openEditModal(${JSON.stringify(rider)})'>
-                                    <i class="fas fa-eye"></i> View
-                                </button>
-                                <button class="btn btn-warning btn-sm" onclick='openEditModal(${JSON.stringify(rider)})'>
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                                <button class="btn btn-danger btn-sm" onclick='deleteRider(${rider.rider_id})'>
-                                    <i class="fas fa-trash"></i> Delete
-                                </button>
-                            </td>
-                        </tr>`
-                    );
+            // Print table function
+            window.printTable = function() {
+                var actionsColumn = document.querySelectorAll('#riderTable th:last-child, #riderTable td:last-child');
+                actionsColumn.forEach(function(cell) {
+                    cell.style.display = 'none';
                 });
-            } else {
-                alert('Error fetching riders.');
-            }
-        },
-        error: function() {
-            alert('An error occurred while fetching riders.');
-        }
-    });
-}
-function deleteRider(rider_id) {
-    if (confirm('Are you sure you want to delete this rider?')) {
-        $.ajax({
-            type: 'POST',
-            url: 'rider_functions.php',
-            data: { action: 'delete', rider_id: rider_id },
-            success: function(response) {
-                if (response.success) {
-                    alert('Rider deleted successfully!');
-                    location.reload();
-                } else {
-                    alert('Error deleting rider.');
+                document.getElementById('printButton').style.display = 'none';
+                var dataTablePagination = document.querySelector('.dataTables_paginate');
+                if (dataTablePagination) {
+                    dataTablePagination.style.display = 'none';
                 }
-            },
-            error: function() {
-                alert('An error occurred.');
-            }
+                var dataTableLengthSelector = document.querySelector('.dataTables_length');
+                if (dataTableLengthSelector) {
+                    dataTableLengthSelector.style.display = 'none';
+                }
+                var divToPrint = document.getElementById("riderTable").cloneNode(true);
+                var newWin = window.open("");
+                newWin.document.write('<html><head><title>Print Rider List</title>');
+                newWin.document.write('<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">');
+                newWin.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">');
+                newWin.document.write('<style>');
+                newWin.document.write('.header { display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }');
+                newWin.document.write('.header img { margin-right: 25px; }');
+                newWin.document.write('</style>');
+                newWin.document.write('</head><body>');
+                newWin.document.write('<div class="header"><img src="dist/img/images1.png" alt="Logo" width="90" height="90"><h1>Rider List</h1></div>');
+                newWin.document.write(divToPrint.outerHTML);
+                newWin.document.write('</body></html>');
+                newWin.document.close();
+                newWin.print();
+                actionsColumn.forEach(function(cell) {
+                    cell.style.display = '';
+                });
+                document.getElementById('printButton').style.display = 'inline-block';
+                if (dataTablePagination) {
+                    dataTablePagination.style.display = 'block';
+                }
+                if (dataTableLengthSelector) {
+                    dataTableLengthSelector.style.display = 'block';
+                }
+            };
+
+            // Search functionality
+            document.getElementById('searchInput').addEventListener('keyup', function() {
+                var value = this.value.toLowerCase();
+                document.querySelectorAll('table tbody tr').forEach(function(row) {
+                    row.style.display = row.innerText.toLowerCase().includes(value) ? '' : 'none';
+                });
+            });
         });
-    }
-}
-
-
-function openViewModal(rider) {
-    $('#viewName').val(rider.name);
-    $('#viewLastname').val(rider.lastname);
-    $('#viewGender').val(rider.gender);
-    $('#viewAddress').val(rider.address);
-    $('#viewContactNumber').val(rider.contact_number);
-    $('#viewEmail').val(rider.email);
-    $('#viewVehicleType').val(rider.vehicle_type);
-    $('#viewLicenseNumber').val(rider.license_number);
-    $('#viewStatus').val(rider.status);
-    $('#viewRiderModal').modal('show');
-}
-
-// Ensure to bind the edit form submission to the PHP update function
-$('#editRiderForm').on('submit', function(e) {
-    e.preventDefault();
-    $.ajax({
-        type: 'POST',
-        url: 'rider_functions.php',
-        data: $(this).serialize() + '&action=update',
-        dataType: 'json',
-        success: function(response) {
-            if (response.success) {
-                alert('Rider updated successfully!');
-                location.reload();
-            } else {
-                alert('Error updating rider.');
-            }
-        },
-        error: function() {
-            alert('An error occurred.');
-        }
-    });
-});
-
-
-function printTable() {
-    var actionsColumn = document.querySelectorAll('#riderTable th:last-child, #riderTable td:last-child');
-    actionsColumn.forEach(function(cell) {
-        cell.style.display = 'none';
-    });
-    document.getElementById('printButton').style.display = 'none';
-    var dataTablePagination = document.querySelector('.dataTables_paginate');
-    if (dataTablePagination) {
-        dataTablePagination.style.display = 'none';
-    }
-    var dataTableLengthSelector = document.querySelector('.dataTables_length');
-    if (dataTableLengthSelector) {
-        dataTableLengthSelector.style.display = 'none';
-    }
-    var divToPrint = document.getElementById("riderTable").cloneNode(true);
-    var newWin = window.open("");
-    newWin.document.write('<html><head><title>Print Rider List</title>');
-    newWin.document.write('<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">');
-    newWin.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">');
-    newWin.document.write('<style>');
-    newWin.document.write('.header { display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }');
-    newWin.document.write('.header img { margin-right: 25px; }');
-    newWin.document.write('</style>');
-    newWin.document.write('</head><body>');
-    newWin.document.write('<div class="header"><img src="dist/img/images1.png" alt="Logo" width="90" height="90"><h1>Rider List</h1></div>');
-    newWin.document.write(divToPrint.outerHTML);
-    newWin.document.write('</body></html>');
-    newWin.document.close();
-    newWin.print();
-    actionsColumn.forEach(function(cell) {
-        cell.style.display = '';
-    });
-    document.getElementById('printButton').style.display = 'inline-block';
-    if (dataTablePagination) {
-        dataTablePagination.style.display = 'block';
-    }
-    if (dataTableLengthSelector) {
-        dataTableLengthSelector.style.display = 'block';
-    }
-}
-
-document.getElementById('searchInput').addEventListener('keyup', function() {
-    var value = this.value.toLowerCase();
-    document.querySelectorAll('table tbody tr').forEach(function(row) {
-        row.style.display = row.innerText.toLowerCase().includes(value) ? '' : 'none';
-    });
-});
-</script>
+    </script>
 </body>
 </html>
