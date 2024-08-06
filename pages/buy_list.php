@@ -151,10 +151,6 @@ $riders = readRiders();
                         <td><?= htmlentities($rider['license_number']) ?></td>
                         <td><?= htmlentities($rider['status']) ?></td>
                        <td>
-                       <!-- <div class="btn-group-vertical" role="group">
-                            <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#addRiderModal">
-                                <i class="fas fa-plus"></i> Add
-                            </button>-->
                             <button class="btn btn-info btn-sm" onclick="openViewModal(<?= htmlentities(json_encode($rider)) ?>)">
                                 <i class="fas fa-eye"></i> View
                             </button>
