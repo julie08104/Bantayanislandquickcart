@@ -3,14 +3,18 @@ require_once 'app/init.php'; // Include your database connection file
 
 // Function to add a column if it does not exist
 function addColumnIfNotExists($pdo, $table, $column, $columnDefinition) {
-    $stmt = $pdo->prepare("SHOW COLUMNS FROM `$table` LIKE ?");
-    $stmt->execute([$column]);
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-    if ($result === false) {
-        // Column does not exist, so add it
-        $stmt = $pdo->prepare("ALTER TABLE `$table` ADD COLUMN `$column` $columnDefinition");
-        $stmt->execute();
+    try {
+        $stmt = $pdo->prepare("SHOW COLUMNS FROM `$table` LIKE ?");
+        $stmt->execute([$column]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($result === false) {
+            // Column does not exist, so add it
+            $stmt = $pdo->prepare("ALTER TABLE `$table` ADD COLUMN `$column` $columnDefinition");
+            $stmt->execute();
+        }
+    } catch (PDOException $e) {
+        error_log('Error adding column: ' . $e->getMessage());
     }
 }
 
@@ -18,95 +22,104 @@ function addColumnIfNotExists($pdo, $table, $column, $columnDefinition) {
 addColumnIfNotExists($pdo, 'riders', 'alert_quantity', 'INT(11) NOT NULL');
 
 // Create Rider
-function createRider($name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined, $total_rides, $rating, $payment_method) {
+function createRider($name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined) {
     global $pdo;
-    $stmt = $pdo->prepare("INSERT INTO riders (name, lastname, gender, address, contact_number, email, vehicle_type, license_number, status, date_joined, total_rides, rating, payment_method) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined, $total_rides, $rating, $payment_method]);
+    try {
+        $stmt = $pdo->prepare("INSERT INTO riders (name, lastname, gender, address, contact_number, email, vehicle_type, license_number, status, date_joined) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined]);
+    } catch (PDOException $e) {
+        error_log('Error creating rider: ' . $e->getMessage());
+        return false;
+    }
 }
 
 // Read Riders
 function readRiders() {
     global $pdo;
-    $stmt = $pdo->query("SELECT * FROM riders");
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    try {
+        $stmt = $pdo->query("SELECT * FROM riders");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log('Error reading riders: ' . $e->getMessage());
+        return [];
+    }
 }
 
 // Update Rider
-function updateRider($rider_id, $name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined, $total_rides, $rating, $payment_method) {
+function updateRider($id, $name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status) {
     global $pdo;
-    $stmt = $pdo->prepare("
-        UPDATE riders 
-        SET 
-            name = ?, 
-            lastname = ?, 
-            gender = ?, 
-            address = ?, 
-            contact_number = ?, 
-            email = ?, 
-            vehicle_type = ?, 
-            license_number = ?, 
-            status = ?, 
-            date_joined = ?, 
-            total_rides = ?, 
-            rating = ?, 
-            payment_method = ? 
-        WHERE rider_id = ?
-    ");
-    return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined, $total_rides, $rating, $payment_method, $rider_id]);
+    $stmt = $pdo->prepare("UPDATE riders SET name = ?, lastname = ?, gender = ?, address = ?, contact_number = ?, email = ?, vehicle_type = ?, license_number = ?, status = ? WHERE rider_id = ?");
+    $result = $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $id]);
+    if ($result) {
+        // Fetch the updated rider
+        $stmt = $pdo->prepare("SELECT * FROM riders WHERE rider_id = ?");
+        $stmt->execute([$id]);
+        $rider = $stmt->fetch(PDO::FETCH_ASSOC);
+        echo json_encode(['success' => true, 'rider' => $rider]);
+    } else {
+        echo json_encode(['success' => false]);
+    }
 }
+
 
 // Delete Rider
 function deleteRider($rider_id) {
     global $pdo;
-    $stmt = $pdo->prepare("DELETE FROM riders WHERE rider_id = ?");
-    return $stmt->execute([$rider_id]);
+    try {
+        $stmt = $pdo->prepare("DELETE FROM riders WHERE rider_id = ?");
+        return $stmt->execute([$rider_id]);
+    } catch (PDOException $e) {
+        error_log('Error deleting rider: ' . $e->getMessage());
+        return false;
+    }
 }
 
 // Handle Form Submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $action = $_POST['action'];
-    
+    $action = $_POST['action'] ?? '';
+
+    $success = false;
     switch ($action) {
         case 'create':
-            createRider(
-                $_POST['name'],
-                $_POST['lastname'],
-                $_POST['gender'],
-                $_POST['address'],
-                $_POST['contact_number'],
-                $_POST['email'],
-                $_POST['vehicle_type'],
-                $_POST['license_number'],
-                $_POST['status'],
-                $_POST['date_joined'],
-                $_POST['total_rides'],
-                $_POST['rating'],
-                $_POST['payment_method']
+            $success = createRider(
+                $_POST['name'] ?? '',
+                $_POST['lastname'] ?? '',
+                $_POST['gender'] ?? '',
+                $_POST['address'] ?? '',
+                $_POST['contact_number'] ?? '',
+                $_POST['email'] ?? '',
+                $_POST['vehicle_type'] ?? '',
+                $_POST['license_number'] ?? '',
+                $_POST['status'] ?? '',
+                $_POST['date_joined'] ?? ''
             );
             break;
         case 'update':
-            updateRider(
-                $_POST['rider_id'],
-                $_POST['name'],
-                $_POST['lastname'],
-                $_POST['gender'],
-                $_POST['address'],
-                $_POST['contact_number'],
-                $_POST['email'],
-                $_POST['vehicle_type'],
-                $_POST['license_number'],
-                $_POST['status'],
-                $_POST['date_joined'],
-                $_POST['total_rides'],
-                $_POST['rating'],
-                $_POST['payment_method']
+            $success = updateRider(
+                $_POST['rider_id'] ?? 0,
+                $_POST['name'] ?? '',
+                $_POST['lastname'] ?? '',
+                $_POST['gender'] ?? '',
+                $_POST['address'] ?? '',
+                $_POST['contact_number'] ?? '',
+                $_POST['email'] ?? '',
+                $_POST['vehicle_type'] ?? '',
+                $_POST['license_number'] ?? '',
+                $_POST['status'] ?? '',
+                $_POST['date_joined'] ?? ''
             );
             break;
         case 'delete':
-            deleteRider($_POST['rider_id']);
+            $success = deleteRider($_POST['rider_id'] ?? 0);
+            break;
+        default:
+            error_log('Invalid action: ' . $action);
+            $success = false;
             break;
     }
-     header('Location: index.php?page=buy_list'); // Redirect after action
+
+    header('Content-Type: application/json');
+    echo json_encode(['success' => $success]);
     exit;
 }
 
