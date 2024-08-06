@@ -393,23 +393,23 @@ $riders = readRiders();
     $('#editRiderForm').on('submit', function(e) {
         e.preventDefault();
         $.ajax({
-            type: 'POST',
-            url: 'rider_functions.php',
-            data: $(this).serialize(),
-            success: function(response) {
-                if (response.success) {
-                    alert('Rider updated successfully!');
-                    location.reload();
-                } else {
-                    alert('Error updating rider.');
-                }
-            },
-            error: function() {
-                alert('An error occurred.');
-            }
-        });
-    });
+    type: 'GET',
+    url: 'rider_functions.php',
+    dataType: 'json',
+    success: function(data) {
+        console.log(data); // Log the response data for debugging
+        if (data.success) {
+            // Process riders data
+        } else {
+            alert('Error: ' + data.message);
+        }
+    },
+    error: function(xhr, status, error) {
+        console.log(xhr.responseText); // Log any server-side error messages
+        alert('An error occurred while fetching riders.');
+    }
 });
+
 
     // Open edit modal and populate fields
     function openEditModal(rider) {
