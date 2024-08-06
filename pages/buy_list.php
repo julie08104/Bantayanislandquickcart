@@ -151,13 +151,20 @@ $riders = readRiders();
                         <td><?= htmlentities($rider['license_number']) ?></td>
                         <td><?= htmlentities($rider['status']) ?></td>
                       <td>
-                       <button class="btn btn-info btn-sm" onclick="openViewModal(<?= htmlentities(json_encode($rider)) ?>)"><i class="fas fa-eye"></i> View
+    <button class="btn btn-info btn-sm" onclick="openViewModal(<?= htmlentities(json_encode($rider)) ?>)"
+            style="height: 34px; padding: 0.25rem 0.5rem; font-size: 0.875rem; line-height: 1.5; display: flex; align-items: center;">
+        <i class="fas fa-eye" style="margin-right: 0.25rem; font-size: 1rem;"></i> View
     </button>
-                       <button class="btn btn-warning btn-sm" onclick="openEditModal(<?= htmlentities(json_encode($rider)) ?>)"><i class="fas fa-edit"></i> Edit
+    <button class="btn btn-warning btn-sm" onclick="openEditModal(<?= htmlentities(json_encode($rider)) ?>)"
+            style="height: 34px; padding: 0.25rem 0.5rem; font-size: 0.875rem; line-height: 1.5; display: flex; align-items: center;">
+        <i class="fas fa-edit" style="margin-right: 0.25rem; font-size: 1rem;"></i> Edit
     </button>
-                       <button class="btn btn-danger btn-sm" onclick="deleteRider(<?= $rider['rider_id'] ?>)"><i class="fas fa-trash"></i> Delete
+    <button class="btn btn-danger btn-sm" onclick="deleteRider(<?= $rider['rider_id'] ?>)"
+            style="height: 34px; padding: 0.25rem 0.5rem; font-size: 0.875rem; line-height: 1.5; display: flex; align-items: center;">
+        <i class="fas fa-trash" style="margin-right: 0.25rem; font-size: 1rem;"></i> Delete
     </button>
-                     </td>
+</td>
+
       </tr>
                 <?php endforeach; ?>
             </tbody>
