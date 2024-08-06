@@ -26,7 +26,15 @@ function createRider($name, $lastname, $gender, $address, $contact_number, $emai
     global $pdo;
     try {
         $stmt = $pdo->prepare("INSERT INTO riders (name, lastname, gender, address, contact_number, email, vehicle_type, license_number, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status]);
+        $result = $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status]);
+
+        if (!$result) {
+            error_log('Create query failed: ' . implode(', ', $stmt->errorInfo()));
+        } else {
+            error_log('Create query succeeded');
+        }
+
+        return $result;
     } catch (PDOException $e) {
         error_log('Error creating rider: ' . $e->getMessage());
         return false;
@@ -50,42 +58,8 @@ function updateRider($rider_id, $name, $lastname, $gender, $address, $contact_nu
     global $pdo;
     try {
         // Log the data being updated for debugging
-        error_log("Updating rider: $rider_id, $name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status");
-
-        $stmt = $pdo->prepare("
-            UPDATE riders 
-            SET 
-                name = ?, 
-                lastname = ?, 
-                gender = ?, 
-                address = ?, 
-                contact_number = ?, 
-                email = ?, 
-                vehicle_type = ?, 
-                license_number = ?, 
-                status = ? 
-            WHERE rider_id = ?
-        ");
-
-        $result = $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $rider_id]);
-
-        if (!$result) {
-            error_log('Update query failed: ' . implode(', ', $stmt->errorInfo()));
-        }
-
-        return $result;
-    } catch (PDOException $e) {
-        error_log('Error updating rider: ' . $e->getMessage());
-        return false;
-    }
-}
-// Update Rider
-function updateRider($rider_id, $name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status) {
-    global $pdo;
-    try {
-        // Log the data being updated for debugging
-        error_log("Updating rider with ID $rider_id");
-        error_log("Data: name=$name, lastname=$lastname, gender=$gender, address=$address, contact_number=$contact_number, email=$email, vehicle_type=$vehicle_type, license_number=$license_number, status=$status");
+        error_log("Updating rider with ID: $rider_id");
+        error_log("Data: name='$name', lastname='$lastname', gender='$gender', address='$address', contact_number='$contact_number', email='$email', vehicle_type='$vehicle_type', license_number='$license_number', status='$status'");
 
         $stmt = $pdo->prepare("
             UPDATE riders 
@@ -122,7 +96,15 @@ function deleteRider($rider_id) {
     global $pdo;
     try {
         $stmt = $pdo->prepare("DELETE FROM riders WHERE rider_id = ?");
-        return $stmt->execute([$rider_id]);
+        $result = $stmt->execute([$rider_id]);
+
+        if (!$result) {
+            error_log('Delete query failed: ' . implode(', ', $stmt->errorInfo()));
+        } else {
+            error_log('Delete query succeeded');
+        }
+
+        return $result;
     } catch (PDOException $e) {
         error_log('Error deleting rider: ' . $e->getMessage());
         return false;
