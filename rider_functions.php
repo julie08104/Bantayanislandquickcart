@@ -41,21 +41,37 @@ function readRiders() {
 // Update Rider
 function updateRider($rider_id, $name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status) {
     global $pdo;
-    $stmt = $pdo->prepare("
-        UPDATE riders 
-        SET 
-            name = ?, 
-            lastname = ?, 
-            gender = ?, 
-            address = ?, 
-            contact_number = ?, 
-            email = ?, 
-            vehicle_type = ?, 
-            license_number = ?, 
-            status = ? 
-        WHERE rider_id = ?
-    ");
-    return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $rider_id]);
+    try {
+        $stmt = $pdo->prepare("
+            UPDATE riders 
+            SET 
+                name = ?, 
+                lastname = ?, 
+                gender = ?, 
+                address = ?, 
+                contact_number = ?, 
+                email = ?, 
+                vehicle_type = ?, 
+                license_number = ?, 
+                status = ? 
+            WHERE rider_id = ?
+        ");
+        $result = $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $rider_id]);
+        if ($result) {
+            // Return updated rider
+            $stmt = $pdo->prepare("SELECT * FROM riders WHERE rider_id = ?");
+            $stmt->execute([$rider_id]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } else {
+            throw new Exception('Failed to update rider: ' . implode(", ", $stmt->errorInfo()));
+        }
+    } catch (PDOException $e) {
+        error_log('Error updating rider: ' . $e->getMessage());
+        return false;
+    } catch (Exception $e) {
+        error_log($e->getMessage());
+        return false;
+    }
 }
 
 // Delete Rider
@@ -92,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             break;
         case 'update':
-            if (updateRider(
+            $updatedRider = updateRider(
                 $_POST['rider_id'],
                 $_POST['name'],
                 $_POST['lastname'],
@@ -103,12 +119,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_POST['vehicle_type'],
                 $_POST['license_number'],
                 $_POST['status']
-            )) {
+            );
+            if ($updatedRider) {
                 header('Location: index.php?page=buy_list'); // Redirect after success
                 exit;
             } else {
                 echo 'Error updating rider.';
-                error_log('Update failed: ' . print_r($stmt->errorInfo(), true));
             }
             break;
         case 'delete':
