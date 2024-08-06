@@ -267,10 +267,10 @@ if ($customers === false) {
                         <label>Last Name:</label>
                         <input type="text" class="form-control" id="edit_lastname" name="lastname" required>
                     </div>
-                    <div class="form-group">
+                    <!--<div class="form-group">
                         <label>Company:</label>
                         <input type="text" class="form-control" id="edit_company" name="company">
-                    </div>
+                    </div>-->
                     <div class="form-group">
                         <label>Address:</label>
                         <textarea class="form-control" id="edit_address" name="address"></textarea>
