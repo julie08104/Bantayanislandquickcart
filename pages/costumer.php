@@ -127,13 +127,12 @@ if ($customers === false) {
             </button>
         </div>
 
-        <!-- Print Button and Search Input  -->
-        <div class="text-right mb-3">
-           
-            <button id="printButton" class="btn btn-success no-print"  onclick="printCustomerList()" style="float: right;">Print List</button>
-       
-            <input class="form-control no-print" id="searchInput" type="text" placeholder="Search..">
-        </div>
+       <!-- Print Button and Search Input  -->
+<div class="text-right mb-3">
+    <button id="printButton" class="btn btn-success no-print" onclick="printCustomerList()" style="float: right;">Print List</button>
+    <input class="form-control form-control-sm no-print" id="searchInput" type="text" placeholder="Search..">
+</div>
+
 
         <!-- Customer Table -->
         <table id="customerTable" class="table table-bordered table-responsive-sm">
