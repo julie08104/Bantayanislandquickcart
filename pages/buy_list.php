@@ -87,7 +87,7 @@ $riders = readRiders();
                 display: none !important;
             }
         }
-    </style>
+    </style> 
 </head>
 <body>
    <!-- Print Container -->
