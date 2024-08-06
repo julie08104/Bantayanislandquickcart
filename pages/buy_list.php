@@ -22,6 +22,7 @@ function updateRider($id, $name, $lastname, $gender, $address, $contact_number, 
     return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $id]);
 }
 
+
 // Delete Rider
 function deleteRider($id) {
     global $pdo;
@@ -398,40 +399,46 @@ $riders = readRiders();
     });
     // Edit rider form submission
     $('#editRiderForm').on('submit', function(e) {
-        e.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: 'rider_functions.php',
-            data: $(this).serialize(),
-            success: function(response) {
-                if (response.success) {
-                    alert('Rider updated successfully!');
-                    location.reload();
-                } else {
-                    alert('Error updating rider.');
-                }
-            },
-            error: function() {
-                alert('An error occurred.');
+    e.preventDefault(); // Prevent the default form submission
+    
+    $.ajax({
+        type: 'POST',
+        url: 'rider_functions.php',
+        data: $(this).serialize() + '&action=updateRider', // Append action parameter
+        dataType: 'json',
+        success: function(response) {
+            if (response.success) {
+                alert('Rider updated successfully!');
+                $('#editRiderModal').modal('hide'); // Hide the modal
+                fetchRiders(); // Refresh the rider list
+            } else {
+                alert('Error updating rider: ' + response.message);
             }
-        });
+        },
+        error: function() {
+            alert('An error occurred while updating the rider.');
+        }
     });
 });
 
-function openEditModal(rider) {
-        document.getElementById('edit_rider_id').value = rider.rider_id;
-        document.getElementById('edit_rider_name').value = rider.name;
-        document.getElementById('edit_rider_lastname').value = rider.lastname;
-        document.getElementById('edit_rider_gender').value = rider.gender;
-        document.getElementById('edit_rider_address').value = rider.address;
-        document.getElementById('edit_rider_contact_number').value = rider.contact_number;
-        document.getElementById('edit_rider_email').value = rider.email;
-        document.getElementById('edit_rider_vehicle_type').value = rider.vehicle_type;
-        document.getElementById('edit_rider_license_number').value = rider.license_number;
-        document.getElementById('edit_rider_status').value = rider.status;
 
-        $('#editRiderModal').modal('show');
-    }
+function openEditModal(rider) {
+    // Populate the form fields in the modal with the rider's data
+    $('#rider_id').val(rider.rider_id);
+    $('#name').val(rider.name);
+    $('#lastname').val(rider.lastname);
+    $('#gender').val(rider.gender);
+    $('#address').val(rider.address);
+    $('#contact_number').val(rider.contact_number);
+    $('#email').val(rider.email);
+    $('#vehicle_type').val(rider.vehicle_type);
+    $('#license_number').val(rider.license_number);
+    $('#status').val(rider.status);
+
+    // Show the modal
+    $('#editRiderModal').modal('show');
+}
+
 
 function fetchRiders() {
     $.ajax({
@@ -455,7 +462,7 @@ function fetchRiders() {
                             <td>${rider.license_number}</td>
                             <td>${rider.status}</td>
                             <td>
-                                <button class="btn btn-info btn-sm" onclick='openViewModal(${JSON.stringify(rider)})'>
+                                <button class="btn btn-info btn-sm" onclick='openEditModal(${JSON.stringify(rider)})'>
                                     <i class="fas fa-eye"></i> View
                                 </button>
                                 <button class="btn btn-warning btn-sm" onclick='openEditModal(${JSON.stringify(rider)})'>
