@@ -397,7 +397,7 @@ $riders = readRiders();
             }
         });
     });
-   // Edit rider form submission
+  // Edit rider form submission
     $('#editRiderForm').on('submit', function(e) {
         e.preventDefault();
         $.ajax({
@@ -449,7 +449,7 @@ function fetchRiders() {
                 $('#riderTableBody').empty(); // Clear the existing table rows
                 data.riders.forEach(function(rider) {
                     $('#riderTableBody').append(
-                        <tr>
+                        `<tr>
                             <td>${rider.rider_id}</td>
                             <td>${rider.name}</td>
                             <td>${rider.lastname}</td>
@@ -471,7 +471,7 @@ function fetchRiders() {
                                     <i class="fas fa-trash"></i> Delete
                                 </button>
                             </td>
-                        </tr>
+                        </tr>`
                     );
                 });
             } else {
@@ -482,7 +482,7 @@ function fetchRiders() {
             alert('An error occurred while fetching riders.');
         }
     });
-} 
+}
 function deleteRider(rider_id) {
     if (confirm('Are you sure you want to delete this rider?')) {
         $.ajax({
