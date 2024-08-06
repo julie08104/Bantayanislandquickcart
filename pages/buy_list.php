@@ -454,11 +454,6 @@ function openEditModal(rider) {
         document.getElementById('viewVehicleType').value = rider.vehicle_type;
         document.getElementById('viewLicenseNumber').value = rider.license_number;
         document.getElementById('viewStatus').value = rider.status;
-        // Ensure these fields are not present in the modal
-        document.getElementById('viewTotalRides').value = rider.total_rides;
-        document.getElementById('viewRating').value = rider.rating;
-        document.getElementById('viewPaymentMethod').value = rider.payment_method;
-        
         $('#viewRiderModal').modal('show');
     }
 function printTable() {
