@@ -9,9 +9,8 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Check if ID is set
-    if (isset($_GET['id'])) {
-        $id = intval($_GET['id']);
-        echo "Attempting to delete customer with ID: $id\n";
+    if (isset($_POST['id'])) {
+        $id = intval($_POST['id']);
 
         // Prepare the delete statement
         $stmt = $pdo->prepare("DELETE FROM `customer` WHERE id = :id");
