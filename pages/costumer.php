@@ -473,13 +473,13 @@ document.getElementById('searchInput').addEventListener('keyup', function() {
 
 
 
-   document.addEventListener("DOMContentLoaded", function() {
-            var searchInput = document.getElementById('searchInput');
+  document.addEventListener("DOMContentLoaded", function() {
+    var searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.style.display = 'none';
+    }
+});
 
-            if (searchInput) {
-                searchInput.style.display = 'none';
-            }
-        });
 
 </script>
 </body>
