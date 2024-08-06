@@ -53,19 +53,20 @@ function updateRider($rider_id, $name, $lastname, $gender, $address, $contact_nu
         error_log("Updating rider: $rider_id, $name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined");
 
         $stmt = $pdo->prepare("
-            UPDATE riders 
-            SET 
-                name = ?, 
-                lastname = ?, 
-                gender = ?, 
-                address = ?, 
-                contact_number = ?, 
-                email = ?, 
-                vehicle_type = ?, 
-                license_number = ?, 
-                status = ?, 
-                date_joined = ? 
-            WHERE rider_id = ?
+        UPDATE riders 
+SET 
+    name = ?, 
+    lastname = ?, 
+    gender = ?, 
+    address = ?, 
+    contact_number = ?, 
+    email = ?, 
+    vehicle_type = ?, 
+    license_number = ?, 
+    status = ?, 
+    date_joined = ? 
+WHERE rider_id = ?
+
         ");
 
         $result = $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined, $rider_id]);
