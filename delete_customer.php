@@ -5,6 +5,7 @@ try {
     // Check if ID is set
     if (isset($_POST['id'])) {
         $id = intval($_POST['id']);
+        error_log("POST data received: " . print_r($_POST, true)); // Log the POST data
         error_log("Attempting to delete customer with ID: $id"); // Log the ID being deleted
 
         // Prepare the delete statement
