@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Fetch riders for display
 $riders = readRiders();
 ?>
-<style>
+ <style>
         /* Initially hide the print image */
         #printImage {
             display: none;
@@ -150,18 +150,18 @@ $riders = readRiders();
                         <td><?= htmlentities($rider['vehicle_type']) ?></td>
                         <td><?= htmlentities($rider['license_number']) ?></td>
                         <td><?= htmlentities($rider['status']) ?></td>
-                       <td>
-                            <button class="btn btn-info btn-sm" onclick="openViewModal(<?= htmlentities(json_encode($rider)) ?>)">
-                                <i class="fas fa-eye"></i> View
-                            </button>
-                            <button class="btn btn-warning btn-sm" onclick="openEditModal(<?= htmlentities(json_encode($rider)) ?>)">
-                                <i class="fas fa-edit"></i> Edit
-                            </button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteRider(<?= $rider['rider_id'] ?>)">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
-                        </div>
-                    </td>
+              <td>
+    <button class="btn btn-info btn-sm btn-custom" onclick="openViewModal(<?= htmlentities(json_encode($rider)) ?>)">
+        <i class="fas fa-eye"></i> View
+    </button>
+    <button class="btn btn-warning btn-sm btn-custom" onclick="openEditModal(<?= htmlentities(json_encode($rider)) ?>)">
+        <i class="fas fa-edit"></i> Edit
+    </button>
+    <button class="btn btn-danger btn-sm btn-custom" onclick="deleteRider(<?= $rider['rider_id'] ?>)">
+        <i class="fas fa-trash"></i> Delete
+    </button>
+</td>
+
 
       </tr>
                 <?php endforeach; ?>
