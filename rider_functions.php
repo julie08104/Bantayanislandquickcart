@@ -71,15 +71,16 @@ function updateRider($rider_id, $name, $lastname, $gender, $address, $contact_nu
         $result = $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $rider_id]);
 
         if (!$result) {
-            error_log('Update query failed: ' . implode(', ', $stmt->errorInfo()));
+            $errorInfo = $stmt->errorInfo();
+            error_log('Update query failed: ' . implode(', ', $errorInfo));
+            return ['success' => false, 'message' => 'Update query failed: ' . implode(', ', $errorInfo)];
         } else {
             error_log('Update query succeeded');
+            return ['success' => true, 'message' => 'Update query succeeded'];
         }
-
-        return $result;
     } catch (PDOException $e) {
         error_log('Error updating rider: ' . $e->getMessage());
-        return false;
+        return ['success' => false, 'message' => 'Error updating rider: ' . $e->getMessage()];
     }
 }
 
@@ -103,6 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     error_log("Form action: $action");
 
     $success = false;
+    $message = '';
     switch ($action) {
         case 'create':
             $success = createRider(
@@ -118,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             );
             break;
         case 'update':
-            $success = updateRider(
+            $result = updateRider(
                 $_POST['rider_id'] ?? '',
                 $_POST['name'] ?? '',
                 $_POST['lastname'] ?? '',
@@ -130,20 +132,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_POST['license_number'] ?? '',
                 $_POST['status'] ?? ''
             );
+            $success = $result['success'];
+            $message = $result['message'];
             break;
         case 'delete':
             $success = deleteRider($_POST['rider_id'] ?? '');
             break;
         default:
             $success = false;
+            $message = 'Invalid action';
             break;
     }
 
     // Log the result for debugging
-    error_log("Operation success: " . var_export($success, true));
+    error_log("Operation success: " . var_export($success, true) . "; Message: $message");
 
     header('Content-Type: application/json');
-    echo json_encode(['success' => $success]);
+    echo json_encode(['success' => $success, 'message' => $message]);
     exit;
 }
 
