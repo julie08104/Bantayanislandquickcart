@@ -1,11 +1,6 @@
 <?php
 require_once 'app/init.php'; // Include your database connection file
 
-// Enable error reporting
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-header('Content-Type: application/json');
-
 // Function to add a column if it does not exist
 function addColumnIfNotExists($pdo, $table, $column, $columnDefinition) {
     $stmt = $pdo->prepare("SHOW COLUMNS FROM `$table` LIKE ?");
@@ -33,12 +28,7 @@ function createRider($name, $lastname, $gender, $address, $contact_number, $emai
 function readRiders() {
     global $pdo;
     $stmt = $pdo->query("SELECT * FROM riders");
-    if ($stmt) {
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } else {
-        echo json_encode(['success' => false, 'message' => 'Error fetching riders: ' . $pdo->errorInfo()[2]]);
-        exit;
-    }
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 // Update Rider
@@ -74,57 +64,74 @@ function deleteRider($rider_id) {
 
 // Handle Form Submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $action = $_POST['action'];
+    header('Content-Type: application/json');
+    $response = ['success' => false, 'message' => 'Unknown error'];
     
-    switch ($action) {
-        case 'create':
-            $success = createRider(
-                $_POST['name'],
-                $_POST['lastname'],
-                $_POST['gender'],
-                $_POST['address'],
-                $_POST['contact_number'],
-                $_POST['email'],
-                $_POST['vehicle_type'],
-                $_POST['license_number'],
-                $_POST['status'],
-                $_POST['date_joined'],
-                $_POST['total_rides'],
-                $_POST['rating'],
-                $_POST['payment_method']
-            );
-            break;
-        case 'update':
-            $success = updateRider(
-                $_POST['rider_id'],
-                $_POST['name'],
-                $_POST['lastname'],
-                $_POST['gender'],
-                $_POST['address'],
-                $_POST['contact_number'],
-                $_POST['email'],
-                $_POST['vehicle_type'],
-                $_POST['license_number'],
-                $_POST['status'],
-                $_POST['date_joined'],
-                $_POST['total_rides'],
-                $_POST['rating'],
-                $_POST['payment_method']
-            );
-            break;
-        case 'delete':
-            $success = deleteRider($_POST['rider_id']);
-            break;
-        default:
-            $success = false;
-            break;
+    $action = $_POST['action'] ?? '';
+    
+    try {
+        switch ($action) {
+            case 'create':
+                $success = createRider(
+                    $_POST['name'],
+                    $_POST['lastname'],
+                    $_POST['gender'],
+                    $_POST['address'],
+                    $_POST['contact_number'],
+                    $_POST['email'],
+                    $_POST['vehicle_type'],
+                    $_POST['license_number'],
+                    $_POST['status'],
+                    $_POST['date_joined'],
+                    $_POST['total_rides'],
+                    $_POST['rating'],
+                    $_POST['payment_method']
+                );
+                $response['success'] = $success;
+                $response['message'] = $success ? 'Rider added successfully!' : 'Failed to add rider.';
+                break;
+            case 'update':
+                $success = updateRider(
+                    $_POST['rider_id'],
+                    $_POST['name'],
+                    $_POST['lastname'],
+                    $_POST['gender'],
+                    $_POST['address'],
+                    $_POST['contact_number'],
+                    $_POST['email'],
+                    $_POST['vehicle_type'],
+                    $_POST['license_number'],
+                    $_POST['status'],
+                    $_POST['date_joined'],
+                    $_POST['total_rides'],
+                    $_POST['rating'],
+                    $_POST['payment_method']
+                );
+                $response['success'] = $success;
+                $response['message'] = $success ? 'Rider updated successfully!' : 'Failed to update rider.';
+                break;
+            case 'delete':
+                $success = deleteRider($_POST['rider_id']);
+                $response['success'] = $success;
+                $response['message'] = $success ? 'Rider deleted successfully!' : 'Failed to delete rider.';
+                break;
+            default:
+                $response['message'] = 'Invalid action';
+                break;
+        }
+    } catch (Exception $e) {
+        $response['message'] = 'Error: ' . $e->getMessage();
     }
-    echo json_encode(['success' => $success]);
+    
+    echo json_encode($response);
     exit;
 }
 
-// Fetch riders for display
-$riders = readRiders();
-echo json_encode(['success' => true, 'riders' => $riders]);
-exit;
+// Fetch riders for display (if this is part of the same script)
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    header('Content-Type: application/json');
+    $riders = readRiders();
+    echo json_encode(['success' => true, 'riders' => $riders]);
+    exit;
+}
 ?>
