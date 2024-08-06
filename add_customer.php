@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         $stmt = $pdo->prepare("INSERT INTO customer (name, lastname, address, contact, email, company) VALUES ( ?, ?, ?, ?, ?)");
-        if ($stmt->execute([$name, $lastname, $address, $contact, $email, $company])) {
+        if ($stmt->execute([$name, $lastname, $address, $contact, $email,])) {
             $response['success'] = true;
             $response['message'] = 'Customer added successfully.';
         } else {
