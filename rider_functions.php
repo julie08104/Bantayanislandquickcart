@@ -20,7 +20,10 @@ addColumnIfNotExists($pdo, 'riders', 'alert_quantity', 'INT(11) NOT NULL');
 // Create Rider
 function createRider($name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status) {
     global $pdo;
-    $stmt = $pdo->prepare("INSERT INTO riders (name, lastname, gender, address, contact_number, email, vehicle_type, license_number, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $pdo->prepare("
+        INSERT INTO riders (name, lastname, gender, address, contact_number, email, vehicle_type, license_number, status) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ");
     return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status]);
 }
 
@@ -45,10 +48,10 @@ function updateRider($rider_id, $name, $lastname, $gender, $address, $contact_nu
             email = ?, 
             vehicle_type = ?, 
             license_number = ?, 
-            status = ?, 
+            status = ? 
         WHERE rider_id = ?
     ");
-    return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status]);
+    return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $rider_id]);
 }
 
 // Delete Rider
@@ -60,11 +63,11 @@ function deleteRider($rider_id) {
 
 // Handle Form Submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $action = $_POST['action'];
+    $action = $_POST['action'] ?? '';
     
     switch ($action) {
         case 'create':
-            createRider(
+            if (createRider(
                 $_POST['name'],
                 $_POST['lastname'],
                 $_POST['gender'],
@@ -73,11 +76,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_POST['email'],
                 $_POST['vehicle_type'],
                 $_POST['license_number'],
-                $_POST['status'],
-            );
+                $_POST['status']
+            )) {
+                header('Location: index.php?page=buy_list'); // Redirect after success
+                exit;
+            } else {
+                echo 'Error creating rider.';
+            }
             break;
         case 'update':
-            updateRider(
+            if (updateRider(
                 $_POST['rider_id'],
                 $_POST['name'],
                 $_POST['lastname'],
@@ -87,15 +95,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_POST['email'],
                 $_POST['vehicle_type'],
                 $_POST['license_number'],
-                $_POST['status'],
-            );
+                $_POST['status']
+            )) {
+                header('Location: index.php?page=buy_list'); // Redirect after success
+                exit;
+            } else {
+                echo 'Error updating rider.';
+            }
             break;
         case 'delete':
-            deleteRider($_POST['rider_id']);
+            if (deleteRider($_POST['rider_id'])) {
+                header('Location: index.php?page=buy_list'); // Redirect after success
+                exit;
+            } else {
+                echo 'Error deleting rider.';
+            }
+            break;
+        default:
+            echo 'Invalid action.';
             break;
     }
-     header('Location: index.php?page=buy_list'); // Redirect after action
-    exit;
 }
 
 // Fetch riders for display
