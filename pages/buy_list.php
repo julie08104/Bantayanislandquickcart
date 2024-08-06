@@ -399,26 +399,27 @@ $riders = readRiders();
     });
     // Edit rider form submission
     $('#editRiderForm').on('submit', function(e) {
-        e.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: 'rider_functions.php',
-            data: $(this).serialize(),
-            success: function(response) {
-                if (response.success) {
-                    alert('Rider updated successfully!');
-                    location.reload();
-                } else {
-                    alert('Error updating rider.');
-                }
-            },
-            error: function() {
-                alert('An error occurred.');
+    e.preventDefault(); // Prevent the default form submission
+    
+    $.ajax({
+        type: 'POST',
+        url: 'rider_functions.php',
+        data: $(this).serialize() + '&action=updateRider', // Append action parameter
+        dataType: 'json',
+        success: function(response) {
+            if (response.success) {
+                alert('Rider updated successfully!');
+                $('#editRiderModal').modal('hide'); // Hide the modal
+                fetchRiders(); // Refresh the rider list
+            } else {
+                alert('Error updating rider: ' + response.message);
             }
-        });
+        },
+        error: function() {
+            alert('An error occurred while updating the rider.');
+        }
     });
 });
-
 
 
 function openEditModal(rider) {
