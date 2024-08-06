@@ -1,32 +1,32 @@
 <?php
-header('Content-Type: application/json');
-include 'db_connection.php'; // Ensure your DB connection is included
-
-$response = array('success' => false, 'message' => 'Something went wrong.');
+// Include your database connection or initialization script
+require_once '../init.php'; // Adjust path as necessary
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Log incoming POST data for debugging
-    file_put_contents('debug_log.txt', print_r($_POST, true), FILE_APPEND);
-
-    $name = $_POST['name'];
-    $lastname = $_POST['lastname'];
-    $address = $_POST['address'];
-    $contact = $_POST['contact'];
-    $email = $_POST['email'];
-    $company = isset($_POST['company']) ? $_POST['company'] : null;
-
     try {
-        $stmt = $pdo->prepare("INSERT INTO customer (name, lastname, address, contact, email, company) VALUES ( ?, ?, ?, ?, ?)");
-        if ($stmt->execute([$name, $lastname, $address, $contact, $email,])) {
-            $response['success'] = true;
-            $response['message'] = 'Customer added successfully.';
+        // Get POST data
+        $name = $_POST['name'];
+        $lastname = $_POST['lastname'];
+        $address = $_POST['address'];
+        $contact = $_POST['contact'];
+        $email = $_POST['email'];
+
+        // Prepare SQL statement
+        $stmt = $pdo->prepare("INSERT INTO customers (name, lastname, address, contact, email) VALUES (?, ?, ?, ?, ?)");
+        
+        // Execute the statement
+        $stmt->execute([$name, $lastname, $address, $contact, $email]);
+
+        // Check if the insertion was successful
+        if ($stmt->rowCount() > 0) {
+            echo json_encode(['success' => true]);
         } else {
-            $response['message'] = 'Failed to add customer.';
+            echo json_encode(['success' => false, 'message' => 'Failed to add customer.']);
         }
     } catch (PDOException $e) {
-        $response['message'] = 'Database error: ' . $e->getMessage();
+        echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
     }
+} else {
+    echo json_encode(['success' => false, 'message' => 'Invalid request method.']);
 }
-
-echo json_encode($response);
 ?>
