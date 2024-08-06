@@ -362,7 +362,7 @@ function submitAddForm() {
         success: function(response) {
             var data = JSON.parse(response);
             if (data.success) {
-                window.location.href = 'index.php?page=customer'; // Redirect after success
+                window.location.href = 'index.php?page=costumer'; // Redirect after success
             } else {
                 alert('Error: ' + data.message); // Show error message
             }
