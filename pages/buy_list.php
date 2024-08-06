@@ -502,6 +502,7 @@ function fetchRiders() {
                     );
                 });
             } else {
+                console.error("Fetch Riders Error: ", data.message);
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
