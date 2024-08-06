@@ -1,10 +1,5 @@
 <?php
-// Database connection details
-$dsn = 'mysql:host=localhost;dbname=u510162695
-_ample'; // Update with your database name
-$username = 'u510162695
-_ample'; // Update with your username
-$password = '1Ample_database'; // Update with your password
+require_once 'app/init.php'; // Ensure this file connects to your database
 
 try {
     $pdo = new PDO($dsn, $username, $password);
