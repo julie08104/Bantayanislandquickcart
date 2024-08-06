@@ -192,7 +192,7 @@ if ($customers === false) {
         </table>
     </div>
 
-    <!-- Add Customer Modal -->
+   <!-- Add Customer Modal -->
 <div class="modal fade" id="addCustomerModal">
     <div class="modal-dialog">
         <div class="modal-content">
