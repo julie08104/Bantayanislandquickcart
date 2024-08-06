@@ -312,68 +312,60 @@ $riders = readRiders();
 </div>
 
 <!-- Edit Rider Modal -->
-<div id="editRiderModal" class="modal fade" tabindex="-1" role="dialog">
+<div class="modal fade" id="editRiderModal" tabindex="-1" role="dialog" aria-labelledby="editRiderModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Edit Rider</h5>
+                <h5 class="modal-title" id="editRiderModalLabel">Edit Rider</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <form id="editRiderForm">
-                    <input type="hidden" id="editRiderId" name="rider_id" />
+                    <input type="hidden" id="editRiderId" name="rider_id">
                     <div class="form-group">
                         <label for="editName">Name</label>
-                        <input type="text" id="editName" name="name" class="form-control" />
+                        <input type="text" class="form-control" id="editName" name="name" required>
                     </div>
                     <div class="form-group">
                         <label for="editLastname">Last Name</label>
-                        <input type="text" id="editLastname" name="lastname" class="form-control" />
+                        <input type="text" class="form-control" id="editLastname" name="lastname" required>
                     </div>
                     <div class="form-group">
                         <label for="editGender">Gender</label>
-                        <input type="text" id="editGender" name="gender" class="form-control" />
+                        <input type="text" class="form-control" id="editGender" name="gender" required>
                     </div>
                     <div class="form-group">
                         <label for="editAddress">Address</label>
-                        <input type="text" id="editAddress" name="address" class="form-control" />
+                        <input type="text" class="form-control" id="editAddress" name="address" required>
                     </div>
                     <div class="form-group">
                         <label for="editContactNumber">Contact Number</label>
-                        <input type="text" id="editContactNumber" name="contact_number" class="form-control" />
+                        <input type="text" class="form-control" id="editContactNumber" name="contact_number" required>
                     </div>
                     <div class="form-group">
                         <label for="editEmail">Email</label>
-                        <input type="email" id="editEmail" name="email" class="form-control" />
+                        <input type="email" class="form-control" id="editEmail" name="email" required>
                     </div>
                     <div class="form-group">
                         <label for="editVehicleType">Vehicle Type</label>
-                        <input type="text" id="editVehicleType" name="vehicle_type" class="form-control" />
+                        <input type="text" class="form-control" id="editVehicleType" name="vehicle_type" required>
                     </div>
                     <div class="form-group">
                         <label for="editLicenseNumber">License Number</label>
-                        <input type="text" id="editLicenseNumber" name="license_number" class="form-control" />
+                        <input type="text" class="form-control" id="editLicenseNumber" name="license_number" required>
                     </div>
                     <div class="form-group">
                         <label for="editStatus">Status</label>
-                        <input type="text" id="editStatus" name="status" class="form-control" />
+                        <input type="text" class="form-control" id="editStatus" name="status" required>
                     </div>
-                    <div class="form-group">
-                        <label for="editDateJoined">Date Joined</label>
-                        <input type="date" id="editDateJoined" name="date_joined" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <input type="hidden" name="action" value="update" />
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
 
 <!-- JavaScript to handle form submissions and modal opening -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
