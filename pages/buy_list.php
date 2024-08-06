@@ -324,43 +324,60 @@ $riders = readRiders();
                 </button>
             </div>
             <div class="modal-body">
-                <form id="editRiderForm">
-                    <input type="hidden" id="editRiderId" name="rider_id">
+                <form id="editRiderForm" method="POST">
+                    <input type="hidden" name="action" value="update">
+                    <input type="hidden" name="rider_id" id="edit_rider_id">
                     <div class="form-group">
-                        <label for="editName">Name</label>
-                        <input type="text" class="form-control" id="editName" name="name" required>
+                        <label for="edit_rider_name">Name:</label>
+                        <input type="text" class="form-control" id="edit_rider_name" name="name" required>
                     </div>
                     <div class="form-group">
-                        <label for="editLastname">Last Name</label>
-                        <input type="text" class="form-control" id="editLastname" name="lastname" required>
+                        <label for="edit_rider_lastname">Last Name:</label>
+                        <input type="text" class="form-control" id="edit_rider_lastname" name="lastname" required>
                     </div>
                     <div class="form-group">
-                        <label for="editGender">Gender</label>
-                        <input type="text" class="form-control" id="editGender" name="gender" required>
+                        <label for="edit_rider_gender">Gender:</label>
+                        <select class="form-control" id="edit_rider_gender" name="gender" required>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="editAddress">Address</label>
-                        <input type="text" class="form-control" id="editAddress" name="address" required>
+                        <label for="edit_rider_address">Address:</label>
+                        <input type="text" class="form-control" id="edit_rider_address" name="address" required>
                     </div>
                     <div class="form-group">
-                        <label for="editContactNumber">Contact Number</label>
-                        <input type="text" class="form-control" id="editContactNumber" name="contact_number" required>
+                        <label for="edit_rider_contact_number">Contact Number:</label>
+                        <input type="text" class="form-control" id="edit_rider_contact_number" name="contact_number" required>
                     </div>
                     <div class="form-group">
-                        <label for="editEmail">Email</label>
-                        <input type="email" class="form-control" id="editEmail" name="email" required>
+                        <label for="edit_rider_email">Email:</label>
+                        <input type="email" class="form-control" id="edit_rider_email" name="email" required>
                     </div>
                     <div class="form-group">
-                        <label for="editVehicleType">Vehicle Type</label>
-                        <input type="text" class="form-control" id="editVehicleType" name="vehicle_type" required>
+                        <label for="edit_rider_vehicle_type">Vehicle Type:</label>
+                        <input type="text" class="form-control" id="edit_rider_vehicle_type" name="vehicle_type" required>
                     </div>
                     <div class="form-group">
-                        <label for="editLicenseNumber">License Number</label>
-                        <input type="text" class="form-control" id="editLicenseNumber" name="license_number" required>
+                        <label for="edit_rider_license_number">License Number:</label>
+                        <input type="text" class="form-control" id="edit_rider_license_number" name="license_number" required>
                     </div>
                     <div class="form-group">
-                        <label for="editStatus">Status</label>
-                        <input type="text" class="form-control" id="editStatus" name="status" required>
+                        <label for="edit_rider_status">Status:</label>
+                        <input type="text" class="form-control" id="edit_rider_status" name="status" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_rider_total_rides">Total Rides:</label>
+                        <input type="text" class="form-control" id="edit_rider_total_rides" name="total_rides" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_rider_rating">Rating:</label>
+                        <input type="text" class="form-control" id="edit_rider_rating" name="rating" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_rider_payment_method">Payment Method:</label>
+                        <input type="text" class="form-control" id="edit_rider_payment_method" name="payment_method" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Save Changes</button>
                 </form>
@@ -369,148 +386,95 @@ $riders = readRiders();
     </div>
 </div>
 
-
-<!-- JavaScript to handle form submissions and modal opening -->
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- View Rider Modal -->
+<div class="modal fade" id="viewRiderModal" tabindex="-1" role="dialog" aria-labelledby="viewRiderModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewRiderModalLabel">View Rider</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="viewRiderDetails">
+                    <!-- Display rider details here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
+    function openEditModal(rider) {
+        document.getElementById('edit_rider_id').value = rider.rider_id;
+        document.getElementById('edit_rider_name').value = rider.name;
+        document.getElementById('edit_rider_lastname').value = rider.lastname;
+        document.getElementById('edit_rider_gender').value = rider.gender;
+        document.getElementById('edit_rider_address').value = rider.address;
+        document.getElementById('edit_rider_contact_number').value = rider.contact_number;
+        document.getElementById('edit_rider_email').value = rider.email;
+        document.getElementById('edit_rider_vehicle_type').value = rider.vehicle_type;
+        document.getElementById('edit_rider_license_number').value = rider.license_number;
+        document.getElementById('edit_rider_status').value = rider.status;
+        document.getElementById('edit_rider_total_rides').value = rider.total_rides;
+        document.getElementById('edit_rider_rating').value = rider.rating;
+        document.getElementById('edit_rider_payment_method').value = rider.payment_method;
 
-    $(document).ready(function() {
-    // Add rider form submission
-    $('#addRiderForm').on('submit', function(e) {
-        e.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: 'rider_functions.php',
-            data: $(this).serialize(),
-            success: function(response) {
-                alert('Rider added successfully!');
-                location.reload();
-            }
-        });
-    });
+        $('#editRiderModal').modal('show');
+    }
 
-    // Edit rider form submission
-    $('#editRiderForm').on('submit', function(e) {
-        e.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: 'rider_functions.php',
-            data: $(this).serialize(),
-            success: function(response) {
-                alert('Rider updated successfully!');
-                location.reload();
-            }
-        });
-    });
-});
+    function openViewModal(rider) {
+        var details = `
+            <p><strong>Name:</strong> ${rider.name}</p>
+            <p><strong>Last Name:</strong> ${rider.lastname}</p>
+            <p><strong>Gender:</strong> ${rider.gender}</p>
+            <p><strong>Address:</strong> ${rider.address}</p>
+            <p><strong>Contact Number:</strong> ${rider.contact_number}</p>
+            <p><strong>Email:</strong> ${rider.email}</p>
+            <p><strong>Vehicle Type:</strong> ${rider.vehicle_type}</p>
+            <p><strong>License Number:</strong> ${rider.license_number}</p>
+            <p><strong>Status:</strong> ${rider.status}</p>
+            <p><strong>Total Rides:</strong> ${rider.total_rides}</p>
+            <p><strong>Rating:</strong> ${rider.rating}</p>
+            <p><strong>Payment Method:</strong> ${rider.payment_method}</p>
+        `;
+        document.getElementById('viewRiderDetails').innerHTML = details;
+        $('#viewRiderModal').modal('show');
+    }
 
-
-   // Open edit modal and populate fields
-function openEditModal(rider) {
-    $('#editRiderId').val(rider.rider_id);
-    $('#editName').val(rider.name);
-    $('#editLastname').val(rider.lastname);
-    $('#editGender').val(rider.gender);
-    $('#editAddress').val(rider.address);
-    $('#editContactNumber').val(rider.contact_number);
-    $('#editEmail').val(rider.email);
-    $('#editVehicleType').val(rider.vehicle_type);
-    $('#editLicenseNumber').val(rider.license_number);
-    $('#editStatus').val(rider.status);
-    // Ensure these fields are not present in the modal
-    $('#editTotalRides').remove();
-    $('#editRating').remove();
-    $('#editPaymentMethod').remove();
-    $('#editRiderModal').modal('show');
-}
-
-
-    // Delete rider
-    function deleteRider(rider_id) {
+    function deleteRider(riderId) {
         if (confirm('Are you sure you want to delete this rider?')) {
-            $.ajax({
-                type: 'POST',
-                url: 'rider_functions.php',
-                data: { action: 'delete', rider_id: rider_id },
-                success: function(response) {
-                    alert('Rider deleted successfully!');
-                    location.reload();
-                }
+            $.post('', { action: 'delete', rider_id: riderId }, function(response) {
+                location.reload();
             });
         }
     }
 
-
-
-      function openViewModal(rider) {
-        document.getElementById('viewName').value = rider.name;
-        document.getElementById('viewLastname').value = rider.lastname;
-        document.getElementById('viewGender').value = rider.gender;
-        document.getElementById('viewAddress').value = rider.address;
-        document.getElementById('viewContactNumber').value = rider.contact_number;
-        document.getElementById('viewEmail').value = rider.email;
-        document.getElementById('viewVehicleType').value = rider.vehicle_type;
-        document.getElementById('viewLicenseNumber').value = rider.license_number;
-        document.getElementById('viewStatus').value = rider.status;
-        $('#viewRiderModal').modal('show');
-    }
-function printTable() {
-    // Hide the entire Actions column (which is the last column in the table)
-    var actionsColumn = document.querySelectorAll('#riderTable th:last-child, #riderTable td:last-child');
-    actionsColumn.forEach(function(cell) {
-        cell.style.display = 'none';
-    });
-
-    // Hide the Print button
-    document.getElementById('printButton').style.display = 'none';
-
-    // Hide DataTables pagination and length selector (if applicable)
-    var dataTablePagination = document.querySelector('.dataTables_paginate');
-    if (dataTablePagination) {
-        dataTablePagination.style.display = 'none';
-    }
-    var dataTableLengthSelector = document.querySelector('.dataTables_length');
-    if (dataTableLengthSelector) {
-        dataTableLengthSelector.style.display = 'none';
+    function printTable() {
+        var printContent = document.getElementById('riderTable').outerHTML;
+        var originalContents = document.body.innerHTML;
+        document.body.innerHTML = printContent;
+        window.print();
+        document.body.innerHTML = originalContents;
+        location.reload();
     }
 
-    // Create a new window for printing
-    var divToPrint = document.getElementById("riderTable").cloneNode(true);
-    var newWin = window.open("");
-    newWin.document.write('<html><head><title>Print Rider List</title>');
-    newWin.document.write('<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">');
-    newWin.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">');
-    newWin.document.write('<style>');
-    newWin.document.write('.header { display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }'); // Add margin-bottom to the header
-    newWin.document.write('.header img { margin-right: 25px; }'); // Increase margin-right for the image
-    newWin.document.write('</style>');
-    newWin.document.write('</head><body>');
-    newWin.document.write('<div class="header"><img src="dist/img/images1.png" alt="Logo" width="90" height="90"><h1>Rider List</h1></div>'); // Add header with image
-    newWin.document.write(divToPrint.outerHTML);
-    newWin.document.write('</body></html>');
-    newWin.document.close();
-    newWin.print();
-
-    // Restore visibility of the Actions column, Print button, pagination, and length selector after printing
-    actionsColumn.forEach(function(cell) {
-        cell.style.display = ''; // Restore to default display type
-    });
-    document.getElementById('printButton').style.display = 'inline-block';
-    if (dataTablePagination) {
-        dataTablePagination.style.display = 'block';
-    }
-    if (dataTableLengthSelector) {
-        dataTableLengthSelector.style.display = 'block';
-    }
-}
-
-
-document.getElementById('searchInput').addEventListener('keyup', function() {
-            var value = this.value.toLowerCase();
-            document.querySelectorAll('table tbody tr').forEach(function(row) {
-                row.style.display = row.innerText.toLowerCase().includes(value) ? '' : 'none';
+    $(document).ready(function() {
+        $('#addRiderForm').submit(function(event) {
+            event.preventDefault();
+            $.post('', $(this).serialize(), function(response) {
+                location.reload();
             });
         });
+
+        $('#editRiderForm').submit(function(event) {
+            event.preventDefault();
+            $.post('', $(this).serialize(), function(response) {
+                location.reload();
+            });
+        });
+    });
 </script>
+</body>
+</html>
