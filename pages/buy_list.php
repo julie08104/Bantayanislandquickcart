@@ -417,6 +417,7 @@ function openEditModal(rider) {
     $('#editVehicleType').val(rider.vehicle_type);
     $('#editLicenseNumber').val(rider.license_number);
     $('#editStatus').val(rider.status);
+     $('#editRiderModal').modal('show');
 }
 
 
