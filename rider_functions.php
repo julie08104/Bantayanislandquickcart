@@ -49,6 +49,9 @@ function readRiders() {
 function updateRider($rider_id, $name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined) {
     global $pdo;
     try {
+        // Log the data being updated for debugging
+        error_log("Updating rider: $rider_id, $name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined");
+
         $stmt = $pdo->prepare("
             UPDATE riders 
             SET 
@@ -64,12 +67,20 @@ function updateRider($rider_id, $name, $lastname, $gender, $address, $contact_nu
                 date_joined = ? 
             WHERE rider_id = ?
         ");
-        return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined, $rider_id]);
+
+        $result = $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined, $rider_id]);
+
+        if (!$result) {
+            error_log('Update query failed: ' . implode(', ', $stmt->errorInfo()));
+        }
+
+        return $result;
     } catch (PDOException $e) {
         error_log('Error updating rider: ' . $e->getMessage());
         return false;
     }
 }
+
 
 // Delete Rider
 function deleteRider($rider_id) {
