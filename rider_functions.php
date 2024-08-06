@@ -32,7 +32,7 @@ function readRiders() {
 }
 
 // Update Rider
-function updateRider($rider_id, $name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined,) {
+function updateRider($rider_id, $name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined) {
     global $pdo;
     $stmt = $pdo->prepare("
         UPDATE riders 
@@ -46,10 +46,15 @@ function updateRider($rider_id, $name, $lastname, $gender, $address, $contact_nu
             vehicle_type = ?, 
             license_number = ?, 
             status = ?, 
-            date_joined = ?, 
+            date_joined = ? 
         WHERE rider_id = ?
     ");
-    return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined, $rider_id]);
+    if ($stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $date_joined, $rider_id])) {
+        return true;
+    } else {
+        error_log(print_r($stmt->errorInfo(), true)); // Log any SQL errors
+        return false;
+    }
 }
 
 // Delete Rider
@@ -75,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_POST['vehicle_type'],
                 $_POST['license_number'],
                 $_POST['status'],
-                $_POST['date_joined'],
+                $_POST['date_joined']
             );
             break;
         case 'update':
@@ -90,14 +95,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_POST['vehicle_type'],
                 $_POST['license_number'],
                 $_POST['status'],
-                $_POST['date_joined'],
+                $_POST['date_joined']
             );
             break;
         case 'delete':
             deleteRider($_POST['rider_id']);
             break;
     }
-    header('Location: index.php'); // Redirect after action
+    header('Content-Type: application/json');
+    echo json_encode(['success' => true]);
     exit;
 }
 
