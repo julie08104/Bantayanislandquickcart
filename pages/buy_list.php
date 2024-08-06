@@ -22,6 +22,7 @@ function updateRider($id, $name, $lastname, $gender, $address, $contact_number, 
     return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $id]);
 }
 
+
 // Delete Rider
 function deleteRider($id) {
     global $pdo;
@@ -386,23 +387,23 @@ $riders = readRiders();
         });
     });
 
-    // Edit rider form submission
-    $('#editRiderForm').on('submit', function(e) {
-        e.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: 'rider_functions.php',
-            data: $(this).serialize(),
-            success: function(response) {
-                alert('Rider updated successfully!');
-                location.reload();
-            }
-        });
+   // Edit rider form submission
+$('#editRiderForm').on('submit', function(e) {
+    e.preventDefault();
+    $.ajax({
+        type: 'POST',
+        url: 'rider_functions.php',
+        data: $(this).serialize(),
+        success: function(response) {
+            alert('Rider updated successfully!');
+            location.reload();
+        }
     });
 });
 
 
-   // Open edit modal and populate fields
+
+  // Open edit modal and populate fields
 function openEditModal(rider) {
     $('#editRiderId').val(rider.rider_id);
     $('#editName').val(rider.name);
@@ -414,8 +415,9 @@ function openEditModal(rider) {
     $('#editVehicleType').val(rider.vehicle_type);
     $('#editLicenseNumber').val(rider.license_number);
     $('#editStatus').val(rider.status);
-     $('#editRiderModal').modal('show');
+    $('#editRiderModal').modal('show');
 }
+
 
 
     // Delete rider
