@@ -556,20 +556,21 @@ $riders = readRiders();
             };
 
                function openViewModal(rider) {
-        var details = `
-            <p><strong>Name:</strong> ${rider.name}</p>
-            <p><strong>Last Name:</strong> ${rider.lastname}</p>
-            <p><strong>Gender:</strong> ${rider.gender}</p>
-            <p><strong>Address:</strong> ${rider.address}</p>
-            <p><strong>Contact Number:</strong> ${rider.contact_number}</p>
-            <p><strong>Email:</strong> ${rider.email}</p>
-            <p><strong>Vehicle Type:</strong> ${rider.vehicle_type}</p>
-            <p><strong>License Number:</strong> ${rider.license_number}</p>
-            <p><strong>Status:</strong> ${rider.status}</p>
-        `;
-        document.getElementById('viewRiderDetails').innerHTML = details;
-        $('#viewRiderModal').modal('show');
-    }
+            $('#viewRiderModal').modal('show');
+            $('#riderDetails').html(
+                `<p><strong>ID:</strong> ${rider.rider_id}</p>
+                <p><strong>Name:</strong> ${rider.name}</p>
+                <p><strong>Last Name:</strong> ${rider.lastname}</p>
+                <p><strong>Gender:</strong> ${rider.gender}</p>
+                <p><strong>Address:</strong> ${rider.address}</p>
+                <p><strong>Contact Number:</strong> ${rider.contact_number}</p>
+                <p><strong>Email:</strong> ${rider.email}</p>
+                <p><strong>Vehicle Type:</strong> ${rider.vehicle_type}</p>
+                <p><strong>License Number:</strong> ${rider.license_number}</p>
+                <p><strong>Status:</strong> ${rider.status}</p>`
+            );
+        }
+
             // Print Table Function
             window.printTable = function() {
                 var actionsColumn = document.querySelectorAll('#riderTable th:last-child, #riderTable td:last-child');
