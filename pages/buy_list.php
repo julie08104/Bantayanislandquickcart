@@ -555,20 +555,21 @@ $riders = readRiders();
                 $('#editRiderModal').modal('show');
             };
 
-                function openViewModal(rider) {
-        document.getElementById('viewName').value = rider.name;
-        document.getElementById('viewLastname').value = rider.lastname;
-        document.getElementById('viewGender').value = rider.gender;
-        document.getElementById('viewAddress').value = rider.address;
-        document.getElementById('viewContactNumber').value = rider.contact_number;
-        document.getElementById('viewEmail').value = rider.email;
-        document.getElementById('viewVehicleType').value = rider.vehicle_type;
-        document.getElementById('viewLicenseNumber').value = rider.license_number;
-        document.getElementById('viewStatus').value = rider.status;
-        
+               function openViewModal(rider) {
+        var details = `
+            <p><strong>Name:</strong> ${rider.name}</p>
+            <p><strong>Last Name:</strong> ${rider.lastname}</p>
+            <p><strong>Gender:</strong> ${rider.gender}</p>
+            <p><strong>Address:</strong> ${rider.address}</p>
+            <p><strong>Contact Number:</strong> ${rider.contact_number}</p>
+            <p><strong>Email:</strong> ${rider.email}</p>
+            <p><strong>Vehicle Type:</strong> ${rider.vehicle_type}</p>
+            <p><strong>License Number:</strong> ${rider.license_number}</p>
+            <p><strong>Status:</strong> ${rider.status}</p>
+        `;
+        document.getElementById('viewRiderDetails').innerHTML = details;
         $('#viewRiderModal').modal('show');
     }
-
             // Print Table Function
             window.printTable = function() {
                 var actionsColumn = document.querySelectorAll('#riderTable th:last-child, #riderTable td:last-child');
