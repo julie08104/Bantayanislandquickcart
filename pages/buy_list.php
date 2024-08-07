@@ -247,124 +247,100 @@ $riders = readRiders();
 </div>
  
 
-      <!-- View Rider Modal -->
-    <div class="modal fade" id="viewRiderModal" tabindex="-1" role="dialog" aria-labelledby="viewRiderModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="viewRiderModalLabel">View Rider Details</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="view_name">Name:</label>
-                        <p id="view_name"></p>
-                    </div>
-                    <div class="form-group">
-                        <label for="view_lastname">Last Name:</label>
-                        <p id="view_lastname"></p>
-                    </div>
-                    <div class="form-group">
-                        <label for="view_gender">Gender:</label>
-                        <p id="view_gender"></p>
-                    </div>
-                    <div class="form-group">
-                        <label for="view_address">Address:</label>
-                        <p id="view_address"></p>
-                    </div>
-                    <div class="form-group">
-                        <label for="view_contact_number">Contact Number:</label>
-                        <p id="view_contact_number"></p>
-                    </div>
-                    <div class="form-group">
-                        <label for="view_email">Email:</label>
-                        <p id="view_email"></p>
-                    </div>
-                    <div class="form-group">
-                        <label for="view_vehicle_type">Vehicle Type:</label>
-                        <p id="view_vehicle_type"></p>
-                    </div>
-                    <div class="form-group">
-                        <label for="view_license_number">License Number:</label>
-                        <p id="view_license_number"></p>
-                    </div>
-                    <div class="form-group">
-                        <label for="view_status">Status:</label>
-                        <p id="view_status"></p>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+       <!-- View Rider Modal -->
+<div class="modal fade" id="viewRiderModal" tabindex="-1" role="dialog" aria-labelledby="viewRiderModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewRiderModalLabel">View Rider</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="viewRiderDetails">
+                    <!-- Display rider details here -->
                 </div>
             </div>
         </div>
     </div>
+</div>
 
- <!-- Edit Rider Modal -->
-    <div class="modal fade" id="editRiderModal" tabindex="-1" role="dialog" aria-labelledby="editRiderModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editRiderModalLabel">Edit Rider</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="editRiderForm" method="POST">
-                        <input type="hidden" name="action" value="update">
-                        <input type="hidden" id="editRiderId" name="rider_id">
-                        <div class="form-group">
-                            <label for="edit_name">Name:</label>
-                            <input type="text" class="form-control" id="edit_name" name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit_lastname">Last Name:</label>
-                            <input type="text" class="form-control" id="edit_lastname" name="lastname" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit_gender">Gender:</label>
-                            <select class="form-control" id="edit_gender" name="gender" required>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit_address">Address:</label>
-                            <input type="text" class="form-control" id="edit_address" name="address" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit_contact_number">Contact Number:</label>
-                            <input type="text" class="form-control" id="edit_contact_number" name="contact_number" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit_email">Email:</label>
-                            <input type="email" class="form-control" id="edit_email" name="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit_vehicle_type">Vehicle Type:</label>
-                            <input type="text" class="form-control" id="edit_vehicle_type" name="vehicle_type" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit_license_number">License Number:</label>
-                            <input type="text" class="form-control" id="edit_license_number" name="license_number" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit_status">Status:</label>
-                            <select class="form-control" id="edit_status" name="status" required>
-                                <option value="Active">Active</option>
-                                <option value="Inactive">Inactive</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Update Rider</button>
-                    </form>
-                </div>
+
+<!-- Edit Rider Modal -->
+<div class="modal fade" id="editRiderModal" tabindex="-1" role="dialog" aria-labelledby="editRiderModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editRiderModalLabel">Edit Rider</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editRiderForm" method="POST">
+                    <input type="hidden" name="action" value="update">
+                    <input type="hidden" name="rider_id" id="edit_rider_id">
+                    <div class="form-group">
+                        <label for="edit_rider_name">Name:</label>
+                        <input type="text" class="form-control" id="edit_rider_name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_rider_lastname">Last Name:</label>
+                        <input type="text" class="form-control" id="edit_rider_lastname" name="lastname" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_rider_gender">Gender:</label>
+                        <select class="form-control" id="edit_rider_gender" name="gender" required>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_rider_address">Address:</label>
+                        <input type="text" class="form-control" id="edit_rider_address" name="address" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_rider_contact_number">Contact Number:</label>
+                        <input type="text" class="form-control" id="edit_rider_contact_number" name="contact_number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_rider_email">Email:</label>
+                        <input type="email" class="form-control" id="edit_rider_email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_rider_vehicle_type">Vehicle Type:</label>
+                        <input type="text" class="form-control" id="edit_rider_vehicle_type" name="vehicle_type" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_rider_license_number">License Number:</label>
+                        <input type="text" class="form-control" id="edit_rider_license_number" name="license_number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_rider_status">Status:</label>
+                        <input type="text" class="form-control" id="edit_rider_status" name="status" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_rider_total_rides">Total Rides:</label>
+                        <input type="text" class="form-control" id="edit_rider_total_rides" name="total_rides" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_rider_rating">Rating:</label>
+                        <input type="text" class="form-control" id="edit_rider_rating" name="rating" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_rider_payment_method">Payment Method:</label>
+                        <input type="text" class="form-control" id="edit_rider_payment_method" name="payment_method" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
+
+
 
 <!-- JavaScript to handle form submissions and modal opening -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -563,35 +539,38 @@ $riders = readRiders();
                 });
             };
 
-            // Open view modal
-            window.openViewModal = function(rider) {
-                $('#view_name').text(rider.name);
-                $('#view_lastname').text(rider.lastname);
-                $('#view_gender').text(rider.gender);
-                $('#view_address').text(rider.address);
-                $('#view_contact_number').text(rider.contact_number);
-                $('#view_email').text(rider.email);
-                $('#view_vehicle_type').text(rider.vehicle_type);
-                $('#view_license_number').text(rider.license_number);
-                $('#view_status').text(rider.status);
-                $('#viewRiderModal').modal('show');
-            };
-
-            // Open edit modal
+            // Open Edit Modal
             window.openEditModal = function(rider) {
-                $('#editRiderId').val(rider.rider_id);
-                $('#edit_name').val(rider.name);
-                $('#edit_lastname').val(rider.lastname);
-                $('#edit_gender').val(rider.gender);
-                $('#edit_address').val(rider.address);
-                $('#edit_contact_number').val(rider.contact_number);
-                $('#edit_email').val(rider.email);
-                $('#edit_vehicle_type').val(rider.vehicle_type);
-                $('#edit_license_number').val(rider.license_number);
-                $('#edit_status').val(rider.status);
+                document.getElementById('edit_rider_id').value = rider.rider_id;
+                document.getElementById('edit_rider_name').value = rider.name;
+                document.getElementById('edit_rider_lastname').value = rider.lastname;
+                document.getElementById('edit_rider_gender').value = rider.gender;
+                document.getElementById('edit_rider_address').value = rider.address;
+                document.getElementById('edit_rider_contact_number').value = rider.contact_number;
+                document.getElementById('edit_rider_email').value = rider.email;
+                document.getElementById('edit_rider_vehicle_type').value = rider.vehicle_type;
+                document.getElementById('edit_rider_license_number').value = rider.license_number;
+                document.getElementById('edit_rider_status').value = rider.status;
+
                 $('#editRiderModal').modal('show');
             };
-        });
+
+            // Open View Modal
+            window.openViewModal = function(rider) {
+                var details = `
+                    <p><strong>Name:</strong> ${rider.name}</p>
+                    <p><strong>Last Name:</strong> ${rider.lastname}</p>
+                    <p><strong>Gender:</strong> ${rider.gender}</p>
+                    <p><strong>Address:</strong> ${rider.address}</p>
+                    <p><strong>Contact Number:</strong> ${rider.contact_number}</p>
+                    <p><strong>Email:</strong> ${rider.email}</p>
+                    <p><strong>Vehicle Type:</strong> ${rider.vehicle_type}</p>
+                    <p><strong>License Number:</strong> ${rider.license_number}</p>
+                    <p><strong>Status:</strong> ${rider.status}</p>
+                `;
+                document.getElementById('viewRiderDetails').innerHTML = details;
+                $('#viewRiderModal').modal('show');
+            };
 
             // Print Table Function
             window.printTable = function() {
