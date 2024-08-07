@@ -599,22 +599,21 @@ window.openEditModal = function(rider) {
     $('#editRiderModal').modal('show');
 };
 
-       // Open view modal function
-window.openViewModal = function(rider) {
-    console.log("Open View Modal: ", rider);
-    $('#viewName').val(rider.name);
-    $('#viewLastname').val(rider.lastname);
-    $('#viewGender').val(rider.gender);
-    $('#viewAddress').val(rider.address);
-    $('#viewContactNumber').val(rider.contact_number);
-    $('#viewEmail').val(rider.email);
-    $('#viewVehicleType').val(rider.vehicle_type);
-    $('#viewLicenseNumber').val(rider.license_number);
-    $('#viewStatus').val(rider.status);
-    $('#viewRiderModal').modal('show');
-};
-
-
+       function openViewModal(rider) {
+        var details = `
+            <p><strong>Name:</strong> ${rider.name}</p>
+            <p><strong>Last Name:</strong> ${rider.lastname}</p>
+            <p><strong>Gender:</strong> ${rider.gender}</p>
+            <p><strong>Address:</strong> ${rider.address}</p>
+            <p><strong>Contact Number:</strong> ${rider.contact_number}</p>
+            <p><strong>Email:</strong> ${rider.email}</p>
+            <p><strong>Vehicle Type:</strong> ${rider.vehicle_type}</p>
+            <p><strong>License Number:</strong> ${rider.license_number}</p>
+            <p><strong>Status:</strong> ${rider.status}</p>
+        `;
+        document.getElementById('viewRiderDetails').innerHTML = details;
+        $('#viewRiderModal').modal('show');
+    }
         // Print table function
         window.printTable = function() {
             console.log("Print Table");
