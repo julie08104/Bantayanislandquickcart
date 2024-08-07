@@ -9,7 +9,8 @@
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
-SET time_zone = "+00:00"
+SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -56,23 +57,27 @@ CREATE TABLE `category` (
 -- Table structure for table `customer`
 --
 
-CREATE TABLE customer (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    lastname VARCHAR(255) NOT NULL,
-    address TEXT,
-    contact VARCHAR(50),
-    email VARCHAR(255) NOT NULL UNIQUE,
-);
-
-
-
-
+CREATE TABLE `customer` (
+  `id` int(11) NOT NULL,
+  `username` varchar(50) DEFAULT NULL,
+  `password` varchar(50) DEFAULT NULL,
+  `name` varchar(100) NOT NULL,
+  `lastname` varchar(100) NOT NULL,
+  `company` varchar(100) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `contact` varchar(20) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `customer`
 --
 
+INSERT INTO `customer` (`id`, `username`, `password`, `name`, `lastname`, `company`, `address`, `contact`, `email`, `created_at`, `updated_at`) VALUES
+(27, NULL, NULL, 'jonhn', 'doe', 'mcc', 'mccc', '11112', 'dsad@gmail.com', '2024-07-18 05:21:10', '2024-07-18 22:17:07'),
+(0, NULL, NULL, 'tae', 'tae', 'kota', 'wewss', '2121212121', 'ano@gmail.com', '2024-07-23 16:30:57', '2024-07-23 16:30:57');
 
 -- --------------------------------------------------------
 
