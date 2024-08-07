@@ -580,39 +580,40 @@ fetchRiders();
             });
         };
 
-        // Open edit modal function
-        window.openEditModal = function(rider) {
-            console.log("Open Edit Modal: ", rider);
-            // Populate the form fields in the modal with the rider's data
-            $('#rider_id').val(rider.rider_id);
-            $('#name').val(rider.name);
-            $('#lastname').val(rider.lastname);
-            $('#gender').val(rider.gender);
-            $('#address').val(rider.address);
-            $('#contact_number').val(rider.contact_number);
-            $('#email').val(rider.email);
-            $('#vehicle_type').val(rider.vehicle_type);
-            $('#license_number').val(rider.license_number);
-            $('#status').val(rider.status);
+      // Open edit modal function
+window.openEditModal = function(rider) {
+    console.log("Open Edit Modal: ", rider);
+    // Populate the form fields in the modal with the rider's data
+    $('#editRiderId').val(rider.rider_id);
+    $('#editName').val(rider.name);
+    $('#editLastname').val(rider.lastname);
+    $('#editGender').val(rider.gender);
+    $('#editAddress').val(rider.address);
+    $('#editContactNumber').val(rider.contact_number);
+    $('#editEmail').val(rider.email);
+    $('#editVehicleType').val(rider.vehicle_type);
+    $('#editLicenseNumber').val(rider.license_number);
+    $('#editStatus').val(rider.status);
 
-            // Show the modal
-            $('#editRiderModal').modal('show');
-        };
+    // Show the modal
+    $('#editRiderModal').modal('show');
+};
 
-        // Open view modal function
-        window.openViewModal = function(rider) {
-            console.log("Open View Modal: ", rider);
-            $('#viewName').val(rider.name);
-            $('#viewLastname').val(rider.lastname);
-            $('#viewGender').val(rider.gender);
-            $('#viewAddress').val(rider.address);
-            $('#viewContactNumber').val(rider.contact_number);
-            $('#viewEmail').val(rider.email);
-            $('#viewVehicleType').val(rider.vehicle_type);
-            $('#viewLicenseNumber').val(rider.license_number);
-            $('#viewStatus').val(rider.status);
-            $('#viewRiderModal').modal('show');
-        };
+       // Open view modal function
+window.openViewModal = function(rider) {
+    console.log("Open View Modal: ", rider);
+    $('#viewName').val(rider.name);
+    $('#viewLastname').val(rider.lastname);
+    $('#viewGender').val(rider.gender);
+    $('#viewAddress').val(rider.address);
+    $('#viewContactNumber').val(rider.contact_number);
+    $('#viewEmail').val(rider.email);
+    $('#viewVehicleType').val(rider.vehicle_type);
+    $('#viewLicenseNumber').val(rider.license_number);
+    $('#viewStatus').val(rider.status);
+    $('#viewRiderModal').modal('show');
+};
+
 
         // Print table function
         window.printTable = function() {
