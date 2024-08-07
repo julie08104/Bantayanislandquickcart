@@ -246,7 +246,7 @@ $riders = readRiders();
     </div>
 </div>
  
- <!-- View Rider Modal -->
+<!-- View Rider Modal -->
 <div class="modal fade" id="viewRiderModal" tabindex="-1" role="dialog" aria-labelledby="viewRiderModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -257,13 +257,49 @@ $riders = readRiders();
                 </button>
             </div>
             <div class="modal-body">
-                <div id="viewRiderDetails">
-                    <!-- Display rider details here -->
-                </div>
+                <form id="viewRiderForm">
+                    <div class="form-group">
+                        <label for="viewName">Name</label>
+                        <input type="text" class="form-control" id="viewName" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="viewLastname">Lastname</label>
+                        <input type="text" class="form-control" id="viewLastname" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="viewGender">Gender</label>
+                        <input type="text" class="form-control" id="viewGender" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="viewAddress">Address</label>
+                        <input type="text" class="form-control" id="viewAddress" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="viewContactNumber">Contact Number</label>
+                        <input type="text" class="form-control" id="viewContactNumber" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="viewEmail">Email</label>
+                        <input type="email" class="form-control" id="viewEmail" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="viewVehicleType">Vehicle Type</label>
+                        <input type="text" class="form-control" id="viewVehicleType" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="viewLicenseNumber">License Number</label>
+                        <input type="text" class="form-control" id="viewLicenseNumber" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="viewStatus">Status</label>
+                        <input type="text" class="form-control" id="viewStatus" readonly>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
+
 
 <!-- Edit Rider Modal -->
 <div class="modal fade" id="editRiderModal" tabindex="-1" role="dialog" aria-labelledby="editRiderModalLabel" aria-hidden="true">
