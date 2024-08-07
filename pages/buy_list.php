@@ -247,9 +247,9 @@ $riders = readRiders();
 </div>
  
 
-         <!-- View Rider Modal -->
+       <!-- View Rider Modal -->
 <div class="modal fade" id="viewRiderModal" tabindex="-1" role="dialog" aria-labelledby="viewRiderModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="viewRiderModalLabel">View Rider</h5>
@@ -258,60 +258,14 @@ $riders = readRiders();
                 </button>
             </div>
             <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="viewName">Name</label>
-                        <input type="text" class="form-control" id="viewName" name="name" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="viewLastname">Lastname</label>
-                        <input type="text" class="form-control" id="viewLastname" name="lastname" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="viewGender">Gender</label>
-                        <input type="text" class="form-control" id="viewGender" name="gender" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="viewAddress">Address</label>
-                        <input type="text" class="form-control" id="viewAddress" name="address" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="viewContactNumber">Contact Number</label>
-                        <input type="text" class="form-control" id="viewContactNumber" name="contact_number" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="viewEmail">Email</label>
-                        <input type="email" class="form-control" id="viewEmail" name="email" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="viewVehicleType">Vehicle Type</label>
-                        <input type="text" class="form-control" id="viewVehicleType" name="vehicle_type" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="viewLicenseNumber">License Number</label>
-                        <input type="text" class="form-control" id="viewLicenseNumber" name="license_number" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="viewStatus">Status</label>
-                        <input type="text" class="form-control" id="viewStatus" name="status" readonly>
-                    </div>
-                    <!--<div class="form-group">
-                        <label for="viewTotalRides">Total Rides</label>
-                        <input type="number" class="form-control" id="viewTotalRides" name="total_rides" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="viewRating">Rating</label>
-                        <input type="number" class="form-control" id="viewRating" name="rating" step="0.1" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="viewPaymentMethod">Payment Method</label>
-                        <input type="text" class="form-control" id="viewPaymentMethod" name="payment_method" readonly>
-                    </div>-->
-                </form>
+                <div id="viewRiderDetails">
+                    <!-- Display rider details here -->
+                </div>
             </div>
         </div>
     </div>
 </div>
+
 
 <!-- Edit Rider Modal -->
 <div class="modal fade" id="editRiderModal" tabindex="-1" role="dialog" aria-labelledby="editRiderModalLabel" aria-hidden="true">
@@ -324,43 +278,60 @@ $riders = readRiders();
                 </button>
             </div>
             <div class="modal-body">
-                <form id="editRiderForm">
-                    <input type="hidden" id="editRiderId" name="rider_id">
+                <form id="editRiderForm" method="POST">
+                    <input type="hidden" name="action" value="update">
+                    <input type="hidden" name="rider_id" id="edit_rider_id">
                     <div class="form-group">
-                        <label for="editName">Name</label>
-                        <input type="text" class="form-control" id="editName" name="name" required>
+                        <label for="edit_rider_name">Name:</label>
+                        <input type="text" class="form-control" id="edit_rider_name" name="name" required>
                     </div>
                     <div class="form-group">
-                        <label for="editLastname">Last Name</label>
-                        <input type="text" class="form-control" id="editLastname" name="lastname" required>
+                        <label for="edit_rider_lastname">Last Name:</label>
+                        <input type="text" class="form-control" id="edit_rider_lastname" name="lastname" required>
                     </div>
                     <div class="form-group">
-                        <label for="editGender">Gender</label>
-                        <input type="text" class="form-control" id="editGender" name="gender" required>
+                        <label for="edit_rider_gender">Gender:</label>
+                        <select class="form-control" id="edit_rider_gender" name="gender" required>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="editAddress">Address</label>
-                        <input type="text" class="form-control" id="editAddress" name="address" required>
+                        <label for="edit_rider_address">Address:</label>
+                        <input type="text" class="form-control" id="edit_rider_address" name="address" required>
                     </div>
                     <div class="form-group">
-                        <label for="editContactNumber">Contact Number</label>
-                        <input type="text" class="form-control" id="editContactNumber" name="contact_number" required>
+                        <label for="edit_rider_contact_number">Contact Number:</label>
+                        <input type="text" class="form-control" id="edit_rider_contact_number" name="contact_number" required>
                     </div>
                     <div class="form-group">
-                        <label for="editEmail">Email</label>
-                        <input type="email" class="form-control" id="editEmail" name="email" required>
+                        <label for="edit_rider_email">Email:</label>
+                        <input type="email" class="form-control" id="edit_rider_email" name="email" required>
                     </div>
                     <div class="form-group">
-                        <label for="editVehicleType">Vehicle Type</label>
-                        <input type="text" class="form-control" id="editVehicleType" name="vehicle_type" required>
+                        <label for="edit_rider_vehicle_type">Vehicle Type:</label>
+                        <input type="text" class="form-control" id="edit_rider_vehicle_type" name="vehicle_type" required>
                     </div>
                     <div class="form-group">
-                        <label for="editLicenseNumber">License Number</label>
-                        <input type="text" class="form-control" id="editLicenseNumber" name="license_number" required>
+                        <label for="edit_rider_license_number">License Number:</label>
+                        <input type="text" class="form-control" id="edit_rider_license_number" name="license_number" required>
                     </div>
                     <div class="form-group">
-                        <label for="editStatus">Status</label>
-                        <input type="text" class="form-control" id="editStatus" name="status" required>
+                        <label for="edit_rider_status">Status:</label>
+                        <input type="text" class="form-control" id="edit_rider_status" name="status" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_rider_total_rides">Total Rides:</label>
+                        <input type="text" class="form-control" id="edit_rider_total_rides" name="total_rides" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_rider_rating">Rating:</label>
+                        <input type="text" class="form-control" id="edit_rider_rating" name="rating" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_rider_payment_method">Payment Method:</label>
+                        <input type="text" class="form-control" id="edit_rider_payment_method" name="payment_method" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Save Changes</button>
                 </form>
@@ -368,6 +339,7 @@ $riders = readRiders();
         </div>
     </div>
 </div>
+
 
 
 <!-- JavaScript to handle form submissions and modal opening -->
