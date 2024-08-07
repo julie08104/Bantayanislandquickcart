@@ -113,7 +113,7 @@ $riders = readRiders();
         <input class="form-control no-print" id="searchInput" type="text" placeholder="Search.." style="float: right!important;"> 
            </div>
 
-           <div class="class="float-left mb-3"" role="group" style="float:left;">
+           <div class="float-left mb-3" role="group" style="float:left;">
             <button class="btn btn-success" data-toggle="modal" data-target="#addRiderModal">
             <i class="fas fa-plus"></i> Add Rider</button> <br> <br>
             </div>
