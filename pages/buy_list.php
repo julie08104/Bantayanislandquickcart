@@ -7,6 +7,13 @@ function createRider($name, $lastname, $gender, $address, $contact_number, $emai
     $stmt = $pdo->prepare("INSERT INTO riders (name, lastname, gender, address, contact_number, email, vehicle_type, license_number, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
     return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status]);
 }
+// Read Riders
+function readRiders() {
+    global $pdo;
+    $stmt = $pdo->query("SELECT * FROM riders");
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 
 // Update Rider
 function updateRider($id, $name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status) {
