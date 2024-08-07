@@ -246,8 +246,7 @@ $riders = readRiders();
     </div>
 </div>
  
-
-       <!-- View Rider Modal -->
+ <!-- View Rider Modal -->
 <div class="modal fade" id="viewRiderModal" tabindex="-1" role="dialog" aria-labelledby="viewRiderModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -265,6 +264,7 @@ $riders = readRiders();
         </div>
     </div>
 </div>
+
 <!-- Edit Rider Modal -->
 <div class="modal fade" id="editRiderModal" tabindex="-1" role="dialog" aria-labelledby="editRiderModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -554,20 +554,19 @@ $riders = readRiders();
             };
 
                function openViewModal(rider) {
-            $('#viewRiderModal').modal('show');
-            $('#riderDetails').html(
-                `<p><strong>ID:</strong> ${rider.rider_id}</p>
-                <p><strong>Name:</strong> ${rider.name}</p>
-                <p><strong>Last Name:</strong> ${rider.lastname}</p>
-                <p><strong>Gender:</strong> ${rider.gender}</p>
-                <p><strong>Address:</strong> ${rider.address}</p>
-                <p><strong>Contact Number:</strong> ${rider.contact_number}</p>
-                <p><strong>Email:</strong> ${rider.email}</p>
-                <p><strong>Vehicle Type:</strong> ${rider.vehicle_type}</p>
-                <p><strong>License Number:</strong> ${rider.license_number}</p>
-                <p><strong>Status:</strong> ${rider.status}</p>`
-            );
-        }
+        document.getElementById('viewName').value = rider.name;
+        document.getElementById('viewLastname').value = rider.lastname;
+        document.getElementById('viewGender').value = rider.gender;
+        document.getElementById('viewAddress').value = rider.address;
+        document.getElementById('viewContactNumber').value = rider.contact_number;
+        document.getElementById('viewEmail').value = rider.email;
+        document.getElementById('viewVehicleType').value = rider.vehicle_type;
+        document.getElementById('viewLicenseNumber').value = rider.license_number;
+        document.getElementById('viewStatus').value = rider.status;
+        
+        $('#viewRiderModal').modal('show');
+    }
+
 
             // Print Table Function
             window.printTable = function() {
