@@ -580,24 +580,20 @@ fetchRiders();
             });
         };
 
-      // Open edit modal function
-window.openEditModal = function(rider) {
-    console.log("Open Edit Modal: ", rider);
-    // Populate the form fields in the modal with the rider's data
-    $('#editRiderId').val(rider.rider_id);
-    $('#editName').val(rider.name);
-    $('#editLastname').val(rider.lastname);
-    $('#editGender').val(rider.gender);
-    $('#editAddress').val(rider.address);
-    $('#editContactNumber').val(rider.contact_number);
-    $('#editEmail').val(rider.email);
-    $('#editVehicleType').val(rider.vehicle_type);
-    $('#editLicenseNumber').val(rider.license_number);
-    $('#editStatus').val(rider.status);
+function openEditModal(rider) {
+        document.getElementById('edit_rider_id').value = rider.rider_id;
+        document.getElementById('edit_rider_name').value = rider.name;
+        document.getElementById('edit_rider_lastname').value = rider.lastname;
+        document.getElementById('edit_rider_gender').value = rider.gender;
+        document.getElementById('edit_rider_address').value = rider.address;
+        document.getElementById('edit_rider_contact_number').value = rider.contact_number;
+        document.getElementById('edit_rider_email').value = rider.email;
+        document.getElementById('edit_rider_vehicle_type').value = rider.vehicle_type;
+        document.getElementById('edit_rider_license_number').value = rider.license_number;
+        document.getElementById('edit_rider_status').value = rider.status;
 
-    // Show the modal
-    $('#editRiderModal').modal('show');
-};
+        $('#editRiderModal').modal('show');
+    }
 
        function openViewModal(rider) {
         var details = `
