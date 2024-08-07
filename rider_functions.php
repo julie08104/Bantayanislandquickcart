@@ -1,6 +1,11 @@
 <?php
 require_once 'app/init.php'; // Include your database connection file
 
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 // Function to add a column if it does not exist
 function addColumnIfNotExists($pdo, $table, $column, $columnDefinition) {
     $stmt = $pdo->prepare("SHOW COLUMNS FROM `$table` LIKE ?");
@@ -45,10 +50,10 @@ function updateRider($rider_id, $name, $lastname, $gender, $address, $contact_nu
             email = ?, 
             vehicle_type = ?, 
             license_number = ?, 
-            status = ?, 
+            status = ?
         WHERE rider_id = ?
     ");
-    return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status]);
+    return $stmt->execute([$name, $lastname, $gender, $address, $contact_number, $email, $vehicle_type, $license_number, $status, $rider_id]);
 }
 
 // Delete Rider
@@ -77,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_POST['email'],
                     $_POST['vehicle_type'],
                     $_POST['license_number'],
-                    $_POST['status'],
+                    $_POST['status']
                 );
                 $response['success'] = $success;
                 $response['message'] = $success ? 'Rider added successfully!' : 'Failed to add rider.';
@@ -93,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_POST['email'],
                     $_POST['vehicle_type'],
                     $_POST['license_number'],
-                    $_POST['status'],
+                    $_POST['status']
                 );
                 $response['success'] = $success;
                 $response['message'] = $success ? 'Rider updated successfully!' : 'Failed to update rider.';
