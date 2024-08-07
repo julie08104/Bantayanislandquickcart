@@ -247,7 +247,7 @@ $riders = readRiders();
 </div>
  
 
-        <!-- View Rider Modal -->
+       <!-- View Rider Modal -->
 <div class="modal fade" id="viewRiderModal" tabindex="-1" role="dialog" aria-labelledby="viewRiderModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -265,8 +265,6 @@ $riders = readRiders();
         </div>
     </div>
 </div>
-
-
 <!-- Edit Rider Modal -->
 <div class="modal fade" id="editRiderModal" tabindex="-1" role="dialog" aria-labelledby="editRiderModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
