@@ -153,6 +153,9 @@ $riders = readRiders();
             <td><?= htmlentities($rider['license_number']) ?></td>
             <td><?= htmlentities($rider['status']) ?></td>
             <td>
+                <button class="btn btn-info btn-sm" onclick='openViewModal(${JSON.stringify(rider)})'>
+    <i class="fas fa-eye"></i> View
+</button>            
                 <button class="btn btn-warning btn-sm" onclick="openEditModal(<?= htmlentities(json_encode($rider)) ?>)">
                     <i class="fas fa-edit"></i> Edit
                 </button>
@@ -244,6 +247,36 @@ $riders = readRiders();
     </div>
 </div>
 
+   <!-- View Rider Modal -->
+<div class="modal fade" id="viewRiderModal" tabindex="-1" role="dialog" aria-labelledby="viewRiderModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewRiderModalLabel">View Rider</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Name:</strong> <span id="view_rider_name"></span></p>
+                <p><strong>Last Name:</strong> <span id="view_rider_lastname"></span></p>
+                <p><strong>Gender:</strong> <span id="view_rider_gender"></span></p>
+                <p><strong>Address:</strong> <span id="view_rider_address"></span></p>
+                <p><strong>Contact Number:</strong> <span id="view_rider_contact_number"></span></p>
+                <p><strong>Email:</strong> <span id="view_rider_email"></span></p>
+                <p><strong>Vehicle Type:</strong> <span id="view_rider_vehicle_type"></span></p>
+                <p><strong>License Number:</strong> <span id="view_rider_license_number"></span></p>
+                <p><strong>Status:</strong> <span id="view_rider_status"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    
 <!-- Edit Rider Modal -->
 <div class="modal fade" id="editRiderModal" tabindex="-1" role="dialog" aria-labelledby="editRiderModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -531,6 +564,22 @@ $riders = readRiders();
 
                 $('#editRiderModal').modal('show');
             };
+
+            // Open View Modal
+window.openViewModal = function(rider) {
+    document.getElementById('view_rider_name').textContent = rider.name;
+    document.getElementById('view_rider_lastname').textContent = rider.lastname;
+    document.getElementById('view_rider_gender').textContent = rider.gender;
+    document.getElementById('view_rider_address').textContent = rider.address;
+    document.getElementById('view_rider_contact_number').textContent = rider.contact_number;
+    document.getElementById('view_rider_email').textContent = rider.email;
+    document.getElementById('view_rider_vehicle_type').textContent = rider.vehicle_type;
+    document.getElementById('view_rider_license_number').textContent = rider.license_number;
+    document.getElementById('view_rider_status').textContent = rider.status;
+
+    $('#viewRiderModal').modal('show');
+};
+
 
               
             // Print Table Function
