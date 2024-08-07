@@ -295,7 +295,7 @@ $riders = readRiders();
                         <label for="viewStatus">Status</label>
                         <input type="text" class="form-control" id="viewStatus" name="status" readonly>
                     </div>
-                    <div class="form-group">
+                    <!-<div class="form-group">
                         <label for="viewTotalRides">Total Rides</label>
                         <input type="number" class="form-control" id="viewTotalRides" name="total_rides" readonly>
                     </div>
@@ -306,7 +306,7 @@ $riders = readRiders();
                     <div class="form-group">
                         <label for="viewPaymentMethod">Payment Method</label>
                         <input type="text" class="form-control" id="viewPaymentMethod" name="payment_method" readonly>
-                    </div>
+                    </div>-->
                 </form>
             </div>
         </div>
@@ -368,7 +368,7 @@ $riders = readRiders();
                         <label for="edit_rider_status">Status:</label>
                         <input type="text" class="form-control" id="edit_rider_status" name="status" required>
                     </div>
-                    <div class="form-group">
+                   <!-- <div class="form-group">
                         <label for="edit_rider_total_rides">Total Rides:</label>
                         <input type="text" class="form-control" id="edit_rider_total_rides" name="total_rides" required>
                     </div>
@@ -379,7 +379,7 @@ $riders = readRiders();
                     <div class="form-group">
                         <label for="edit_rider_payment_method">Payment Method:</label>
                         <input type="text" class="form-control" id="edit_rider_payment_method" name="payment_method" required>
-                    </div>
+                    </div>-->
                     <button type="submit" class="btn btn-primary">Save Changes</button>
                 </form>
             </div>
