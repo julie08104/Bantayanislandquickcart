@@ -243,61 +243,6 @@ $riders = readRiders();
         </div>
     </div>
 </div>
- 
-<!-- View Rider Modal -->
-<div class="modal fade" id="viewRiderModal" tabindex="-1" role="dialog" aria-labelledby="viewRiderModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="viewRiderModalLabel">View Rider</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="viewRiderForm">
-                    <div class="form-group">
-                        <label for="viewName">Name</label>
-                        <input type="text" class="form-control" id="viewName" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="viewLastname">Lastname</label>
-                        <input type="text" class="form-control" id="viewLastname" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="viewGender">Gender</label>
-                        <input type="text" class="form-control" id="viewGender" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="viewAddress">Address</label>
-                        <input type="text" class="form-control" id="viewAddress" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="viewContactNumber">Contact Number</label>
-                        <input type="text" class="form-control" id="viewContactNumber" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="viewEmail">Email</label>
-                        <input type="email" class="form-control" id="viewEmail" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="viewVehicleType">Vehicle Type</label>
-                        <input type="text" class="form-control" id="viewVehicleType" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="viewLicenseNumber">License Number</label>
-                        <input type="text" class="form-control" id="viewLicenseNumber" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="viewStatus">Status</label>
-                        <input type="text" class="form-control" id="viewStatus" readonly>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 <!-- Edit Rider Modal -->
 <div class="modal fade" id="editRiderModal" tabindex="-1" role="dialog" aria-labelledby="editRiderModalLabel" aria-hidden="true">
@@ -587,21 +532,7 @@ $riders = readRiders();
                 $('#editRiderModal').modal('show');
             };
 
-               function openViewModal(rider) {
-        document.getElementById('viewName').value = rider.name;
-        document.getElementById('viewLastname').value = rider.lastname;
-        document.getElementById('viewGender').value = rider.gender;
-        document.getElementById('viewAddress').value = rider.address;
-        document.getElementById('viewContactNumber').value = rider.contact_number;
-        document.getElementById('viewEmail').value = rider.email;
-        document.getElementById('viewVehicleType').value = rider.vehicle_type;
-        document.getElementById('viewLicenseNumber').value = rider.license_number;
-        document.getElementById('viewStatus').value = rider.status;
-        
-        $('#viewRiderModal').modal('show');
-    }
-
-
+              
             // Print Table Function
             window.printTable = function() {
                 var actionsColumn = document.querySelectorAll('#riderTable th:last-child, #riderTable td:last-child');
