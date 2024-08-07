@@ -376,292 +376,280 @@ $riders = readRiders();
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
    <script>
-    $(document).ready(function() {
-       // Add rider form submission
-$('#addRiderForm').on('submit', function(e) {
-    e.preventDefault();
-    console.log("Add Rider Form Submitted");
-    $.ajax({
-        type: 'POST',
-        url: 'rider_functions.php',
-        data: $(this).serialize() + '&action=create', // Make sure 'action' is correctly appended
-        dataType: 'json',
-        success: function(response) {
-            console.log("Add Rider Response: ", response);
-            if (response.success) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: response.message || 'Rider added successfully!',
-                    confirmButtonText: 'OK'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        location.reload();
-                    }
-                });
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: response.message || 'Error adding rider.',
-                    confirmButtonText: 'OK'
-                });
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error("Add Rider Error: ", xhr.responseText);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'An error occurred while adding the rider.',
-                confirmButtonText: 'OK'
-            });
-        }
-    });
-});
-
-        // Edit rider form submission
-        $('#editRiderForm').on('submit', function(e) {
-            e.preventDefault();
-            console.log("Edit Rider Form Submitted");
-            $.ajax({
-                type: 'POST',
-                url: 'rider_functions.php',
-                data: $(this).serialize() + '&action=update',
-                dataType: 'json',
-                success: function(response) {
-                    console.log("Edit Rider Response: ", response);
-                    if (response.success) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: 'Rider updated successfully!',
-                            confirmButtonText: 'OK'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                location.reload();
-                            }
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'Error updating rider.',
-                            confirmButtonText: 'OK'
-                        });
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error("Edit Rider Error: ", xhr.responseText);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'An error occurred.',
-                        confirmButtonText: 'OK'
-                    });
-                }
-            });
-        });
-
- // Fetch riders function
-function fetchRiders() {
-    console.log("Fetching Riders");
-    $.ajax({
-        type: 'GET',
-        url: 'rider_functions.php',
-        dataType: 'json',
-        success: function(data) {
-            console.log("Fetch Riders Response: ", data);
-            if (data.success) {
-                $('#riderTableBody').empty(); // Clear the existing table rows
-                data.riders.forEach(function(rider) {
-                    $('#riderTableBody').append(
-                        `<tr>
-                            <td>${rider.rider_id}</td>
-                            <td>${rider.name}</td>
-                            <td>${rider.lastname}</td>
-                            <td>${rider.gender}</td>
-                            <td>${rider.address}</td>
-                            <td>${rider.contact_number}</td>
-                            <td>${rider.email}</td>
-                            <td>${rider.vehicle_type}</td>
-                            <td>${rider.license_number}</td>
-                            <td>${rider.status}</td>
-                            <td>
-                                <button class="btn btn-info btn-sm" onclick='openEditModal(${JSON.stringify(rider)})'>
-                                    <i class="fas fa-eye"></i> View
-                                </button>
-                                <button class="btn btn-warning btn-sm" onclick='openEditModal(${JSON.stringify(rider)})'>
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                                <button class="btn btn-danger btn-sm" onclick='deleteRider(${rider.rider_id})'>
-                                    <i class="fas fa-trash"></i> Delete
-                                </button>
-                            </td>
-                        </tr>`
-                    );
-                });
-            } else {
-                console.error("Fetch Riders Error: ", data.message);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: data.message || 'Error fetching riders.',
-                    confirmButtonText: 'OK'
-                });
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error("Fetch Riders Error: ", xhr.responseText);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'An error occurred while fetching riders.',
-                confirmButtonText: 'OK'
-            });
-        }
-    });
-}
-
-// Call fetchRiders on page load
-fetchRiders();
-
-        // Delete rider function
-        window.deleteRider = function(rider_id) {
-            console.log("Delete Rider ID: ", rider_id);
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        type: 'POST',
-                        url: 'rider_functions.php',
-                        data: { action: 'delete', rider_id: rider_id },
-                        dataType: 'json',
-                        success: function(response) {
-                            console.log("Delete Rider Response: ", response);
-                            if (response.success) {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Deleted!',
-                                    text: 'Rider has been deleted.',
-                                    confirmButtonText: 'OK'
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        location.reload();
-                                    }
-                                });
-                            } else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Error',
-                                    text: 'Error deleting rider.',
-                                    confirmButtonText: 'OK'
-                                });
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            console.error("Delete Rider Error: ", xhr.responseText);
+        $(document).ready(function() {
+            // Add rider form submission
+            $('#addRiderForm').on('submit', function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: 'rider_functions.php',
+                    data: $(this).serialize() + '&action=create',
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: response.message || 'Rider added successfully!',
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.reload();
+                                }
+                            });
+                        } else {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Error',
-                                text: 'An error occurred.',
+                                text: response.message || 'Error adding rider.',
                                 confirmButtonText: 'OK'
                             });
                         }
-                    });
+                    },
+                    error: function(xhr) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'An error occurred while adding the rider.',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            });
+
+            // Edit rider form submission
+            $('#editRiderForm').on('submit', function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: 'rider_functions.php',
+                    data: $(this).serialize() + '&action=update',
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: 'Rider updated successfully!',
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.reload();
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Error updating rider.',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    },
+                    error: function(xhr) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'An error occurred.',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            });
+
+            // Fetch riders function
+            function fetchRiders() {
+                $.ajax({
+                    type: 'GET',
+                    url: 'rider_functions.php',
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.success) {
+                            $('#riderTableBody').empty();
+                            data.riders.forEach(function(rider) {
+                                $('#riderTableBody').append(
+                                    `<tr>
+                                        <td>${rider.rider_id}</td>
+                                        <td>${rider.name}</td>
+                                        <td>${rider.lastname}</td>
+                                        <td>${rider.gender}</td>
+                                        <td>${rider.address}</td>
+                                        <td>${rider.contact_number}</td>
+                                        <td>${rider.email}</td>
+                                        <td>${rider.vehicle_type}</td>
+                                        <td>${rider.license_number}</td>
+                                        <td>${rider.status}</td>
+                                        <td>
+                                            <button class="btn btn-info btn-sm" onclick='openViewModal(${JSON.stringify(rider)})'>
+                                                <i class="fas fa-eye"></i> View
+                                            </button>
+                                            <button class="btn btn-warning btn-sm" onclick='openEditModal(${JSON.stringify(rider)})'>
+                                                <i class="fas fa-edit"></i> Edit
+                                            </button>
+                                            <button class="btn btn-danger btn-sm" onclick='deleteRider(${rider.rider_id})'>
+                                                <i class="fas fa-trash"></i> Delete
+                                            </button>
+                                        </td>
+                                    </tr>`
+                                );
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: data.message || 'Error fetching riders.',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    },
+                    error: function(xhr) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'An error occurred while fetching riders.',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            }
+
+            // Call fetchRiders on page load
+            fetchRiders();
+
+            // Delete rider function
+            window.deleteRider = function(rider_id) {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: 'POST',
+                            url: 'rider_functions.php',
+                            data: { action: 'delete', rider_id: rider_id },
+                            dataType: 'json',
+                            success: function(response) {
+                                if (response.success) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Deleted!',
+                                        text: 'Rider has been deleted.',
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            location.reload();
+                                        }
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error',
+                                        text: 'Error deleting rider.',
+                                        confirmButtonText: 'OK'
+                                    });
+                                }
+                            },
+                            error: function(xhr) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: 'An error occurred.',
+                                    confirmButtonText: 'OK'
+                                });
+                            }
+                        });
+                    }
+                });
+            };
+
+            // Open Edit Modal
+            window.openEditModal = function(rider) {
+                document.getElementById('edit_rider_id').value = rider.rider_id;
+                document.getElementById('edit_rider_name').value = rider.name;
+                document.getElementById('edit_rider_lastname').value = rider.lastname;
+                document.getElementById('edit_rider_gender').value = rider.gender;
+                document.getElementById('edit_rider_address').value = rider.address;
+                document.getElementById('edit_rider_contact_number').value = rider.contact_number;
+                document.getElementById('edit_rider_email').value = rider.email;
+                document.getElementById('edit_rider_vehicle_type').value = rider.vehicle_type;
+                document.getElementById('edit_rider_license_number').value = rider.license_number;
+                document.getElementById('edit_rider_status').value = rider.status;
+
+                $('#editRiderModal').modal('show');
+            };
+
+            // Open View Modal
+            window.openViewModal = function(rider) {
+                var details = `
+                    <p><strong>Name:</strong> ${rider.name}</p>
+                    <p><strong>Last Name:</strong> ${rider.lastname}</p>
+                    <p><strong>Gender:</strong> ${rider.gender}</p>
+                    <p><strong>Address:</strong> ${rider.address}</p>
+                    <p><strong>Contact Number:</strong> ${rider.contact_number}</p>
+                    <p><strong>Email:</strong> ${rider.email}</p>
+                    <p><strong>Vehicle Type:</strong> ${rider.vehicle_type}</p>
+                    <p><strong>License Number:</strong> ${rider.license_number}</p>
+                    <p><strong>Status:</strong> ${rider.status}</p>
+                `;
+                document.getElementById('viewRiderDetails').innerHTML = details;
+                $('#viewRiderModal').modal('show');
+            };
+
+            // Print Table Function
+            window.printTable = function() {
+                var actionsColumn = document.querySelectorAll('#riderTable th:last-child, #riderTable td:last-child');
+                actionsColumn.forEach(function(cell) {
+                    cell.style.display = 'none';
+                });
+                document.getElementById('printButton').style.display = 'none';
+                var dataTablePagination = document.querySelector('.dataTables_paginate');
+                if (dataTablePagination) {
+                    dataTablePagination.style.display = 'none';
                 }
-            });
-        };
+                var dataTableLengthSelector = document.querySelector('.dataTables_length');
+                if (dataTableLengthSelector) {
+                    dataTableLengthSelector.style.display = 'none';
+                }
+                var divToPrint = document.getElementById("riderTable").cloneNode(true);
+                var newWin = window.open("");
+                newWin.document.write('<html><head><title>Print Rider List</title>');
+                newWin.document.write('<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">');
+                newWin.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">');
+                newWin.document.write('<style>');
+                newWin.document.write('.header { display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }');
+                newWin.document.write('.header img { margin-right: 25px; }');
+                newWin.document.write('</style>');
+                newWin.document.write('</head><body>');
+                newWin.document.write('<div class="header"><img src="dist/img/images1.png" alt="Logo" width="90" height="90"><h1>Rider List</h1></div>');
+                newWin.document.write(divToPrint.outerHTML);
+                newWin.document.write('</body></html>');
+                newWin.document.close();
+                newWin.print();
+                actionsColumn.forEach(function(cell) {
+                    cell.style.display = '';
+                });
+                document.getElementById('printButton').style.display = 'inline-block';
+                if (dataTablePagination) {
+                    dataTablePagination.style.display = 'block';
+                }
+                if (dataTableLengthSelector) {
+                    dataTableLengthSelector.style.display = 'block';
+                }
+            };
 
-function openEditModal(rider) {
-        document.getElementById('edit_rider_id').value = rider.rider_id;
-        document.getElementById('edit_rider_name').value = rider.name;
-        document.getElementById('edit_rider_lastname').value = rider.lastname;
-        document.getElementById('edit_rider_gender').value = rider.gender;
-        document.getElementById('edit_rider_address').value = rider.address;
-        document.getElementById('edit_rider_contact_number').value = rider.contact_number;
-        document.getElementById('edit_rider_email').value = rider.email;
-        document.getElementById('edit_rider_vehicle_type').value = rider.vehicle_type;
-        document.getElementById('edit_rider_license_number').value = rider.license_number;
-        document.getElementById('edit_rider_status').value = rider.status;
-
-        $('#editRiderModal').modal('show');
-    }
-
-       function openViewModal(rider) {
-        var details = `
-            <p><strong>Name:</strong> ${rider.name}</p>
-            <p><strong>Last Name:</strong> ${rider.lastname}</p>
-            <p><strong>Gender:</strong> ${rider.gender}</p>
-            <p><strong>Address:</strong> ${rider.address}</p>
-            <p><strong>Contact Number:</strong> ${rider.contact_number}</p>
-            <p><strong>Email:</strong> ${rider.email}</p>
-            <p><strong>Vehicle Type:</strong> ${rider.vehicle_type}</p>
-            <p><strong>License Number:</strong> ${rider.license_number}</p>
-            <p><strong>Status:</strong> ${rider.status}</p>
-        `;
-        document.getElementById('viewRiderDetails').innerHTML = details;
-        $('#viewRiderModal').modal('show');
-    }
-        // Print table function
-        window.printTable = function() {
-            console.log("Print Table");
-            var actionsColumn = document.querySelectorAll('#riderTable th:last-child, #riderTable td:last-child');
-            actionsColumn.forEach(function(cell) {
-                cell.style.display = 'none';
-            });
-            document.getElementById('printButton').style.display = 'none';
-            var dataTablePagination = document.querySelector('.dataTables_paginate');
-            if (dataTablePagination) {
-                dataTablePagination.style.display = 'none';
-            }
-            var dataTableLengthSelector = document.querySelector('.dataTables_length');
-            if (dataTableLengthSelector) {
-                dataTableLengthSelector.style.display = 'none';
-            }
-            var divToPrint = document.getElementById("riderTable").cloneNode(true);
-            var newWin = window.open("");
-            newWin.document.write('<html><head><title>Print Rider List</title>');
-            newWin.document.write('<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">');
-            newWin.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">');
-            newWin.document.write('<style>');
-            newWin.document.write('.header { display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }');
-            newWin.document.write('.header img { margin-right: 25px; }');
-            newWin.document.write('</style>');
-            newWin.document.write('</head><body>');
-            newWin.document.write('<div class="header"><img src="dist/img/images1.png" alt="Logo" width="90" height="90"><h1>Rider List</h1></div>');
-            newWin.document.write(divToPrint.outerHTML);
-            newWin.document.write('</body></html>');
-            newWin.document.close();
-            newWin.print();
-            actionsColumn.forEach(function(cell) {
-                cell.style.display = '';
-            });
-            document.getElementById('printButton').style.display = 'inline-block';
-            if (dataTablePagination) {
-                dataTablePagination.style.display = 'block';
-            }
-            if (dataTableLengthSelector) {
-                dataTableLengthSelector.style.display = 'block';
-            }
-        };
-
-        // Search functionality
-        document.getElementById('searchInput').addEventListener('keyup', function() {
-            var value = this.value.toLowerCase();
-            document.querySelectorAll('table tbody tr').forEach(function(row) {
-                row.style.display = row.innerText.toLowerCase().includes(value) ? '' : 'none';
+            // Search Functionality
+            document.getElementById('searchInput').addEventListener('keyup', function() {
+                var value = this.value.toLowerCase();
+                document.querySelectorAll('table tbody tr').forEach(function(row) {
+                    row.style.display = row.innerText.toLowerCase().includes(value) ? '' : 'none';
+                });
             });
         });
-    });
-</script>
-
+    </script>
 </body>
 </html>
