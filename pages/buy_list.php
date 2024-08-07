@@ -555,22 +555,24 @@ $riders = readRiders();
                 $('#editRiderModal').modal('show');
             };
 
-            // Open View Modal
-            window.openViewModal = function(rider) {
-                var details = `
-                    <p><strong>Name:</strong> ${rider.name}</p>
-                    <p><strong>Last Name:</strong> ${rider.lastname}</p>
-                    <p><strong>Gender:</strong> ${rider.gender}</p>
-                    <p><strong>Address:</strong> ${rider.address}</p>
-                    <p><strong>Contact Number:</strong> ${rider.contact_number}</p>
-                    <p><strong>Email:</strong> ${rider.email}</p>
-                    <p><strong>Vehicle Type:</strong> ${rider.vehicle_type}</p>
-                    <p><strong>License Number:</strong> ${rider.license_number}</p>
-                    <p><strong>Status:</strong> ${rider.status}</p>
-                `;
-                document.getElementById('viewRiderDetails').innerHTML = details;
-                $('#viewRiderModal').modal('show');
-            };
+           function openViewModal(rider) {
+        var details = `
+            <p><strong>Name:</strong> ${rider.name}</p>
+            <p><strong>Last Name:</strong> ${rider.lastname}</p>
+            <p><strong>Gender:</strong> ${rider.gender}</p>
+            <p><strong>Address:</strong> ${rider.address}</p>
+            <p><strong>Contact Number:</strong> ${rider.contact_number}</p>
+            <p><strong>Email:</strong> ${rider.email}</p>
+            <p><strong>Vehicle Type:</strong> ${rider.vehicle_type}</p>
+            <p><strong>License Number:</strong> ${rider.license_number}</p>
+            <p><strong>Status:</strong> ${rider.status}</p>
+            <p><strong>Total Rides:</strong> ${rider.total_rides}</p>
+            <p><strong>Rating:</strong> ${rider.rating}</p>
+            <p><strong>Payment Method:</strong> ${rider.payment_method}</p>
+        `;
+        document.getElementById('viewRiderDetails').innerHTML = details;
+        $('#viewRiderModal').modal('show');
+    }
 
             // Print Table Function
             window.printTable = function() {
