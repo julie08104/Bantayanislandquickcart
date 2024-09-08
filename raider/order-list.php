@@ -12,13 +12,17 @@
             o.created_at,
             r.id AS raider_id,
             CONCAT(r.firstname, " ", r.lastname) AS raider_fullname,
-            r.phone,
+            r.phone AS raider_phone,
             r.vehicle_type,
             r.vehicle_number,
             rev.id AS review_id,
             rev.rating AS review_rating,
             rev.comment AS review_comment,
-            rev.created_at AS review_created_at
+            rev.created_at AS review_created_at,
+            c.id AS customer_id,
+            CONCAT(c.firstname, " ", c.lastname) AS customer_fullname,
+            c.phone AS customer_phone,
+            c.address AS customer_address
         FROM
             orders o
         LEFT JOIN
@@ -27,6 +31,8 @@
             raiders r ON a.raider_id = r.id
         LEFT JOIN
             reviews rev ON o.id = rev.order_id
+        LEFT JOIN
+            customers c ON o.customer_id = c.id
         WHERE
             a.raider_id = ?
         ORDER BY
@@ -39,10 +45,11 @@
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $order_id = $_POST['order_id'];
-        $stmt = $pdo->prepare('UPDATE orders SET status = "completed" WHERE id = ?');
-        $stmt->execute([$order_id]);
+        $status = $_POST['status'];
+        $stmt = $pdo->prepare('UPDATE orders SET status = ? WHERE id = ?');
+        $stmt->execute([$status, $order_id]);
 
-        $_SESSION['message'] = ['type' => 'success', 'text' => 'Order completed successfully!'];
+        $_SESSION['message'] = ['type' => 'success', 'text' => 'Order status is '.$status];
         header("Location: order-list.php");
         exit();
     }
@@ -68,14 +75,33 @@
                        </div>
                         <span class="text-xs bg-gray-100 rounded text-center uppercase py-1 px-4"><?php echo htmlspecialchars($order['status']); ?></span>
                     </div>
+                    <?php if ($order['customer_id']): ?>
+                        <div>
+                            <p class="text-sm text-gray-500 mb-1">Customer: </p>
+                            <div class="bg-gray-100 p-2 rounded">
+                                <p class="text-sm"><?php echo $order['customer_fullname'] ?></p>
+                                <p class="text-sm"><?php echo $order['customer_address'] ?></p>
+                                <p class="text-sm"><?php echo $order['customer_phone'] ?></p>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                     <div>
                         <p class="text-sm text-gray-500 mb-1">Instruction: </p>
                         <p class="bg-gray-100 p-2 rounded"><?php echo nl2br(htmlspecialchars($order['instruction'])); ?></p>
                     </div>
 
-                    <?php if($order['status'] != 'completed'): ?>
+                    <?php if($order['status'] == 'assigned'): ?>
                         <form method="post">
                             <input type="hidden" name="order_id" value="<?php echo $order['order_id']; ?>">
+                            <input type="hidden" name="status" value="in_progress">
+                            <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none">In Progress</button>
+                        </form>
+                    <?php endif; ?>
+
+                    <?php if($order['status'] == 'in_progress'): ?>
+                        <form method="post">
+                            <input type="hidden" name="order_id" value="<?php echo $order['order_id']; ?>">
+                            <input type="hidden" name="status" value="completed">
                             <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none">Complete Order</button>
                         </form>
                     <?php endif; ?>

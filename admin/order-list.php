@@ -10,13 +10,17 @@
             o.created_at,
             r.id AS raider_id,
             CONCAT(r.firstname, " ", r.lastname) AS raider_fullname,
-            r.phone,
+            r.phone AS raider_phone,
             r.vehicle_type,
             r.vehicle_number,
             rev.id AS review_id,
             rev.rating AS review_rating,
             rev.comment AS review_comment,
-            rev.created_at AS review_created_at
+            rev.created_at AS review_created_at,
+            c.id AS customer_id,
+            CONCAT(c.firstname, " ", c.lastname) AS customer_fullname,
+            c.phone AS customer_phone,
+            c.address AS customer_address
         FROM
             orders o
         LEFT JOIN
@@ -25,6 +29,8 @@
             raiders r ON a.raider_id = r.id
         LEFT JOIN
             reviews rev ON o.id = rev.order_id
+        LEFT JOIN
+            customers c ON o.customer_id = c.id
         ORDER BY
             o.created_at DESC
     ';
@@ -90,6 +96,16 @@
                        </div>
                         <span class="text-xs bg-gray-100 rounded text-center uppercase py-1 px-4"><?php echo htmlspecialchars($order['status']); ?></span>
                     </div>
+                    <?php if ($order['customer_id']): ?>
+                        <div>
+                            <p class="text-sm text-gray-500 mb-1">Customer: </p>
+                            <div class="bg-gray-100 p-2 rounded">
+                                <p class="text-sm"><?php echo $order['customer_fullname'] ?></p>
+                                <p class="text-sm"><?php echo $order['customer_address'] ?></p>
+                                <p class="text-sm"><?php echo $order['customer_phone'] ?></p>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                     <div>
                         <p class="text-sm text-gray-500 mb-1">Instruction: </p>
                         <p class="bg-gray-100 p-2 rounded"><?php echo nl2br(htmlspecialchars($order['instruction'])); ?></p>
@@ -118,7 +134,7 @@
                                 <p class="text-sm text-gray-500 mb-1">Assign Raider: </p>
                                 <div class="bg-gray-100 p-2 rounded">
                                         <p class="text-sm"><?php echo $order['raider_fullname'] ?></p>
-                                        <p class="text-sm"><?php echo $order['phone'] ?></p>
+                                        <p class="text-sm"><?php echo $order['raider_phone'] ?></p>
                                 </div>
                             </div>
                         <?php endif; ?>

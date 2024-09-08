@@ -67,17 +67,17 @@
                         <p class="bg-gray-100 p-2 rounded"><?php echo nl2br(htmlspecialchars($order['instruction'])); ?></p>
                     </div>
 
-                    <?php if($order['status'] != 'pending'): ?>
-                        <?php if ($order['raider_id']): ?>
-                            <div>
-                                <p class="text-sm text-gray-500 mb-1">Assign Raider: </p>
-                                <div class="bg-gray-100 p-2 rounded">
-                                        <p class="text-sm"><?php echo $order['raider_fullname'] ?></p>
-                                        <p class="text-sm"><?php echo $order['phone'] ?></p>
-                                </div>
+                    <?php if ($order['status'] == 'assigned' && $order['raider_id']): ?>
+                        <div>
+                            <p class="text-sm text-gray-500 mb-1">Assign Raider: </p>
+                            <div class="bg-gray-100 p-2 rounded">
+                                    <p class="text-sm"><?php echo $order['raider_fullname'] ?></p>
+                                    <p class="text-sm"><?php echo $order['phone'] ?></p>
                             </div>
-                        <?php endif; ?>
+                        </div>
+                    <?php endif; ?>
 
+                    <?php if ($order['status'] == 'completed'): ?>
                         <?php if ($order['review_id']): ?>
                             <div>
                                 <p class="text-sm text-gray-500 mb-1">Review: </p>
