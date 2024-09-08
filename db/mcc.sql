@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 08, 2024 at 05:47 AM
+-- Generation Time: Sep 08, 2024 at 10:45 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,26 @@ SET time_zone = "+00:00";
 --
 -- Database: `mcc`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `assignments`
+--
+
+CREATE TABLE `assignments` (
+  `id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `raider_id` int(11) NOT NULL,
+  `assigned_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `assignments`
+--
+
+INSERT INTO `assignments` (`id`, `order_id`, `raider_id`, `assigned_at`) VALUES
+(10, 1, 5, '2024-09-08 15:10:22');
 
 -- --------------------------------------------------------
 
@@ -52,6 +72,29 @@ INSERT INTO `customers` (`id`, `firstname`, `lastname`, `phone`, `address`, `ema
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `status` enum('pending','assigned','in_progress','completed','cancelled') NOT NULL DEFAULT 'pending',
+  `instruction` text NOT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `customer_id`, `status`, `instruction`, `created_at`, `updated_at`) VALUES
+(1, 2, 'completed', '1 dark caramel coffee', '2024-09-08 14:15:11', '2024-09-08 15:35:26'),
+(2, 2, 'pending', '1 pizza in albertos', '2024-09-08 15:27:56', NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `raiders`
 --
 
@@ -76,7 +119,30 @@ CREATE TABLE `raiders` (
 --
 
 INSERT INTO `raiders` (`id`, `firstname`, `lastname`, `phone`, `address`, `vehicle_type`, `vehicle_number`, `email`, `password_hash`, `is_verified`, `verification_code`, `forgot_password_code`, `created_at`) VALUES
-(4, 'test', 'test', '09123456789', 'Madridejos Cebu', 'Motor', 'Motor1', 'test@gmail.com', '$2y$10$Udmtw6hiYM.b92QuF4Yg8.09B5FkkxJYvMr7YtV6WMPpcOhRZgUS.', 0, 'e28a3f0be5c80429a4a5230d7eee0a1a', '', '2024-09-06 13:37:19');
+(4, 'test', 'test', '09123456789', 'Madridejos Cebu', 'Motor', 'Motor1', 'test@gmail.com', '$2y$10$Udmtw6hiYM.b92QuF4Yg8.09B5FkkxJYvMr7YtV6WMPpcOhRZgUS.', 0, 'e28a3f0be5c80429a4a5230d7eee0a1a', '', '2024-09-06 13:37:19'),
+(5, 'john', 'doe', '09123456789', 'Madridejos Cebu', 'Motor', 'Motor12', 'raider2@gmail.com', '$2y$10$Dpuk/Bj0tE3P3R41biTgV.GMF95DTGJVZzKYRJW7oIKR3c1gflCTC', 1, '', '', '2024-09-08 07:09:48');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `reviews`
+--
+
+CREATE TABLE `reviews` (
+  `id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `rating` int(11) NOT NULL CHECK (`rating` between 1 and 5),
+  `comment` text DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `reviews`
+--
+
+INSERT INTO `reviews` (`id`, `order_id`, `customer_id`, `rating`, `comment`, `created_at`) VALUES
+(1, 1, 2, 4, 'delivered on time', '2024-09-08 16:08:41');
 
 -- --------------------------------------------------------
 
@@ -109,6 +175,14 @@ INSERT INTO `users` (`id`, `name`, `email`, `password_hash`, `is_verified`, `ver
 --
 
 --
+-- Indexes for table `assignments`
+--
+ALTER TABLE `assignments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `order_id` (`order_id`),
+  ADD KEY `raider_id` (`raider_id`);
+
+--
 -- Indexes for table `customers`
 --
 ALTER TABLE `customers`
@@ -116,11 +190,26 @@ ALTER TABLE `customers`
   ADD UNIQUE KEY `email` (`email`);
 
 --
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `customer_id` (`customer_id`);
+
+--
 -- Indexes for table `raiders`
 --
 ALTER TABLE `raiders`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`);
+
+--
+-- Indexes for table `reviews`
+--
+ALTER TABLE `reviews`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `order_id` (`order_id`),
+  ADD KEY `customer_id` (`customer_id`);
 
 --
 -- Indexes for table `users`
@@ -134,22 +223,64 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `assignments`
+--
+ALTER TABLE `assignments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `raiders`
 --
 ALTER TABLE `raiders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `reviews`
+--
+ALTER TABLE `reviews`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `assignments`
+--
+ALTER TABLE `assignments`
+  ADD CONSTRAINT `assignments_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `assignments_ibfk_2` FOREIGN KEY (`raider_id`) REFERENCES `raiders` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `orders`
+--
+ALTER TABLE `orders`
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `reviews`
+--
+ALTER TABLE `reviews`
+  ADD CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

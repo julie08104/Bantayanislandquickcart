@@ -1,5 +1,6 @@
 <?php
-$dsn = 'mysql:host=localhost;dbname=mcc';
+$dsn = 'mysql:host=u510162695_ample;dbname=u510162695_ample'; // live
+// $dsn = 'mysql:host=localhost;dbname=mcc'; // develop
 $username = 'root';
 $password = '';
 
