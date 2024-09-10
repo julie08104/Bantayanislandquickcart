@@ -9,13 +9,13 @@ define('SITE_ROOT', 'http://localhost/ample/');
 
 // Database Information
 // Database Hostname
-define('DATABASE_HOST','127.0.0.1');
+define('DATABASE_HOST','');
 // Database Username
-define('DATABASE_USER','u510162695_ample');
+define('DATABASE_USER','');
 // Database Name
-define('DATABASE_NAME', 'u510162695_ample');
+define('DATABASE_NAME', '');
 // Database DB_PASS
-define('DATABASE_PASS','1Ample_database');
+define('DATABASE_PASS','');
 
 
  ?>
