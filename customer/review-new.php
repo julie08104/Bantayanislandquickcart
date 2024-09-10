@@ -73,7 +73,7 @@
         $rating = $_POST['rating'];
         $comment = $_POST['comment'];
         $customer_id = $id; // $_SESSION['user_id'];
-        echo $order_id, $rating, $comment, $customer_id;
+        var_dump($order_id, $rating, $comment, $customer_id);
 
 
     
