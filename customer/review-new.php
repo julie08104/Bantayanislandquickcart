@@ -3,7 +3,7 @@
     require '../auth_check.php';
 
     $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : '';
-    $id = $_SESSION['user_id'];
+    $user_id = $_SESSION['user_id'];
 
     $sql = '
         SELECT
@@ -35,7 +35,7 @@
     ';
     
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$id, $order_id]);
+    $stmt->execute([$user_id, $order_id]);
     $order = $stmt->fetch();
 
     if(!$order){
@@ -44,27 +44,25 @@
     }
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // $order_id = $id;
         $rating = $_POST['rating'];
         $comment = $_POST['comment'];
-        $customer_id = $id; // $_SESSION['user_id'];
 
         // Validate input
         if ($rating < 1 || $rating > 5) {
             $_SESSION['message'] = ['type' => 'error', 'text' => 'Invalid rating.'];
-            header("Location: review-new.php?order_id=".$id);
+            header("Location: review-new.php?order_id=".$order_id);
             exit();
         }
     
         // Insert review into the database
         $stmt = $pdo->prepare('INSERT INTO reviews (order_id, customer_id, rating, comment) VALUES (?, ?, ?, ?)');
-        if($stmt->execute([$order_id, $customer_id, $rating, $comment])){
+        if($stmt->execute([$order_id, $user_id, $rating, $comment])){
             $_SESSION['message'] = ['type' => 'success', 'text' => 'Review submitted successfully!'];
             header("Location: order-list.php");
             exit();
         }else{
             $_SESSION['message'] = ['type' => 'error', 'text' => 'Oops! Something went wrong!'];
-            header("Location: review-new.php?order_id=".$id);
+            header("Location: review-new.php?order_id=".$order_id);
             exit();
         }
     }
