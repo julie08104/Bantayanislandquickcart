@@ -77,8 +77,6 @@
                         </div>
                     <?php endif; ?>
 
-                    <?php echo $order['review_id']; ?>
-
                     <?php if ($order['status'] == 'completed'): ?>
                         <?php if ($order['review_id']): ?>
                             <div>
