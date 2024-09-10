@@ -3,7 +3,29 @@
     require '../auth_check.php';
 
     $id = isset($_GET['order_id']) ? intval($_GET['order_id']) : '';
-    $sql = '
+    
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $order_id = $id;
+        $rating = $_POST['rating'];
+        $comment = $_POST['comment'];
+        $customer_id = $_SESSION['user_id'];
+    
+        // Validate input
+        if ($rating < 1 || $rating > 5) {
+            $_SESSION['message'] = ['type' => 'error', 'text' => 'Invalid rating.'];
+            header("Location: order-list.php");
+            exit();
+        }
+    
+        // Insert review into the database
+        $stmt = $pdo->prepare('INSERT INTO reviews (order_id, customer_id, rating, comment) VALUES (?, ?, ?, ?)');
+        $data = $stmt->execute([$order_id, $customer_id, $rating, $comment]);
+    
+        $_SESSION['message'] = ['type' => 'success', 'text' => 'Review submitted successfully!'];
+        header("Location: order-list.php");
+        exit();
+    }else{
+        $sql = '
             SELECT
                 o.id AS order_id,
                 o.instruction,
@@ -24,36 +46,14 @@
                 o.id = ?
             AND o.status = "completed"
         ';
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$id]);
-    $order = $stmt->fetch();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$id]);
+        $order = $stmt->fetch();
 
-    if(!$order){
-        header("Location: order-list.php");
-        exit();
-    }
-    
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $order_id = $id;
-        $rating = $_POST['rating'];
-        $comment = $_POST['comment'];
-        $customer_id = $_SESSION['user_id'];
-    
-        // Validate input
-        if ($rating < 1 || $rating > 5) {
-            $_SESSION['message'] = ['type' => 'error', 'text' => 'Invalid rating.'];
+        if(!$order){
             header("Location: order-list.php");
             exit();
         }
-    
-        // Insert review into the database
-        $stmt = $pdo->prepare('INSERT INTO reviews (order_id, customer_id, rating, comment) VALUES (?, ?, ?, ?)');
-        $data = $stmt->execute([$order_id, $customer_id, $rating, $comment]);
-        var_dump($data);
-    
-        $_SESSION['message'] = ['type' => 'success', 'text' => 'Review submitted successfully!'];
-        header("Location: order-list.php");
-        exit();
     }
 ?>
 
