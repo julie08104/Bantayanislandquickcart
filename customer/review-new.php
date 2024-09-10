@@ -52,7 +52,7 @@
         // Validate input
         if ($rating < 1 || $rating > 5) {
             $_SESSION['message'] = ['type' => 'error', 'text' => 'Invalid rating.'];
-            header("Location: order-list.php");
+            header("Location: review-new.php?order_id=".$id);
             exit();
         }
     
