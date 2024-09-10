@@ -55,7 +55,7 @@
         }
     
         // Insert review into the database
-        $stmt = $pdo->prepare('INSERT INTO reviews (order_id, customer_id, rating, comment) VALUES (?, ?, ?, ?)');
+        $stmt = $pdo->prepare("INSERT INTO reviews (order_id, customer_id, rating, comment, created_at) VALUES (?, ?, ?, ?, NOW())");
         if($stmt->execute([$order_id, $user_id, $rating, $comment])){
             $_SESSION['message'] = ['type' => 'success', 'text' => 'Review submitted successfully!'];
             header("Location: order-list.php");
