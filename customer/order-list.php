@@ -67,7 +67,7 @@
                         <p class="bg-gray-100 p-2 rounded"><?php echo nl2br(htmlspecialchars($order['instruction'])); ?></p>
                     </div>
 
-                    <?php if ($order['status'] == 'assigned' && $order['raider_id']): ?>
+                    <?php if ($order['status'] != 'pending' && $order['raider_id']): ?>
                         <div>
                             <p class="text-sm text-gray-500 mb-1">Assign Raider: </p>
                             <div class="bg-gray-100 p-2 rounded">
