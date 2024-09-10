@@ -73,25 +73,28 @@
         $rating = $_POST['rating'];
         $comment = $_POST['comment'];
         $customer_id = $id; // $_SESSION['user_id'];
+        echo $order_id, $rating, $comment, $customer_id
+
+
     
         // Validate input
-        if ($rating < 1 || $rating > 5) {
-            $_SESSION['message'] = ['type' => 'error', 'text' => 'Invalid rating.'];
-            header("Location: order-list.php");
-            exit();
-        }
+        // if ($rating < 1 || $rating > 5) {
+        //     $_SESSION['message'] = ['type' => 'error', 'text' => 'Invalid rating.'];
+        //     header("Location: order-list.php");
+        //     exit();
+        // }
     
-        // Insert review into the database
-        $stmt = $pdo->prepare('INSERT INTO reviews (order_id, customer_id, rating, comment) VALUES (?, ?, ?, ?)');
-        if($stmt->execute([$order_id, $customer_id, $rating, $comment])){
-            $_SESSION['message'] = ['type' => 'success', 'text' => 'Review submitted successfully!'];
-            header("Location: order-list.php");
-            exit();
-        }else{
-            $_SESSION['message'] = ['type' => 'error', 'text' => 'Oops! Something went wrong!'];
-            header("Location: review-new.php?order_id=".$id);
-            exit();
-        }
+        // // Insert review into the database
+        // $stmt = $pdo->prepare('INSERT INTO reviews (order_id, customer_id, rating, comment) VALUES (?, ?, ?, ?)');
+        // if($stmt->execute([$order_id, $customer_id, $rating, $comment])){
+        //     $_SESSION['message'] = ['type' => 'success', 'text' => 'Review submitted successfully!'];
+        //     header("Location: order-list.php");
+        //     exit();
+        // }else{
+        //     $_SESSION['message'] = ['type' => 'error', 'text' => 'Oops! Something went wrong!'];
+        //     header("Location: review-new.php?order_id=".$id);
+        //     exit();
+        // }
     }
 ?>
 
