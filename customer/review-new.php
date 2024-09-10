@@ -2,7 +2,9 @@
     require '../config.php';
     require '../auth_check.php';
 
-    $id = isset($_GET['order_id']) ? intval($_GET['order_id']) : '';
+    $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : '';
+    $id = $_SESSION['user_id'];
+
     $sql = '
         SELECT
             o.id AS order_id,
@@ -13,20 +15,53 @@
             CONCAT(r.firstname, " ", r.lastname) AS raider_fullname,
             r.phone,
             r.vehicle_type,
-            r.vehicle_number
+            r.vehicle_number,
+            rev.id AS review_id,
+            rev.rating AS review_rating,
+            rev.comment AS review_comment,
+            rev.created_at AS review_created_at
         FROM
             orders o
         LEFT JOIN
             assignments a ON o.id = a.order_id
         LEFT JOIN
             raiders r ON a.raider_id = r.id
+        LEFT JOIN
+            reviews rev ON o.id = rev.order_id
         WHERE
-            o.id = ?
+            o.customer_id = ?
+        AND o.id = ?
         AND o.status = "completed"
     ';
+    
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$id]);
+    $stmt->execute([$id, $order_id]);
     $order = $stmt->fetch();
+
+    // $sql = '
+    //     SELECT
+    //         o.id AS order_id,
+    //         o.instruction,
+    //         o.status,
+    //         o.created_at,
+    //         r.id AS raider_id,
+    //         CONCAT(r.firstname, " ", r.lastname) AS raider_fullname,
+    //         r.phone,
+    //         r.vehicle_type,
+    //         r.vehicle_number
+    //     FROM
+    //         orders o
+    //     LEFT JOIN
+    //         assignments a ON o.id = a.order_id
+    //     LEFT JOIN
+    //         raiders r ON a.raider_id = r.id
+    //     WHERE
+    //         o.id = ?
+    //     AND o.status = "completed"
+    // ';
+    // $stmt = $pdo->prepare($sql);
+    // $stmt->execute([$id]);
+    // $order = $stmt->fetch();
 
     if(!$order){
         header("Location: order-list.php");
@@ -34,10 +69,10 @@
     }
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $order_id = $id;
+        // $order_id = $id;
         $rating = $_POST['rating'];
         $comment = $_POST['comment'];
-        $customer_id = $_SESSION['user_id'];
+        $customer_id = $id; // $_SESSION['user_id'];
     
         // Validate input
         if ($rating < 1 || $rating > 5) {
