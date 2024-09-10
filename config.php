@@ -5,9 +5,9 @@ $username = 'u510162695_ample';
 $password = '1Ample_database';
 
 // develop
-//$dsn = 'mysql:host=localhost;dbname=mcc';
-//$username = 'root';
-//$password = '';
+// $dsn = 'mysql:host=localhost;dbname=mcc';
+// $username = 'root';
+// $password = '';
 
 try {
     $pdo = new PDO($dsn, $username, $password);
