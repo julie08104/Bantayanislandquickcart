@@ -47,12 +47,16 @@
         }
     
         // Insert review into the database
-        // $stmt = $pdo->prepare('INSERT INTO reviews (order_id, customer_id, rating, comment) VALUES (?, ?, ?, ?)');
-        // $data = $stmt->execute([$order_id, $customer_id, $rating, $comment]);
-    
-        $_SESSION['message'] = ['type' => 'success', 'text' => 'Review submitted successfully!'];
-        header("Location: order-list.php");
-        exit();
+        $stmt = $pdo->prepare('INSERT INTO reviews (order_id, customer_id, rating, comment) VALUES (?, ?, ?, ?)');
+        if($stmt->execute([$order_id, $customer_id, $rating, $comment])){
+            $_SESSION['message'] = ['type' => 'success', 'text' => 'Review submitted successfully!'];
+            header("Location: order-list.php");
+            exit();
+        }else{
+            $_SESSION['message'] = ['type' => 'error', 'text' => 'Oops! Something went wrong!'];
+            header("Location: review-new.php?order_id=".$id);
+            exit();
+        }
     }
 ?>
 
@@ -79,7 +83,7 @@
                 </div>
                 <div class="mb-4">
                     <label for="comment" class="block mb-2 text-sm font-medium text-gray-900">Comment:</label>
-                    <textarea id="comment" name="comment" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"></textarea>
+                    <textarea id="comment" name="comment" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" required></textarea>
                 </div>
                 <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none">Submit Review</button>
                 <a href="order-list.php" class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-auto px-5 py-2.5 text-center">Cancel</a>
