@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 08, 2024 at 10:45 AM
+-- Generation Time: Sep 10, 2024 at 11:28 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -34,13 +34,6 @@ CREATE TABLE `assignments` (
   `assigned_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `assignments`
---
-
-INSERT INTO `assignments` (`id`, `order_id`, `raider_id`, `assigned_at`) VALUES
-(10, 1, 5, '2024-09-08 15:10:22');
-
 -- --------------------------------------------------------
 
 --
@@ -61,14 +54,6 @@ CREATE TABLE `customers` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `customers`
---
-
-INSERT INTO `customers` (`id`, `firstname`, `lastname`, `phone`, `address`, `email`, `password_hash`, `is_verified`, `verification_code`, `forgot_password_code`, `created_at`) VALUES
-(2, 'test', 'test', '09123456789', 'Madridejos Cebu', 'customer1@gmail.com', '$2y$10$aUzbTwzqoF/kjRKd88jmFeY9OdI7u2LOYLykdjVeOYNZjiQQCdjWC', 1, '', '', '2024-09-06 08:06:09'),
-(4, 'test22', 'test22', '09123456789', 'Madridejos Cebu', 'customer2@gmail.com', '$2y$10$kXTc3iQyd7d8VUqVgQgezOEhwo7svGYH5wjjnbOsijKxIFKGRQZnS', 0, '3a423e69a2182f21f9a3af02a38c8478', '', '2024-09-06 13:42:00');
-
 -- --------------------------------------------------------
 
 --
@@ -83,14 +68,6 @@ CREATE TABLE `orders` (
   `created_at` datetime DEFAULT current_timestamp(),
   `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `orders`
---
-
-INSERT INTO `orders` (`id`, `customer_id`, `status`, `instruction`, `created_at`, `updated_at`) VALUES
-(1, 2, 'completed', '1 dark caramel coffee', '2024-09-08 14:15:11', '2024-09-08 15:35:26'),
-(2, 2, 'pending', '1 pizza in albertos', '2024-09-08 15:27:56', NULL);
 
 -- --------------------------------------------------------
 
@@ -114,14 +91,6 @@ CREATE TABLE `raiders` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `raiders`
---
-
-INSERT INTO `raiders` (`id`, `firstname`, `lastname`, `phone`, `address`, `vehicle_type`, `vehicle_number`, `email`, `password_hash`, `is_verified`, `verification_code`, `forgot_password_code`, `created_at`) VALUES
-(4, 'test', 'test', '09123456789', 'Madridejos Cebu', 'Motor', 'Motor1', 'test@gmail.com', '$2y$10$Udmtw6hiYM.b92QuF4Yg8.09B5FkkxJYvMr7YtV6WMPpcOhRZgUS.', 0, 'e28a3f0be5c80429a4a5230d7eee0a1a', '', '2024-09-06 13:37:19'),
-(5, 'john', 'doe', '09123456789', 'Madridejos Cebu', 'Motor', 'Motor12', 'raider2@gmail.com', '$2y$10$Dpuk/Bj0tE3P3R41biTgV.GMF95DTGJVZzKYRJW7oIKR3c1gflCTC', 1, '', '', '2024-09-08 07:09:48');
-
 -- --------------------------------------------------------
 
 --
@@ -136,13 +105,6 @@ CREATE TABLE `reviews` (
   `comment` text DEFAULT NULL,
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `reviews`
---
-
-INSERT INTO `reviews` (`id`, `order_id`, `customer_id`, `rating`, `comment`, `created_at`) VALUES
-(1, 1, 2, 4, 'delivered on time', '2024-09-08 16:08:41');
 
 -- --------------------------------------------------------
 
@@ -160,15 +122,6 @@ CREATE TABLE `users` (
   `forgot_password_code` varchar(50) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `name`, `email`, `password_hash`, `is_verified`, `verification_code`, `forgot_password_code`, `created_at`) VALUES
-(6, 'Mang Jose', 'mang061894@gmail.com', '$2y$10$z.nW1Ly3Ilh2Fqwc2ADNbew4pctalynnZquKaotI3h8iTMs5WZhYW', 1, NULL, NULL, '2024-09-06 05:38:27'),
-(10, 'test', 'test@test.com', '$2y$10$BPq4LnwJvnTrg/vyYnc77uPUpZ6W8s.w.0jiEStVc8z2AypY4hjuO', 0, '2e49483b8a449d164f3bc8ba905a9c7c', NULL, '2024-09-06 13:31:26'),
-(11, 'test2', 'test2@gmail.com', '$2y$10$/L1hzjtEyZARljiH7CIIzOef4uom1kBZulvz.ngtCsi3dLSVZBtke', 0, 'c3351c6310b5edf9679b2a2714136727', NULL, '2024-09-06 13:31:51');
 
 --
 -- Indexes for dumped tables
@@ -226,7 +179,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `assignments`
 --
 ALTER TABLE `assignments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `customers`
@@ -250,7 +203,7 @@ ALTER TABLE `raiders`
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
