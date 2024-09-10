@@ -3,7 +3,36 @@
     require '../auth_check.php';
 
     $id = isset($_GET['order_id']) ? intval($_GET['order_id']) : '';
-    
+    $sql = '
+        SELECT
+            o.id AS order_id,
+            o.instruction,
+            o.status,
+            o.created_at,
+            r.id AS raider_id,
+            CONCAT(r.firstname, " ", r.lastname) AS raider_fullname,
+            r.phone,
+            r.vehicle_type,
+            r.vehicle_number
+        FROM
+            orders o
+        LEFT JOIN
+            assignments a ON o.id = a.order_id
+        LEFT JOIN
+            raiders r ON a.raider_id = r.id
+        WHERE
+            o.id = ?
+        AND o.status = "completed"
+    ';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$id]);
+    $order = $stmt->fetch();
+
+    if(!$order){
+        header("Location: order-list.php");
+        exit();
+    }
+
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $order_id = $id;
         $rating = $_POST['rating'];
@@ -24,36 +53,6 @@
         $_SESSION['message'] = ['type' => 'success', 'text' => 'Review submitted successfully!'];
         header("Location: order-list.php");
         exit();
-    }else{
-        $sql = '
-            SELECT
-                o.id AS order_id,
-                o.instruction,
-                o.status,
-                o.created_at,
-                r.id AS raider_id,
-                CONCAT(r.firstname, " ", r.lastname) AS raider_fullname,
-                r.phone,
-                r.vehicle_type,
-                r.vehicle_number
-            FROM
-                orders o
-            LEFT JOIN
-                assignments a ON o.id = a.order_id
-            LEFT JOIN
-                raiders r ON a.raider_id = r.id
-            WHERE
-                o.id = ?
-            AND o.status = "completed"
-        ';
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$id]);
-        $order = $stmt->fetch();
-
-        if(!$order){
-            header("Location: order-list.php");
-            exit();
-        }
     }
 ?>
 
@@ -68,7 +67,7 @@
             <h1 class="text-2xl">Review Order</h1>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <form method="post">
+            <form method="POST">
                 <div class="mb-4">
                     <label for="rating" class="block mb-2 text-sm font-medium text-gray-900">Rating:</label>
                     <select id="rating" name="rating" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
