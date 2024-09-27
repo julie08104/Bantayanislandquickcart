@@ -7,7 +7,7 @@
 
 <?php include 'sidebar.php'; ?>
 
-<div class="p-4 sm:ml-64">
+<!-- <div class="p-4 sm:ml-64">
     <div class="bg-white shadow rounded p-4 space-y-4">
         <?php include '../alert.php'; ?>
         <div class="flex items-center justify-between gap-4">
@@ -118,5 +118,5 @@
             });
         });
     });
-</script>
+</script> -->
 <?php include '../footer.php'; ?>
