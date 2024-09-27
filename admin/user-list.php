@@ -31,7 +31,7 @@
     </div>
 </div>
 
-<!-- <script>
+<script>
     $(document).ready(function() {
         $('#userTable').DataTable({
             "responsive": true,
@@ -114,5 +114,5 @@
             });
         });
     });
-</script> -->
+</script>
 <?php include '../footer.php'; ?>
