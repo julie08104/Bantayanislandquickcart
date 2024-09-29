@@ -50,14 +50,10 @@
 
 <div class="p-4 sm:ml-64">
     <div class="bg-white shadow rounded p-4">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-            <div class="text-center p-4 text-sm bg-red-500 text-white rounded">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+            <div class="text-center p-4 text-sm bg-blue-500 text-white rounded">
                 <h2 class="text-md">Total Pending</h2>
                 <h1 class="text-2xl"><?php echo $counts['pending_orders']; ?></h1>
-            </div>
-            <div class="text-center p-4 text-sm bg-blue-500 text-white rounded">
-                <h2 class="text-md">Total Assigned</h2>
-                <h1 class="text-2xl"><?php echo $counts['assigned_orders']; ?></h1>
             </div>
             <div class="text-center p-4 text-sm bg-green-500 text-white rounded">
                 <h2 class="text-md">Total In-progress</h2>
@@ -86,18 +82,16 @@
                 new Chart(ctx, {
                     type: 'bar',
                     data: {
-                        labels: ['Pending', 'Assigned', 'In-progress', 'Completed'],
+                        labels: ['Pending', 'In-progress', 'Completed'],
                         datasets: [{
                             label: 'Orders',
-                            data: [data.pending_orders, data.assigned_orders, data.in_progress_orders, data.completed_orders],
+                            data: [data.pending_orders, data.in_progress_orders, data.completed_orders],
                             backgroundColor: [
-                                'rgba(75, 192, 192, 0.2)',
                                 'rgba(153, 102, 255, 0.2)',
                                 'rgba(255, 159, 64, 0.2)',
                                 'rgba(255, 99, 132, 0.2)'
                             ],
                             borderColor: [
-                                'rgba(75, 192, 192, 1)',
                                 'rgba(153, 102, 255, 1)',
                                 'rgba(255, 159, 64, 1)',
                                 'rgba(255, 99, 132, 1)'
