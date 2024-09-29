@@ -24,7 +24,7 @@
     
             // Send reset link
             $reset_link = "https://bantayanquickcart.com/admin/reset-password.php?code=$forgot_password_code";
-            mail($email, "Reset your password", "Click this link to reset your password: $reset_link", "From: ardiederrayal06@gmail.com");
+            mail($email, "Reset your password", "Click this link to reset your password: $reset_link", "From: bantayanquickcart@gmail.com");
             
             $_SESSION['message'] = ['type' => 'success', 'text' => 'Reset password link has been sent to your email.'];
         } else {
