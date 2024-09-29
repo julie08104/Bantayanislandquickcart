@@ -8,6 +8,8 @@
         SELECT
             o.id AS order_id,
             o.instruction,
+            o.total_amount,
+            o.delivery_fee,
             o.status,
             o.created_at,
             r.id AS raider_id,
@@ -83,6 +85,12 @@
                     <?php endif; ?>
 
                     <?php if ($order['status'] == 'completed'): ?>
+                        <div>
+                            <p>SubTotal: <?php echo $order['total_amount'] ?></p>
+                            <p>Delivery Fee: <?php echo $order['delivery_fee'] ?></p>
+                            <p class="font-bold">Total: <?php echo $order['total_amount'] + $order['delivery_fee'] ?></p>
+                        </div>
+
                         <?php if ($order['review_id']): ?>
                             <div>
                                 <p class="text-sm text-gray-500 mb-1">Review: </p>

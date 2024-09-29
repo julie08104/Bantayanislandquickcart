@@ -8,6 +8,8 @@
         SELECT
             o.id AS order_id,
             o.instruction,
+            o.total_amount,
+            o.delivery_fee,
             o.status,
             o.created_at,
             r.id AS raider_id,
@@ -46,13 +48,16 @@
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $order_id = $_POST['order_id'];
         $status = $_POST['status'];
-        $stmt = $pdo->prepare('UPDATE orders SET status = ? WHERE id = ?');
-        $stmt->execute([$status, $order_id]);
-
+        $total_amount = $_POST['total_amount'];
+        $delivery_fee = $_POST['delivery_fee'];
+    
+        $stmt = $pdo->prepare('UPDATE orders SET status = ?, total_amount = ?, delivery_fee = ? WHERE id = ?');
+        $stmt->execute([$status, $total_amount, $delivery_fee, $order_id]);
+    
         $_SESSION['message'] = ['type' => 'success', 'text' => 'Order status is '.$status];
         header("Location: order-list.php");
         exit();
-    }
+    }    
 ?>
 
 <?php include '../header.php'; ?>
@@ -101,9 +106,19 @@
                     <?php if($order['status'] == 'in_progress'): ?>
                         <form method="post">
                             <input type="hidden" name="order_id" value="<?php echo $order['order_id']; ?>">
+                            <input class="text-sm w-full rounded-md mb-2" type="number" name="total_amount" placeholder="Total Amount" required>
+                            <input class="text-sm w-full rounded-md mb-2" type="number" name="delivery_fee" placeholder="Delivery Fee" required>
                             <input type="hidden" name="status" value="completed">
                             <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none">Complete Order</button>
                         </form>
+                    <?php endif; ?>
+
+                    <?php if($order['status'] == 'completed'): ?>
+                        <div>
+                            <p>SubTotal: <?php echo $order['total_amount'] ?></p>
+                            <p>Delivery Fee: <?php echo $order['delivery_fee'] ?></p>
+                            <p class="font-bold">Total: <?php echo $order['total_amount'] + $order['delivery_fee'] ?></p>
+                        </div>
                     <?php endif; ?>
 
                     <?php if ($order['review_id']): ?>
