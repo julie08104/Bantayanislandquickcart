@@ -37,6 +37,38 @@
     ");
     $stmtAssigned->execute(['user_id' => $_SESSION['user_id']]);
     $counts['assigned_assignments'] = $stmtAssigned->fetchColumn();
+    
+    $stmt = $pdo->prepare("
+        SELECT DATE_FORMAT(o.created_at, '%Y-%m') AS month, SUM(o.delivery_fee) AS total_income
+        FROM assignments a
+        JOIN orders o ON a.order_id = o.id
+        WHERE a.raider_id = :raider_id 
+        AND YEAR(o.created_at) = YEAR(CURRENT_DATE())
+        GROUP BY month
+        ORDER BY month
+    ");
+    $stmt->bindParam(':raider_id', $_SESSION['user_id'], PDO::PARAM_INT);
+    $stmt->execute();
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Prepare data for Chart.js
+    $months = [];
+    $total_incomes = [];
+
+    // Fill in months for the current year
+    for ($i = 1; $i <= 12; $i++) {
+        $months[] = date('Y-m', mktime(0, 0, 0, $i, 1));
+        $total_incomes[] = 0; // Initialize with zero
+    }
+
+    foreach ($results as $row) {
+        $monthIndex = date('n', strtotime($row['month'])) - 1; // Get the month index (0-11)
+        $total_incomes[$monthIndex] = $row['total_income'];
+    }
+
+    // Prepare arrays for Chart.js
+    $chart_months = $months;
+    $chart_incomes = $total_incomes;
 ?>
 
 <?php include '../header.php'; ?>
@@ -60,6 +92,7 @@
             </div>
         </div>
         <canvas id="myChart" width="400" height="200"></canvas>
+        <canvas id="incomeChart" width="400" height="200"></canvas>
     </div>
 </div>
 
@@ -104,6 +137,33 @@
                 });
             })
             .catch(error => console.error('Error fetching data:', error));
+    });
+</script>
+
+<script>
+    const months = <?php echo json_encode($chart_months); ?>;
+    const totalIncomes = <?php echo json_encode($chart_incomes); ?>;
+
+    const ctx = document.getElementById('incomeChart').getContext('2d');
+    const incomeChart = new Chart(ctx, {
+        type: 'bar', // or 'line', 'pie', etc.
+        data: {
+            labels: months,
+            datasets: [{
+                label: 'Total Income',
+                data: totalIncomes,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
     });
 </script>
 
