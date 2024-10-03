@@ -5,11 +5,11 @@ require '../../config.php';
 $counts = [];
 
 // Fetch customers count
-$stmt = $pdo->query("SELECT COUNT(*) AS count FROM customers");
+$stmt = $pdo->query("SELECT COUNT(*) AS count FROM customers WHERE is_verified = 1");
 $counts['customers'] = $stmt->fetchColumn();
 
 // Fetch raiders count
-$stmt = $pdo->query("SELECT COUNT(*) AS count FROM raiders");
+$stmt = $pdo->query("SELECT COUNT(*) AS count FROM raiders WHERE is_verified = 1");
 $counts['raiders'] = $stmt->fetchColumn();
 
 // Fetch users count
