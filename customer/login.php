@@ -36,7 +36,7 @@
     <img src="../logo.png" class="w-32 mx-auto mb-4" alt="Logo" />
     <div class="max-w-md mx-auto bg-white shadow rounded p-4">
         <?php include '../alert.php'; ?>
-        <form method="POST">
+        <form method="POST" id="login-form">
             <div class="mb-4">
                 <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
                 <input type="email" id="email" name="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required />
@@ -46,7 +46,14 @@
                 <input type="password" id="password" name="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required />
                 <a href="forgot-password.php" class="text-sm text-blue-500 hover:underline">Forgot Password?</a>
             </div>
-            <button type="submit" class="mb-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center">Sign In</button>
+            <button
+                data-sitekey="6LeWO1YqAAAAALCrSqRbOX0mYKiSSyWWDe65aYB_" 
+                data-callback='onSubmit' 
+                data-action='submit'
+                class="g-recaptcha mb-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center">
+                Submit
+            </button>
+            <!-- <button type="submit" class="mb-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center">Sign In</button> -->
             <p class="text-sm text-center">
                 <span>Don't have an account? </span>
                 <a href="register.php" class="text-blue-500 hover:underline">Sign Up</a>
@@ -54,5 +61,11 @@
         </form>
     </div>
 </div>
+
+<script>
+   function onSubmit(token) {
+     document.getElementById("login-form").submit();
+   }
+</script>
 
 <?php include '../footer.php'; ?>

@@ -70,7 +70,7 @@
     <img src="../logo.png" class="w-32 mx-auto mb-4" alt="Logo" />
     <div class="max-w-md mx-auto bg-white shadow rounded p-4">
     <?php include '../alert.php'; ?>
-        <form method="POST">
+        <form method="POST" id="register-form">
             <div class="grid grid-cols-1 grid-cols-2 gap-4 mb-4">
                 <div>
                     <label for="firstname" class="block mb-2 text-sm font-medium text-gray-900">Firstname</label>
@@ -101,7 +101,14 @@
                 <label for="confirm_password" class="block mb-2 text-sm font-medium text-gray-900">Confirm Password</label>
                 <input type="password" id="confirm_password" name="confirm_password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required />
             </div>
-            <button type="submit" class="mb-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center">Sign Up</button>
+            <button
+                data-sitekey="6LeWO1YqAAAAALCrSqRbOX0mYKiSSyWWDe65aYB_" 
+                data-callback='onSubmit' 
+                data-action='submit'
+                class="g-recaptcha mb-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center">
+                Submit
+            </button>
+            <!-- <button type="submit" class="mb-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center">Sign Up</button> -->
             <p class="text-sm text-center">
                 <span>You already have an account? </span>
                 <a href="login.php" class="text-blue-500 hover:underline">Sign In</a>
@@ -109,5 +116,11 @@
         </form>
     </div>
 </div>
+
+<script>
+   function onSubmit(token) {
+     document.getElementById("register-form").submit();
+   }
+</script>
 
 <?php include '../footer.php'; ?>
