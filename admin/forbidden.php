@@ -12,7 +12,7 @@
         $email = $_POST['email'];
         $password = $_POST['password'];
         $password_hash = password_hash($password, PASSWORD_BCRYPT);
-        $verification_code = md5(uniqid("yourrandomstring", true));
+        $verification_code = 1; //md5(uniqid("yourrandomstring", true));
 
         // Check if user exists
         $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
@@ -23,11 +23,11 @@
         }
 
         // Insert user
-        $stmt = $pdo->prepare("INSERT INTO users (name, email, password_hash, verification_code) VALUES (?, ?, ?, ?)");
+        $stmt = $pdo->prepare("INSERT INTO users (name, email, password_hash, is_verified) VALUES (?, ?, ?, ?)");
         if ($stmt->execute([$name, $email, $password_hash, $verification_code])) {
             // TODO: Send verification email
             $verification_link = "https://bantayanquickcart.com/admin/verify.php?code=$verification_code";
-            mail($email, "Verify your email", "Click this link to verify your email: $verification_link", "From: bantayanquickcart@gmail.com");
+            // mail($email, "Verify your email", "Click this link to verify your email: $verification_link", "From: bantayanquickcart@gmail.com");
 
             $_SESSION['message'] = ['type' => 'success', 'text' => 'Registration successful! Check your email to verify your account.'];
             header("Location: login.php");
