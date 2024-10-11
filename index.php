@@ -1,6 +1,6 @@
 <?php include 'header.php'; ?>
     
-<div class="p-4 max-w-md mx-auto">
+<div class=" p-4 max-w-md mx-auto">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <a href="customer">
             <div class="flex flex-col items-center justify-center bg-white shadow rounded p-4">
