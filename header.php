@@ -16,6 +16,7 @@
     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
     <script src="/mcc/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
     <script src="/mcc/leaflet-routing-machine/dist/lrm-graphhopper-1.2.0.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @media print {
             .no-print { display: none; }

@@ -37,9 +37,23 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <form method="POST">
+                <div class="mb-4">
+                    <label for="address" class="block mb-2 text-sm font-medium text-gray-900">Search Place</label>
+                    <div class="flex items-start gap-2">
+                        <div class="flex-1">
+                            <input type="search" id="search" placeholder="Search for places..." class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" />
+                            <div id="suggestions" class="divide-y max-h-40 overflow-y-auto"></div>
+                        </div>
+                        <button type="button" class="p-2 rounded-full border hover:bg-gray-50" title="Current Location" onClick="handleCurrentLocation()">
+                            <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                <path fill-rule="evenodd" d="M11.906 1.994a8.002 8.002 0 0 1 8.09 8.421 7.996 7.996 0 0 1-1.297 3.957.996.996 0 0 1-.133.204l-.108.129c-.178.243-.37.477-.573.699l-5.112 6.224a1 1 0 0 1-1.545 0L5.982 15.26l-.002-.002a18.146 18.146 0 0 1-.309-.38l-.133-.163a.999.999 0 0 1-.13-.202 7.995 7.995 0 0 1 6.498-12.518ZM15 9.997a3 3 0 1 1-5.999 0 3 3 0 0 1 5.999 0Z" clip-rule="evenodd"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
                 <input type="hidden" name="latitude" id="latitude" />
                 <input type="hidden" name="longitude" id="longitude" />
-
                 <div class="mb-4">
                     <label for="address" class="block mb-2 text-sm font-medium text-gray-900">Your Location</label>
                     <input type="text" id="address" name="address" readonly class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" />
@@ -74,12 +88,18 @@
 </div>
 
 <script>
+    const stores = <?php echo json_encode($stores); ?>;
+
     const address = document.getElementById('address');
     const latitude = document.getElementById('latitude');
     const longitude = document.getElementById('longitude');
-    const storeSelect = document.getElementById('store_id');
     const delivery_fee = document.getElementById('delivery_fee');
     let map, tiles, control, customer_marker, store_marker, baseFee=100, perKm=2;
+
+    map = L.map('map').setView([0,0], 13);
+    tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
 
     async function getLocationName(lat, lon){
         try {
@@ -114,56 +134,128 @@
         return deliveryFee.toFixed(2);
     }
 
-    if(navigator.geolocation){
-        navigator.geolocation.getCurrentPosition(async function(position){
-            const customer_lat_lng = [position.coords.latitude, position.coords.longitude];
-            // const customer_lat_lng = [11.2638555325613, 123.7238943880396];
-            
-            const customer_address = await getLocationName(customer_lat_lng[0], customer_lat_lng[1]);
-            address.value = customer_address;
-            latitude.value = customer_lat_lng[0];
-            longitude.value = customer_lat_lng[1];
+    function debounce(func, wait) {
+        let timeout;
+        return function(...args) {
+            const context = this;
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(context, args), wait);
+        };
+    }
 
-            map = L.map('map').setView(customer_lat_lng, 13);
-            tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
+    function handleControls(){
+        if(control){
+            map.removeControl(control);
+            control = null;
+        }
+
+        if(store_marker && customer_marker){
+            const store_lat_lng = store_marker.getLatLng();
+            const customer_lat_lng = customer_marker.getLatLng();
+
+            control = L.Routing.control({
+                waypoints: [
+                    L.latLng(store_lat_lng.lat, store_lat_lng.lng),
+                    L.latLng(customer_lat_lng.lat, customer_lat_lng.lng)
+                ],
+                routeWhileDragging: true,
+                router: new L.Routing.GraphHopper('9348a4ee-0d54-4f8a-9f53-6484ac3387e8'),
             }).addTo(map);
 
-            customer_marker = L.marker(customer_lat_lng).addTo(map).bindPopup(`Your Location: ${customer_address}`).openPopup();
-
-            storeSelect.addEventListener('change', async function(){
-                resetMap();
-
-                const stores = <?php echo json_encode($stores); ?>;
-                const selectedStoreId = storeSelect.value;
-                const selectedStore = stores.find(store => store.id == selectedStoreId);
-                if (selectedStore) {
-                    const store_lat_lng = [selectedStore.latitude, selectedStore.longitude];
-
-                    control = L.Routing.control({
-                        waypoints: [
-                            L.latLng(store_lat_lng[0], store_lat_lng[1]),
-                            L.latLng(customer_lat_lng[0], customer_lat_lng[1])
-                        ],
-                        routeWhileDragging: true,
-                        router: new L.Routing.GraphHopper('9348a4ee-0d54-4f8a-9f53-6484ac3387e8'),
-                    }).addTo(map);
-
-                    control.on('routesfound', function(e){
-                        const distance = e.routes[0].summary.totalDistance / 100; // convert to km
-                        delivery_fee.value = calculateDeliveryfee(distance);
-                    })
-
-                    customer_marker = L.marker(customer_lat_lng).addTo(map).bindPopup(`Your Location: ${customer_address}`).openPopup();
-                    store_marker = L.marker(store_lat_lng).addTo(map).bindPopup(`Store: ${selectedStore.location}`).openPopup();
-                }
+            control.on('routesfound', function(e){
+                const distance = e.routes[0].summary.totalDistance / 100; // convert to km
+                delivery_fee.value = calculateDeliveryfee(distance);
             })
-        }, function (){
-            alert("Unable to retrieve your location.")
-        })
-    }else{
-        alert("Geolocation is not supported by this browser.")
+        }
     }
+
+    function handleCurrentLocation(){
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(async function(position){
+                const customer_lat_lng = [position.coords.latitude, position.coords.longitude];
+                // const customer_lat_lng = [11.2638555325613, 123.7238943880396];
+
+                const customer_address = await getLocationName(customer_lat_lng[0], customer_lat_lng[1]);
+                address.value = customer_address;
+                latitude.value = customer_lat_lng[0];
+                longitude.value = customer_lat_lng[1];
+
+                if(customer_marker){
+                    customer_marker = customer_marker.setLatLng(customer_lat_lng);
+                }else{
+                    customer_marker = L.marker(customer_lat_lng).addTo(map);
+                }
+                customer_marker.bindPopup(`Your Location: ${customer_address}`).openPopup();
+
+                handleControls();
+            }, function (){
+                alert("Unable to retrieve your location.")
+            })
+        }else{
+            alert("Geolocation is not supported by this browser.")
+        }  
+    }
+
+    const fetchSuggestions = debounce(function(query) {
+        const suggestionsDiv = document.getElementById('suggestions');
+        suggestionsDiv.innerHTML = ''; // Clear previous suggestions
+
+        if (query.length > 2) {
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(hit => {
+                        const suggestion = document.createElement('div');
+                        suggestion.className = 'cursor-pointer p-1 hover:bg-gray-50 text-xs';
+                        suggestion.textContent = hit.display_name;
+                        suggestion.dataset.lat = hit.lat;
+                        suggestion.dataset.lng = hit.lon;
+
+                        suggestion.addEventListener('click', function() {
+                            const lat = this.dataset.lat;
+                            const lng = this.dataset.lng;
+                            suggestionsDiv.innerHTML = ''; // Clear suggestions
+                            document.getElementById('search').value = ''; // Clear input
+
+                            address.value = hit.display_name;
+                            latitude.value = lat;
+                            longitude.value = lng;
+                            
+                            customer_marker = customer_marker.setLatLng([lat, lng]).bindPopup(`Your Location: ${hit.display_name}`).openPopup();
+                        
+                            handleControls()
+                        });
+
+                        suggestionsDiv.appendChild(suggestion);
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+    }, 300);
+
+    const searchInput = document.getElementById('search');
+    searchInput.addEventListener('input', function() {
+        fetchSuggestions(this.value);
+    });
+
+    const storeSelect = document.getElementById('store_id');
+    storeSelect.addEventListener('change', async function(){
+        const selectedStore = stores.find(store => store.id == storeSelect.value);
+        if (selectedStore) {
+            const store_lat_lng = [selectedStore.latitude, selectedStore.longitude];
+
+            if(store_marker){
+                store_marker = store_marker.setLatLng(store_lat_lng);
+            }else{
+                store_marker = L.marker(store_lat_lng).addTo(map);
+            }
+            store_marker.bindPopup(`Store: ${selectedStore.location}`).openPopup();
+
+            handleControls();
+        }
+    })
+
+    handleCurrentLocation();
 </script>
 
 <?php include '../footer.php'; ?>
