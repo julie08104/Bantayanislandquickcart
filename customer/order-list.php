@@ -7,6 +7,7 @@
     $sql = '
         SELECT
             o.id AS order_id,
+            o.address,
             o.instruction,
             o.total_amount,
             o.delivery_fee,
@@ -14,13 +15,17 @@
             o.created_at,
             r.id AS raider_id,
             CONCAT(r.firstname, " ", r.lastname) AS raider_fullname,
-            r.phone,
+            r.phone AS raider_phone,
             r.vehicle_type,
             r.vehicle_number,
             rev.id AS review_id,
             rev.rating AS review_rating,
             rev.comment AS review_comment,
-            rev.created_at AS review_created_at
+            rev.created_at AS review_created_at,
+            CONCAT(c.firstname, " ", c.lastname) AS customer_fullname,
+            c.phone AS customer_phone,
+            s.name AS store_name,
+            s.location AS store_location
         FROM
             orders o
         LEFT JOIN
@@ -28,13 +33,16 @@
         LEFT JOIN
             raiders r ON a.raider_id = r.id
         LEFT JOIN
+            customers c ON o.customer_id = c.id
+        LEFT JOIN
             reviews rev ON o.id = rev.order_id
+        LEFT JOIN
+            stores s ON o.store_id = s.id
         WHERE
             o.customer_id = ?
         ORDER BY
             o.created_at DESC
     ';
-    
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$id]);
     $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -64,26 +72,40 @@
                        </div>
                         <span class="text-xs bg-gray-100 rounded text-center uppercase py-1 px-4"><?php echo htmlspecialchars($order['status']); ?></span>
                     </div>
-                    <div>
-                        <p class="text-sm text-gray-500 mb-1">Instruction: </p>
-                        <div class="bg-gray-100 p-2 rounded flex items-start gap-4">
-                            <p class="flex-1"><?php echo nl2br(htmlspecialchars($order['instruction'])); ?></p>
-                            <?php if ($order['status'] == 'pending'): ?>
-                                <a href="order-edit.php?id=<?php echo $order['order_id'] ?>" class="text-sm text-blue-500 hover:underline">Edit</a>
-                            <?php endif; ?>
-                        </div>
+                    <ol class="relative border-s border-gray-200 space-y-6">                  
+                        <li class="ms-4">
+                            <div class="absolute w-3 h-3 bg-white rounded-full mt-1.5 -start-1.5 border-2 border-red-500"></div>
+                            <p><?php echo $order['store_name']; ?></p>
+                            <p><?php echo $order['store_location']; ?></p>
+                        </li>
+                        <li class="ms-4">
+                            <div class="absolute w-3 h-3 bg-white rounded-full mt-1.5 -start-1.5 border-2 border-green-500"></div>
+                            <p><?php echo $order['customer_fullname']; ?></p>
+                            <p><?php echo $order['customer_phone']; ?></p>
+                            <p><?php echo $order['address']; ?></p>
+                        </li>
+                    </ol>
+                    <a href="order-view.php?order_id=<?php echo $order['order_id'] ?>" class="block w-full text-center text-sm bg-blue-500 text-white rounded-md p-2">View Details</a>
+
+                    <!-- <div>
+                        <p class="text-sm text-gray-500">Instruction: </p>
+                        <p><?php echo nl2br(htmlspecialchars($order['instruction'])); ?></p>
                     </div>
-
-                    <?php if ($order['raider_id']): ?>
-                        <div>
-                            <p class="text-sm text-gray-500 mb-1">Assign Raider: </p>
+                    <div>
+                        <p class="text-sm text-gray-500 mb-1">Assign Raider: </p>
+                        <?php if ($order['raider_id']): ?>
                             <div class="bg-gray-100 p-2 rounded">
-                                    <p class="text-sm"><?php echo $order['raider_fullname'] ?></p>
-                                    <p class="text-sm"><?php echo $order['phone'] ?></p>
+                                <p class="text-sm"><?php echo $order['raider_fullname'] ?></p>
+                                <p class="text-sm"><?php echo $order['phone'] ?></p>
                             </div>
-                        </div>
-                    <?php endif; ?>
-
+                        <?php else: ?>
+                            <p class="text-sm">N/A</p>
+                        <?php endif; ?>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500">Delivery Fee: </p>
+                        <p><?php echo $order['delivery_fee'] ?></p>
+                    </div>
                     <?php if ($order['status'] == 'completed'): ?>
                         <div>
                             <p>SubTotal: <?php echo $order['total_amount'] ?></p>
@@ -112,7 +134,7 @@
                         <?php else: ?>
                             <a href="review-new.php?order_id=<?php echo $order['order_id'] ?>" class="block text-center w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none">Write a review</a>
                         <?php endif; ?>
-                    <?php endif; ?>
+                    <?php endif; ?> -->
                 </div>
             <?php endforeach; ?>
         </div>

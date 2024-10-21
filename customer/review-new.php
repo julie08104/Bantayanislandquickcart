@@ -99,7 +99,7 @@
                 <a href="order-list.php" class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-auto px-5 py-2.5 text-center">Cancel</a>
             </form>
 
-            <div class="border rounded p-4 space-y-4 mb-4">
+            <!-- <div class="border rounded p-4 space-y-4 mb-4">
                 <div class="flex items-start justify-between flex-wrap">
                     <div>
                         <p class="text-lg font-bold">Order ID: <?php echo htmlspecialchars($order['order_id']); ?></p>
@@ -125,7 +125,7 @@
                     <p>Delivery Fee: <?php echo $order['delivery_fee'] ?></p>
                     <p class="font-bold">Total: <?php echo $order['total_amount'] + $order['delivery_fee'] ?></p>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

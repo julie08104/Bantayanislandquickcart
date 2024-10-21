@@ -19,6 +19,7 @@
         if ($user && password_verify($password, $user['password_hash'])) {
             if ($user['is_verified']) {
                 $_SESSION['user_id'] = $user['id'];
+                $_SESSION['user_name'] = $user['firstname'].' '.$user['lastname'];
                 header("Location: index.php");
                 exit();
             } else {
