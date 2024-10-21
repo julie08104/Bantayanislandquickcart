@@ -63,10 +63,10 @@
         $order_id = $_POST['order_id'];
         $status = $_POST['status'];
         $total_amount = $_POST['total_amount'];
-        $delivery_fee = $_POST['delivery_fee'];
+        // $delivery_fee = $_POST['delivery_fee'];
     
-        $stmt = $pdo->prepare('UPDATE orders SET status = ?, total_amount = ?, delivery_fee = ? WHERE id = ?');
-        $stmt->execute([$status, $total_amount, $delivery_fee, $order_id]);
+        $stmt = $pdo->prepare('UPDATE orders SET status = ?, total_amount = ? WHERE id = ?');
+        $stmt->execute([$status, $total_amount, $order_id]);
     
         $_SESSION['message'] = ['type' => 'success', 'text' => 'Order status is '.$status];
         header("Location: order-list.php");

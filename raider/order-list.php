@@ -56,10 +56,36 @@
 <?php include 'sidebar.php'; ?>
 
 <div class="p-4 sm:ml-64">
+    <div id="print" class="hidden">
+        <div class="relative overflow-x-auto">
+            <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">Customer</th>
+                        <th scope="col" class="px-6 py-3">Store</th>
+                        <th scope="col" class="px-6 py-3">Order Details</th>
+                        <th scope="col" class="px-6 py-3">Delivery Fee</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($orders as $order): ?>
+                        <tr class="bg-white border-b">
+                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"><?php echo $order['customer_fullname'] ?></td>
+                            <td class="px-6 py-4"><?php echo $order['store_name'] ?></td>
+                            <td class="px-6 py-4"><?php echo $order['instruction'] ?></td>
+                            <td class="px-6 py-4"><?php echo $order['delivery_fee'] ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
     <div class="bg-white shadow rounded p-4 space-y-4">
         <?php include '../alert.php'; ?>
         <div class="flex items-center justify-between gap-4">
             <h1 class="text-2xl">Order List</h1>
+            <button class="no-print text-sm px-4 py-2 border rounded" onclick="printPage()">Print</button>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <?php foreach ($orders as $order): ?>
@@ -90,4 +116,21 @@
         </div>
     </div>
 </div>
+
+<script>
+        function printPage() {
+            var content = document.getElementById('print').innerHTML;
+            var originalContent = document.body.innerHTML;
+
+            // Set up the content to print in a new window
+            var printWindow = window.open('', '', 'height=600,width=800');
+            printWindow.document.write('<html><head><title>Print</title><link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" /></head><body>');
+            printWindow.document.write('<div>' + content + '</div>');
+            printWindow.document.write('</body></html>');
+
+            // Close the document and print
+            printWindow.document.close();
+            printWindow.print();
+        }
+    </script>
 <?php include '../footer.php'; ?>
