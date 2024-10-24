@@ -205,7 +205,14 @@
         router: new L.Routing.GraphHopper('9348a4ee-0d54-4f8a-9f53-6484ac3387e8'),
     }).addTo(map);
 
-    L.marker(store_lat_lng).addTo(map).bindPopup(`Store: ${order.store_location}`).openPopup();
+    const storeIcon = L.icon({
+        iconUrl: '../store.png', // Replace with the path to your custom icon image
+        iconSize: [30, 40], // Size of the icon [width, height]
+        iconAnchor: [15, 40], // Point of the icon which will correspond to marker's location
+        popupAnchor: [0, -40] // Point from which the popup should open relative to the iconAnchor
+    });
+
+    L.marker(store_lat_lng,{ icon: storeIcon }).addTo(map).bindPopup(`Store: ${order.store_location}`).openPopup();
     L.marker(customer_lat_lng).addTo(map).bindPopup(`Your Location: ${order.customer_address}`).openPopup();
 
     const raider_id_el = document.getElementById('raider_id');

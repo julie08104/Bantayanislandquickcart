@@ -189,8 +189,47 @@
         router: new L.Routing.GraphHopper('9348a4ee-0d54-4f8a-9f53-6484ac3387e8'),
     }).addTo(map);
 
-    L.marker(store_lat_lng).addTo(map).bindPopup(`Store: ${order.store_location}`).openPopup();
+    const storeIcon = L.icon({
+        iconUrl: '../store.png', // Replace with the path to your custom icon image
+        iconSize: [30, 40], // Size of the icon [width, height]
+        iconAnchor: [15, 40], // Point of the icon which will correspond to marker's location
+        popupAnchor: [0, -40] // Point from which the popup should open relative to the iconAnchor
+    });
+    const raiderIcon = L.icon({
+        iconUrl: '../raider.png', // Replace with the path to your custom icon image
+        iconSize: [30, 40], // Size of the icon [width, height]
+        iconAnchor: [15, 40], // Point of the icon which will correspond to marker's location
+        popupAnchor: [0, -40] // Point from which the popup should open relative to the iconAnchor
+    });
+
+    L.marker(store_lat_lng,{ icon: storeIcon }).addTo(map).bindPopup(`Store: ${order.store_location}`).openPopup();
     L.marker(customer_lat_lng).addTo(map).bindPopup(`Your Location: ${order.customer_address}`).openPopup();
+
+    const raiderMarker = L.marker([0, 0],{ icon: raiderIcon }).addTo(map);
+
+    function updateLocation(latitude, longitude) {
+        fetch('php/update_raider_location.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `latitude=${latitude}&longitude=${longitude}&order_id=${order.order_id}&raider_id=${order.raider_id}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            raiderMarker.setLatLng([latitude, longitude]);
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    if (order.status == "in_progress" && navigator.geolocation) {
+        navigator.geolocation.watchPosition(position => {
+            const { latitude, longitude } = position.coords;
+            updateLocation(latitude, longitude);
+        });
+    } else {
+        console.log('Geolocation is not supported by this browser.');
+    }
 </script>
 
 <?php include '../footer.php'; ?>

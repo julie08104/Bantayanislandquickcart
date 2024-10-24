@@ -169,6 +169,15 @@
         }
     }
 
+    function createCustomerMarker(location, location_name){
+        if(customer_marker){
+            customer_marker = customer_marker.setLatLng(location);
+        }else{
+            customer_marker = L.marker(location).addTo(map);
+        }
+        customer_marker.bindPopup(`Your Location: ${location_name}`).openPopup();
+    }
+
     function handleCurrentLocation(){
         if(navigator.geolocation){
             navigator.geolocation.getCurrentPosition(async function(position){
@@ -180,13 +189,7 @@
                 latitude.value = customer_lat_lng[0];
                 longitude.value = customer_lat_lng[1];
 
-                if(customer_marker){
-                    customer_marker = customer_marker.setLatLng(customer_lat_lng);
-                }else{
-                    customer_marker = L.marker(customer_lat_lng).addTo(map);
-                }
-                customer_marker.bindPopup(`Your Location: ${customer_address}`).openPopup();
-
+                createCustomerMarker(customer_lat_lng, customer_address);
                 handleControls();
             }, function (){
                 alert("Unable to retrieve your location.")
@@ -220,9 +223,8 @@
                             address.value = hit.display_name;
                             latitude.value = lat;
                             longitude.value = lng;
-                            
-                            customer_marker = customer_marker.setLatLng([lat, lng]).bindPopup(`Your Location: ${hit.display_name}`).openPopup();
-                        
+
+                            createCustomerMarker([lat, lng], hit.display_name);
                             handleControls()
                         });
 
@@ -249,7 +251,6 @@
             }else{
                 store_marker = L.marker(store_lat_lng).addTo(map);
             }
-            store_marker.bindPopup(`Store: ${selectedStore.location}`).openPopup();
 
             handleControls();
         }
