@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
-    <script src="<?php echo $_SERVER['DOCUMENT_ROOT']; ?>/leaflet-routing-machine/dist/lrm-graphhopper-1.2.0.min.js"></script>
+    <script src="/leaflet-routing-machine/dist/lrm-graphhopper-1.2.0.min.js"></script>
     <!-- <script src="https://cdn.jsdelivr.net/npm/lrm-graphhopper@1.3.0/src/L.Routing.GraphHopper.min.js"></script> -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
