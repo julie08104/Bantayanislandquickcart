@@ -12,10 +12,10 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
-    <link rel="stylesheet" href="/mcc/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
-    <script src="/mcc/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
-    <script src="/mcc/leaflet-routing-machine/dist/lrm-graphhopper-1.2.0.min.js"></script>
+    <script src="/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+    <script src="/leaflet-routing-machine/dist/lrm-graphhopper-1.2.0.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @media print {
