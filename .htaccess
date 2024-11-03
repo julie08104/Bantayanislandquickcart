@@ -1,6 +1,23 @@
+# Enable URL rewriting
 RewriteEngine On
 
 # Hide .php extension
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.php -f
-RewriteRule ^(.*)$ $1.php
+RewriteRule ^(.*)$ $1.php [L]
+
+# Allow access to specific directories
+<IfModule mod_authz_core.c>
+    Require all granted
+</IfModule>
+
+<IfModule !mod_authz_core.c>
+    Order Allow,Deny
+    Allow from all
+</IfModule>
+
+# Specify MIME types for CSS files
+AddType text/css .css
+
+# Optional: Disable directory listing
+Options -Indexes
