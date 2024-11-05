@@ -1,18 +1,18 @@
 <?php include 'header.php'; ?>
 <div class="swiper mySwiper">
     <div class="swiper-wrapper">
-        <div class="swiper-slide"><img class="object-cover h-[400px] w-full" src="/mcc/images/img1.png" alt="img1" /></div>
-        <div class="swiper-slide"><img class="object-cover h-[400px] w-full" src="/mcc/images/img2.png" alt="img2" /></div>
-        <div class="swiper-slide"><img class="object-cover h-[400px] w-full" src="/mcc/images/img3.png" alt="img3" /></div>
-        <div class="swiper-slide"><img class="object-cover h-[400px] w-full" src="/mcc/images/img4.png" alt="img4" /></div>
-        <div class="swiper-slide"><img class="object-cover h-[400px] w-full" src="/mcc/images/img5.png" alt="img5" /></div>
-        <div class="swiper-slide"><img class="object-cover h-[400px] w-full" src="/mcc/images/img6.png" alt="img6" /></div>
-        <div class="swiper-slide"><img class="object-cover h-[400px] w-full" src="/mcc/images/img7.png" alt="img7" /></div>
-        <div class="swiper-slide"><img class="object-cover h-[400px] w-full" src="/mcc/images/img8.png" alt="img8" /></div>
-        <div class="swiper-slide"><img class="object-cover h-[400px] w-full" src="/mcc/images/img9.png" alt="img9" /></div>
-        <div class="swiper-slide"><img class="object-cover h-[400px] w-full" src="/mcc/images/img10.png" alt="img10" /></div>
-        <div class="swiper-slide"><img class="object-cover h-[400px] w-full" src="/mcc/images/img11.png" alt="img11" /></div>
-        <div class="swiper-slide"><img class="object-cover h-[400px] w-full" src="/mcc/images/img12.png" alt="img12" /></div>
+        <div class="swiper-slide"><img class="object-cover h-[400px] w-full" src="/images/img1.png" alt="img1" /></div>
+        <div class="swiper-slide"><img class="object-cover h-[400px] w-full" src="/images/img2.png" alt="img2" /></div>
+        <div class="swiper-slide"><img class="object-cover h-[400px] w-full" src="/images/img3.png" alt="img3" /></div>
+        <div class="swiper-slide"><img class="object-cover h-[400px] w-full" src="/images/img4.png" alt="img4" /></div>
+        <div class="swiper-slide"><img class="object-cover h-[400px] w-full" src="/images/img5.png" alt="img5" /></div>
+        <div class="swiper-slide"><img class="object-cover h-[400px] w-full" src="/images/img6.png" alt="img6" /></div>
+        <div class="swiper-slide"><img class="object-cover h-[400px] w-full" src="/images/img7.png" alt="img7" /></div>
+        <div class="swiper-slide"><img class="object-cover h-[400px] w-full" src="/images/img8.png" alt="img8" /></div>
+        <div class="swiper-slide"><img class="object-cover h-[400px] w-full" src="/images/img9.png" alt="img9" /></div>
+        <div class="swiper-slide"><img class="object-cover h-[400px] w-full" src="/images/img10.png" alt="img10" /></div>
+        <div class="swiper-slide"><img class="object-cover h-[400px] w-full" src="/images/img11.png" alt="img11" /></div>
+        <div class="swiper-slide"><img class="object-cover h-[400px] w-full" src="/images/img12.png" alt="img12" /></div>
     </div>
     <div class="swiper-button-next"></div>
     <div class="swiper-button-prev"></div>
