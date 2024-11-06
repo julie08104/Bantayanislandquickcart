@@ -130,7 +130,13 @@
                     options: {
                         scales: {
                             y: {
-                                beginAtZero: true
+                                ticks: {
+                                    beginAtZero: true,
+                                    stepSize: 1,
+                                    callback: function(value) {
+                                        return value.toFixed(0);
+                                    }
+                                }
                             }
                         }
                     }

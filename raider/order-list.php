@@ -85,7 +85,7 @@
         <?php include '../alert.php'; ?>
         <div class="flex items-center justify-between gap-4">
             <h1 class="text-2xl">Order List</h1>
-            <button class="no-print text-sm px-4 py-2 border rounded" onclick="printPage()">Print</button>
+            <button class="no-print text-sm px-4 py-2 border rounded bg-blue-700 text-white" onclick="printPage()">Print</button>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <?php foreach ($orders as $order): ?>
