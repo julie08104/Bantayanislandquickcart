@@ -26,11 +26,11 @@
         // Insert user
         $stmt = $pdo->prepare("INSERT INTO raiders (firstname, lastname, phone, address, vehicle_type, vehicle_number, email, password_hash, verification_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         if ($stmt->execute([$firstname, $lastname, $phone, $address, $vehicle_type, $vehicle_number, $email, $password_hash, $verification_code])) {
-            $_SESSION['message'] = ['type' => 'success', 'text' => 'Raider created successfully.'];
+            $_SESSION['message'] = ['type' => 'success', 'text' => 'Rider created successfully.'];
             header("Location: raider-list.php");
             exit();
         } else {
-            $_SESSION['message'] = ['type' => 'error', 'text' => 'Raider creation failed. Please try again.'];
+            $_SESSION['message'] = ['type' => 'error', 'text' => 'Rider creation failed. Please try again.'];
             header("Location: raider-new.php");
             exit();
         }
@@ -45,7 +45,7 @@
     <div class="bg-white shadow rounded p-4">
         <?php include '../alert.php'; ?>
         <div class="flex items-center justify-between gap-4 mb-4">
-            <h1 class="text-2xl">New Raider</h1>
+            <h1 class="text-2xl">New Rider</h1>
         </div>
         <div class="max-w-md">
             <form method="POST">

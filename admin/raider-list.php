@@ -11,7 +11,7 @@
     <div class="bg-white shadow rounded p-4 space-y-4">
         <?php include '../alert.php'; ?>
         <div class="flex items-center justify-between gap-4">
-            <h1 class="text-2xl">Raider List</h1>
+            <h1 class="text-2xl">Rider List</h1>
             <div class="space-x-2">
                 <a href="raider-new.php" class="no-print text-sm px-4 py-2 border rounded bg-blue-700 text-white">Create</a>
                 <button class="no-print text-sm px-4 py-2 border rounded" onclick="window.print()">Print</button>
@@ -75,7 +75,7 @@
 
             Swal.fire({
                 title: 'Are you sure?',
-                text: 'You are about to delete raider with ID: ' + data.id,
+                text: 'You are about to delete rider with ID: ' + data.id,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Yes, delete it!',
@@ -92,14 +92,14 @@
                             if (response.success) {
                                 Swal.fire(
                                     'Deleted!',
-                                    'Raider has been deleted.',
+                                    'Rider has been deleted.',
                                     'success'
                                 );
                                 $('#userTable').DataTable().ajax.reload();
                             } else {
                                 Swal.fire(
                                     'Error!',
-                                    'There was an issue deleting the raider.',
+                                    'There was an issue deleting the rider.',
                                     'error'
                                 );
                             }
@@ -115,7 +115,7 @@
                 } else if (result.dismiss === Swal.DismissReason.cancel) {
                     Swal.fire(
                         'Cancelled',
-                        'The raider is safe :)',
+                        'The rider is safe :)',
                         'info'
                     );
                 }

@@ -137,7 +137,7 @@
                         </form>
                     <?php endif; ?>
                     <div>
-                        <p class="text-sm text-gray-500">Assign Raider: </p>
+                        <p class="text-sm text-gray-500">Assign Rider: </p>
                         <?php if ($order['raider_id']): ?>
                             <p><?php echo $order['raider_fullname'] ?></p>
                             <p><?php echo $order['raider_phone'] ?></p>

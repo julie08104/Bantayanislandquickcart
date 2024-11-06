@@ -40,11 +40,11 @@
         // Update user
         $stmt = $pdo->prepare("UPDATE raiders SET firstname = ?, lastname = ?, phone = ?, address = ?, vehicle_type = ?, vehicle_number = ?, email = ?, password_hash = ? WHERE id = ?");
         if ($stmt->execute([$firstname, $lastname, $phone, $address, $vehicle_type, $vehicle_number, $email, $password_hash, $id])) {
-            $_SESSION['message'] = ['type' => 'success', 'text' => 'Raider updated successfully.'];
+            $_SESSION['message'] = ['type' => 'success', 'text' => 'Rider updated successfully.'];
             header("Location: raider-list.php");
             exit();
         } else {
-            $_SESSION['message'] = ['type' => 'error', 'text' => 'Raider update failed. Please try again.'];
+            $_SESSION['message'] = ['type' => 'error', 'text' => 'Rider update failed. Please try again.'];
             header("Location: raider-edit.php?id=" . $id);
             exit();
         }
@@ -59,7 +59,7 @@
     <div class="bg-white shadow rounded p-4">
         <?php include '../alert.php'; ?>
         <div class="flex items-center justify-between gap-4 mb-4">
-            <h1 class="text-2xl">Edit Raider</h1>
+            <h1 class="text-2xl">Edit Rider</h1>
         </div>
         <div class="max-w-md">
             <form method="POST">

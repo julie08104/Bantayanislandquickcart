@@ -140,7 +140,7 @@
                 </div>
                 <div class="space-y-4">
                     <div>
-                        <p class="text-sm text-gray-500">Assign Raider: </p>
+                        <p class="text-sm text-gray-500">Assign Rider: </p>
                         <?php if ($order['raider_id']): ?>
                             <p><?php echo $order['raider_fullname'] ?></p>
                             <p><?php echo $order['raider_phone'] ?></p>
@@ -148,7 +148,7 @@
                             <form id="assignOrderForm" method="post">
                                 <!-- <label for="raider_id" class="block mb-1 text-sm font-medium text-gray-900">Assign Raider:</label> -->
                                 <select id="raider_id" name="raider_id" class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
-                                    <option value="">Select Raider</option>
+                                    <option value="">Select Rider</option>
                                     <?php
                                         $stmt = $pdo->query("SELECT id, CONCAT(firstname, ' ', lastname) AS fullname FROM raiders");
                                         $raiders = $stmt->fetchAll();

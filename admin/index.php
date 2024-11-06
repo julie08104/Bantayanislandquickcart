@@ -30,7 +30,7 @@
                 <h1 class="text-2xl"><?php echo $counts['customers']; ?></h1>
             </div>
             <div class="text-center p-4 text-sm bg-green-500 text-white rounded">
-                <h2 class="text-md">Total Raiders</h2>
+                <h2 class="text-md">Total Riders</h2>
                 <h1 class="text-2xl"><?php echo $counts['raiders']; ?></h1>
             </div>
             <div class="text-center p-4 text-sm bg-yellow-500 text-white rounded">
@@ -51,7 +51,7 @@
                 new Chart(ctx, {
                     type: 'bar',
                     data: {
-                        labels: ['Customers', 'Raiders', 'Users'],
+                        labels: ['Customers', 'Riders', 'Users'],
                         datasets: [{
                             label: 'Total Count',
                             data: [data.customers, data.raiders, data.users],
