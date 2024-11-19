@@ -1,34 +1,45 @@
 <?php
     require '../config.php';
+    require '../cooldown.php';
 
     session_start();
     if (isset($_SESSION['user_id'])) {
         header("Location: index.php");
         exit();
     }
-    
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $email = $_POST['email'];
-    
-        // Check if user exists
-        $stmt = $pdo->prepare("SELECT id FROM raiders WHERE email = ?");
-        $stmt->execute([$email]);
-        $user = $stmt->fetch();
-    
-        if ($user) {
-            $forgot_password_code = md5(uniqid("yourrandomstring", true));
-    
-            // Update forgot password code
-            $stmt = $pdo->prepare("UPDATE raiders SET forgot_password_code = ? WHERE email = ?");
-            $stmt->execute([$forgot_password_code, $email]);
-    
-           // Send reset link
-           $reset_link = "https://bantayanquickcart.com/raider/reset-password.php?code=$forgot_password_code";
-           mail($email, "Reset your password", "Click this link to reset your password: $reset_link", "From: bantayanquickcart@gmail.com");
-            
-            $_SESSION['message'] = ['type' => 'success', 'text' => 'Reset password link has been sent to your email.'];
-        } else {
-            $_SESSION['message'] = ['type' => 'error', 'text' => 'Email not found!'];
+
+    $cooldown = checkCooldown('rider_forgot_pw');
+
+    if ($cooldown['cooldown']) {
+        $_SESSION['message'] = ['type' => 'error', 'text' => $cooldown['message']];
+    } else {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $email = $_POST['email'];
+        
+            // Check if user exists
+            $stmt = $pdo->prepare("SELECT id FROM raiders WHERE email = ?");
+            $stmt->execute([$email]);
+            $user = $stmt->fetch();
+        
+            if ($user) {
+                $forgot_password_code = md5(uniqid("yourrandomstring", true));
+        
+                // Update forgot password code
+                $stmt = $pdo->prepare("UPDATE raiders SET forgot_password_code = ? WHERE email = ?");
+                $stmt->execute([$forgot_password_code, $email]);
+        
+               // Send reset link
+               $reset_link = "https://bantayanquickcart.com/raider/reset-password.php?code=$forgot_password_code";
+               mail($email, "Reset your password", "Click this link to reset your password: $reset_link", "From: bantayanquickcart@gmail.com");
+                
+                $_SESSION['message'] = ['type' => 'success', 'text' => 'Reset password link has been sent to your email.'];
+                
+                resetFailedAttempts('rider_forgot_pw');
+            } else {
+                incrementFailedAttempts('rider_forgot_pw');
+
+                $_SESSION['message'] = ['type' => 'error', 'text' => 'Email not found!'];
+            }
         }
     }
 ?>

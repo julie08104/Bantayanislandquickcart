@@ -1,31 +1,46 @@
 <?php
     require '../config.php';
+    require '../cooldown.php';
 
     session_start();
+
+    // Check if user is already logged in
     if (isset($_SESSION['user_id'])) {
         header("Location: index.php");
         exit();
     }
+    
+    $cooldown = checkCooldown('admin_login');
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-    
-        // Check if user exists
-        $stmt = $pdo->prepare("SELECT id, password_hash, is_verified FROM users WHERE email = ?");
-        $stmt->execute([$email]);
-        $user = $stmt->fetch();
-    
-        if ($user && password_verify($password, $user['password_hash'])) {
-            if ($user['is_verified']) {
-                $_SESSION['user_id'] = $user['id'];
-                header("Location: index.php");
-                exit();
+    // Check if user is in cooldown
+    if ($cooldown['cooldown']) {
+        $_SESSION['message'] = ['type' => 'error', 'text' => $cooldown['message']];
+    } else {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+        
+            // Check if user exists
+            $stmt = $pdo->prepare("SELECT id, password_hash, is_verified FROM users WHERE email = ?");
+            $stmt->execute([$email]);
+            $user = $stmt->fetch();
+        
+            // Check password and user verification
+            if ($user && password_verify($password, $user['password_hash'])) {
+                if ($user['is_verified']) {
+                    resetFailedAttempts('admin_login');
+
+                    $_SESSION['user_id'] = $user['id'];
+                    header("Location: index.php");
+                    exit();
+                } else {
+                    $_SESSION['message'] = ['type' => 'error', 'text' => 'Please verify your email first.'];
+                }
             } else {
-                $_SESSION['message'] = ['type' => 'error', 'text' => 'Please verify your email first.'];
+                incrementFailedAttempts('admin_login');
+
+                $_SESSION['message'] = ['type' => 'error', 'text' => 'Invalid credentials!'];
             }
-        } else {
-            $_SESSION['message'] = ['type' => 'error', 'text' => 'Invalid credentials!'];
         }
     }
 ?>
@@ -53,19 +68,14 @@
                 class="g-recaptcha mb-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center">
                 Submit
             </button>
-            <!-- <button type="submit" class="mb-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center">Sign In</button> -->
-            <!-- <p class="text-sm text-center">
-                <span>Don't have an account? </span>
-                <a href="register.php" class="text-blue-500 hover:underline">Sign Up</a>
-            </p> -->
         </form>
     </div>
 </div>
 
 <script>
-   function onSubmit(token) {
-     document.getElementById("login-form").submit();
-   }
+    function onSubmit(token) {
+        document.getElementById("login-form").submit();
+    }
 </script>
 
 <?php include '../footer.php'; ?>

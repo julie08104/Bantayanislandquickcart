@@ -1,5 +1,6 @@
 <?php
     require '../config.php';
+    require '../cooldown.php';
 
     session_start();
     if (isset($_SESSION['user_id'])) {
@@ -7,26 +8,38 @@
         exit();
     }
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-    
-        // Check if user exists
-        $stmt = $pdo->prepare("SELECT id, password_hash, is_verified FROM customers WHERE email = ?");
-        $stmt->execute([$email]);
-        $user = $stmt->fetch();
-    
-        if ($user && password_verify($password, $user['password_hash'])) {
-            if ($user['is_verified']) {
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['user_name'] = $user['firstname'].' '.$user['lastname'];
-                header("Location: index.php");
-                exit();
+    $cooldown = checkCooldown('customer_login');
+
+    if ($cooldown['cooldown']) {
+        $_SESSION['message'] = ['type' => 'error', 'text' => $cooldown['message']];
+    } else {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+        
+            // Check if user exists
+            $stmt = $pdo->prepare("SELECT id, password_hash, is_verified FROM customers WHERE email = ?");
+            $stmt->execute([$email]);
+            $user = $stmt->fetch();
+        
+            if ($user && password_verify($password, $user['password_hash'])) {
+                if ($user['is_verified']) {
+                    resetFailedAttempts('customer_login');
+
+                    $_SESSION['user_id'] = $user['id'];
+                    $_SESSION['user_name'] = $user['firstname'].' '.$user['lastname'];
+                    header("Location: index.php");
+                    exit();
+                } else {
+                    incrementFailedAttempts('customer_login');
+
+                    $_SESSION['message'] = ['type' => 'error', 'text' => 'Please verify your email first.'];
+                }
             } else {
-                $_SESSION['message'] = ['type' => 'error', 'text' => 'Please verify your email first.'];
+                incrementFailedAttempts('customer_login');
+
+                $_SESSION['message'] = ['type' => 'error', 'text' => 'Invalid credentials!'];
             }
-        } else {
-            $_SESSION['message'] = ['type' => 'error', 'text' => 'Invalid credentials!'];
         }
     }
 ?>
