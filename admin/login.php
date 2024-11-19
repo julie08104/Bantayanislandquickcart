@@ -51,6 +51,7 @@
     <img src="../logo.png" class="w-32 mx-auto mb-4" alt="Logo" />
     <div class="max-w-md mx-auto bg-white shadow rounded p-4">
         <?php include '../alert.php'; ?>
+        admin
         <form method="POST" id="login-form">
             <div class="mb-4">
                 <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
