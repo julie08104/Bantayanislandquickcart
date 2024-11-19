@@ -32,18 +32,18 @@
     <!-- Swiper Slider -->
     <div class="swiper mySwiper">
         <div class="swiper-wrapper">
-            <div class="swiper-slide"><img class="object-cover h-screen w-full" src="/images/img1.png" alt="img1" /></div>
-            <div class="swiper-slide"><img class="object-cover h-screen w-full" src="/images/img2.png" alt="img2" /></div>
-            <div class="swiper-slide"><img class="object-cover h-screen w-full" src="/images/img3.png" alt="img3" /></div>
-            <div class="swiper-slide"><img class="object-cover h-screen w-full" src="/images/img4.png" alt="img4" /></div>
-            <div class="swiper-slide"><img class="object-cover h-screen w-full" src="/images/img5.png" alt="img5" /></div>
-            <div class="swiper-slide"><img class="object-cover h-screen w-full" src="/images/img6.png" alt="img6" /></div>
-            <div class="swiper-slide"><img class="object-cover h-screen w-full" src="/images/img7.png" alt="img7" /></div>
-            <div class="swiper-slide"><img class="object-cover h-screen w-full" src="/images/img8.png" alt="img8" /></div>
-            <div class="swiper-slide"><img class="object-cover h-screen w-full" src="/images/img9.png" alt="img9" /></div>
-            <div class="swiper-slide"><img class="object-cover h-screen w-full" src="/images/img10.png" alt="img10" /></div>
-            <div class="swiper-slide"><img class="object-cover h-screen w-full" src="/images/img11.png" alt="img11" /></div>
-            <div class="swiper-slide"><img class="object-cover h-screen w-full" src="/images/img12.png" alt="img12" /></div>
+            <div class="swiper-slide"><img class="object-cover h-screen w-full" src="/images/img1.jpg" alt="img1" /></div>
+            <div class="swiper-slide"><img class="object-cover h-screen w-full" src="/images/img2.jpg" alt="img2" /></div>
+            <div class="swiper-slide"><img class="object-cover h-screen w-full" src="/images/img3.jpg" alt="img3" /></div>
+            <div class="swiper-slide"><img class="object-cover h-screen w-full" src="/images/img4.jpg" alt="img4" /></div>
+            <div class="swiper-slide"><img class="object-cover h-screen w-full" src="/images/img5.jpg" alt="img5" /></div>
+            <div class="swiper-slide"><img class="object-cover h-screen w-full" src="/images/img6.jpg" alt="img6" /></div>
+            <div class="swiper-slide"><img class="object-cover h-screen w-full" src="/images/img7.jpg" alt="img7" /></div>
+            <div class="swiper-slide"><img class="object-cover h-screen w-full" src="/images/img8.jpg" alt="img8" /></div>
+            <div class="swiper-slide"><img class="object-cover h-screen w-full" src="/images/img9.jpg" alt="img9" /></div>
+            <div class="swiper-slide"><img class="object-cover h-screen w-full" src="/images/img10.jpg" alt="img10" /></div>
+            <div class="swiper-slide"><img class="object-cover h-screen w-full" src="/images/img11.jpg" alt="img11" /></div>
+            <div class="swiper-slide"><img class="object-cover h-screen w-full" src="/images/img12.jpg" alt="img12" /></div>
         </div>
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
