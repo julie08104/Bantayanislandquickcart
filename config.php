@@ -15,4 +15,10 @@ try {
 } catch (PDOException $e) {
     echo 'Connection failed: ' . $e->getMessage();
 }
+
+if (strpos($_SERVER['REQUEST_URI'], '.php') !== false) {
+    $redirectUrl = rtrim($_SERVER['REQUEST_URI'], '.php');
+    header("Location: $redirectUrl", true, 301);
+    exit; 
+}
 ?>
