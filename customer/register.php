@@ -15,6 +15,13 @@
         $email = $_POST['email'];
         $password = $_POST['password'];
         $confirm_password = $_POST['confirm_password'];
+
+         // Check if Terms and Conditions checkbox is checked
+        if (!isset($_POST['terms'])) {
+            $_SESSION['message'] = ['type' => 'error', 'text' => 'You must accept the terms and conditions to register.'];
+            header("Location: register.php");
+            exit();
+        }
         
         // Password strength validation
         if (!preg_match('/[A-Z]/', $password) || 
@@ -100,6 +107,12 @@
             <div class="mb-4">
                 <label for="confirm_password" class="block mb-2 text-sm font-medium text-gray-900">Confirm Password</label>
                 <input type="password" id="confirm_password" name="confirm_password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required />
+            </div>
+            <div class="mb-4">
+                <label class="flex items-center">
+                    <input type="checkbox" id="terms" name="terms" class="mr-2" required />
+                    <span class="text-sm text-gray-900">I agree to the <a href="terms_and_conditions.php" class="text-blue-500 hover:underline">Terms and Conditions</a></span>
+                </label>
             </div>
             <button
                 data-sitekey="6LeWO1YqAAAAALCrSqRbOX0mYKiSSyWWDe65aYB_" 
