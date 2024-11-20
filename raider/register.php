@@ -124,7 +124,7 @@
                 <label class="flex items-start">
                     <input type="checkbox" id="terms" name="terms" class="mr-2 mt-1" required />
                     <span class="text-sm text-gray-900">
-                        By using Bantayan Island QuickCart, you confirm that you legally agree to these <a href="terms_and_conditions.php" class="text-blue-500 hover:underline">Terms and Conditions.</a> If you do not meet this requirement, please do not use the platform.
+                        By using Bantayan Island QuickCart, you confirm that you legally agree to these <a href="/terms_and_conditions.php" class="text-blue-500 hover:underline">Terms and Conditions.</a> If you do not meet this requirement, please do not use the platform.
                     </span>
                 </label>
             </div>
