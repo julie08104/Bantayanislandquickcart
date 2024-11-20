@@ -109,9 +109,11 @@
                 <input type="password" id="confirm_password" name="confirm_password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required />
             </div>
             <div class="mb-4">
-                <label class="flex items-center">
-                    <input type="checkbox" id="terms" name="terms" class="mr-2" required />
-                    <span class="text-sm text-gray-900">I agree to the <a href="terms_and_conditions.php" class="text-blue-500 hover:underline">Terms and Conditions</a></span>
+                <label class="flex items-start">
+                    <input type="checkbox" id="terms" name="terms" class="mr-2 mt-1" required />
+                    <span class="text-sm text-gray-900">
+                        By using Bantayan Island QuickCart, you confirm that you legally agree to these <a href="terms_and_conditions.php" class="text-blue-500 hover:underline">Terms and Conditions.</a> If you do not meet this requirement, please do not use the platform.
+                    </span>
                 </label>
             </div>
             <button
