@@ -1,8 +1,9 @@
 <?php
 if (strpos($_SERVER['REQUEST_URI'], '.php') !== false) {
-    $redirectUrl = rtrim($_SERVER['REQUEST_URI'], '.php');
+    $uri = $_SERVER['REQUEST_URI'];
+    $redirectUrl = rtrim(str_replace('.php', '', $uri), '/');
     header("Location: $redirectUrl", true, 301);
-    exit; 
+    exit;
 }
 ?>
 
