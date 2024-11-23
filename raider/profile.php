@@ -70,7 +70,7 @@
                 </div>
                 <div class="mb-4">
                     <label for="phone" class="block mb-2 text-sm font-medium text-gray-900">Phone Number</label>
-                    <input type="number" id="phone" name="phone" value="<?php echo $raider['phone'] ?>" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required />
+                    <input type="number" id="phone" name="phone" maxlength="11" oninput="validatePhoneInput(event)" value="<?php echo $raider['phone'] ?>" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required />
                 </div>
                 <div class="mb-4">
                     <label for="address" class="block mb-2 text-sm font-medium text-gray-900">Address</label>
@@ -99,3 +99,5 @@
         </div>
     </div>
 </div>
+
+<?php include '../footer.php'; ?>
