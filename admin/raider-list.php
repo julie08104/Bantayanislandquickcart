@@ -14,7 +14,7 @@
             <h1 class="text-2xl">Rider List</h1>
             <div class="space-x-2">
                 <a href="raider-new.php" class="no-print text-sm px-4 py-2 border rounded bg-blue-700 text-white">Create</a>
-                <button class="no-print text-sm px-4 py-2 border rounded" onclick="window.print()">Print</button>
+                <!-- <button class="no-print text-sm px-4 py-2 border rounded" onclick="window.print()">Print</button> -->
             </div>
         </div>
         <table id="userTable" class="display responsive">
@@ -61,7 +61,20 @@
                     `,
                     "className": "action-buttons"
                 }
-            ]
+            ],
+            layout: {
+                topStart: {
+                    buttons: [
+                        {
+                            extend: 'print',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        'colvis'
+                    ]
+                }
+            }
         });
 
         // Handle Edit and Delete button clicks

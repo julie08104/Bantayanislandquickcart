@@ -19,6 +19,7 @@
         $stmt->execute([$email]);
         if ($stmt->rowCount() > 0) {
             $_SESSION['message'] = ['type' => 'error', 'text' => 'Email already registered!'];
+            header("Location: register.php");
             exit;
         }
 
@@ -30,8 +31,8 @@
             // // mail($email, "Verify your email", "Click this link to verify your email: $verification_link", "From: bantayanquickcart@gmail.com");
 
             // $_SESSION['message'] = ['type' => 'success', 'text' => 'Registration successful! Check your email to verify your account.'];
-            // header("Location: login.php");
-            // exit();
+            header("Location: login.php");
+            exit();
         } else {
             $_SESSION['message'] = ['type' => 'error', 'text' => 'Registration failed!'];
         }
