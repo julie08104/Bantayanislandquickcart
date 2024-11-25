@@ -23,7 +23,7 @@
         }
 
         // Insert user
-        $stmt = $pdo->prepare("INSERT INTO users (name, email, password_hash, is_verified) VALUES (?, ?, ?, ?)");
+        $stmt = $pdo->prepare("INSERT INTO users (name, email, password_hash, verification_code, is_verified) VALUES (?, ?, ?, ?, 1)");
         if ($stmt->execute([$name, $email, $password_hash, $verification_code])) {
             // TODO: Send verification email
             $verification_link = "https://bantayanquickcart.com/admin/verify.php?code=$verification_code";
