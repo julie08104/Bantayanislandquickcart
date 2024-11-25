@@ -23,15 +23,15 @@
         }
 
         // Insert user
-        $stmt = $pdo->prepare("INSERT INTO users (name, email, password_hash, verification_code, is_verified) VALUES (?, ?, ?, ?, 1)");
+        $stmt = $pdo->prepare("INSERT INTO users (name, email, password_hash, is_verified) VALUES (?, ?, ?, ?)");
         if ($stmt->execute([$name, $email, $password_hash, $verification_code])) {
-            // TODO: Send verification email
-            $verification_link = "https://bantayanquickcart.com/admin/verify.php?code=$verification_code";
-            // mail($email, "Verify your email", "Click this link to verify your email: $verification_link", "From: bantayanquickcart@gmail.com");
+            // // TODO: Send verification email
+            // $verification_link = "https://bantayanquickcart.com/admin/verify.php?code=$verification_code";
+            // // mail($email, "Verify your email", "Click this link to verify your email: $verification_link", "From: bantayanquickcart@gmail.com");
 
-            $_SESSION['message'] = ['type' => 'success', 'text' => 'Registration successful! Check your email to verify your account.'];
-            header("Location: login.php");
-            exit();
+            // $_SESSION['message'] = ['type' => 'success', 'text' => 'Registration successful! Check your email to verify your account.'];
+            // header("Location: login.php");
+            // exit();
         } else {
             $_SESSION['message'] = ['type' => 'error', 'text' => 'Registration failed!'];
         }
