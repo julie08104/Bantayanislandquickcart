@@ -34,6 +34,7 @@
     $(document).ready(function() {
         $('#userTable').DataTable({
             "responsive": true,
+            "scrollX": true,
             "ajax": "php/fetch_stores.php",
             "columns": [
                 { "data": "name" },

@@ -39,6 +39,7 @@
     $(document).ready(function() {
         $('#userTable').DataTable({
             "responsive": true,
+            "scrollX": true,
             "ajax": "php/fetch_raiders.php",
             "columns": [
                 { "data": "fullname" },

@@ -35,6 +35,7 @@
     $(document).ready(function() {
         $('#userTable').DataTable({
             "responsive": true,
+            "scrollX": true,
             "ajax": "php/fetch_users.php",
             "columns": [
                 { "data": "name" },
