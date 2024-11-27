@@ -17,7 +17,7 @@
                 <!-- <button class="no-print text-sm px-4 py-2 border rounded" onclick="window.print()">Print</button> -->
             </div>
         </div>
-        <table id="userTable" class="display responsive">
+        <table id="userTable" class="display responsive nowrap" width="100%">
             <thead>
                 <tr>
                     <th>Name</th>
