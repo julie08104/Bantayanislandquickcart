@@ -28,3 +28,5 @@ Header set Permissions-Policy "geolocation 'self' https://example.com; microphon
 # Set Referrer-Policy header
 Header set Referrer-Policy "strict-origin-when-cross-origin"
 
+# Set X-Frame-Options to SAMEORIGIN to prevent clickjacking
+Header set X-Frame-Options "SAMEORIGIN"
