@@ -21,3 +21,6 @@ AddType text/css .css
 
 # Optional: Disable directory listing
 Options -Indexes
+
+# Set Permissions-Policy header
+Header set Permissions-Policy "geolocation 'self' https://example.com; microphone 'none'"
