@@ -21,3 +21,18 @@ AddType text/css .css
 
 # Optional: Disable directory listing
 Options -Indexes
+
+# Set Permissions-Policy header
+Header set Permissions-Policy "geolocation 'self' https://example.com; microphone 'none'"
+
+# Set Referrer-Policy header
+Header set Referrer-Policy "strict-origin-when-cross-origin"
+
+# Set X-Frame-Options to SAMEORIGIN to prevent clickjacking
+Header set X-Frame-Options "SAMEORIGIN"
+
+# Set HTTP Strict-Transport-Security (HSTS) header
+Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+# Set X-Content-Type-Options header to prevent MIME sniffing
+Header set X-Content-Type-Options "nosniff"
