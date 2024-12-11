@@ -1,4 +1,5 @@
 <?php
+    $page_type='admin';
     require '../config.php';
 
     session_start();

@@ -1,4 +1,5 @@
 <?php
+    $page_type='customer';
     require '../config.php';
     require '../auth_check.php';
 

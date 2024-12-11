@@ -27,6 +27,7 @@
                     resetFailedAttempts('rider_login');
 
                     $_SESSION['user_id'] = $user['id'];
+                    $_SESSION['user_type'] ='raider';
                     header("Location: index.php");
                     exit();
                 } else {

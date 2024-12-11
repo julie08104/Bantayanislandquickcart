@@ -26,6 +26,7 @@
                 if ($user['is_verified']) {
                     resetFailedAttempts('customer_login');
 
+                    $_SESSION['user_type'] ='customer';
                     $_SESSION['user_id'] = $user['id'];
                     $_SESSION['user_name'] = $user['firstname'].' '.$user['lastname'];
                     header("Location: index.php");

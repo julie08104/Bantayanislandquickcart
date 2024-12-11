@@ -1,4 +1,5 @@
 <?php
+    $page_type='admin';
     require '../config.php';
     require '../auth_check.php';
     
