@@ -66,6 +66,8 @@
                 To verify your email, please enter the following verification code on the verification page:<br><br>
                 <b>$verification_code</b><br><br>
                 Click this link to go to the verification page: <a href='$verification_link'>Verify your email</a><br><br>
+                If the link does not work, you can copy and paste the following URL into your browser: <br>
+                <code>$verification_link</code><br><br>
                 Thank you!
             ";
             mail($email, "Verify your email", $verification_message, "From: bantayanquickcart@gmail.com\r\nContent-Type: text/html; charset=UTF-8");
