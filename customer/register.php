@@ -42,7 +42,8 @@
         }
     
         $password_hash = password_hash($password, PASSWORD_BCRYPT);
-        $verification_code = md5(uniqid("yourrandomstring", true));
+        // $verification_code = md5(uniqid("yourrandomstring", true));
+        $verification_code = str_pad(rand(0, 999999), 6, "0", STR_PAD_LEFT);
     
         // Check if user exists
         $stmt = $pdo->prepare("SELECT id FROM customers WHERE email = ?");
@@ -58,8 +59,14 @@
         if ($stmt->execute([$firstname, $lastname, $phone, $address, $email, $password_hash, $verification_code])) {
             // TODO: Send verification email
             $verification_link = "https://bantayanquickcart.com/customer/verify.php";
-            $verification_message = "Hello,\n\nTo verify your email, please enter the following verification code on the verification page:\n\n$verification_code\n\nClick this link to go to the verification page: $verification_link\n\nThank you!";
-            mail($email, "Verify your email", $verification_message, "From: bantayanquickcart@gmail.com");
+            $verification_message = "
+                Hello,<br><br>
+                To verify your email, please enter the following verification code on the verification page:<br><br>
+                <b>$verification_code</b><br><br>
+                Click this link to go to the verification page: <a href='$verification_link'>Verify your email</a><br><br>
+                Thank you!
+            ";
+            mail($email, "Verify your email", $verification_message, "From: bantayanquickcart@gmail.com\r\nContent-Type: text/html; charset=UTF-8");
                 
             // $verification_link = "https://bantayanquickcart.com/customer/verify.php?code=$verification_code";
             // mail($email, "Verify your email", "Click this link to verify your email: $verification_link", "From: bantayanquickcart@gmail.com");

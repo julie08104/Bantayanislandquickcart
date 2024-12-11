@@ -44,7 +44,8 @@
         }
 
         $password_hash = password_hash($password, PASSWORD_BCRYPT);
-        $verification_code = md5(uniqid("yourrandomstring", true));
+        // $verification_code = md5(uniqid("yourrandomstring", true));
+        $verification_code = str_pad(rand(0, 999999), 6, "0", STR_PAD_LEFT);
 
         // Check if user exists
         $stmt = $pdo->prepare("SELECT id FROM raiders WHERE email = ?");
@@ -59,8 +60,18 @@
         $stmt = $pdo->prepare("INSERT INTO raiders (firstname, lastname, phone, address, vehicle_type, vehicle_number, email, password_hash, verification_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         if ($stmt->execute([$firstname, $lastname, $phone, $address, $vehicle_type, $vehicle_number, $email, $password_hash, $verification_code])) {
             // TODO: Send verification email
-            $verification_link = "https://bantayanquickcart.com/raider/verify.php?code=$verification_code";
-            mail($email, "Verify your email", "Click this link to verify your email: $verification_link", "From: bantayanquickcart@gmail.com");
+            $verification_link = "https://bantayanquickcart.com/raider/verify.php";
+            $verification_message = "
+                Hello,<br><br>
+                To verify your email, please enter the following verification code on the verification page:<br><br>
+                <b>$verification_code</b><br><br>
+                Click this link to go to the verification page: <a href='$verification_link'>Verify your email</a><br><br>
+                Thank you!
+            ";
+            mail($email, "Verify your email", $verification_message, "From: bantayanquickcart@gmail.com\r\nContent-Type: text/html; charset=UTF-8");
+
+            // $verification_link = "https://bantayanquickcart.com/raider/verify.php?code=$verification_code";
+            // mail($email, "Verify your email", "Click this link to verify your email: $verification_link", "From: bantayanquickcart@gmail.com");
 
             $_SESSION['message'] = ['type' => 'success', 'text' => 'Registration successful! Check your email to verify your account.'];
             header("Location: login.php");
