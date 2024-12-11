@@ -57,8 +57,12 @@
         $stmt = $pdo->prepare("INSERT INTO customers (firstname, lastname, phone, address, email, password_hash, verification_code) VALUES (?, ?, ?, ?, ?, ?, ?)");
         if ($stmt->execute([$firstname, $lastname, $phone, $address, $email, $password_hash, $verification_code])) {
             // TODO: Send verification email
-            $verification_link = "https://bantayanquickcart.com/customer/verify.php?code=$verification_code";
-            mail($email, "Verify your email", "Click this link to verify your email: $verification_link", "From: bantayanquickcart@gmail.com");
+            $verification_link = "https://bantayanquickcart.com/customer/verify.php";
+            $verification_message = "Hello,\n\nTo verify your email, please enter the following verification code on the verification page:\n\n$verification_code\n\nClick this link to go to the verification page: $verification_link\n\nThank you!";
+            mail($email, "Verify your email", $verification_message, "From: bantayanquickcart@gmail.com");
+                
+            // $verification_link = "https://bantayanquickcart.com/customer/verify.php?code=$verification_code";
+            // mail($email, "Verify your email", "Click this link to verify your email: $verification_link", "From: bantayanquickcart@gmail.com");
     
             $_SESSION['message'] = ['type' => 'success', 'text' => 'Registration successful! Check your email to verify your account.'];
             header("Location: login.php");
