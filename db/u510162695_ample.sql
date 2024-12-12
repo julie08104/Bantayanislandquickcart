@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 24, 2024 at 06:42 AM
+-- Generation Time: Dec 12, 2024 at 06:01 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -53,15 +53,10 @@ CREATE TABLE `customers` (
   `is_verified` tinyint(1) DEFAULT 0,
   `verification_code` varchar(50) NOT NULL,
   `forgot_password_code` varchar(50) NOT NULL,
+  `twofa_code` varchar(6) DEFAULT NULL,
+  `twofa_expires_at` datetime DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `customers`
---
-
-INSERT INTO `customers` (`id`, `firstname`, `lastname`, `phone`, `address`, `email`, `password_hash`, `is_verified`, `verification_code`, `forgot_password_code`, `created_at`) VALUES
-(7, 'William', 'Bartlett', '7608880360', '3045 Wilson Street San Diego, CA 92103', 'customer@test.com', '$2y$10$0d4ahL1QLn1I/mhC6sEs.u7PQBP58WPrHZ73Gadyw2psVysHlxOpK', 1, 'b8ecaa37ac33a3edac6df2261c06e396', '', '2024-10-18 05:48:30');
 
 -- --------------------------------------------------------
 
@@ -106,13 +101,6 @@ CREATE TABLE `raiders` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `raiders`
---
-
-INSERT INTO `raiders` (`id`, `firstname`, `lastname`, `phone`, `address`, `vehicle_type`, `vehicle_number`, `email`, `password_hash`, `is_verified`, `verification_code`, `forgot_password_code`, `created_at`) VALUES
-(9, 'Ashlee', 'Perez', '09123456789', '4654 Farm Meadow Drive Monterey, TN 38574', 'Motorcycle', 'vn123', 'raider@test.com', '$2y$10$EuMJyd8LJmRiv3abh1cFLe8uZMPIJIdZm8jz5E.dkY3V57LrzoHHC', 1, '251fe8cf669569c8b908153723ef959a', '', '2024-10-19 06:07:17');
-
 -- --------------------------------------------------------
 
 --
@@ -126,6 +114,21 @@ CREATE TABLE `reviews` (
   `rating` int(11) NOT NULL CHECK (`rating` between 1 and 5),
   `comment` text DEFAULT NULL,
   `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sessions`
+--
+
+CREATE TABLE `sessions` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `user_type` varchar(20) NOT NULL,
+  `session_token` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -165,6 +168,8 @@ CREATE TABLE `users` (
   `is_verified` tinyint(1) DEFAULT 0,
   `verification_code` varchar(50) DEFAULT NULL,
   `forgot_password_code` varchar(50) DEFAULT NULL,
+  `twofa_code` varchar(6) DEFAULT NULL,
+  `twofa_expires_at` datetime DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -172,9 +177,9 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `password_hash`, `is_verified`, `verification_code`, `forgot_password_code`, `created_at`) VALUES
-(1, 'Admin', 'admin@bantayanquickcart.com', '$2y$10$H7C6RIv0Li0WRXsbHueBuuERk8EwBfwHGmjITs.kBpCML7870cvCa', 0, '5cdb36cd15d94f60a0f6d30674800981', NULL, '2024-10-03 02:10:00'),
-(2, 'admin 2', 'admin@test.com', '$2y$10$vbi5Uj3nyxcMBeQe2gRVseCrhZ2QgaTaHqsab4Mhf8H1hHChvzAmu', 1, NULL, NULL, '2024-10-03 02:52:22');
+INSERT INTO `users` (`id`, `name`, `email`, `password_hash`, `is_verified`, `verification_code`, `forgot_password_code`, `twofa_code`, `twofa_expires_at`, `created_at`) VALUES
+(1, 'Admin', 'admin@bantayanquickcart.com', '$2y$10$H7C6RIv0Li0WRXsbHueBuuERk8EwBfwHGmjITs.kBpCML7870cvCa', 0, '5cdb36cd15d94f60a0f6d30674800981', NULL, NULL, NULL, '2024-10-03 02:10:00'),
+(2, 'admin 2', 'admin@test.com', '$2y$10$vbi5Uj3nyxcMBeQe2gRVseCrhZ2QgaTaHqsab4Mhf8H1hHChvzAmu', 1, NULL, NULL, NULL, NULL, '2024-10-03 02:52:22');
 
 --
 -- Indexes for dumped tables
@@ -218,6 +223,12 @@ ALTER TABLE `reviews`
   ADD KEY `customer_id` (`customer_id`);
 
 --
+-- Indexes for table `sessions`
+--
+ALTER TABLE `sessions`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `stores`
 --
 ALTER TABLE `stores`
@@ -244,13 +255,13 @@ ALTER TABLE `assignments`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `raiders`
@@ -263,6 +274,12 @@ ALTER TABLE `raiders`
 --
 ALTER TABLE `reviews`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `sessions`
+--
+ALTER TABLE `sessions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `stores`
