@@ -7,4 +7,6 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: /".$_SESSION['user_type']."/index.php");
     exit();
 }
+
+require 'session_check.php';
 ?>

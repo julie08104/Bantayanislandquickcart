@@ -30,8 +30,23 @@
                 if ($user['is_verified']) {
                     resetFailedAttempts('admin_login');
 
+                    $stmt = $pdo->prepare("SELECT * FROM sessions WHERE user_id = ? AND user_type = ?");
+                    $stmt->execute([$user['id'], 'admin']);
+                    $user_session = $stmt->fetch();
+                    if(!$user_session){
+                        $session_token = bin2hex(random_bytes(32));
+                        $stmt = $pdo->prepare("INSERT INTO sessions (user_id, user_type, session_token) VALUES (?, 'admin', ?)");
+                        if (!$stmt->execute([$user['id'], $session_token])) {
+                            $_SESSION['message'] = ['type' => 'error', 'text' => "Error inserting session. Please try again."];
+                        }
+                        $_SESSION['session_token'] = $session_token;
+                    }else{
+                        $_SESSION['session_token'] = $user_session['session_token'];
+                    }
+
+                    $_SESSION['user_type'] ='admin';
                     $_SESSION['user_id'] = $user['id'];
-                    $_SESSION['user_type'] ='raider';
+                    $_SESSION['user_name'] = $user['firstname'].' '.$user['lastname'];
                     header("Location: index.php");
                     exit();
                 } else {
