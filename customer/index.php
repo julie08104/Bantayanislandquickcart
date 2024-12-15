@@ -70,50 +70,52 @@
 </div>
 
 <script>
-   document.addEventListener('DOMContentLoaded', function() {
-    fetch('php/fetch_counts.php')
-        .then(response => response.json())
-        .then(data => {
-            console.log('Fetched Data:', data); // Debugging: Check the data structure
-            const ctx = document.getElementById('myChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Pending', 'In Progress', 'Completed'],
-                    datasets: [{
-                        label: 'Total Count',
-                        data: [data.pending_orders, data.in_progress_orders, data.completed_orders],
-                        backgroundColor: [
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(255, 159, 64, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            stepSize: 1,
-                            ticks: {
-                                callback: function(value) {
-                                    return value.toFixed(0); // Ensure integer values
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('php/fetch_counts.php')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const ctx = document.getElementById('myChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Pending', 'In-progress', 'Completed'],
+                        datasets: [{
+                            label: 'Orders',
+                            data: [data.pending_orders, data.in_progress_orders, data.completed_orders],
+                            backgroundColor: [
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 159, 64, 0.2)',
+                                'rgba(255, 99, 132, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)',
+                                'rgba(255, 99, 132, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                ticks: {
+                                    beginAtZero: true,
+                                    stepSize: 1,
+                                    callback: function(value) {
+                                        return value.toFixed(0);
+                                    }
                                 }
                             }
                         }
                     }
-                }
-            });
-        })
-        .catch(error => console.error('Error fetching data:', error));
-});
-
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    });
 </script>
-
 <?php include '../footer.php'; ?>
