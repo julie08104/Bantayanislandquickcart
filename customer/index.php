@@ -72,30 +72,25 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         fetch('php/fetch_counts.php')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
                 const ctx = document.getElementById('myChart').getContext('2d');
                 new Chart(ctx, {
                     type: 'bar',
                     data: {
-                        labels: ['Pending', 'In-progress', 'Completed'],
+                        labels: ['pending', 'in_progress', 'completed'],
                         datasets: [{
-                            label: 'Orders',
+                            label: 'Total Count',
                             data: [data.pending_orders, data.in_progress_orders, data.completed_orders],
                             backgroundColor: [
+                                'rgba(75, 192, 192, 0.2)',
                                 'rgba(153, 102, 255, 0.2)',
-                                'rgba(255, 159, 64, 0.2)',
-                                'rgba(255, 99, 132, 0.2)'
+                                'rgba(255, 159, 64, 0.2)'
                             ],
                             borderColor: [
+                                'rgba(75, 192, 192, 1)',
                                 'rgba(153, 102, 255, 1)',
-                                'rgba(255, 159, 64, 1)',
-                                'rgba(255, 99, 132, 1)'
+                                'rgba(255, 159, 64, 1)'
                             ],
                             borderWidth: 1
                         }]
@@ -114,8 +109,7 @@
                         }
                     }
                 });
-            })
-            .catch(error => console.error('Error fetching data:', error));
+            });
     });
 </script>
 
