@@ -39,7 +39,7 @@
                 <h1 class="text-2xl"><?php echo $counts['users']; ?></h1>
             </div>
         </div>
-        <canvas id="myChart" width="400" height="200"></canvas>
+        <canvas id="myChart" width="300" height="150"></canvas>
     </div>
 </div>
 
