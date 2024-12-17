@@ -32,6 +32,57 @@
     </div>
 </div>
 
+<!-- Add your CSS for the Edit and Delete buttons here -->
+<style>
+    /* Styling for action buttons (Edit and Delete) */
+    .action-buttons {
+        display: flex;
+        gap: 10px; /* Space between buttons */
+    }
+
+    /* Edit Button Styling */
+    .edit-btn {
+        background-color: #4CAF50; /* Green background */
+        color: white; /* White text */
+        padding: 8px 16px; /* Adjust button padding */
+        border-radius: 5px; /* Rounded corners */
+        border: 2px solid transparent; /* Transparent border for initial state */
+        font-size: 14px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+    }
+
+    /* Edit Button Hover Effect */
+    .edit-btn:hover {
+        background-color: #388E3C; /* Darker green on hover */
+        border-color: #2E7D32; /* Darker green border */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Darker shadow on hover */
+    }
+
+    /* Delete Button Styling */
+    .delete-btn {
+        background-color: #F44336; /* Red background */
+        color: white; /* White text */
+        padding: 8px 16px; /* Adjust button padding */
+        border-radius: 5px; /* Rounded corners */
+        border: 2px solid transparent; /* Transparent border for initial state */
+        font-size: 14px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+    }
+
+    /* Delete Button Hover Effect */
+    .delete-btn:hover {
+        background-color: #D32F2F; /* Darker red on hover */
+        border-color: #B71C1C; /* Darker red border */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Darker shadow on hover */
+    }
+</style>
+
 <script>
     $(document).ready(function() {
         $('#userTable').DataTable({
@@ -130,4 +181,5 @@
         });
     });
 </script>
+
 <?php include '../footer.php'; ?>
