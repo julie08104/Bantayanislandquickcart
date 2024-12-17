@@ -52,22 +52,34 @@
                 },
                 {
                     "data": null,
-                    "defaultContent": `
-                        <button class="btn edit-btn">Edit</button>
-                        <button class="btn delete-btn">Delete</button>
-                    `,
+                    "defaultContent": 
+                        <button class="edit-btn">Edit</button>
+                        <button class="delete-btn">Delete</button>
+                    ,
                     "className": "action-buttons"
                 }
-            ]
+            ],
+            layout: {
+                topStart: {
+                    buttons: [
+                        {
+                            extend: 'print',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        'colvis'
+                    ]
+                }
+            }
         });
 
-        // Handle Edit button clicks
+        // Handle Edit and Delete button clicks
         $('#userTable tbody').on('click', '.edit-btn', function() {
             var data = $('#userTable').DataTable().row($(this).parents('tr')).data();
-            window.location.href = "customer-edit.php?id=" + data.id;
+            window.location.href="customer-edit.php?id="+data.id;
         });
 
-        // Handle Delete button clicks
         $('#userTable tbody').on('click', '.delete-btn', function() {
             var data = $('#userTable').DataTable().row($(this).parents('tr')).data();
 
@@ -121,51 +133,4 @@
         });
     });
 </script>
-
-<!-- CSS to Style the Edit and Delete Buttons -->
-<style>
-    /* General Button Styles */
-    .btn {
-        border: 1px solid transparent;
-        padding: 5px 10px;
-        font-size: 14px;
-        border-radius: 5px;
-        color: #fff;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        text-align: center;
-    }
-
-    /* Edit Button Style */
-    .edit-btn {
-        background-color: #4CAF50; /* Green */
-        border-color: #4CAF50;
-    }
-
-    .edit-btn:hover {
-        background-color: #388E3C; /* Darker Green */
-        border-color: #388E3C;
-    }
-
-    /* Delete Button Style */
-    .delete-btn {
-        background-color: #F44336; /* Red */
-        border-color: #F44336;
-    }
-
-    .delete-btn:hover {
-        background-color: #D32F2F; /* Darker Red */
-        border-color: #D32F2F;
-    }
-
-    /* Action Buttons Container */
-    .action-buttons {
-        text-align: center;
-    }
-
-    /* Add spacing between buttons */
-    .action-buttons .btn {
-        margin: 2px;
-    }
-</style>
-<?php include '../footer.php'; ?>
+<?php include '../footer.php'; ?> 
