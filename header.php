@@ -38,20 +38,40 @@ if (strpos($_SERVER['REQUEST_URI'], '.php') !== false) {
     <!-- <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css">
     <script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script> -->
 
-    <style>
-        @media print {
-            .no-print { display: none; }
+    @media print {
+            .no-print { 
+                display: none; 
+            }
+
+            /* Change the center title text during printing */
+            .print-title {
+                display: block;
+                text-align: center;
+                font-size: 24px;
+                font-weight: bold;
+                margin-bottom: 20px;
+                color: black;  /* Optional: set color for print */
+            }
+
+            /* Optionally, hide the default header text during print */
+            .default-header {
+                display: none;
+            }
         }
-        canvas {
-            max-width: 100%;
-            height: auto;
+
+        /* Regular styling for the page */
+        body {
+            font-family: Arial, sans-serif;
         }
+
         .swal2-cancel {
             background-color: #6e7881;
         }
+
         .swal2-confirm {
             background-color: #7066e0;
         }
+
     </style>
 </head>
 <body class="bg-gray-100">
