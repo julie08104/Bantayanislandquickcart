@@ -50,11 +50,12 @@
                         return data == 1 ? 'Verified' : 'Not Verified';
                     }
                 },
-                {    "data": null,
-                    "defaultContent": 
+                {
+                    "data": null,
+                    "defaultContent": `
                         <button class="edit-btn">Edit</button>
                         <button class="delete-btn">Delete</button>
-                    ,
+                    `,
                     "className": "action-buttons"
                 }
             ],
@@ -132,4 +133,4 @@
         });
     });
 </script>
-<?php include '../footer.php'; ?> 
+<?php include '../footer.php'; ?>
