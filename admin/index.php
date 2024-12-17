@@ -26,20 +26,20 @@
 <div class="p-4 sm:ml-64">
     <div class="bg-white shadow rounded p-4">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-            <div class="text-center p-4 text-sm bg-blue-500 text-white rounded">
+            <div class="text-center p-4 text-sm bg-blue-600 text-white rounded">
                 <h2 class="text-md">Total Customers</h2>
                 <h1 class="text-2xl"><?php echo $counts['customers']; ?></h1>
             </div>
-            <div class="text-center p-4 text-sm bg-green-500 text-white rounded">
+            <div class="text-center p-4 text-sm bg-green-600 text-white rounded">
                 <h2 class="text-md">Total Riders</h2>
                 <h1 class="text-2xl"><?php echo $counts['raiders']; ?></h1>
             </div>
-            <div class="text-center p-4 text-sm bg-yellow-500 text-white rounded">
+            <div class="text-center p-4 text-sm bg-yellow-600 text-white rounded">
                 <h2 class="text-md">Total Users</h2>
                 <h1 class="text-2xl"><?php echo $counts['users']; ?></h1>
             </div>
         </div>
-        <canvas id="myChart" width="100" height="50"></canvas>
+        <canvas id="myChart" width="400" height="200"></canvas>
     </div>
 </div>
 
