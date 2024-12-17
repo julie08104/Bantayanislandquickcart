@@ -33,22 +33,29 @@
         </table>
     </div>
 </div>
-
 <script>
     $(document).ready(function() {
         $('#userTable').DataTable({
             "responsive": true,
             "scrollX": true,
-            "ajax": "php/fetch_stores.php",
+            "ajax": "php/fetch_customers.php",
             "columns": [
-                { "data": "name" },
-                { "data": "location" },
+                { "data": "fullname" },
+                { "data": "email" },
+                { "data": "phone" },
+                { "data": "address" },
+                {
+                    "data": "is_verified",
+                    "render": function(data, type, row) {
+                        return data == 1 ? 'Verified' : 'Not Verified';
+                    }
+                },
                 {
                     "data": null,
-                    "defaultContent": `
-                        <button class="edit-btn text-white bg-blue-500 hover:bg-blue-700 px-2 py-1 rounded">Edit</button>
-                        <button class="delete-btn text-white bg-red-500 hover:bg-red-700 px-2 py-1 rounded">Delete</button>
-                    `,
+                    "defaultContent": 
+                        <button class="edit-btn">Edit</button>
+                        <button class="delete-btn">Delete</button>
+                    ,
                     "className": "action-buttons"
                 }
             ],
@@ -70,7 +77,7 @@
         // Handle Edit and Delete button clicks
         $('#userTable tbody').on('click', '.edit-btn', function() {
             var data = $('#userTable').DataTable().row($(this).parents('tr')).data();
-            window.location.href = "store-edit.php?id=" + data.id;
+            window.location.href="customer-edit.php?id="+data.id;
         });
 
         $('#userTable tbody').on('click', '.delete-btn', function() {
@@ -78,7 +85,7 @@
 
             Swal.fire({
                 title: 'Are you sure?',
-                text: 'You are about to delete store with ID: ' + data.id,
+                text: 'You are about to delete customer with ID: ' + data.id,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Yes, delete it!',
@@ -87,7 +94,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: 'php/delete_store.php',
+                        url: 'php/delete_customer.php',
                         type: 'POST',
                         data: { id: data.id },
                         dataType: 'json',
@@ -95,14 +102,14 @@
                             if (response.success) {
                                 Swal.fire(
                                     'Deleted!',
-                                    'Store has been deleted.',
+                                    'Customer has been deleted.',
                                     'success'
                                 );
                                 $('#userTable').DataTable().ajax.reload();
                             } else {
                                 Swal.fire(
                                     'Error!',
-                                    'There was an issue deleting the store.',
+                                    'There was an issue deleting the customer.',
                                     'error'
                                 );
                             }
@@ -118,7 +125,7 @@
                 } else if (result.dismiss === Swal.DismissReason.cancel) {
                     Swal.fire(
                         'Cancelled',
-                        'The store is safe :)',
+                        'The customer is safe :)',
                         'info'
                     );
                 }
@@ -126,41 +133,4 @@
         });
     });
 </script>
-
-<!-- Custom Styles for Edit and Delete Buttons -->
-<style>
-    @media print {
-        .no-print { display: none; }
-    }
-
-    /* Custom Button Styles */
-    .edit-btn {
-        color: white;
-        background-color: #3b82f6; /* Tailwind blue-500 */
-        border: none;
-        padding: 4px 8px;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: background-color 0.2s;
-    }
-
-    .edit-btn:hover {
-        background-color: #2563eb; /* Tailwind blue-700 */
-    }
-
-    .delete-btn {
-        color: white;
-        background-color: #ef4444; /* Tailwind red-500 */
-        border: none;
-        padding: 4px 8px;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: background-color 0.2s;
-    }
-
-    .delete-btn:hover {
-        background-color: #dc2626; /* Tailwind red-700 */
-    }
-</style>
-
 <?php include '../footer.php'; ?>
